@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أكادِكس — نظام إدارة المدارس ووكالات التعليم لنظام Windows</title>
+<meta name="description" content="أكادِكس: نظام شامل لإدارة الطلبة والمجموعات والجداول والحضور والوصولات والمالية — يعمل على Windows دون اتصال، مع نسخ احتياطي سحابي آمن.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #264EAE;
+    --blue-deep: #1B3A85;
+    --navy: #0A1730;
+    --navy-2: #0F2148;
+    --gold: #D9A93C;
+    --gold-soft: #F1D08A;
+    --ink: #16213A;
+    --muted: #5B6478;
+    --line: rgba(38, 78, 174, .18);
+    --bg: #F6F8FD;
+    --card: #FFFFFF;
+    --radius: 18px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.75;
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+
+  /* ── Top bar ─────────────────────────────────────────────── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(246, 248, 253, .85);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-in {
+    max-width: 1120px; margin: 0 auto; padding: 13px 24px;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 900; color: var(--blue-deep); }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+    color: #fff; display: grid; place-items: center;
+    font-size: 15px; font-weight: 900;
+    box-shadow: 0 6px 16px rgba(38, 78, 174, .35);
+  }
+  .topbar .spacer { flex: 1; }
+  .topbar nav { display: flex; gap: 18px; font-size: 13.5px; font-weight: 700; color: var(--muted); }
+  .topbar nav a:hover { color: var(--blue); }
+
+  /* ── Hero ────────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(900px 380px at 85% -10%, rgba(217, 169, 60, .16), transparent 60%),
+      radial-gradient(1100px 500px at 10% 110%, rgba(38, 78, 174, .55), transparent 55%),
+      linear-gradient(155deg, var(--navy) 0%, var(--navy-2) 55%, #143065 100%);
+    color: #fff;
+    padding: 90px 24px 100px;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(720px 420px at 70% 0%, #000 25%, transparent 75%);
+  }
+  .hero-in { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+  @media (min-width: 1020px) {
+    .hero-in { display: flex; align-items: center; gap: 56px; }
+    .hero-copy { max-width: 600px; }
+    .hero-visual { flex: 1; transform: rotate(-4deg); }
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.18);
+    color: var(--gold-soft);
+    padding: 7px 16px; border-radius: 999px;
+    font-size: 13.5px; font-weight: 700;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 4.6vw, 52px);
+    font-weight: 900; line-height: 1.3;
+    margin: 20px 0 14px;
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero p.lead {
+    font-size: clamp(15.5px, 1.9vw, 18px);
+    color: rgba(255,255,255,.82);
+    max-width: 620px; font-weight: 600;
+  }
+  .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 30px; }
+  .btn-download {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: linear-gradient(135deg, var(--gold) 0%, #c2922f 100%);
+    color: #1c1503;
+    font-size: 16.5px; font-weight: 800;
+    padding: 15px 30px; border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(217, 169, 60, .35);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(217, 169, 60, .45); }
+  .btn-download .icon { width: 21px; height: 21px; flex: 0 0 auto; }
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid rgba(255,255,255,.28);
+    color: #fff; font-weight: 700; font-size: 15px;
+    padding: 15px 26px; border-radius: 14px;
+    background: rgba(255,255,255,.06);
+    transition: background .15s ease;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,.12); }
+  .hero-spec {
+    margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px 22px;
+    color: rgba(255,255,255,.65); font-size: 13.5px; font-weight: 600;
+  }
+  .hero-spec span { display: inline-flex; align-items: center; gap: 6px; }
+
+  /* App mock (CSS only, صادقة: توضيحية) */
+  .mock {
+    background: #fff; border-radius: 14px; overflow: hidden;
+    box-shadow: 0 30px 60px rgba(2, 8, 24, .55), 0 0 0 1px rgba(255,255,255,.08);
+    color: var(--ink); font-size: 10.5px;
+    max-width: 480px; margin-inline: auto;
+  }
+  .mock .m-bar { height: 26px; background: #EDF1F9; display: flex; align-items: center; gap: 5px; padding: 0 10px; }
+  .mock .dot { width: 8px; height: 8px; border-radius: 50%; background: #D3D9E5; }
+  .mock .dot:first-child { background: var(--gold); }
+  .mock .m-body { display: flex; }
+  .mock .m-side { width: 78px; background: #101A31; padding: 10px 8px; display: grid; gap: 7px; align-content: start; }
+  .mock .m-side i { display: block; height: 9px; border-radius: 5px; background: rgba(255,255,255,.22); }
+  .mock .m-side i:first-child { width: 70%; background: var(--gold); }
+  .mock .m-main { flex: 1; padding: 12px; display: grid; gap: 8px; }
+  .mock .m-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .mock .m-card { border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
+  .mock .m-card b { display: block; color: var(--blue); font-size: 13px; }
+  .mock .m-row { height: 12px; border-radius: 6px; background: #EFF2F9; border: 1px solid var(--line); }
+  .mock .m-rows { display: grid; gap: 6px; }
+  .mock .m-row.h { background: var(--blue); opacity: .85; height: 14px; }
+  .mock-caption { font-size: 11.5px; color: rgba(255,255,255,.45); text-align: center; margin-top: 10px; font-weight: 600; }
+
+  /* ── Sections ────────────────────────────────────────────── */
+  section { padding: 74px 24px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  .sec-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
+  .sec-head h2 { font-size: clamp(25px, 3.3vw, 35px); font-weight: 900; color: var(--blue-deep); line-height: 1.45; }
+  .sec-head p { color: var(--muted); margin-top: 10px; font-weight: 600; font-size: 15.5px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .feature {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px 24px 24px;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .feature:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(38, 78, 174, .12); border-color: rgba(38, 78, 174, .35); }
+  .feature .f-icon {
+    width: 46px; height: 46px; border-radius: 12px;
+    display: grid; place-items: center; margin-bottom: 14px;
+    background: linear-gradient(135deg, rgba(38,78,174,.12), rgba(38,78,174,.05));
+    color: var(--blue);
+  }
+  .feature .f-icon svg { width: 23px; height: 23px; }
+  .feature h3 { font-size: 17.5px; font-weight: 800; margin-bottom: 6px; }
+  .feature p { color: var(--muted); font-size: 14px; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; counter-reset: step; }
+  .step {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 26px 22px; text-align: center;
+  }
+  .step::before {
+    counter-increment: step;
+    content: counter(step);
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--blue); color: #fff;
+    display: grid; place-items: center;
+    font-weight: 900; font-size: 17px; margin: 0 auto 12px;
+    box-shadow: 0 8px 18px rgba(38,78,174,.3);
+  }
+  .step h3 { font-weight: 800; font-size: 16.5px; margin-bottom: 4px; }
+  .step p { color: var(--muted); font-size: 13.5px; }
+
+  .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
+  details {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 22px; font-size: 14.5px;
+  }
+  details summary { font-weight: 800; cursor: pointer; list-style: none; position: relative; padding-inline-end: 26px; }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after {
+    content: "＋"; position: absolute; inset-inline-end: 0; top: -2px;
+    color: var(--blue); font-weight: 900;
+  }
+  details[open] summary::after { content: "－"; }
+  details p { margin-top: 10px; color: var(--muted); font-weight: 600; }
+
+  .dl-band {
+    background:
+      radial-gradient(700px 300px at 90% 0%, rgba(217,169,60,.18), transparent 60%),
+      linear-gradient(150deg, var(--navy-2), #143065);
+    color: #fff; text-align: center;
+    padding: 72px 24px;
+  }
+  .dl-band h2 { font-size: clamp(26px, 3.6vw, 38px); font-weight: 900; }
+  .dl-band p { color: rgba(255,255,255,.75); margin: 12px auto 28px; max-width: 560px; font-weight: 600; }
+  .dl-band .hero-spec { justify-content: center; }
+
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto; }
+  .contact-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 26px 22px; text-align: center; font-weight: 700;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .contact-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(38,78,174,.12); }
+  .contact-card .c-icon { width: 44px; height: 44px; margin: 0 auto 12px; border-radius: 12px; display: grid; place-items: center; background: rgba(38,78,174,.1); color: var(--blue); }
+  .contact-card .c-icon svg { width: 21px; height: 21px; }
+  .contact-card .c-sub { color: var(--muted); font-weight: 600; font-size: 13px; direction: ltr; }
+
+  footer { border-top: 1px solid var(--line); background: #fff; padding: 30px 24px; text-align: center; color: var(--muted); font-size: 13.5px; font-weight: 600; }
+  footer b { color: var(--blue-deep); }
+
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><span class="brand-mark">أ</span><span>أكادِكس</span></div>
+    <div class="spacer"></div>
+    <nav>
+      <a href="#features">الميزات</a>
+      <a href="#how">كيف تبدأ</a>
+      <a href="#download">التحميل</a>
+      <a href="#contact">تواصل</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-in">
+      <div class="hero-copy">
+        <span class="hero-badge">يعمل دون اتصال · بياناتك على جهازك · نسخ سحابي اختياري</span>
+        <h1>أدر <span class="accent">مدرستك بالكامل</span> من حاسوب واحد: طلبة، حصص، حضور، ودينار.</h1>
+        <p class="lead">أكادِكس — نظام كامل لإدارة الطلبة والمجموعات والجدول والحضور والدفعات والمالية، يعمل على Windows حتى دون إنترنت، ويحمي بياناتك بنسخ احتياطي سحابي آمن.</p>
+        <div class="hero-cta">
+          <a class="btn-download" href="downloads/Acadex-Setup-2.0.0-alpha.0.exe" download>
+            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            حمِّل نسخة Windows
+          </a>
+          <a class="btn-ghost" href="https://wa.me/21655518492">تواصل عبر واتساب</a>
+        </div>
+        <div class="hero-spec">
+          <span>◆ Windows 10 / 11 — 64-bit</span>
+          <span>◆ الحجم: ‎~111 ميغابايت</span>
+          <span>◆ الإصدار 2.0.0-alpha (تجريبي)</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="mock" aria-hidden="true">
+          <div class="m-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+          <div class="m-body">
+            <div class="m-side"><i></i><i style="width:55%"></i><i style="width:64%"></i><i style="width:48%"></i><i style="width:60%"></i><i style="width:52%"></i></div>
+            <div class="m-main">
+              <div class="m-cards">
+                <div class="m-card"><b>1 240</b><span style="color:var(--muted)">طالب</span></div>
+                <div class="m-card"><b>86</b><span style="color:var(--muted)">مجموعة</span></div>
+                <div class="m-card"><b>18</b><span style="color:var(--muted)">مدرّسًا</span></div>
+              </div>
+              <div class="m-rows"><div class="m-row h"></div><div class="m-row"></div><div class="m-row"></div><div class="m-row"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="mock-caption">واجهة توضيحية — تطبيق أكادِكس</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>كل ما تحتاجه مدرستك في مكان واحد</h2>
+        <p>من التسجيل إلى آخر وصل — بدون أوراق ولا جداول متضاربة.</p>
+      </div>
+      <div class="features">
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <h3>الحضور والغياب</h3>
+          <p>سجلات حضور شهرية جاهزة للطباعة لكل مجموعة، مع جلسات الشهر وملاحظة المدرّس وخانه توقيع للمدرّس والمدير.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <h3>جدول الحصص</h3>
+          <p>جدولة الحصص والقاعات والأوقات مع كشف تعارضات تلقائي، وطباعة جدول الطالب أو المدرّس بضغطة واحدة.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <h3>الوصولات والمالية</h3>
+          <p>وصولات الطلبة وكشوف أجور المدرّسين بصيغ تقسيم مرنة، وتقارير مالية جاهزة للطباعة أو التصدير إلى Excel.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+          <h3>نسخ احتياطي سحابي</h3>
+          <p>نسخة احتياطية تلقائية لبيانات مدرستك في سحابة مخصصة — تستعيدها بنقرة واحدة عند فقدان الجهاز أو تغييره.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
+          <h3>استيراد من Excel</h3>
+          <p>استورد الطلبة والمدرّسين مباشرة من ملف Excel مع معاينة قبل التأكيد، وصدِّر بياناتك في أي وقت.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>صلاحيات وسجل تدقيق</h3>
+          <p>أدوار صريحة لمدير، محاسب ومدرّسين، وكل إجراء يُسجَّل في سجل تدقيق واضح — تعرف دائمًا من فعل ماذا ومتى.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How -->
+  <section id="how" style="background:#fff;border-block:1px solid var(--line);">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>ثلاث خطوات فقط</h2>
+        <p>بدون خوادم ولا تركيب معقد: حمّل، ثبّت، وابدأ.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal"><h3>حمّل المثبّت</h3><p>ملف واحد لنسخة Windows، لا يحتاج أي إعداد مسبق.</p></div>
+        <div class="step reveal"><h3>أنشئ مدرستك</h3><p>شاشة إعداد أولى بسيطة: اسم المدرسة وكلمة السر فقط.</p></div>
+        <div class="step reveal"><h3>ابدأ العمل</h3><p>استورد الطلبة، أضف المجموعات والحصص — وكل شيء يبقى على جهازك.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>أسئلة يطرحها الجميع</h2></div>
+      <div class="faq reveal">
+        <details>
+          <summary>هل أحتاج إلى إنترنت لاستخدام البرنامج؟</summary>
+          <p>لا. أكادِكس يعمل كاملاً على جهازك دون اتصال، وتُستخدم الشبكة فقط للنسخ الاحتياطي السحابي الاختياري وللتحديثات.</p>
+        </details>
+        <details>
+          <summary>أين تُخزَّن بيانات مدرستي؟</summary>
+          <p>على جهازك مباشرة في قاعدة بيانات محلية — ومع خيار النسخ السحابي الآمن يمكن استعادتها عند الفقدان أو تغيير الحاسوب.</p>
+        </details>
+        <details>
+          <summary>هل النسخة الحالية مجانية؟</summary>
+          <p>الإصدار الحالي تجريبي (alpha). حمّله وجرّبه بحرية، وللتفعيل الكامل والترخيص تواصل معنا.</p>
+        </details>
+        <details>
+          <summary>ما أنظمة Windows المدعومة؟</summary>
+          <p>Windows 10 و Windows 11 بنظام 64-bit. حجم المثبّت نحو 111 ميغابايت ويعمل على أي حاسوب حديث.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Download band -->
+  <section id="download" class="dl-band">
+    <h2>جاهز للبدء؟</h2>
+    <p>ملف مثبّت واحد يقوم بكل شيء — التطبيق وقاعدة البيانات والنسخ الاحتياطي.</p>
+    <a class="btn-download" href="downloads/Acadex-Setup-2.0.0-alpha.0.exe" download>
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      تحميل أكادِكس لنظام Windows
+    </a>
+    <div class="hero-spec">
+      <span>◆ Windows 10 / 11 · 64-bit</span>
+      <span>◆ الحجم: ‎~111 ميغابايت</span>
+      <span>◆ الإصدار 2.0.0-alpha</span>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head reveal"><h2>سؤال؟ تواصل معنا</h2><p>نجيب عادةً في اليوم نفسه.</p></div>
+      <div class="contact-grid reveal">
+        <a class="contact-card" href="https://wa.me/21655518492">
+          <div class="c-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg></div>
+          واتساب<div class="c-sub">+216 55 518 492</div>
+        </a>
+        <a class="contact-card" href="mailto:mohamedncib900@gmail.com">
+          <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></div>
+          البريد الإلكتروني<div class="c-sub">mohamedncib900@gmail.com</div>
+        </a>
+        <a class="contact-card" href="tel:+21655518492">
+          <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+          اتصال<div class="c-sub">+216 55 518 492</div>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <b>أكادِكس Acadex</b> — © 2026 · بياناتك على جهازك، بثقة.
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { threshold: .12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+</script>
+</body>
+</html>
