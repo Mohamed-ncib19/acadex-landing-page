@@ -42,3 +42,7 @@ npx serve D:\Acadex
    install once the super_admin has approved.
 3. This page is only the front door: humans can always
    download the current installer from the same feed.
+
+## À propos
+
+Fourniture de services de conception et de développement de solutions et de produits numériques au profit des particuliers et des entreprises dans différents secteurs d’activité, notamment la création et le développement de sites web, d’applications mobiles, de plateformes numériques et de systèmes informatiques sur mesure, ainsi que la fourniture de services d’exploitation, de maintenance, de mise à jour et de gestion des infrastructures techniques à l’aide des équipements informatiques (ordinateurs).
