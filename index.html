@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" class="no-js">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -167,9 +167,7 @@
     border: 1px solid var(--line);
     border-radius: var(--radius);
     padding: 26px 24px 24px;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
   }
-  .feature:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(38, 78, 174, .12); border-color: rgba(38, 78, 174, .35); }
   .feature .f-icon {
     width: 46px; height: 46px; border-radius: 12px;
     display: grid; place-items: center; margin-bottom: 14px;
@@ -203,18 +201,30 @@
     position: relative; display: flex; flex-direction: column; gap: 14px;
     background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
     padding: 24px 22px 22px;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    min-width: 0; /* the track must be allowed to shrink on a phone */
   }
-  .plan:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(38, 78, 174, .12); }
-  .plan.is-gold { border-color: rgba(217, 169, 60, .5); box-shadow: 0 18px 44px rgba(217, 169, 60, .16); }
-  .plan.is-gold:hover { box-shadow: 0 22px 50px rgba(217, 169, 60, .24); }
+  /* The one bold element of the page: the pack most schools take. */
+  .plan.is-popular {
+    border: 2px solid var(--blue); border-radius: 22px; padding: 23px 21px 21px;
+    background: linear-gradient(180deg, rgba(38, 78, 174, .05), rgba(38, 78, 174, .015) 42%, #fff 100%);
+    box-shadow: 0 26px 54px rgba(38, 78, 174, .18);
+  }
+  @media (min-width: 900px) {
+    .plan.is-popular { transform: translateY(-16px); }
+  }
+  .plan.is-gold { border-color: rgba(217, 169, 60, .5); box-shadow: 0 18px 44px rgba(217, 169, 60, .14); }
   .plan .p-ribbon {
-    position: absolute; top: -12px; inset-inline-start: 22px;
+    position: absolute; top: -13px; inset-inline-start: 22px;
     background: linear-gradient(135deg, var(--gold), #c2922f); color: #1c1503;
     font-size: 11.5px; font-weight: 900; padding: 4px 12px; border-radius: 999px;
     box-shadow: 0 6px 14px rgba(217, 169, 60, .35);
   }
+  .plan .p-ribbon.pop {
+    background: linear-gradient(135deg, var(--blue), var(--blue-deep)); color: #fff;
+    box-shadow: 0 8px 18px rgba(38, 78, 174, .38);
+  }
   .plan .p-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .plan .p-top > div { min-width: 0; }
   .plan .p-illus { flex: 0 0 auto; }
   .p-badge {
     display: inline-flex; align-items: center; gap: 6px;
@@ -231,9 +241,10 @@
   .plan li { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; font-weight: 600; color: var(--muted); }
   .plan li svg { flex: 0 0 auto; width: 15px; height: 15px; margin-top: 4px; }
   .plan .p-foot { margin-top: auto; border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 12px; }
-  .plan .p-price { display: flex; align-items: baseline; gap: 8px; }
+  .plan .p-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; row-gap: 8px; }
   .plan .p-price b { font-size: 28px; font-weight: 900; color: var(--blue-deep); line-height: 1; }
   .plan .p-price span { font-size: 13px; font-weight: 800; color: var(--muted); }
+  .plan.is-popular .p-price b { color: var(--blue); font-size: 32px; }
   .plan.is-gold .p-price b { color: #A9760B; }
   .p-once {
     display: inline-flex; align-items: center; gap: 6px;
@@ -250,12 +261,46 @@
   }
   .btn-plan:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(37, 211, 102, .36); }
   .btn-plan svg { width: 18px; height: 18px; }
+  /* The recommended pack gets the stronger call to action. */
+  .plan.is-popular .btn-plan { padding: 15px 16px; font-size: 15px; box-shadow: 0 12px 28px rgba(37, 211, 102, .34), 0 0 0 4px rgba(38, 78, 174, .1); }
+  .btn-plan.sm { padding: 10px 14px; font-size: 13px; border-radius: 10px; white-space: nowrap; }
   .plan-note {
     margin: 22px auto 0; max-width: 760px; text-align: center;
     color: var(--muted); font-size: 13.5px; font-weight: 600;
     background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 22px;
   }
   .plan-note b { color: var(--blue-deep); }
+
+  /* ── Comparison table ─────────────────────────────────────── */
+  .cmp { margin-top: 52px; }
+  .cmp-title { font-size: clamp(19px, 2.4vw, 24px); font-weight: 900; color: var(--blue-deep); text-align: center; }
+  .cmp-sub { text-align: center; color: var(--muted); font-size: 13.5px; font-weight: 600; margin: 6px auto 22px; max-width: 560px; }
+  .cmp-scroll {
+    overflow-x: auto; background: var(--card); max-width: 100%;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    box-shadow: 0 16px 38px rgba(38, 78, 174, .08);
+  }
+  .cmp-table { width: 100%; min-width: 680px; border-collapse: collapse; }
+  .cmp-table th, .cmp-table td { padding: 13px 14px; text-align: center; font-size: 13.5px; font-weight: 600; border-bottom: 1px solid var(--line); }
+  .cmp-table tbody th[scope="row"] { text-align: start; font-weight: 700; color: var(--ink); width: 38%; }
+  .cmp-table thead th { padding: 18px 14px 14px; border-bottom: 2px solid var(--line); vertical-align: bottom; }
+  .cmp-table thead th:first-child { text-align: start; }
+  .cmp-table thead .cmp-col { min-width: 132px; }
+  .cmp-table .cmp-price { display: block; margin-top: 8px; font-size: 17px; font-weight: 900; color: var(--blue-deep); }
+  .cmp-table .cmp-pop { display: inline-block; margin-top: 7px; background: var(--blue); color: #fff; font-size: 10.5px; font-weight: 900; padding: 3px 10px; border-radius: 999px; }
+  .cmp-table .is-pop-col { background: rgba(38, 78, 174, .045); border-inline-start: 1px solid rgba(38, 78, 174, .16); border-inline-end: 1px solid rgba(38, 78, 174, .16); }
+  .cmp-table thead .is-pop-col { border-top: 3px solid var(--blue); }
+  .cmp-group th {
+    text-align: start; background: #F2F5FC; color: var(--blue-deep);
+    font-size: 12px; font-weight: 900; padding: 9px 14px; letter-spacing: .2px;
+    border-bottom: 1px solid var(--line);
+  }
+  .cmp-yes { color: var(--blue); font-weight: 900; font-size: 15px; }
+  .cmp-no { color: #B9C0CE; font-weight: 900; }
+  .cmp-table tbody tr:last-child td, .cmp-table tbody tr:last-child th { border-bottom: none; }
+  .cmp-table tfoot th, .cmp-table tfoot td { border-bottom: none; border-top: 2px solid var(--line); padding: 16px 14px; }
+  .cmp-table tfoot th[scope="row"] { text-align: start; font-weight: 800; color: var(--ink); }
+  .cmp-note { text-align: center; color: var(--muted); font-size: 12.5px; font-weight: 600; margin-top: 14px; }
 
   /* the tier badge on a feature card */
   .f-tier {
@@ -304,8 +349,32 @@
   footer { border-top: 1px solid var(--line); background: #fff; padding: 30px 24px; text-align: center; color: var(--muted); font-size: 13.5px; font-weight: 600; }
   footer b { color: var(--blue-deep); }
 
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  /* ── Motion ───────────────────────────────────────────────────
+     One orchestrated moment (the hero), nothing else moves on its
+     own. The reveal below is progressive enhancement: without JS
+     the content is simply there. */
+  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  .hero .hero-badge, .hero h1, .hero p.lead, .hero .hero-cta, .hero .hero-spec {
+    opacity: 0; animation: rise .85s cubic-bezier(.2, .7, .2, 1) forwards;
+  }
+  .hero h1 { animation-delay: .08s; }
+  .hero p.lead { animation-delay: .16s; }
+  .hero .hero-cta { animation-delay: .24s; }
+  .hero .hero-spec { animation-delay: .32s; }
+  .hero-visual { opacity: 0; animation: rise 1s cubic-bezier(.2, .7, .2, 1) .12s forwards; }
+
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); }
   .reveal.in { opacity: 1; transform: none; }
+  .no-js .reveal, .no-js .hero .hero-badge, .no-js .hero h1, .no-js .hero p.lead,
+  .no-js .hero .hero-cta, .no-js .hero .hero-spec, .no-js .hero-visual { opacity: 1; transform: none; animation: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+    .reveal, .hero .hero-badge, .hero h1, .hero p.lead, .hero .hero-cta, .hero .hero-spec, .hero-visual { opacity: 1; transform: none; animation: none; }
+  }
+
+  :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 8px; }
+  .btn-download:focus-visible, .btn-plan:focus-visible { outline-color: var(--gold); }
 </style>
 </head>
 <body>
@@ -393,8 +462,9 @@
           </div>
         </div>
 
-        <!-- Plus -->
-        <div class="plan reveal">
+        <!-- Plus — the pack most schools take: the one bold element of the page -->
+        <div class="plan is-popular reveal">
+          <span class="p-ribbon pop">الأكثر طلبًا</span>
           <div class="p-top">
             <div>
               <span class="p-badge b-plus">
@@ -473,60 +543,214 @@
         تستعمل التطبيق على هذا الجهاز بكل بياناتك، وإذا أردت جهازًا آخر فيحتاج رمز تفعيل خاصًا به.
         ويمكنك تغيير باقتك في أي وقت: تواصل معنا فنرسل لك رمزًا جديدًا لنفس الجهاز، وبياناتك لا تتغيّر.
       </p>
+
+      <!-- Comparison table — the same content, laid out for a decision -->
+      <div class="cmp reveal">
+        <h3 class="cmp-title">مقارنة الباقات</h3>
+        <p class="cmp-sub">نفس ما في الباقة السابقة، وكل ما تضيفه الباقة الأعلى — بدون رسوم إضافية.</p>
+        <div class="cmp-scroll">
+          <table class="cmp-table">
+            <thead>
+              <tr>
+                <th scope="col">الميزة</th>
+                <th scope="col" class="cmp-col">
+                  <span class="p-badge b-ess">Essentiel</span>
+                  <span class="cmp-price">300 د.ت</span>
+                </th>
+                <th scope="col" class="cmp-col is-pop-col">
+                  <span class="p-badge b-plus">Plus</span>
+                  <span class="cmp-price">450 د.ت</span>
+                  <span class="cmp-pop">الأكثر طلبًا</span>
+                </th>
+                <th scope="col" class="cmp-col">
+                  <span class="p-badge b-comp">Complet</span>
+                  <span class="cmp-price">600 د.ت</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="cmp-group"><th scope="rowgroup" colspan="4">الأساسيات — موجودة في كل الباقات</th></tr>
+              <tr>
+                <th scope="row">الطلبة، الأساتذة، الأقسام والمستويات</th>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">جدول الحصص والجدول الزمني مع الطباعة</th>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">أوراق الحضور وطباعة السجل</th>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">وصولات الطلبة والأساتذة ودورة الأجور</th>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">نسخ احتياطي محلي واستعادة بنقرة</th>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">المستخدمون، الأدوار، الشعار والإعدادات</th>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+
+              <tr class="cmp-group"><th scope="rowgroup" colspan="4">الاستيراد والسحابة</th></tr>
+              <tr>
+                <th scope="row">استيراد الطلبة من Excel</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">نسخ احتياطي سحابي تلقائي</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">تحميل النسخة السحابية واستعادتها</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+
+              <tr class="cmp-group"><th scope="rowgroup" colspan="4">التقارير والتدقيق</th></tr>
+              <tr>
+                <th scope="row">تحليل المداخيل حسب المستوى والفرع والأستاذ</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">التقارير المالية وتصديرها إلى Excel</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">تصدير سجل الحضور إلى Excel</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">سجل تدقيق كامل: من فعل ماذا ومتى</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">سبورة بيضاء للملاحظات والدروس</th>
+                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
+                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+              </tr>
+
+              <tr class="cmp-group"><th scope="rowgroup" colspan="4">الشراء</th></tr>
+              <tr>
+                <th scope="row">السعر</th>
+                <td><b>300 د.ت</b></td>
+                <td class="is-pop-col"><b>450 د.ت</b></td>
+                <td><b>600 د.ت</b></td>
+              </tr>
+              <tr>
+                <th scope="row">طريقة الدفع</th>
+                <td>دفعة واحدة</td>
+                <td class="is-pop-col">دفعة واحدة</td>
+                <td>دفعة واحدة</td>
+              </tr>
+              <tr>
+                <th scope="row">الترخيص</th>
+                <td>حاسوب واحد</td>
+                <td class="is-pop-col">حاسوب واحد</td>
+                <td>حاسوب واحد</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row">جاهز للبدء؟</th>
+                <td>
+                  <a class="btn-plan sm" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Essentiel%20(300%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">اطلب Essentiel</a>
+                </td>
+                <td class="is-pop-col">
+                  <a class="btn-plan sm" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Plus%20(450%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">اطلب Plus</a>
+                </td>
+                <td>
+                  <a class="btn-plan sm" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Complet%20(600%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">اطلب Complet</a>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <p class="cmp-note">كل الأرقام بالدينار التونسي، والدفع يتم مرة واحدة عند التفعيل.</p>
+      </div>
     </div>
   </section>
 
   <!-- Features -->
   <section id="features">
     <div class="wrap">
-      <div class="sec-head reveal">
+      <div class="sec-head">
         <h2>إدارة مدرستك في مكان واحد</h2>
         <p>من التسجيل إلى آخر وصول — بدون أوراق ولا جداول متضاربة.</p>
       </div>
       <div class="features">
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
           <span class="f-tier b-ess">Essentiel</span>
           <h3>الحضور والغياب</h3>
           <p>سجلات حضور لكل مجموعة جاهزة للطباعة.</p>
         </div>
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
           <span class="f-tier b-ess">Essentiel</span>
           <h3>جدول الحصص</h3>
           <p>جدولة الحصص والقاعات مع كشف تعارضات تلقائي وطباعة بضغطة واحدة.</p>
         </div>
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
           <span class="f-tier b-ess">Essentiel</span>
           <h3>الوصولات والمالية</h3>
           <p>وصولات الطلاب وكشوف أجور المعلمين وطباعة الوصلات.</p>
         </div>
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
           <span class="f-tier b-ess">Essentiel</span>
           <h3>المستخدمون والإعدادات</h3>
           <p>أدوار للمدير والمحاسب والمعلمين، مع الشعار والهوية البصرية للمدرسة.</p>
         </div>
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
           <span class="f-tier b-plus">Plus</span>
           <h3>استيراد من Excel</h3>
           <p>استورد الطلاب والمعلمين مباشرة من ملف Excel مع معاينة قبل التأكيد.</p>
         </div>
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
           <span class="f-tier b-plus">Plus</span>
           <h3>نسخ احتياطي سحابي</h3>
           <p>نسخة احتياطية تلقائية لبيانات مدرستك تستعيدها بنقرة واحدة.</p>
         </div>
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
           <span class="f-tier b-comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>Complet</span>
           <h3>تحليل المداخيل والتقارير</h3>
           <p>تحليل المداخيل حسب المستوى والفرع والأستاذ، وتقارير مالية قابلة للتصدير.</p>
         </div>
-        <div class="feature reveal">
+        <div class="feature">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
           <span class="f-tier b-comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>Complet</span>
           <h3>سجل التدقيق والسبورة</h3>
@@ -539,15 +763,15 @@
   <!-- How -->
   <section id="how" style="background:#fff;border-block:1px solid var(--line);">
     <div class="wrap">
-      <div class="sec-head reveal">
+      <div class="sec-head">
         <h2>أربع خطوات فقط</h2>
         <p>بدون خوادم ولا تركيب معقد: حمل، اختر باقتك، اطلب الرمز، وابدأ.</p>
       </div>
       <div class="steps">
-        <div class="step reveal"><h3>حمِّل المثبت</h3><p>ملف واحد لنظام ويندوز.</p></div>
-        <div class="step reveal"><h3>اختر باقتك</h3><p>ثلاث باقات، الدفع مرة واحدة.</p></div>
-        <div class="step reveal"><h3>اطلب رمز التفعيل</h3><p>راسلنا على واتساب، ونرد عادةً في اليوم نفسه.</p></div>
-        <div class="step reveal"><h3>الصق الرمز وابدأ</h3><p>في الإعدادات ← «الخطة والترخيص» — بياناتك لا تتغيّر.</p></div>
+        <div class="step"><h3>حمِّل المثبت</h3><p>ملف واحد لنظام ويندوز.</p></div>
+        <div class="step"><h3>اختر باقتك</h3><p>ثلاث باقات، الدفع مرة واحدة.</p></div>
+        <div class="step"><h3>اطلب رمز التفعيل</h3><p>راسلنا على واتساب، ونرد عادةً في اليوم نفسه.</p></div>
+        <div class="step"><h3>الصق الرمز وابدأ</h3><p>في الإعدادات ← «الخطة والترخيص» — بياناتك لا تتغيّر.</p></div>
       </div>
     </div>
   </section>
@@ -555,8 +779,8 @@
   <!-- FAQ -->
   <section>
     <div class="wrap">
-      <div class="sec-head reveal"><h2>أسئلة شائعة</h2></div>
-      <div class="faq reveal">
+      <div class="sec-head"><h2>أسئلة شائعة</h2></div>
+      <div class="faq">
         <details>
           <summary>هل أحتاج إنترنت؟</summary>
           <p>لا. يعمل أكادِكس على جهازك دون اتصال، والشبكة فقط للنسخ الاحتياطي والتحديثات.</p>
@@ -604,8 +828,8 @@
   <!-- Contact -->
   <section id="contact">
     <div class="wrap">
-      <div class="sec-head reveal"><h2>سؤال؟ تواصل معنا</h2><p>نرد عادةً في اليوم نفسه.</p></div>
-      <div class="contact-grid reveal">
+      <div class="sec-head"><h2>سؤال؟ تواصل معنا</h2><p>نرد عادةً في اليوم نفسه.</p></div>
+      <div class="contact-grid">
         <a class="contact-card" href="https://wa.me/21655518492">
           <div class="c-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg></div>
           واتساب<div class="c-sub">+216 55 518 492</div>
@@ -628,6 +852,9 @@
 </footer>
 
 <script>
+  // JS is on: the reveal (and the hero sequence) may run.
+  document.documentElement.classList.remove("no-js");
+
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }, { threshold: .12 });

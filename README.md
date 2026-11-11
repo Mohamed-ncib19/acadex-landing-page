@@ -6,6 +6,16 @@ school management desktop app for Windows.
 ## Structure
 
 - `index.html` — the whole page (inline CSS/JS, no build step)
+- The **packs block** (`#plans`) mirrors the app's three tiers — same names
+  (Essentiel / Plus / Complet), same prices (300 / 450 / 600 DT), same
+  one-time purchase, same illustrations. `Plus` carries the `is-popular`
+  class (the one bold element of the page: lifted, blue, « الأكثر طلبًا »);
+  `Complet` keeps the gold premium treatment. Switching the recommended pack
+  is a one-line change: move `is-popular` to the other card.
+- The **comparison table** under the packs repeats the same content as
+  grouped rows (basics / import & cloud / reports & audit / purchase) with
+  the recommended column tinted, plus a CTA row so nobody has to scroll back
+  up to act.
 - No binaries: the download button points at the **stable update feed**
   (`https://acadex-backup.zglm.workers.dev/updates/latest`), which 302s to
   the current installer published to Cloudflare R2 by CI on every push to
