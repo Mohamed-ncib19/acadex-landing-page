@@ -410,6 +410,23 @@
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
   }, { threshold: .12 });
   document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+
+  // Live version, read from the very same update feed the download button
+  // points at (the feed answers CORS for this page). The static label stays as
+  // the fallback when the feed is unreachable.
+  (async () => {
+    try {
+      const res = await fetch("https://acadex-backup.zglm.workers.dev/updates/latest.yml", { cache: "no-store" });
+      const match = (await res.text()).match(/^version:\s*(.+)$/m);
+      if (!match) return;
+      const version = match[1].trim();
+      document.querySelectorAll(".hero-spec span").forEach((el) => {
+        if (el.textContent.includes("2.0.0-alpha")) el.textContent = el.textContent.replace("2.0.0-alpha", version);
+      });
+    } catch {
+      /* offline or feed unreachable: keep the static label */
+    }
+  })();
 </script>
 </body>
 </html>
