@@ -197,6 +197,74 @@
   .step h3 { font-weight: 800; font-size: 16.5px; margin-bottom: 4px; }
   .step p { color: var(--muted); font-size: 13.5px; }
 
+  /* ── Plans (same three packs as the app) ──────────────────── */
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; align-items: stretch; }
+  .plan {
+    position: relative; display: flex; flex-direction: column; gap: 14px;
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px 22px 22px;
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .plan:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgba(38, 78, 174, .12); }
+  .plan.is-gold { border-color: rgba(217, 169, 60, .5); box-shadow: 0 18px 44px rgba(217, 169, 60, .16); }
+  .plan.is-gold:hover { box-shadow: 0 22px 50px rgba(217, 169, 60, .24); }
+  .plan .p-ribbon {
+    position: absolute; top: -12px; inset-inline-start: 22px;
+    background: linear-gradient(135deg, var(--gold), #c2922f); color: #1c1503;
+    font-size: 11.5px; font-weight: 900; padding: 4px 12px; border-radius: 999px;
+    box-shadow: 0 6px 14px rgba(217, 169, 60, .35);
+  }
+  .plan .p-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .plan .p-illus { flex: 0 0 auto; }
+  .p-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    border-radius: 999px; padding: 5px 12px;
+    font-size: 12.5px; font-weight: 800; border: 1px solid;
+  }
+  .p-badge svg { width: 13px; height: 13px; }
+  .b-ess { background: #F1F2F6; border-color: #DCE0E9; color: #39404F; }
+  .b-plus { background: #EEF2FB; border-color: #C3D1F0; color: #264EAE; }
+  .b-comp { background: #FDF4E0; border-color: #F0D79C; color: #A9760B; }
+  .plan h3 { font-size: 19px; font-weight: 900; color: var(--blue-deep); }
+  .plan .p-tag { color: var(--muted); font-size: 13.5px; font-weight: 600; margin-top: -6px; }
+  .plan ul { list-style: none; display: grid; gap: 9px; }
+  .plan li { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; font-weight: 600; color: var(--muted); }
+  .plan li svg { flex: 0 0 auto; width: 15px; height: 15px; margin-top: 4px; }
+  .plan .p-foot { margin-top: auto; border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 12px; }
+  .plan .p-price { display: flex; align-items: baseline; gap: 8px; }
+  .plan .p-price b { font-size: 28px; font-weight: 900; color: var(--blue-deep); line-height: 1; }
+  .plan .p-price span { font-size: 13px; font-weight: 800; color: var(--muted); }
+  .plan.is-gold .p-price b { color: #A9760B; }
+  .p-once {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; font-weight: 800; color: #A9760B;
+    background: #FDF4E0; border: 1px solid #F0D79C; border-radius: 999px; padding: 3px 10px;
+  }
+  .btn-plan {
+    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    width: 100%; border-radius: 12px; padding: 13px 16px;
+    font-size: 14.5px; font-weight: 800;
+    background: linear-gradient(135deg, #25D366, #14a44d); color: #fff;
+    box-shadow: 0 10px 24px rgba(37, 211, 102, .28);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-plan:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(37, 211, 102, .36); }
+  .btn-plan svg { width: 18px; height: 18px; }
+  .plan-note {
+    margin: 22px auto 0; max-width: 760px; text-align: center;
+    color: var(--muted); font-size: 13.5px; font-weight: 600;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 22px;
+  }
+  .plan-note b { color: var(--blue-deep); }
+
+  /* the tier badge on a feature card */
+  .f-tier {
+    display: inline-flex; align-items: center; gap: 5px;
+    border-radius: 999px; padding: 3px 10px; margin-bottom: 10px;
+    font-size: 11px; font-weight: 800; border: 1px solid;
+  }
+  .f-tier svg { width: 11px; height: 11px; }
+
   .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
   details {
     background: var(--card); border: 1px solid var(--line); border-radius: 14px;
@@ -248,6 +316,7 @@
     <div class="spacer"></div>
     <nav>
       <a href="#features">الميزات</a>
+      <a href="#plans">الباقات</a>
       <a href="#how">كيف تبدأ</a>
       <a href="#download">التحميل</a>
       <a href="#contact">تواصل</a>
@@ -268,17 +337,142 @@
             <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             حمِّل نسخة ويندوز
           </a>
-          <a class="btn-ghost" href="https://wa.me/21655518492">تواصل عبر واتساب</a>
+          <a class="btn-ghost" href="#plans">شاهد الباقات</a>
         </div>
         <div class="hero-spec">
           <span>◆ ويندوز 10 / 11 — 64 بت</span>
           <span>◆ الحجم: حوالي 111 ميغابايت</span>
+          <span>◆ الباقات: 300 / 450 / 600 د.ت — دفعة واحدة</span>
           <span>◆ الإصدار: 2.0.0-alpha</span>
         </div>
       </div>
       <div class="hero-visual">
         <img src="assets/hero.png" alt="Acadex dashboard preview" class="hero-image" />
       </div>
+    </div>
+  </section>
+
+  <!-- Plans — the same three packs as the app, the same prices -->
+  <section id="plans">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <h2>اختر باقتك</h2>
+        <p>ثلاث باقات — الدفع <b>مرة واحدة</b> عند التفعيل. بدون اشتراك شهري، وبدون تجديد تلقائي.</p>
+      </div>
+      <div class="plans">
+
+        <!-- Essentiel -->
+        <div class="plan reveal">
+          <div class="p-top">
+            <div>
+              <span class="p-badge b-ess">Essentiel</span>
+              <h3>أساسي</h3>
+            </div>
+            <svg class="p-illus" viewBox="0 0 40 40" width="56" height="56" role="img" aria-label="أيقونة باقة Essentiel">
+              <circle cx="20" cy="20" r="19" fill="#264EAE" opacity=".1"/>
+              <g fill="none" stroke="#264EAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8.5 21 20 12.5 31.5 21"/><path d="M11 21v11h18V21"/><path d="M17 32v-5h6v5"/><path d="M24.5 24.5h3.5v3.5h-3.5"/>
+              </g>
+            </svg>
+          </div>
+          <p class="p-tag">كل ما تحتاجه لتشغيل مدرستك يوميًا: إدارة، جداول، حضور، وصولات وطباعة.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>الطلبة، الأساتذة، الأقسام، المستويات والفروع</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>برمجة الحصص والجدول الزمني مع الطباعة</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>أوراق الحضور وطباعة السجل</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>دفعات الطلبة والأساتذة، الوصلات ودورة الأجور</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>نسخ احتياطي محلي واستعادة بنقرة واحدة</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>المستخدمون، الإعدادات، الشعار والهوية البصرية</li>
+          </ul>
+          <div class="p-foot">
+            <div class="p-price"><b>300</b><span>د.ت</span><span class="p-once">دفعة واحدة</span></div>
+            <a class="btn-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Essentiel%20(300%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+              اطلب باقة Essentiel
+            </a>
+          </div>
+        </div>
+
+        <!-- Plus -->
+        <div class="plan reveal">
+          <div class="p-top">
+            <div>
+              <span class="p-badge b-plus">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>
+                Plus
+              </span>
+              <h3>احترافي</h3>
+            </div>
+            <svg class="p-illus" viewBox="0 0 40 40" width="56" height="56" role="img" aria-label="أيقونة باقة Plus">
+              <circle cx="20" cy="20" r="19" fill="#264EAE" opacity=".1"/>
+              <g fill="none" stroke="#264EAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8.5 21 20 12.5 31.5 21"/><path d="M11 21v11h18V21"/><path d="M17 32v-5h6v5"/><path d="M24.5 24.5h3.5v3.5h-3.5"/>
+              </g>
+              <g fill="none" stroke="#264EAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="30" cy="9.5" r="4.5"/><path d="M30 7.4v4.2M28.3 9.5h3.4"/>
+              </g>
+            </svg>
+          </div>
+          <p class="p-tag">كل ما في Essentiel، مع الاستيراد من Excel والنسخ الاحتياطي السحابي التلقائي.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#264EAE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>استيراد الطلبة من Excel (قالب جاهز)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#264EAE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>نسخ احتياطي سحابي تلقائي نحو الخادم المركزي</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#264EAE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>تحميل النسخة السحابية واستعادتها</li>
+          </ul>
+          <div class="p-foot">
+            <div class="p-price"><b>450</b><span>د.ت</span><span class="p-once">دفعة واحدة</span></div>
+            <a class="btn-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Plus%20(450%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+              اطلب باقة Plus
+            </a>
+          </div>
+        </div>
+
+        <!-- Complet -->
+        <div class="plan is-gold reveal">
+          <span class="p-ribbon">الأكثر اكتمالا</span>
+          <div class="p-top">
+            <div>
+              <span class="p-badge b-comp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>
+                Complet
+              </span>
+              <h3>متكامل</h3>
+            </div>
+            <svg class="p-illus" viewBox="0 0 40 40" width="56" height="56" role="img" aria-label="أيقونة باقة Complet">
+              <circle cx="20" cy="20" r="19" fill="#264EAE" opacity=".1"/>
+              <g fill="none" stroke="#264EAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8.5 21 20 12.5 31.5 21"/><path d="M11 21v11h18V21"/><path d="M17 32v-5h6v5"/><path d="M24.5 24.5h3.5v3.5h-3.5"/>
+              </g>
+              <g>
+                <path d="M13.5 7.5l2.2 2L20 1.5l4.3 8 2.2-2-0.8 3H14.3z" fill="none" stroke="#D9A93C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                <g fill="#D9A93C" opacity=".9"><circle cx="9.5" cy="10" r="1"/><circle cx="31" cy="14" r=".9"/></g>
+              </g>
+            </svg>
+          </div>
+          <p class="p-tag">كل ما في Plus، مع قيادة المدرسة: تحليل المداخيل، التقارير المالية، التصدير وسجل التدقيق.</p>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>تحليل المداخيل مع التعمّق حسب المستوى والفرع والأستاذ</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>التقارير المالية وتصديرها إلى Excel</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>تصدير سجل الحضور إلى Excel</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>سجل تدقيق كامل: من فعل ماذا ومتى</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>سبورة بيضاء للملاحظات ودروس الدعم</li>
+          </ul>
+          <div class="p-foot">
+            <div class="p-price"><b>600</b><span>د.ت</span><span class="p-once">دفعة واحدة</span></div>
+            <a class="btn-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Complet%20(600%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+              اطلب باقة Complet
+            </a>
+          </div>
+        </div>
+
+      </div>
+      <p class="plan-note reveal">
+        <b>الدفع مرة واحدة</b> — لا اشتراك، ولا تجديد تلقائي، ولا رسوم لاحقة. كل ترخيص مرتبط بحاسوب واحد:
+        تستعمل التطبيق على هذا الجهاز بكل بياناتك، وإذا أردت جهازًا آخر فيحتاج رمز تفعيل خاصًا به.
+        ويمكنك تغيير باقتك في أي وقت: تواصل معنا فنرسل لك رمزًا جديدًا لنفس الجهاز، وبياناتك لا تتغيّر.
+      </p>
     </div>
   </section>
 
@@ -292,33 +486,51 @@
       <div class="features">
         <div class="feature reveal">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <span class="f-tier b-ess">Essentiel</span>
           <h3>الحضور والغياب</h3>
           <p>سجلات حضور لكل مجموعة جاهزة للطباعة.</p>
         </div>
         <div class="feature reveal">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+          <span class="f-tier b-ess">Essentiel</span>
           <h3>جدول الحصص</h3>
           <p>جدولة الحصص والقاعات مع كشف تعارضات تلقائي وطباعة بضغطة واحدة.</p>
         </div>
         <div class="feature reveal">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <span class="f-tier b-ess">Essentiel</span>
           <h3>الوصولات والمالية</h3>
-          <p>وصولات الطلاب وكشوف أجور المعلمين وتقارير مالية للطباعة أو التصدير إلى Excel.</p>
+          <p>وصولات الطلاب وكشوف أجور المعلمين وطباعة الوصلات.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+          <span class="f-tier b-ess">Essentiel</span>
+          <h3>المستخدمون والإعدادات</h3>
+          <p>أدوار للمدير والمحاسب والمعلمين، مع الشعار والهوية البصرية للمدرسة.</p>
+        </div>
+        <div class="feature reveal">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
+          <span class="f-tier b-plus">Plus</span>
+          <h3>استيراد من Excel</h3>
+          <p>استورد الطلاب والمعلمين مباشرة من ملف Excel مع معاينة قبل التأكيد.</p>
         </div>
         <div class="feature reveal">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+          <span class="f-tier b-plus">Plus</span>
           <h3>نسخ احتياطي سحابي</h3>
           <p>نسخة احتياطية تلقائية لبيانات مدرستك تستعيدها بنقرة واحدة.</p>
         </div>
         <div class="feature reveal">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
-          <h3>استيراد من Excel</h3>
-          <p>استورد الطلاب والمعلمين مباشرة من ملف Excel مع معاينة قبل التأكيد، وصدر بياناتك في أي وقت.</p>
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+          <span class="f-tier b-comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>Complet</span>
+          <h3>تحليل المداخيل والتقارير</h3>
+          <p>تحليل المداخيل حسب المستوى والفرع والأستاذ، وتقارير مالية قابلة للتصدير.</p>
         </div>
         <div class="feature reveal">
           <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <h3>صلاحيات وسجل تدقيق</h3>
-          <p>أدوار للمدير والمحاسب والمعلمين، وكل إجراء مسجل في سجل تدقيق واضح.</p>
+          <span class="f-tier b-comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>Complet</span>
+          <h3>سجل التدقيق والسبورة</h3>
+          <p>كل إجراء مسجل في سجل تدقيق واضح، مع سبورة بيضاء لملاحظاتك ودروس الدعم.</p>
         </div>
       </div>
     </div>
@@ -328,13 +540,14 @@
   <section id="how" style="background:#fff;border-block:1px solid var(--line);">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>ثلاث خطوات فقط</h2>
-        <p>بدون خوادم ولا تركيب معقد: حمل، ثبت، وابدأ.</p>
+        <h2>أربع خطوات فقط</h2>
+        <p>بدون خوادم ولا تركيب معقد: حمل، اختر باقتك، اطلب الرمز، وابدأ.</p>
       </div>
       <div class="steps">
-        <div class="step reveal"><h3>حمل المثبت</h3><p>ملف واحد لنظام ويندوز.</p></div>
-        <div class="step reveal"><h3>أنشئ مدرستك</h3><p>اسم المدرسة وكلمة السر فقط.</p></div>
-        <div class="step reveal"><h3>ابدأ العمل</h3><p>استورد الطلاب وأضف المجموعات والحصص.</p></div>
+        <div class="step reveal"><h3>حمِّل المثبت</h3><p>ملف واحد لنظام ويندوز.</p></div>
+        <div class="step reveal"><h3>اختر باقتك</h3><p>ثلاث باقات، الدفع مرة واحدة.</p></div>
+        <div class="step reveal"><h3>اطلب رمز التفعيل</h3><p>راسلنا على واتساب، ونرد عادةً في اليوم نفسه.</p></div>
+        <div class="step reveal"><h3>الصق الرمز وابدأ</h3><p>في الإعدادات ← «الخطة والترخيص» — بياناتك لا تتغيّر.</p></div>
       </div>
     </div>
   </section>
@@ -353,8 +566,16 @@
           <p>على جهازك مباشرة، ويمكن استعادتها من النسخ الاحتياطي السحابي عند الفقدان.</p>
         </details>
         <details>
-          <summary>هل النسخة مجانية؟</summary>
-          <p>الإصدار تجريبي (alpha). حمله وجربه بحرية، وللتفعيل الكامل تواصل معنا.</p>
+          <summary>كم تكلّف الباقات؟</summary>
+          <p>ثلاث باقات: <b>Essentiel بـ 300 دينار</b>، <b>Plus بـ 450 دينار</b>، <b>Complet بـ 600 دينار</b> (دينار تونسي). الدفع يتم <b>مرة واحدة</b> عند التفعيل: لا اشتراك شهري، ولا تجديد تلقائي، ولا رسوم لاحقة.</p>
+        </details>
+        <details>
+          <summary>هل يمكنني تغيير الباقة لاحقًا؟</summary>
+          <p>نعم. تواصل معنا عبر واتساب، نرسل لك رمز تفعيل جديدًا لنفس الجهاز، تُفتح المزايا فورًا وبياناتك تبقى كما هي.</p>
+        </details>
+        <details>
+          <summary>على كم حاسوب يعمل الترخيص؟</summary>
+          <p>الترخيص مرتبط بحاسوب واحد: تستعمل التطبيق على هذا الجهاز بكل بياناتك. جهاز آخر يحتاج رمز تفعيل خاصًا به — الترخيص متعدد الأجهزة غير متاح بعد.</p>
         </details>
         <details>
           <summary>ما أنظمة ويندوز المدعومة؟</summary>
@@ -375,6 +596,7 @@
     <div class="hero-spec">
       <span>◆ ويندوز 10 / 11 · 64 بت</span>
       <span>◆ الحجم: حوالي 111 ميغابايت</span>
+      <span>◆ الباقات: 300 / 450 / 600 د.ت — دفعة واحدة</span>
       <span>◆ الإصدار: 2.0.0-alpha</span>
     </div>
   </section>
