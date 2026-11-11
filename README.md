@@ -28,13 +28,31 @@ npx serve D:\Acadex
 
 ## Deploy
 
-- Git host: the owner pushes this folder to its own GitHub repo.
-- Host: **Vercel** (framework "None", no build command) — commits there
-  auto-deploy; the page HTML is version-agnostic, so nothing on the page
-  needs to change when a new app version ships.
+- Git host: the owner pushes this folder to its own GitHub repo
+  (`github.com/Mohamed-ncib19/acadex-landing-page`).
+- Host: **Vercel** (framework "None", no build command) — the domain is
+  **https://acadex.pro/** (`acadex-landing-page.vercel.app` redirects there).
 - The download button is a cross-absolute URL to the Cloudflare worker —
   it works from localhost, Vercel, or any static host without
   configuration.
+
+### Publishing a change (one of the two)
+
+1. **Git integration (recommended, then every push deploys itself)** — in the
+   Vercel dashboard: *Settings → Git*, connect
+   `Mohamed-ncib19/acadex-landing-page`, branch `main`, and make sure
+   *Deployments → Automatic* is on. **As of the `packs` commit the repo has NO
+   Vercel webhook, so a push alone does not deploy** — connect it once and it
+   never has to be done again.
+2. **Manual** — either
+   - `vercel login` on the machine (the stored session is empty, so the CLI
+     cannot deploy until it is re-authenticated) and then `vercel --prod` from
+     this folder, or
+   - the Vercel dashboard → *Deployments → New Deployment* with this folder
+     dragged in.
+
+Check what is live with `curl -sL https://acadex.pro/ | grep الباقات` — the
+packs section is the marker of the current build.
 
 ## How updates flow (see the main repo design doc)
 
