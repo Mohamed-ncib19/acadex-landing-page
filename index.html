@@ -3,878 +3,2882 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Acadex — نظام إدارة المدارس</title>
+<title>Acadex — نظام إدارة المدارس والمراكز التعليمية</title>
 <meta name="description" content="أكادِكس — نظام إدارة مدارس شامل يعمل على ويندوز دون اتصال: طلبة، مجموعات، جداول، حضور، وصولات، مالية، ونسخ احتياطي سحابي.">
+<link rel="icon" type="image/png" href="assets/logo.png">
+
+<!-- Google Fonts: Cairo for primary Arabic typography & Plus Jakarta Sans for Latin/numbers -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
+  /* ── Design Tokens & System Variables ──────────────────────── */
   :root {
-    --blue: #264EAE;
-    --blue-deep: #1B3A85;
-    --navy: #0A1730;
-    --navy-2: #0F2148;
-    --gold: #D9A93C;
-    --gold-soft: #F1D08A;
-    --ink: #16213A;
-    --muted: #5B6478;
-    --line: rgba(38, 78, 174, .18);
-    --bg: #F6F8FD;
-    --card: #FFFFFF;
-    --radius: 18px;
+    --primary: #2563EB;
+    --primary-hover: #1D4ED8;
+    --primary-light: #EFF6FF;
+    --primary-glow: rgba(37, 99, 235, 0.35);
+    
+    --navy-950: #050B17;
+    --navy-900: #0B132B;
+    --navy-850: #0F1B3D;
+    --navy-800: #172A54;
+    --navy-700: #1E3A8A;
+    
+    --gold: #F59E0B;
+    --gold-hover: #D97706;
+    --gold-light: #FEF3C7;
+    --gold-glow: rgba(245, 158, 11, 0.3);
+    
+    --emerald: #10B981;
+    --emerald-light: #ECFDF5;
+    --emerald-glow: rgba(16, 185, 129, 0.3);
+    
+    --slate-900: #0F172A;
+    --slate-800: #1E293B;
+    --slate-700: #334155;
+    --slate-600: #475569;
+    --slate-500: #64748B;
+    --slate-400: #94A3B8;
+    --slate-300: #CBD5E1;
+    --slate-200: #E2E8F0;
+    --slate-100: #F1F5F9;
+    --slate-50:  #F8FAFC;
+    
+    --bg-main: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-card-hover: #FAFCFF;
+    
+    --border-subtle: rgba(226, 232, 240, 0.85);
+    --border-accent: rgba(37, 99, 235, 0.18);
+    --border-gold: rgba(245, 158, 11, 0.35);
+    
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+    --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.06), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+    --shadow-xl: 0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    --shadow-glow: 0 0 30px var(--primary-glow);
+    
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+    --radius-2xl: 32px;
+    --radius-full: 9999px;
+    
+    --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --transition-fast: 0.18s var(--ease-out);
+    --transition-base: 0.28s var(--ease-out);
+    --transition-smooth: 0.45s var(--ease-spring);
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+
+  /* ── Base & Reset ─────────────────────────────────────────── */
+  *, *::before, *::after {
+    margin: 0; padding: 0; box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 86px;
+  }
+
   body {
-    font-family: "Cairo", "Segoe UI", Tahoma, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--ink);
-    line-height: 1.75;
+    font-family: "Cairo", "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-main);
+    color: var(--slate-800);
+    line-height: 1.7;
     overflow-x: hidden;
+    position: relative;
+    text-rendering: optimizeLegibility;
   }
-  a { text-decoration: none; color: inherit; }
 
-  /* ── Top bar ─────────────────────────────────────────────── */
+  a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-fast);
+  }
+
+  img, svg {
+    display: block;
+    max-width: 100%;
+  }
+
+  button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+
+  ::selection {
+    background-color: rgba(37, 99, 235, 0.2);
+    color: var(--navy-900);
+  }
+
+  /* ── Layout & Typography Utilities ────────────────────────── */
+  .wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .sec-head {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 52px;
+  }
+
+  .sec-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--primary);
+    border: 1px solid rgba(37, 99, 235, 0.15);
+  }
+
+  .sec-head h2 {
+    font-size: clamp(26px, 3.5vw, 40px);
+    font-weight: 900;
+    color: var(--navy-900);
+    line-height: 1.35;
+    letter-spacing: -0.5px;
+  }
+
+  .sec-head p {
+    color: var(--slate-600);
+    margin-top: 14px;
+    font-weight: 600;
+    font-size: clamp(15px, 1.8vw, 17px);
+    line-height: 1.65;
+  }
+
+  /* ── Top Navigation Bar ──────────────────────────────────── */
   .topbar {
-    position: sticky; top: 0; z-index: 50;
-    backdrop-filter: blur(10px);
-    background: rgba(246, 248, 253, .85);
-    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.82);
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    transition: padding 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), background-color 0.3s var(--ease-out);
   }
-  .topbar-in {
-    max-width: 1120px; margin: 0 auto; padding: 13px 24px;
-    display: flex; align-items: center; gap: 14px;
-  }
-  .brand { display: flex; align-items: center; gap: 12px; font-weight: 900; color: var(--blue-deep); font-size: 20px; letter-spacing: .5px; }
-  .brand-mark { width: 36px; height: 36px; border-radius: 10px; object-fit: contain; background: #fff; border: 1px solid rgba(38,78,174,.2); box-shadow: 0 6px 16px rgba(38, 78, 174, .25); }
-  .brand span { font-size: 20px; }
-  .topbar .spacer { flex: 1; }
-  .topbar nav { display: flex; gap: 18px; font-size: 13.5px; font-weight: 700; color: var(--muted); }
-  .topbar nav a:hover { color: var(--blue); }
 
-  /* ── Hero ────────────────────────────────────────────────── */
+  .topbar.scrolled {
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 8px 24px -4px rgba(11, 19, 43, 0.08);
+  }
+
+  .topbar-in {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 900;
+    color: var(--navy-900);
+    font-size: 21px;
+    letter-spacing: -0.3px;
+  }
+
+  .brand-logo-wrap {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    background: #fff;
+    padding: 2px;
+    border: 1px solid rgba(37, 99, 235, 0.15);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+    overflow: hidden;
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  }
+
+  .brand:hover .brand-logo-wrap {
+    transform: rotate(-4deg) scale(1.06);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+  }
+
+  .brand-mark {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+
+  .brand-text {
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--navy-900) 30%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .topbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--slate-600);
+  }
+
+  .topbar-nav a {
+    position: relative;
+    padding: 6px 0;
+    transition: color var(--transition-fast);
+  }
+
+  .topbar-nav a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--primary);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--transition-fast);
+  }
+
+  .topbar-nav a:hover {
+    color: var(--primary);
+  }
+
+  .topbar-nav a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .btn-topbar {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    border-radius: var(--radius-md);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-topbar:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.38);
+  }
+
+  .btn-topbar svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  /* Mobile menu toggle */
+  .mobile-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--slate-200);
+    background: #fff;
+    align-items: center;
+    justify-content: center;
+    color: var(--slate-700);
+  }
+
+  .mobile-toggle svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 68px;
+    right: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--slate-200);
+    padding: 20px 24px 28px;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+    z-index: 99;
+    flex-direction: column;
+    gap: 16px;
+    animation: menuSlide 0.3s var(--ease-spring) forwards;
+  }
+
+  .mobile-menu.open {
+    display: flex;
+  }
+
+  @keyframes menuSlide {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mobile-menu a {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--slate-700);
+    padding: 8px 0;
+    border-bottom: 1px solid var(--slate-100);
+  }
+
+  .mobile-menu a:hover {
+    color: var(--primary);
+  }
+
+  /* ── Hero Section ────────────────────────────────────────── */
   .hero {
     position: relative;
     background:
-      radial-gradient(900px 380px at 85% -10%, rgba(217, 169, 60, .16), transparent 60%),
-      radial-gradient(1100px 500px at 10% 110%, rgba(38, 78, 174, .55), transparent 55%),
-      linear-gradient(155deg, var(--navy) 0%, var(--navy-2) 55%, #143065 100%);
+      radial-gradient(1100px 550px at 90% -10%, rgba(245, 158, 11, 0.14), transparent 65%),
+      radial-gradient(1200px 650px at 15% 105%, rgba(37, 99, 235, 0.45), transparent 60%),
+      radial-gradient(800px 400px at 50% 50%, rgba(30, 58, 138, 0.3), transparent 70%),
+      linear-gradient(160deg, var(--navy-950) 0%, var(--navy-900) 45%, var(--navy-850) 100%);
     color: #fff;
-    padding: 88px 24px 96px;
+    padding: 96px 24px 120px;
     overflow: hidden;
   }
+
+  /* High-end subtle dot-grid matrix */
   .hero::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
     background-image:
-      linear-gradient(rgba(255,255,255,.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(720px 420px at 70% 0%, #000 25%, transparent 75%);
+      radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(850px 500px at 60% 30%, #000 35%, transparent 80%);
+    -webkit-mask-image: radial-gradient(850px 500px at 60% 30%, #000 35%, transparent 80%);
   }
-  .hero-in { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
-  @media (min-width: 1020px) {
-    .hero-in { display: flex; align-items: center; gap: 56px; }
-    .hero-copy { max-width: 600px; }
-    .hero-visual { flex: 1; display: flex; align-items: center; justify-content: center; }
+
+  .hero-in {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
   }
-  .hero-badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.18);
-    color: var(--gold-soft);
-    padding: 7px 16px; border-radius: 999px;
-    font-size: 13.5px; font-weight: 700;
+
+  @media (min-width: 1040px) {
+    .hero-in {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      align-items: center;
+      gap: 60px;
+    }
   }
+
+  .hero-copy {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Live Pulsing Badge */
+  .hero-badge-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 8px 18px;
+    border-radius: var(--radius-full);
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+    margin-bottom: 24px;
+    transition: transform var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .hero-badge-wrap:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .pulse-dot {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--emerald);
+  }
+
+  .pulse-dot::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    background: var(--emerald);
+    opacity: 0.6;
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes ping {
+    75%, 100% {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
   .hero h1 {
-    font-size: clamp(30px, 4.4vw, 48px);
-    font-weight: 900; line-height: 1.3;
-    margin: 18px 0 14px;
+    font-size: clamp(32px, 4.6vw, 54px);
+    font-weight: 900;
+    line-height: 1.25;
+    letter-spacing: -0.8px;
+    margin-bottom: 18px;
+    color: #FFFFFF;
   }
-  .hero h1 .accent { color: var(--gold); }
+
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, #FFFFFF 20%, #93C5FD 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero h1 .accent-gold {
+    display: inline-block;
+    color: var(--gold);
+    text-shadow: 0 0 35px rgba(245, 158, 11, 0.45);
+    position: relative;
+  }
+
   .hero p.lead {
-    font-size: clamp(15px, 1.8vw, 18px);
-    color: rgba(255,255,255,.82);
-    max-width: 620px; font-weight: 600;
+    font-size: clamp(16px, 1.9vw, 19px);
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    line-height: 1.7;
+    max-width: 580px;
+    margin-bottom: 32px;
   }
-  .hero-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 30px; }
-  .btn-download {
-    display: inline-flex; align-items: center; gap: 12px;
-    background: linear-gradient(135deg, var(--gold) 0%, #c2922f 100%);
-    color: #1c1503;
-    font-size: 16.5px; font-weight: 800;
-    padding: 15px 30px; border-radius: 14px;
-    box-shadow: 0 12px 30px rgba(217, 169, 60, .35);
-    transition: transform .15s ease, box-shadow .15s ease;
+
+  .hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 36px;
   }
-  .btn-download:hover { transform: translateY(-2px); box-shadow: 0 16px 34px rgba(217, 169, 60, .45); }
-  .btn-download .icon { width: 21px; height: 21px; flex: 0 0 auto; }
-  .btn-ghost {
-    display: inline-flex; align-items: center; gap: 10px;
-    border: 1px solid rgba(255,255,255,.28);
-    color: #fff; font-weight: 700; font-size: 15px;
-    padding: 15px 26px; border-radius: 14px;
-    background: rgba(255,255,255,.06);
-    transition: background .15s ease;
+
+  /* Shimmering Download Button */
+  .btn-download-primary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    color: #111827;
+    font-size: 16.5px;
+    font-weight: 800;
+    padding: 16px 32px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 12px 30px rgba(217, 119, 6, 0.38), 0 2px 6px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: all var(--transition-smooth);
+    border: 1px solid rgba(255, 255, 255, 0.25);
   }
-  .btn-ghost:hover { background: rgba(255,255,255,.12); }
-  .hero-spec {
-    margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px 22px;
-    color: rgba(255,255,255,.65); font-size: 13.5px; font-weight: 600;
+
+  .btn-download-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+    transform: skewX(-25deg);
+    transition: left 0.75s ease;
   }
-  .hero-spec span { display: inline-flex; align-items: center; gap: 6px; }
+
+  .btn-download-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 18px 38px rgba(217, 119, 6, 0.48), 0 0 20px rgba(245, 158, 11, 0.4);
+  }
+
+  .btn-download-primary:hover::before {
+    left: 140%;
+  }
+
+  .btn-download-primary svg {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .btn-ghost-hero {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
+    font-size: 15.5px;
+    font-weight: 700;
+    padding: 16px 28px;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-ghost-hero:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Micro Chips for Specs */
+  .hero-spec-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+  }
+
+  .spec-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.78);
+    transition: background var(--transition-fast), border-color var(--transition-fast);
+  }
+
+  .spec-chip:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
+
+  .spec-chip svg {
+    width: 15px;
+    height: 15px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* ── Hero Visual Window Mockup ────────────────────────────── */
+  .hero-visual {
+    position: relative;
+    margin-top: 40px;
+  }
+
+  @media (min-width: 1040px) {
+    .hero-visual {
+      margin-top: 0;
+    }
+  }
+
+  /* Ambient Glow Behind App Window */
+  .visual-ambient-glow {
+    position: absolute;
+    inset: -30px -20px -20px -20px;
+    background: radial-gradient(circle at 60% 40%, rgba(37, 99, 235, 0.45) 0%, rgba(245, 158, 11, 0.2) 60%, transparent 80%);
+    filter: blur(50px);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.85;
+  }
+
+  .app-window-frame {
+    position: relative;
+    z-index: 1;
+    background: #0E172A;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+      0 30px 60px -12px rgba(0, 0, 0, 0.65),
+      0 18px 36px -18px rgba(0, 0, 0, 0.75),
+      0 0 0 1px rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    transition: transform 0.5s var(--ease-spring), box-shadow 0.5s var(--ease-spring);
+  }
+
+  .app-window-frame:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow:
+      0 40px 80px -15px rgba(0, 0, 0, 0.75),
+      0 20px 40px -15px rgba(37, 99, 235, 0.25),
+      0 0 0 1px rgba(255, 255, 255, 0.2);
+  }
+
+  .window-titlebar {
+    height: 38px;
+    background: #1E293B;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .window-dots {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .window-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .dot-close { background: #EF4444; }
+  .dot-min { background: #F59E0B; }
+  .dot-max { background: #10B981; }
+
+  .window-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--slate-400);
+    letter-spacing: 0.3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
 
   .hero-image {
     width: 100%;
-    max-width: 520px;
-    border-radius: 24px;
-    box-shadow: 0 40px 80px rgba(2, 8, 24, .55);
-    border: 1px solid rgba(255,255,255,.08);
-    object-fit: contain;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    background: #0F172A;
   }
 
-  /* App mock (CSS only, توضيحية) - kept for reference */
-  .mock {
-    background: #fff; border-radius: 14px; overflow: hidden;
-    box-shadow: 0 30px 60px rgba(2, 8, 24, .55), 0 0 0 1px rgba(255,255,255,.08);
-    color: var(--ink); font-size: 10.5px;
-    max-width: 480px; margin-inline: auto;
+  /* Floating Dimension Badges on Mockup */
+  .floating-badge {
+    position: absolute;
+    background: rgba(15, 23, 42, 0.88);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    z-index: 3;
+    animation: floatAnim 4s ease-in-out infinite;
   }
-  .mock .m-bar { height: 26px; background: #EDF1F9; display: flex; align-items: center; gap: 5px; padding: 0 10px; }
-  .mock .dot { width: 8px; height: 8px; border-radius: 50%; background: #D3D9E5; }
-  .mock .dot:first-child { background: var(--gold); }
-  .mock .m-body { display: flex; }
-  .mock .m-side { width: 78px; background: #101A31; padding: 10px 8px; display: grid; gap: 7px; align-content: start; }
-  .mock .m-side i { display: block; height: 9px; border-radius: 5px; background: rgba(255,255,255,.22); }
-  .mock .m-side i:first-child { width: 70%; background: var(--gold); }
-  .mock .m-main { flex: 1; padding: 12px; display: grid; gap: 8px; }
-  .mock .m-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .mock .m-card { border: 1px solid var(--line); border-radius: 8px; padding: 8px; }
-  .mock .m-card b { display: block; color: var(--blue); font-size: 13px; }
-  .mock .m-row { height: 12px; border-radius: 6px; background: #EFF2F9; border: 1px solid var(--line); }
-  .mock .m-rows { display: grid; gap: 6px; }
-  .mock .m-row.h { background: var(--blue); opacity: .85; height: 14px; }
-  .mock-caption { font-size: 11.5px; color: rgba(255,255,255,.45); text-align: center; margin-top: 10px; font-weight: 600; }
 
-  /* ── Sections ────────────────────────────────────────────── */
-  section { padding: 70px 24px; }
-  .wrap { max-width: 1120px; margin: 0 auto; }
-  .sec-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
-  .sec-head h2 { font-size: clamp(24px, 3.2vw, 34px); font-weight: 900; color: var(--blue-deep); line-height: 1.45; }
-  .sec-head p { color: var(--muted); margin-top: 10px; font-weight: 600; font-size: 15px; }
+  .floating-badge.badge-top {
+    top: -18px;
+    right: 24px;
+    animation-delay: 0s;
+  }
 
-  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
-  .feature {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    padding: 26px 24px 24px;
+  .floating-badge.badge-bottom {
+    bottom: -18px;
+    left: 24px;
+    animation-delay: 2s;
   }
-  .feature .f-icon {
-    width: 46px; height: 46px; border-radius: 12px;
-    display: grid; place-items: center; margin-bottom: 14px;
-    background: linear-gradient(135deg, rgba(38,78,174,.12), rgba(38,78,174,.05));
-    color: var(--blue);
-  }
-  .feature .f-icon svg { width: 23px; height: 23px; }
-  .feature h3 { font-size: 17.5px; font-weight: 800; margin-bottom: 6px; }
-  .feature p { color: var(--muted); font-size: 14px; }
 
-  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; counter-reset: step; }
-  .step {
-    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 26px 22px; text-align: center;
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-7px); }
   }
-  .step::before {
-    counter-increment: step;
-    content: counter(step);
-    width: 40px; height: 40px; border-radius: 50%;
-    background: var(--blue); color: #fff;
-    display: grid; place-items: center;
-    font-weight: 900; font-size: 17px; margin: 0 auto 12px;
-    box-shadow: 0 8px 18px rgba(38,78,174,.3);
-  }
-  .step h3 { font-weight: 800; font-size: 16.5px; margin-bottom: 4px; }
-  .step p { color: var(--muted); font-size: 13.5px; }
 
-  /* ── Plans (same three packs as the app) ──────────────────── */
-  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 18px; align-items: stretch; }
-  .plan {
-    position: relative; display: flex; flex-direction: column; gap: 14px;
-    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 24px 22px 22px;
-    min-width: 0; /* the track must be allowed to shrink on a phone */
+  .badge-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
   }
-  /* The one bold element of the page: the pack most schools take. */
-  .plan.is-popular {
-    border: 2px solid var(--blue); border-radius: 22px; padding: 23px 21px 21px;
-    background: linear-gradient(180deg, rgba(38, 78, 174, .05), rgba(38, 78, 174, .015) 42%, #fff 100%);
-    box-shadow: 0 26px 54px rgba(38, 78, 174, .18);
-  }
-  @media (min-width: 900px) {
-    .plan.is-popular { transform: translateY(-16px); }
-  }
-  .plan.is-gold { border-color: rgba(217, 169, 60, .5); box-shadow: 0 18px 44px rgba(217, 169, 60, .14); }
-  .plan .p-ribbon {
-    position: absolute; top: -13px; inset-inline-start: 22px;
-    background: linear-gradient(135deg, var(--gold), #c2922f); color: #1c1503;
-    font-size: 11.5px; font-weight: 900; padding: 4px 12px; border-radius: 999px;
-    box-shadow: 0 6px 14px rgba(217, 169, 60, .35);
-  }
-  .plan .p-ribbon.pop {
-    background: linear-gradient(135deg, var(--blue), var(--blue-deep)); color: #fff;
-    box-shadow: 0 8px 18px rgba(38, 78, 174, .38);
-  }
-  .plan .p-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-  .plan .p-top > div { min-width: 0; }
-  .plan .p-illus { flex: 0 0 auto; }
-  .p-badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    border-radius: 999px; padding: 5px 12px;
-    font-size: 12.5px; font-weight: 800; border: 1px solid;
-  }
-  .p-badge svg { width: 13px; height: 13px; }
-  .b-ess { background: #F1F2F6; border-color: #DCE0E9; color: #39404F; }
-  .b-plus { background: #EEF2FB; border-color: #C3D1F0; color: #264EAE; }
-  .b-comp { background: #FDF4E0; border-color: #F0D79C; color: #A9760B; }
-  .plan h3 { font-size: 19px; font-weight: 900; color: var(--blue-deep); }
-  .plan .p-tag { color: var(--muted); font-size: 13.5px; font-weight: 600; margin-top: -6px; }
-  .plan ul { list-style: none; display: grid; gap: 9px; }
-  .plan li { display: flex; gap: 8px; align-items: flex-start; font-size: 13.5px; font-weight: 600; color: var(--muted); }
-  .plan li svg { flex: 0 0 auto; width: 15px; height: 15px; margin-top: 4px; }
-  .plan .p-foot { margin-top: auto; border-top: 1px solid var(--line); padding-top: 16px; display: grid; gap: 12px; }
-  .plan .p-price { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; row-gap: 8px; }
-  .plan .p-price b { font-size: 28px; font-weight: 900; color: var(--blue-deep); line-height: 1; }
-  .plan .p-price span { font-size: 13px; font-weight: 800; color: var(--muted); }
-  .plan.is-popular .p-price b { color: var(--blue); font-size: 32px; }
-  .plan.is-gold .p-price b { color: #A9760B; }
-  .p-once {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-size: 12px; font-weight: 800; color: #A9760B;
-    background: #FDF4E0; border: 1px solid #F0D79C; border-radius: 999px; padding: 3px 10px;
-  }
-  .btn-plan {
-    display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-    width: 100%; border-radius: 12px; padding: 13px 16px;
-    font-size: 14.5px; font-weight: 800;
-    background: linear-gradient(135deg, #25D366, #14a44d); color: #fff;
-    box-shadow: 0 10px 24px rgba(37, 211, 102, .28);
-    transition: transform .15s ease, box-shadow .15s ease;
-  }
-  .btn-plan:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(37, 211, 102, .36); }
-  .btn-plan svg { width: 18px; height: 18px; }
-  /* The recommended pack gets the stronger call to action. */
-  .plan.is-popular .btn-plan { padding: 15px 16px; font-size: 15px; box-shadow: 0 12px 28px rgba(37, 211, 102, .34), 0 0 0 4px rgba(38, 78, 174, .1); }
-  .btn-plan.sm { padding: 10px 14px; font-size: 13px; border-radius: 10px; white-space: nowrap; }
-  .plan-note {
-    margin: 22px auto 0; max-width: 760px; text-align: center;
-    color: var(--muted); font-size: 13.5px; font-weight: 600;
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 22px;
-  }
-  .plan-note b { color: var(--blue-deep); }
 
-  /* ── Comparison table ─────────────────────────────────────── */
-  .cmp { margin-top: 52px; }
-  .cmp-title { font-size: clamp(19px, 2.4vw, 24px); font-weight: 900; color: var(--blue-deep); text-align: center; }
-  .cmp-sub { text-align: center; color: var(--muted); font-size: 13.5px; font-weight: 600; margin: 6px auto 22px; max-width: 560px; }
-  .cmp-scroll {
-    overflow-x: auto; background: var(--card); max-width: 100%;
-    border: 1px solid var(--line); border-radius: var(--radius);
-    box-shadow: 0 16px 38px rgba(38, 78, 174, .08);
-  }
-  .cmp-table { width: 100%; min-width: 680px; border-collapse: collapse; }
-  .cmp-table th, .cmp-table td { padding: 13px 14px; text-align: center; font-size: 13.5px; font-weight: 600; border-bottom: 1px solid var(--line); }
-  .cmp-table tbody th[scope="row"] { text-align: start; font-weight: 700; color: var(--ink); width: 38%; }
-  .cmp-table thead th { padding: 18px 14px 14px; border-bottom: 2px solid var(--line); vertical-align: bottom; }
-  .cmp-table thead th:first-child { text-align: start; }
-  .cmp-table thead .cmp-col { min-width: 132px; }
-  .cmp-table .cmp-price { display: block; margin-top: 8px; font-size: 17px; font-weight: 900; color: var(--blue-deep); }
-  .cmp-table .cmp-pop { display: inline-block; margin-top: 7px; background: var(--blue); color: #fff; font-size: 10.5px; font-weight: 900; padding: 3px 10px; border-radius: 999px; }
-  .cmp-table .is-pop-col { background: rgba(38, 78, 174, .045); border-inline-start: 1px solid rgba(38, 78, 174, .16); border-inline-end: 1px solid rgba(38, 78, 174, .16); }
-  .cmp-table thead .is-pop-col { border-top: 3px solid var(--blue); }
-  .cmp-group th {
-    text-align: start; background: #F2F5FC; color: var(--blue-deep);
-    font-size: 12px; font-weight: 900; padding: 9px 14px; letter-spacing: .2px;
-    border-bottom: 1px solid var(--line);
-  }
-  .cmp-yes { color: var(--blue); font-weight: 900; font-size: 15px; }
-  .cmp-no { color: #B9C0CE; font-weight: 900; }
-  .cmp-table tbody tr:last-child td, .cmp-table tbody tr:last-child th { border-bottom: none; }
-  .cmp-table tfoot th, .cmp-table tfoot td { border-bottom: none; border-top: 2px solid var(--line); padding: 16px 14px; }
-  .cmp-table tfoot th[scope="row"] { text-align: start; font-weight: 800; color: var(--ink); }
-  .cmp-note { text-align: center; color: var(--muted); font-size: 12.5px; font-weight: 600; margin-top: 14px; }
+  .badge-icon.blue { background: rgba(37, 99, 235, 0.25); color: #60A5FA; }
+  .badge-icon.emerald { background: rgba(16, 185, 129, 0.25); color: #34D399; }
 
-  /* the tier badge on a feature card */
-  .f-tier {
-    display: inline-flex; align-items: center; gap: 5px;
-    border-radius: 999px; padding: 3px 10px; margin-bottom: 10px;
-    font-size: 11px; font-weight: 800; border: 1px solid;
+  /* ── Trust & Stats Bar ───────────────────────────────────── */
+  .trust-bar {
+    position: relative;
+    z-index: 10;
+    margin-top: -38px;
+    margin-bottom: 70px;
   }
-  .f-tier svg { width: 11px; height: 11px; }
 
-  .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 12px; }
-  details {
-    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-    padding: 16px 22px; font-size: 14.5px;
+  .trust-bar-in {
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-xl);
+    padding: 24px 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
   }
-  details summary { font-weight: 800; cursor: pointer; list-style: none; position: relative; padding-inline-end: 26px; }
-  details summary::-webkit-details-marker { display: none; }
-  details summary::after {
-    content: "＋"; position: absolute; inset-inline-end: 0; top: -2px;
-    color: var(--blue); font-weight: 900;
-  }
-  details[open] summary::after { content: "－"; }
-  details p { margin-top: 10px; color: var(--muted); font-weight: 600; }
 
-  .dl-band {
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 8px;
+  }
+
+  .trust-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background: var(--primary-light);
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast);
+  }
+
+  .trust-item:hover .trust-icon-box {
+    transform: scale(1.1) rotate(4deg);
+  }
+
+  .trust-icon-box svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .trust-title {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--navy-900);
+    line-height: 1.25;
+  }
+
+  .trust-desc {
+    font-size: 13px;
+    color: var(--slate-500);
+    font-weight: 600;
+    margin-top: 3px;
+  }
+
+  /* ── Features Section (Bento Grid) ───────────────────────── */
+  section.features-section {
+    padding: 70px 24px 90px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .feature-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 30px 26px;
+    transition: all var(--transition-smooth);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(37, 99, 235, 0.05), transparent 40%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(37, 99, 235, 0.28);
+    box-shadow: 0 16px 36px -8px rgba(37, 99, 235, 0.12);
+  }
+
+  .feature-card:hover::before {
+    opacity: 1;
+  }
+
+  .f-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .f-icon-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(37, 99, 235, 0.04));
+    color: var(--primary);
+    transition: all var(--transition-fast);
+  }
+
+  .feature-card:hover .f-icon-box {
+    background: var(--primary);
+    color: #fff;
+    transform: scale(1.08);
+  }
+
+  .f-icon-box svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .f-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border-radius: var(--radius-full);
+    padding: 4px 11px;
+    font-size: 11.5px;
+    font-weight: 800;
+  }
+
+  .b-ess { background: var(--slate-100); color: var(--slate-700); border: 1px solid var(--slate-200); }
+  .b-plus { background: #EEF4FF; color: var(--primary); border: 1px solid #BFDBFE; }
+  .b-comp { background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; }
+
+  .feature-card h3 {
+    font-size: 19px;
+    font-weight: 800;
+    color: var(--navy-900);
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+
+  .feature-card p {
+    color: var(--slate-600);
+    font-size: 14.5px;
+    line-height: 1.65;
+    font-weight: 500;
+  }
+
+  /* ── Offline Advantage Highlight Banner ──────────────────── */
+  .offline-banner-section {
+    padding: 40px 24px 70px;
+  }
+
+  .offline-banner {
+    background: linear-gradient(145deg, #0B132B 0%, #172A54 100%);
+    border-radius: var(--radius-2xl);
+    padding: 48px 40px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 24px 50px -10px rgba(11, 19, 43, 0.35);
+  }
+
+  .offline-banner::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.35), transparent 70%);
+    pointer-events: none;
+  }
+
+  .offline-banner-in {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  @media (min-width: 960px) {
+    .offline-banner-in {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: center;
+      gap: 60px;
+    }
+  }
+
+  .offline-title {
+    font-size: clamp(24px, 3.2vw, 34px);
+    font-weight: 900;
+    line-height: 1.35;
+    margin-bottom: 14px;
+  }
+
+  .offline-desc {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 16px;
+    line-height: 1.7;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+
+  .offline-perks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .perk-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .perk-item svg {
+    width: 20px;
+    height: 20px;
+    color: var(--emerald);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .perk-text h4 {
+    font-size: 14.5px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+
+  .perk-text p {
+    font-size: 12.5px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+  }
+
+  /* ── Plans Section ───────────────────────────────────────── */
+  section.plans-section {
+    padding: 80px 24px 100px;
+    background: linear-gradient(180deg, var(--bg-main) 0%, #FFFFFF 100%);
+  }
+
+  .plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+    gap: 28px;
+    align-items: stretch;
+  }
+
+  .plan-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    padding: 34px 28px 30px;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-smooth);
+  }
+
+  .plan-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  /* Plus / Most Popular Plan Card */
+  .plan-card.is-popular {
+    border: 2px solid var(--primary);
+    background: linear-gradient(180deg, #F8FAFF 0%, #FFFFFF 30%);
+    box-shadow: 0 20px 45px -10px rgba(37, 99, 235, 0.22);
+  }
+
+  @media (min-width: 960px) {
+    .plan-card.is-popular {
+      transform: translateY(-12px);
+    }
+    .plan-card.is-popular:hover {
+      transform: translateY(-18px);
+    }
+  }
+
+  .plan-card.is-gold {
+    border-color: rgba(245, 158, 11, 0.45);
+    box-shadow: 0 16px 40px -10px rgba(245, 158, 11, 0.16);
+  }
+
+  .plan-ribbon {
+    position: absolute;
+    top: -14px;
+    right: 28px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    color: #fff;
+    font-size: 12.5px;
+    font-weight: 800;
+    padding: 5px 16px;
+    border-radius: var(--radius-full);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .plan-ribbon.gold {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-hover) 100%);
+    color: #111827;
+    box-shadow: 0 6px 16px rgba(245, 158, 11, 0.35);
+  }
+
+  .plan-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+
+  .plan-name-wrap h3 {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--navy-900);
+    margin-top: 6px;
+  }
+
+  .plan-illus {
+    flex-shrink: 0;
+  }
+
+  .plan-summary {
+    color: var(--slate-600);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    min-height: 44px;
+  }
+
+  .plan-price-box {
+    padding: 16px 0;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .price-amount {
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--navy-900);
+    font-family: "Plus Jakarta Sans", "Cairo", sans-serif;
+    line-height: 1;
+  }
+
+  .plan-card.is-popular .price-amount {
+    color: var(--primary);
+  }
+
+  .plan-card.is-gold .price-amount {
+    color: #B45309;
+  }
+
+  .price-curr {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--slate-600);
+  }
+
+  .price-tag-once {
+    font-size: 12px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    background: var(--slate-100);
+    color: var(--slate-700);
+    margin-right: auto;
+  }
+
+  .plan-card.is-popular .price-tag-once {
+    background: #EEF4FF;
+    color: var(--primary);
+  }
+
+  .plan-card.is-gold .price-tag-once {
+    background: #FFFBEB;
+    color: #B45309;
+  }
+
+  .plan-features-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin-bottom: 30px;
+    flex-grow: 1;
+  }
+
+  .plan-features-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate-700);
+    line-height: 1.5;
+  }
+
+  .plan-check-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.12);
+    color: var(--emerald);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .plan-check-icon svg {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+  }
+
+  .plan-footer {
+    margin-top: auto;
+  }
+
+  /* WhatsApp Action Button for Plan */
+  .btn-order-plan {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 800;
+    background: #25D366;
+    color: #fff;
+    box-shadow: 0 10px 22px rgba(37, 211, 102, 0.28);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-order-plan:hover {
+    background: #20BD5A;
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px rgba(37, 211, 102, 0.38);
+  }
+
+  .plan-card.is-popular .btn-order-plan {
+    background: linear-gradient(135deg, #25D366 0%, #1ea851 100%);
+    box-shadow: 0 12px 28px rgba(37, 211, 102, 0.36), 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  .btn-order-plan svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .plan-guarantee-note {
+    margin: 36px auto 0;
+    max-width: 820px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 22px 28px;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .guarantee-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+
+  .guarantee-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .guarantee-text {
+    font-size: 14px;
+    color: var(--slate-600);
+    font-weight: 600;
+    line-height: 1.65;
+  }
+
+  .guarantee-text b {
+    color: var(--navy-900);
+  }
+
+  /* ── Comparison Table ─────────────────────────────────────── */
+  .cmp-section {
+    margin-top: 70px;
+  }
+
+  .cmp-scroll-box {
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    overflow-x: auto;
+    position: relative;
+  }
+
+  .cmp-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+    text-align: center;
+  }
+
+  .cmp-table th, .cmp-table td {
+    padding: 16px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--slate-100);
+    transition: background-color var(--transition-fast);
+  }
+
+  .cmp-table tbody tr:hover td, .cmp-table tbody tr:hover th {
+    background-color: var(--slate-50);
+  }
+
+  .cmp-table tbody th[scope="row"] {
+    text-align: right;
+    font-weight: 700;
+    color: var(--slate-800);
+    width: 40%;
+  }
+
+  .cmp-table thead th {
+    padding: 22px 18px 18px;
+    background: #FAFBFD;
+    border-bottom: 2px solid var(--border-subtle);
+    vertical-align: bottom;
+  }
+
+  .cmp-table thead th:first-child {
+    text-align: right;
+  }
+
+  .cmp-col-plan {
+    min-width: 140px;
+  }
+
+  .cmp-col-price {
+    display: block;
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--navy-900);
+    margin-top: 6px;
+    font-family: "Plus Jakarta Sans", "Cairo", sans-serif;
+  }
+
+  .cmp-popular-col {
+    background: rgba(37, 99, 235, 0.035);
+    border-inline-start: 1px solid rgba(37, 99, 235, 0.15);
+    border-inline-end: 1px solid rgba(37, 99, 235, 0.15);
+  }
+
+  .cmp-table thead .cmp-popular-col {
+    background: rgba(37, 99, 235, 0.06);
+    border-top: 3px solid var(--primary);
+  }
+
+  .cmp-category-row th {
+    background: #F1F5F9;
+    color: var(--navy-900);
+    font-size: 13px;
+    font-weight: 800;
+    text-align: right;
+    padding: 11px 18px;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--slate-200);
+  }
+
+  .badge-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--emerald);
+    font-weight: 900;
+    font-size: 14px;
+  }
+
+  .badge-dash {
+    color: var(--slate-300);
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  .cmp-table tfoot th, .cmp-table tfoot td {
+    padding: 20px 18px;
+    background: #FAFBFD;
+    border-top: 2px solid var(--border-subtle);
+    border-bottom: none;
+  }
+
+  .cmp-table tfoot th {
+    text-align: right;
+    font-weight: 800;
+    color: var(--navy-900);
+  }
+
+  .btn-cmp-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 9px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 13.5px;
+    font-weight: 800;
+    background: #25D366;
+    color: #fff;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-cmp-action:hover {
+    background: #20BD5A;
+    transform: translateY(-2px);
+  }
+
+  /* ── Steps / How To Get Started ──────────────────────────── */
+  section.how-section {
+    padding: 90px 24px;
+    background: #FFFFFF;
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+    position: relative;
+  }
+
+  .step-card {
+    position: relative;
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px 28px;
+    text-align: center;
+    transition: all var(--transition-smooth);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .step-card:hover {
+    transform: translateY(-6px);
+    background: #FFFFFF;
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    color: #fff;
+    font-size: 20px;
+    font-weight: 900;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 18px;
+    box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35);
+    font-family: "Plus Jakarta Sans", "Cairo", sans-serif;
+  }
+
+  .step-card h3 {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--navy-900);
+    margin-bottom: 8px;
+  }
+
+  .step-card p {
+    color: var(--slate-600);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  /* ── FAQ Section (Smooth Accordion) ──────────────────────── */
+  section.faq-section {
+    padding: 90px 24px;
+  }
+
+  .faq-container {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .faq-item {
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .faq-item:hover {
+    border-color: rgba(37, 99, 235, 0.25);
+    box-shadow: var(--shadow-md);
+  }
+
+  .faq-question {
+    width: 100%;
+    text-align: right;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 16.5px;
+    font-weight: 800;
+    color: var(--navy-900);
+    cursor: pointer;
+    background: none;
+    transition: color var(--transition-fast);
+  }
+
+  .faq-question:hover {
+    color: var(--primary);
+  }
+
+  .faq-toggle-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--slate-100);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--slate-600);
+    transition: transform var(--transition-smooth), background-color var(--transition-fast), color var(--transition-fast);
+  }
+
+  .faq-item.active .faq-toggle-icon {
+    transform: rotate(180deg);
+    background: var(--primary);
+    color: #fff;
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0, 1, 0, 1), padding 0.35s ease;
+    padding: 0 24px;
+    color: var(--slate-600);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.75;
+  }
+
+  .faq-item.active .faq-answer {
+    max-height: 300px;
+    padding-bottom: 22px;
+    transition: max-height 0.45s ease-in-out, padding 0.3s ease;
+  }
+
+  .faq-answer b {
+    color: var(--navy-900);
+    font-weight: 700;
+  }
+
+  /* ── Download Band (Bottom CTA) ──────────────────────────── */
+  .dl-band-section {
+    position: relative;
     background:
-      radial-gradient(700px 300px at 90% 0%, rgba(217,169,60,.18), transparent 60%),
-      linear-gradient(150deg, var(--navy-2), #143065);
-    color: #fff; text-align: center;
-    padding: 70px 24px;
+      radial-gradient(900px 450px at 85% 0%, rgba(245, 158, 11, 0.16), transparent 60%),
+      radial-gradient(900px 450px at 15% 100%, rgba(37, 99, 235, 0.45), transparent 60%),
+      linear-gradient(155deg, var(--navy-950) 0%, var(--navy-900) 60%, var(--navy-850) 100%);
+    color: #fff;
+    padding: 85px 24px 95px;
+    text-align: center;
+    overflow: hidden;
   }
-  .dl-band h2 { font-size: clamp(25px, 3.5vw, 37px); font-weight: 900; }
-  .dl-band p { color: rgba(255,255,255,.75); margin: 12px auto 28px; max-width: 560px; font-weight: 600; }
-  .dl-band .hero-spec { justify-content: center; }
 
-  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto; }
-  .contact-card {
-    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
-    padding: 26px 22px; text-align: center; font-weight: 700;
-    transition: transform .15s ease, box-shadow .15s ease;
+  .dl-band-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+    background-size: 28px 28px;
+    opacity: 0.6;
+    pointer-events: none;
   }
-  .contact-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(38,78,174,.12); }
-  .contact-card .c-icon { width: 44px; height: 44px; margin: 0 auto 12px; border-radius: 12px; display: grid; place-items: center; background: rgba(38,78,174,.1); color: var(--blue); }
-  .contact-card .c-icon svg { width: 21px; height: 21px; }
-  .contact-card .c-sub { color: var(--muted); font-weight: 600; font-size: 13px; direction: ltr; }
 
-  footer { border-top: 1px solid var(--line); background: #fff; padding: 30px 24px; text-align: center; color: var(--muted); font-size: 13.5px; font-weight: 600; }
-  footer b { color: var(--blue-deep); }
-
-  /* ── Motion ───────────────────────────────────────────────────
-     One orchestrated moment (the hero), nothing else moves on its
-     own. The reveal below is progressive enhancement: without JS
-     the content is simply there. */
-  @keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
-  .hero .hero-badge, .hero h1, .hero p.lead, .hero .hero-cta, .hero .hero-spec {
-    opacity: 0; animation: rise .85s cubic-bezier(.2, .7, .2, 1) forwards;
+  .dl-band-in {
+    max-width: 760px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
   }
-  .hero h1 { animation-delay: .08s; }
-  .hero p.lead { animation-delay: .16s; }
-  .hero .hero-cta { animation-delay: .24s; }
-  .hero .hero-spec { animation-delay: .32s; }
-  .hero-visual { opacity: 0; animation: rise 1s cubic-bezier(.2, .7, .2, 1) .12s forwards; }
 
-  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .7s cubic-bezier(.2, .7, .2, 1), transform .7s cubic-bezier(.2, .7, .2, 1); }
-  .reveal.in { opacity: 1; transform: none; }
-  .no-js .reveal, .no-js .hero .hero-badge, .no-js .hero h1, .no-js .hero p.lead,
-  .no-js .hero .hero-cta, .no-js .hero .hero-spec, .no-js .hero-visual { opacity: 1; transform: none; animation: none; }
+  .dl-band-in h2 {
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 900;
+    line-height: 1.3;
+    margin-bottom: 16px;
+  }
+
+  .dl-band-in p {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 34px;
+    font-weight: 500;
+  }
+
+  .dl-band-spec {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 16px;
+    margin-top: 30px;
+  }
+
+  /* ── Contact Section ─────────────────────────────────────── */
+  section.contact-section {
+    padding: 80px 24px 90px;
+    background: #FFFFFF;
+  }
+
+  .contact-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+    max-width: 940px;
+    margin: 0 auto;
+  }
+
+  .contact-card-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--bg-main);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    padding: 32px 24px;
+    font-weight: 800;
+    color: var(--navy-900);
+    font-size: 17px;
+    transition: all var(--transition-smooth);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .contact-card-box:hover {
+    transform: translateY(-6px);
+    border-color: rgba(37, 99, 235, 0.3);
+    box-shadow: var(--shadow-lg);
+    background: #FFFFFF;
+  }
+
+  .contact-icon-wrap {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: grid;
+    place-items: center;
+    margin-bottom: 16px;
+    transition: transform var(--transition-fast);
+  }
+
+  .contact-card-box:hover .contact-icon-wrap {
+    transform: scale(1.1);
+  }
+
+  .contact-card-box.whatsapp .contact-icon-wrap {
+    background: rgba(37, 211, 102, 0.15);
+    color: #25D366;
+  }
+
+  .contact-icon-wrap svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .contact-subtext {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--slate-500);
+    margin-top: 6px;
+    direction: ltr;
+  }
+
+  /* ── Footer ──────────────────────────────────────────────── */
+  footer {
+    background: #0B132B;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 40px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .footer-in {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+    font-weight: 900;
+    font-size: 18px;
+  }
+
+  .footer-brand img {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-links a:hover {
+    color: #fff;
+  }
+
+  /* ── Floating WhatsApp Action Button ─────────────────────── */
+  .floating-wa-btn {
+    position: fixed;
+    bottom: 28px;
+    left: 28px;
+    z-index: 90;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: var(--radius-full);
+    font-weight: 800;
+    font-size: 14.5px;
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+    transition: transform var(--transition-smooth), box-shadow var(--transition-smooth);
+  }
+
+  .floating-wa-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 16px 32px rgba(37, 211, 102, 0.55);
+  }
+
+  .floating-wa-btn svg {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  /* ── Back to Top Button ──────────────────────────────────── */
+  .back-to-top {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 89;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid var(--border-subtle);
+    color: var(--slate-700);
+    display: grid;
+    place-items: center;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: all var(--transition-fast);
+  }
+
+  .back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .back-to-top:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    transform: translateY(-3px);
+  }
+
+  .back-to-top svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* ── Motion & Scroll Animations ──────────────────────────── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.75s var(--ease-spring), transform 0.75s var(--ease-spring);
+    will-change: opacity, transform;
+  }
+
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger animation helpers */
+  .stagger-1 { transition-delay: 0.08s; }
+  .stagger-2 { transition-delay: 0.16s; }
+  .stagger-3 { transition-delay: 0.24s; }
+  .stagger-4 { transition-delay: 0.32s; }
+
+  @keyframes heroFadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero .hero-badge-wrap,
+  .hero h1,
+  .hero p.lead,
+  .hero .hero-cta,
+  .hero .hero-spec-grid {
+    opacity: 0;
+    animation: heroFadeUp 0.85s var(--ease-spring) forwards;
+  }
+
+  .hero h1 { animation-delay: 0.1s; }
+  .hero p.lead { animation-delay: 0.2s; }
+  .hero .hero-cta { animation-delay: 0.3s; }
+  .hero .hero-spec-grid { animation-delay: 0.4s; }
+  .hero-visual {
+    opacity: 0;
+    animation: heroFadeUp 1s var(--ease-spring) 0.25s forwards;
+  }
+
+  /* Fallback for no-js */
+  .no-js .reveal,
+  .no-js .hero .hero-badge-wrap,
+  .no-js .hero h1,
+  .no-js .hero p.lead,
+  .no-js .hero .hero-cta,
+  .no-js .hero .hero-spec-grid,
+  .no-js .hero-visual {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
-    .reveal, .hero .hero-badge, .hero h1, .hero p.lead, .hero .hero-cta, .hero .hero-spec, .hero-visual { opacity: 1; transform: none; animation: none; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal, .hero .hero-badge-wrap, .hero h1, .hero p.lead, .hero .hero-cta, .hero .hero-spec-grid, .hero-visual {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
   }
 
-  :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; border-radius: 8px; }
-  .btn-download:focus-visible, .btn-plan:focus-visible { outline-color: var(--gold); }
+  /* Responsive Adjustments */
+  @media (max-width: 860px) {
+    .topbar-nav { display: none; }
+    .mobile-toggle { display: flex; }
+    .hero { padding: 65px 20px 80px; }
+    .hero-spec-grid { justify-content: flex-start; }
+    .floating-wa-btn span { display: none; }
+    .floating-wa-btn { padding: 14px; border-radius: 50%; }
+    .trust-bar-in { padding: 20px; }
+  }
 </style>
 </head>
 <body>
 
-<header class="topbar">
+<!-- ── Top Navigation Bar ──────────────────────────────────── -->
+<header class="topbar" id="navbar">
   <div class="topbar-in">
-    <div class="brand"><img class="brand-mark" src="assets/logo.png" alt="Acadex"><span>Acadex</span></div>
-    <div class="spacer"></div>
-    <nav>
+    <a href="#" class="brand" aria-label="الصفحة الرئيسية لأكادِكس">
+      <div class="brand-logo-wrap">
+        <img class="brand-mark" src="assets/logo.png" alt="Acadex Logo">
+      </div>
+      <span class="brand-text">Acadex</span>
+    </a>
+
+    <nav class="topbar-nav">
       <a href="#features">الميزات</a>
-      <a href="#plans">الباقات</a>
+      <a href="#offline">دون إنترنت</a>
+      <a href="#plans">الباقات والأسعار</a>
+      <a href="#compare">المقارنة</a>
       <a href="#how">كيف تبدأ</a>
-      <a href="#download">التحميل</a>
-      <a href="#contact">تواصل</a>
+      <a href="#faq">الأسئلة الشائعة</a>
+      <a href="#contact">تواصل معنا</a>
     </nav>
+
+    <div class="topbar-actions">
+      <a class="btn-topbar" href="https://acadex-backup.zglm.workers.dev/updates/latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        تحميل ويندوز
+      </a>
+      <button class="mobile-toggle" id="menuToggle" aria-label="فتح القائمة">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
   </div>
 </header>
 
+<!-- Mobile Navigation Drawer -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#features" class="mob-link">الميزات</a>
+  <a href="#offline" class="mob-link">ميزة العمل دون إنترنت</a>
+  <a href="#plans" class="mob-link">الباقات والأسعار</a>
+  <a href="#compare" class="mob-link">مقارنة الباقات</a>
+  <a href="#how" class="mob-link">كيف تبدأ</a>
+  <a href="#faq" class="mob-link">الأسئلة الشائعة</a>
+  <a href="#contact" class="mob-link">تواصل معنا</a>
+</div>
+
 <main>
-  <!-- Hero -->
+  <!-- ── Hero Section ────────────────────────────────────────── -->
   <section class="hero">
     <div class="hero-in">
       <div class="hero-copy">
-        <span class="hero-badge">يعمل دون اتصال · بياناتك على جهازك · نسخ سحابي اختياري</span>
-        <h1>إدارة مدرستك من حاسوب واحد<span class="accent">Acadex</span></h1>
-        <p class="lead">نظام إدارة مدارس متكامل يعمل على ويندوز دون إنترنت — طلبة، مجموعات، جداول، حضور، وصولات، مالية، ونسخ احتياطي سحابي لبياناتك.</p>
-        <div class="hero-cta">
-          <a class="btn-download" href="https://acadex-backup.zglm.workers.dev/updates/latest">
-            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            حمِّل نسخة ويندوز
-          </a>
-          <a class="btn-ghost" href="#plans">شاهد الباقات</a>
+        <div class="hero-badge-wrap">
+          <span class="pulse-dot"></span>
+          <span>يعمل 100% دون اتصال · بياناتك على جهازك · نسخ سحابي اختياري</span>
         </div>
-        <div class="hero-spec">
-          <span>◆ ويندوز 10 / 11 — 64 بت</span>
-          <span>◆ الحجم: حوالي 111 ميغابايت</span>
-          <span>◆ الباقات: 300 / 450 / 600 د.ت — دفعة واحدة</span>
-          <span>◆ الإصدار: 2.0.0-alpha</span>
+
+        <h1>
+          إدارة متكاملة لمدرستك من حاسوب واحد — <span class="accent-gold">Acadex</span>
+        </h1>
+
+        <p class="lead">
+          نظام سطح مكتب قوي لنظام ويندوز يتيح لك تسيير الطلبة، الأساتذة، الجداول الأسبوعية، الحضور، دفعات الرسوم، والتقارير المالية دون الحاجة لأي اتصال بالإنترنت.
+        </p>
+
+        <div class="hero-cta">
+          <a class="btn-download-primary" href="https://acadex-backup.zglm.workers.dev/updates/latest">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            حمِّل نسخة ويندوز المجانية
+          </a>
+          <a class="btn-ghost-hero" href="#plans">
+            استكشف الباقات
+          </a>
+        </div>
+
+        <div class="hero-spec-grid">
+          <div class="spec-chip">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            <span>ويندوز 10 / 11 (64-بت)</span>
+          </div>
+          <div class="spec-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            <span>الحجم: حوالي 111 ميغابايت</span>
+          </div>
+          <div class="spec-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span>شراء دائم دفعة واحدة</span>
+          </div>
+          <div class="spec-chip live-version-chip">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span class="version-label">الإصدار: 2.0.0-alpha</span>
+          </div>
         </div>
       </div>
+
       <div class="hero-visual">
-        <img src="assets/hero.png" alt="Acadex dashboard preview" class="hero-image" />
+        <div class="visual-ambient-glow"></div>
+
+        <!-- Floating Badge 1 -->
+        <div class="floating-badge badge-top">
+          <div class="badge-icon blue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          </div>
+          <span>طباعة فورية للوصولات بنقرة واحدة</span>
+        </div>
+
+        <!-- App Window Frame Mockup -->
+        <div class="app-window-frame">
+          <div class="window-titlebar">
+            <div class="window-dots">
+              <span class="window-dot dot-close"></span>
+              <span class="window-dot dot-min"></span>
+              <span class="window-dot dot-max"></span>
+            </div>
+            <div class="window-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+              Acadex Desktop 2.0 — نظام إدارة المؤسسات
+            </div>
+            <div style="width: 48px;"></div>
+          </div>
+          <img src="assets/hero.png" alt="واجهة تطبيق أكادِكس لإدارة المدارس" class="hero-image" width="768" height="512">
+        </div>
+
+        <!-- Floating Badge 2 -->
+        <div class="floating-badge badge-bottom">
+          <div class="badge-icon emerald">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <span>100% خصوصية تامة دون تسريب للبيانات</span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Plans — the same three packs as the app, the same prices -->
-  <section id="plans">
+  <!-- ── Trust Bar ───────────────────────────────────────────── -->
+  <div class="wrap trust-bar">
+    <div class="trust-bar-in reveal">
+      <div class="trust-item">
+        <div class="trust-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">بدون انقطاع</div>
+          <div class="trust-desc">يعمل دائماً دون تأثر بضعف الإنترنت</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">دفعة واحدة دائمة</div>
+          <div class="trust-desc">بدون اشتراكات شهرية إجبارية متكررة</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">طباعة مباشرة وسريعة</div>
+          <div class="trust-desc">وصلات وكشوفات جاهزة لأي طابعة</div>
+        </div>
+      </div>
+
+      <div class="trust-item">
+        <div class="trust-icon-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </div>
+        <div>
+          <div class="trust-title">نسخ سحابي محمي</div>
+          <div class="trust-desc">حفظ احتياطي واسترجاع سهل بضغطة زر</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Features Section (Bento Grid) ───────────────────────── -->
+  <section id="features" class="features-section">
     <div class="wrap">
       <div class="sec-head reveal">
-        <h2>اختر باقتك</h2>
-        <p>ثلاث باقات — الدفع <b>مرة واحدة</b> عند التفعيل. بدون اشتراك شهري، وبدون تجديد تلقائي.</p>
+        <span class="sec-pill">كل ما تحتاجه مدرستك</span>
+        <h2>أدوات ذكية مصممة لتسهيل عملك اليومي</h2>
+        <p>نظام شامل يغنيك عن السجلات الورقية، ملفات الإكسيل المبعثرة، وضياع الوقت في الحسابات.</p>
       </div>
-      <div class="plans">
 
-        <!-- Essentiel -->
-        <div class="plan reveal">
-          <div class="p-top">
-            <div>
-              <span class="p-badge b-ess">Essentiel</span>
-              <h3>أساسي</h3>
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card reveal stagger-1">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             </div>
-            <svg class="p-illus" viewBox="0 0 40 40" width="56" height="56" role="img" aria-label="أيقونة باقة Essentiel">
-              <circle cx="20" cy="20" r="19" fill="#264EAE" opacity=".1"/>
-              <g fill="none" stroke="#264EAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <span class="f-badge b-ess">Essentiel</span>
+          </div>
+          <h3>تسجيل الحضور والغياب</h3>
+          <p>تسجيل فوري لغياب وحضور الطلبة في كل حصة ومجموعة، مع إمكانية طباعة سجلات حضور رسمية وكشوف دورية بدقة عالية.</p>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="feature-card reveal stagger-2">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span class="f-badge b-ess">Essentiel</span>
+          </div>
+          <h3>جدول الحصص والقاعات</h3>
+          <p>برمجة سهلة للجداول الزمنية مع تنبيه آلي لمنع تضارب أوقات الأساتذة والقاعات، وطباعة جداول الحصص لكل قسم وأستاذ بلمسة واحدة.</p>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="feature-card reveal stagger-3">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <span class="f-badge b-ess">Essentiel</span>
+          </div>
+          <h3>الوصولات والمالية اليومية</h3>
+          <p>إصدار وصولات خلاص مصاريف التمدرس للتلاميذ، احتساب أجور الأساتذة ونسبهم، ومتابعة دقيقة لكل مداخيل ومصاريف الصندوق.</p>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="feature-card reveal stagger-1">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <span class="f-badge b-ess">Essentiel</span>
+          </div>
+          <h3>المستخدمون وتخصيص الهوية</h3>
+          <p>تحديد صلاحيات المدير، المحاسب، والأمانة بكل أمان، وتخصيص ترويسة الوصولات بشعار مدرستك، اسمها، وبيانات الاتصال الخاصة بها.</p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="feature-card reveal stagger-2">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+            </div>
+            <span class="f-badge b-plus">Plus</span>
+          </div>
+          <h3>استيراد سريع من Excel</h3>
+          <p>استيراد قوائم مئات الطلبة والأساتذة من ملفات Excel بضغطة زر عبر قوالب معتمدة، مع فحص آلي للبيانات لمنع تكرار الأسماء والأرقام.</p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="feature-card reveal stagger-3">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            </div>
+            <span class="f-badge b-plus">Plus</span>
+          </div>
+          <h3>نسخ احتياطي سحابي تلقائي</h3>
+          <p>حماية مضاعفة لبياناتك: نسخ احتياطي محلي فوري إضافة إلى رفع مشفر نحو الخادم المركزي، لاستعادة كل شيء عند تغيير الحاسوب بضغطة زر.</p>
+        </div>
+
+        <!-- Feature 7 -->
+        <div class="feature-card reveal stagger-1">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <span class="f-badge b-comp">Complet</span>
+          </div>
+          <h3>تحليل المداخيل والتقارير</h3>
+          <p>لوحة قيادة تفاعلية لتحليل المداخيل والأرباح حسب المستوى، القسم، والأستاذ، مع تصدير كافة الجداول والتقارير المالية بصيغة Excel.</p>
+        </div>
+
+        <!-- Feature 8 -->
+        <div class="feature-card reveal stagger-2">
+          <div class="f-top">
+            <div class="f-icon-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span class="f-badge b-comp">Complet</span>
+          </div>
+          <h3>سجل التدقيق والسبورة الذكية</h3>
+          <p>سجل تفصيلي يوثق كل عملية (من أضاف، عدل، أو حذف مع التاريخ بالساعة)، مضافاً إليها سبورة تدوين ملاحظات لمتابعة الدروس والتذكيرات.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Offline Architecture Banner ─────────────────────────── -->
+  <section id="offline" class="offline-banner-section">
+    <div class="wrap">
+      <div class="offline-banner reveal">
+        <div class="offline-banner-in">
+          <div>
+            <h3 class="offline-title">لماذا تفضل المدارس تطبيق Acadex المكتبي؟</h3>
+            <p class="offline-desc">
+              تطبيقات الويب والمواقع تتوقف عند انقطاع الإنترنت أو بطء المزود، وتعرض بيانات مدرستك الحساسة لمخاطر التخزين المشترك. برنامج أكادِكس مبني أصلاً ليعمل محلياً بأقصى سرعة وثبات ممكن.
+            </p>
+            <div class="offline-perks">
+              <div class="perk-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <div class="perk-text">
+                  <h4>سرعة فائقة واستجابة فورية</h4>
+                  <p>قاعدة بيانات محلية على حاسوبك بدون أي انتظار للتحميل.</p>
+                </div>
+              </div>
+              <div class="perk-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                <div class="perk-text">
+                  <h4>طباعة مباشرة دون PDF وسيط</h4>
+                  <p>الطباعة ترسل مباشرة إلى أي طابعة موصولة بالجهاز في جزء من الثانية.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="perk-item" style="margin-bottom: 14px;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <div class="perk-text">
+                <h4>بياناتك ملكك بالكامل</h4>
+                <p>سجلاتك محفوظة في حاسوبك ولا يمكن لأي طرف خارجي الاطلاع عليها.</p>
+              </div>
+            </div>
+            <div class="perk-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <div class="perk-text">
+                <h4>استمرار العمل 24/7</h4>
+                <p>سواء كان الإنترنت متصلاً أو مقطوعاً، مدرستك لا تتعطل دقيقة واحدة.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing Plans Section ───────────────────────────────── -->
+  <section id="plans" class="plans-section">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="sec-pill">شفافية كاملة بدون مفاجآت</span>
+        <h2>اختر الباقة المناسبة لحجم مدرستك</h2>
+        <p>ثلاث باقات مصممة بعناية — الدفع <b>مرة واحدة</b> لترخيص دائم، مع إمكانية الدفع الدوري (شهري / فصلي / سنوي) حسب رغبتك.</p>
+      </div>
+
+      <div class="plans-grid">
+        <!-- Pack 1: Essentiel -->
+        <div class="plan-card reveal stagger-1">
+          <div class="plan-header">
+            <div class="plan-name-wrap">
+              <span class="f-badge b-ess">Essentiel</span>
+              <h3>الأساسية</h3>
+            </div>
+            <svg class="plan-illus" viewBox="0 0 40 40" width="54" height="54" role="img" aria-label="أيقونة باقة Essentiel">
+              <circle cx="20" cy="20" r="19" fill="#2563EB" opacity=".08"/>
+              <g fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8.5 21 20 12.5 31.5 21"/><path d="M11 21v11h18V21"/><path d="M17 32v-5h6v5"/><path d="M24.5 24.5h3.5v3.5h-3.5"/>
               </g>
             </svg>
           </div>
-          <p class="p-tag">كل ما تحتاجه لتشغيل مدرستك يوميًا: إدارة، جداول، حضور، وصولات وطباعة.</p>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>الطلبة، الأساتذة، الأقسام، المستويات والفروع</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>برمجة الحصص والجدول الزمني مع الطباعة</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>أوراق الحضور وطباعة السجل</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>دفعات الطلبة والأساتذة، الوصلات ودورة الأجور</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>نسخ احتياطي محلي واستعادة بنقرة واحدة</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#39404F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>المستخدمون، الإعدادات، الشعار والهوية البصرية</li>
+          <p class="plan-summary">كل الأساسيات الضرورية لتسيير مدرستك يومياً: الطلبة، الجداول، الحضور، والوصولات المالية.</p>
+
+          <div class="plan-price-box">
+            <span class="price-amount">300</span>
+            <span class="price-curr">د.ت</span>
+            <span class="price-tag-once">دفعة واحدة دائمة</span>
+          </div>
+
+          <ul class="plan-features-list">
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>إدارة الطلبة، الأساتذة، الأقسام والمستويات التعليمية</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>برمجة الحصص والجدول الأسبوعي مع منع التضارب والطباعة</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>تسجيل الحضور والغياب وطباعة سجلات الأقسام</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>وصولات الدفع للتلاميذ وكشوف أجور الأساتذة</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>نسخ احتياطي محلي واسترجاع بضغطة زر</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>تخصيص الشعار، الترويسة الرسمية، وصلاحيات المستخدمين</span>
+            </li>
           </ul>
-          <div class="p-foot">
-            <div class="p-price"><b>300</b><span>د.ت</span><span class="p-once">دفعة واحدة</span></div>
-            <a class="btn-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Essentiel%20(300%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
+
+          <div class="plan-footer">
+            <a class="btn-order-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Essentiel%20(300%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
-              اطلب باقة Essentiel
+              طلب تفعيل باقة Essentiel
             </a>
           </div>
         </div>
 
-        <!-- Plus — the pack most schools take: the one bold element of the page -->
-        <div class="plan is-popular reveal">
-          <span class="p-ribbon pop">الأكثر طلبًا</span>
-          <div class="p-top">
-            <div>
-              <span class="p-badge b-plus">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>
-                Plus
-              </span>
-              <h3>احترافي</h3>
+        <!-- Pack 2: Plus (Most Popular) -->
+        <div class="plan-card is-popular reveal stagger-2">
+          <div class="plan-ribbon">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            الأكثر طلباً
+          </div>
+
+          <div class="plan-header">
+            <div class="plan-name-wrap">
+              <span class="f-badge b-plus">Plus</span>
+              <h3>الاحترافية</h3>
             </div>
-            <svg class="p-illus" viewBox="0 0 40 40" width="56" height="56" role="img" aria-label="أيقونة باقة Plus">
-              <circle cx="20" cy="20" r="19" fill="#264EAE" opacity=".1"/>
-              <g fill="none" stroke="#264EAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="plan-illus" viewBox="0 0 40 40" width="54" height="54" role="img" aria-label="أيقونة باقة Plus">
+              <circle cx="20" cy="20" r="19" fill="#2563EB" opacity=".12"/>
+              <g fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8.5 21 20 12.5 31.5 21"/><path d="M11 21v11h18V21"/><path d="M17 32v-5h6v5"/><path d="M24.5 24.5h3.5v3.5h-3.5"/>
               </g>
-              <g fill="none" stroke="#264EAE" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <g fill="none" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="30" cy="9.5" r="4.5"/><path d="M30 7.4v4.2M28.3 9.5h3.4"/>
               </g>
             </svg>
           </div>
-          <p class="p-tag">كل ما في Essentiel، مع الاستيراد من Excel والنسخ الاحتياطي السحابي التلقائي.</p>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#264EAE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>استيراد الطلبة من Excel (قالب جاهز)</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#264EAE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>نسخ احتياطي سحابي تلقائي نحو الخادم المركزي</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#264EAE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>تحميل النسخة السحابية واستعادتها</li>
+          <p class="plan-summary">كل ما في الباقة الأساسية، مضافاً إليها استيراد القوائم من Excel والنسخ الاحتياطي السحابي التلقائي.</p>
+
+          <div class="plan-price-box">
+            <span class="price-amount">450</span>
+            <span class="price-curr">د.ت</span>
+            <span class="price-tag-once">دفعة واحدة دائمة</span>
+          </div>
+
+          <ul class="plan-features-list">
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span><strong>جميع ميزات باقة Essentiel الأساسية بالكامل</strong></span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>استيراد جماعي للطلبة والأساتذة من ملفات Excel عبر قوالب جاهزة</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>نسخ احتياطي سحابي تلقائي نحو خادم مركزي مشفر</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>تحميل النسخة السحابية واسترجاعها بنقرة واحدة عند تبديل الحاسوب</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>أولوية في الدعم الفني والمساعدة في التثبيت والإعداد</span>
+            </li>
           </ul>
-          <div class="p-foot">
-            <div class="p-price"><b>450</b><span>د.ت</span><span class="p-once">دفعة واحدة</span></div>
-            <a class="btn-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Plus%20(450%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
+
+          <div class="plan-footer">
+            <a class="btn-order-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Plus%20(450%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
-              اطلب باقة Plus
+              طلب تفعيل باقة Plus (موصى بها)
             </a>
           </div>
         </div>
 
-        <!-- Complet -->
-        <div class="plan is-gold reveal">
-          <span class="p-ribbon">الأكثر اكتمالا</span>
-          <div class="p-top">
-            <div>
-              <span class="p-badge b-comp">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>
-                Complet
-              </span>
-              <h3>متكامل</h3>
+        <!-- Pack 3: Complet -->
+        <div class="plan-card is-gold reveal stagger-3">
+          <div class="plan-ribbon gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" width="13" height="13"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>
+            الأكثر تكاملاً
+          </div>
+
+          <div class="plan-header">
+            <div class="plan-name-wrap">
+              <span class="f-badge b-comp">Complet</span>
+              <h3>المتكاملة</h3>
             </div>
-            <svg class="p-illus" viewBox="0 0 40 40" width="56" height="56" role="img" aria-label="أيقونة باقة Complet">
-              <circle cx="20" cy="20" r="19" fill="#264EAE" opacity=".1"/>
-              <g fill="none" stroke="#264EAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <svg class="plan-illus" viewBox="0 0 40 40" width="54" height="54" role="img" aria-label="أيقونة باقة Complet">
+              <circle cx="20" cy="20" r="19" fill="#F59E0B" opacity=".12"/>
+              <g fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8.5 21 20 12.5 31.5 21"/><path d="M11 21v11h18V21"/><path d="M17 32v-5h6v5"/><path d="M24.5 24.5h3.5v3.5h-3.5"/>
               </g>
               <g>
-                <path d="M13.5 7.5l2.2 2L20 1.5l4.3 8 2.2-2-0.8 3H14.3z" fill="none" stroke="#D9A93C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                <g fill="#D9A93C" opacity=".9"><circle cx="9.5" cy="10" r="1"/><circle cx="31" cy="14" r=".9"/></g>
+                <path d="M13.5 7.5l2.2 2L20 1.5l4.3 8 2.2-2-0.8 3H14.3z" fill="none" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
               </g>
             </svg>
           </div>
-          <p class="p-tag">كل ما في Plus، مع قيادة المدرسة: تحليل المداخيل، التقارير المالية، التصدير وسجل التدقيق.</p>
-          <ul>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>تحليل المداخيل مع التعمّق حسب المستوى والفرع والأستاذ</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>التقارير المالية وتصديرها إلى Excel</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>تصدير سجل الحضور إلى Excel</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>سجل تدقيق كامل: من فعل ماذا ومتى</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="#A9760B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>سبورة بيضاء للملاحظات ودروس الدعم</li>
+          <p class="plan-summary">الحل الشامل للقيادة الإدارية والمالية: تحليلات معمقة للمداخيل، تدقيق العمليات، والسبورة الذكية.</p>
+
+          <div class="plan-price-box">
+            <span class="price-amount">600</span>
+            <span class="price-curr">د.ت</span>
+            <span class="price-tag-once">دفعة واحدة دائمة</span>
+          </div>
+
+          <ul class="plan-features-list">
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span><strong>جميع ميزات باقة Plus بالكامل مع كل خواص السحابة</strong></span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>تحليل معمق للمداخيل حسب المستوى، الفرع، الأستاذ، والشهر</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>تصدير التقارير المالية وسجلات الحضور والغياب بصيغة Excel</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>سجل تدقيق أمني مفصل: من قام بكل حركة ومتى (Audit Log)</span>
+            </li>
+            <li>
+              <span class="plan-check-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span>
+              <span>سبورة بيضاء ذكية للملاحظات، التذكيرات، ودروس الدعم</span>
+            </li>
           </ul>
-          <div class="p-foot">
-            <div class="p-price"><b>600</b><span>د.ت</span><span class="p-once">دفعة واحدة</span></div>
-            <a class="btn-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Complet%20(600%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
+
+          <div class="plan-footer">
+            <a class="btn-order-plan" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Complet%20(600%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">
               <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
-              اطلب باقة Complet
+              طلب تفعيل باقة Complet
             </a>
           </div>
         </div>
-
       </div>
-      <p class="plan-note reveal">
-        <b>ادفع كما يناسب مدرستك</b> — الباقة نفسها بثلاث طرق: دفعة واحدة (300 / 450 / 600 د.ت)، أو اشتراك شهري،
-        أو كل ثلاثة أشهر، أو كل سنة دراسية. لا رسوم خفية ولا تجديد تلقائي. كل ترخيص مرتبط بحاسوب واحد:
-        تستعمل التطبيق على هذا الجهاز بكل بياناتك، وإذا أردت جهازًا آخر فيحتاج رمز تفعيل خاصًا به.
-        ويمكنك تغيير باقتك في أي وقت: تواصل معنا فنرسل لك رمزًا جديدًا لنفس الجهاز، وبياناتك لا تتغيّر.
-      </p>
 
-      <!-- Comparison table — the same content, laid out for a decision -->
-      <div class="cmp reveal">
-        <h3 class="cmp-title">مقارنة الباقات</h3>
-        <p class="cmp-sub">نفس ما في الباقة السابقة، وكل ما تضيفه الباقة الأعلى — بدون رسوم إضافية.</p>
-        <div class="cmp-scroll">
+      <!-- Plan Note Banner -->
+      <div class="plan-guarantee-note reveal">
+        <div class="guarantee-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="guarantee-text">
+          <b>طرق دفع مريحة تناسب ميزانيتك</b> — يمكنك اقتناء الباقة بدفعة واحدة مدى الحياة (300 / 450 / 600 د.ت) وهو الخيار الأكثر توفيراً، أو بالدفع الدوري (شهرياً، كل ثلاثة أشهر، أو لكل سنة دراسية). كل ترخيص مرتبط بحاسوب واحد لضمان الاستقرار التام، مع إمكانية ترقية باقتك في أي وقت بنقرة واحدة وبقاء كل بياناتك كما هي.
+        </div>
+      </div>
+
+      <!-- ── Comparison Table ───────────────────────────────── -->
+      <div id="compare" class="cmp-section reveal">
+        <div class="sec-head">
+          <h2>مقارنة الميزات بين الباقات</h2>
+          <p>اطلع على تفاصيل ما تقدمه كل باقة لتختار الأنسب لمدرستك بدقة.</p>
+        </div>
+
+        <div class="cmp-scroll-box">
           <table class="cmp-table">
             <thead>
               <tr>
-                <th scope="col">الميزة</th>
-                <th scope="col" class="cmp-col">
-                  <span class="p-badge b-ess">Essentiel</span>
-                  <span class="cmp-price">300 د.ت</span>
+                <th scope="col">الميزة والتفاصيل</th>
+                <th scope="col" class="cmp-col-plan">
+                  <span class="f-badge b-ess">Essentiel</span>
+                  <span class="cmp-col-price">300 د.ت</span>
                 </th>
-                <th scope="col" class="cmp-col is-pop-col">
-                  <span class="p-badge b-plus">Plus</span>
-                  <span class="cmp-price">450 د.ت</span>
-                  <span class="cmp-pop">الأكثر طلبًا</span>
+                <th scope="col" class="cmp-col-plan cmp-popular-col">
+                  <span class="f-badge b-plus">Plus</span>
+                  <span class="cmp-col-price">450 د.ت</span>
+                  <span style="display:inline-block;margin-top:4px;font-size:11px;font-weight:800;color:var(--primary);">الأكثر طلباً ⭐</span>
                 </th>
-                <th scope="col" class="cmp-col">
-                  <span class="p-badge b-comp">Complet</span>
-                  <span class="cmp-price">600 د.ت</span>
+                <th scope="col" class="cmp-col-plan">
+                  <span class="f-badge b-comp">Complet</span>
+                  <span class="cmp-col-price">600 د.ت</span>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr class="cmp-group"><th scope="rowgroup" colspan="4">الأساسيات — موجودة في كل الباقات</th></tr>
+              <!-- Group 1 -->
+              <tr class="cmp-category-row"><th scope="rowgroup" colspan="4">الأساسيات المشتركة</th></tr>
               <tr>
-                <th scope="row">الطلبة، الأساتذة، الأقسام والمستويات</th>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">إدارة الطلبة، الأساتذة، الأقسام، والمستويات</th>
+                <td><span class="badge-check">✓</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
               <tr>
-                <th scope="row">جدول الحصص والجدول الزمني مع الطباعة</th>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">جدول الحصص الأسبوعي مع منع التضارب والطباعة</th>
+                <td><span class="badge-check">✓</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
               <tr>
-                <th scope="row">أوراق الحضور وطباعة السجل</th>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">تسجيل الحضور والغياب وسجلات الأقسام</th>
+                <td><span class="badge-check">✓</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
               <tr>
-                <th scope="row">وصولات الطلبة والأساتذة ودورة الأجور</th>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">وصولات دفع التلاميذ وكشوف دورة أجور الأساتذة</th>
+                <td><span class="badge-check">✓</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
               <tr>
-                <th scope="row">نسخ احتياطي محلي واستعادة بنقرة</th>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">النسخ الاحتياطي المحلي والاسترجاع السريع</th>
+                <td><span class="badge-check">✓</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
               <tr>
-                <th scope="row">المستخدمون، الأدوار، الشعار والإعدادات</th>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-              </tr>
-
-              <tr class="cmp-group"><th scope="rowgroup" colspan="4">الاستيراد والسحابة</th></tr>
-              <tr>
-                <th scope="row">استيراد الطلبة من Excel</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-              </tr>
-              <tr>
-                <th scope="row">نسخ احتياطي سحابي تلقائي</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-              </tr>
-              <tr>
-                <th scope="row">تحميل النسخة السحابية واستعادتها</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">المستخدمون، الأدوار، والشعار والهوية الرسمية</th>
+                <td><span class="badge-check">✓</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
 
-              <tr class="cmp-group"><th scope="rowgroup" colspan="4">التقارير والتدقيق</th></tr>
+              <!-- Group 2 -->
+              <tr class="cmp-category-row"><th scope="rowgroup" colspan="4">الاستيراد والنسخ السحابي</th></tr>
               <tr>
-                <th scope="row">تحليل المداخيل حسب المستوى والفرع والأستاذ</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">استيراد الطلبة والأساتذة من ملفات Excel</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
               <tr>
-                <th scope="row">التقارير المالية وتصديرها إلى Excel</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">نسخ احتياطي سحابي تلقائي نحو الخادم المشفر</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
               <tr>
-                <th scope="row">تصدير سجل الحضور إلى Excel</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-              </tr>
-              <tr>
-                <th scope="row">سجل تدقيق كامل: من فعل ماذا ومتى</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
-              </tr>
-              <tr>
-                <th scope="row">سبورة بيضاء للملاحظات والدروس</th>
-                <td><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td class="is-pop-col"><span class="cmp-no" aria-label="غير متوفر">—</span></td>
-                <td><span class="cmp-yes" aria-label="متوفر">✓</span></td>
+                <th scope="row">تحميل النسخة السحابية واسترجاعها بنقرة واحدة</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-check">✓</span></td>
+                <td><span class="badge-check">✓</span></td>
               </tr>
 
-              <tr class="cmp-group"><th scope="rowgroup" colspan="4">الشراء</th></tr>
+              <!-- Group 3 -->
+              <tr class="cmp-category-row"><th scope="rowgroup" colspan="4">التقارير المالية وسجل التدقيق</th></tr>
               <tr>
-                <th scope="row">السعر</th>
+                <th scope="row">تحليل معمق للمداخيل حسب المستوى والفرع والأستاذ</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-dash">—</span></td>
+                <td><span class="badge-check">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">تصدير التقارير المالية التفصيلية إلى Excel</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-dash">—</span></td>
+                <td><span class="badge-check">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">تصدير سجلات الحضور والغياب إلى Excel</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-dash">—</span></td>
+                <td><span class="badge-check">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">سجل تدقيق شامل (Audit Log): من قام بكل عملية ومتى</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-dash">—</span></td>
+                <td><span class="badge-check">✓</span></td>
+              </tr>
+              <tr>
+                <th scope="row">سبورة بيضاء ذكية لدروس الدعم والتذكيرات</th>
+                <td><span class="badge-dash">—</span></td>
+                <td class="cmp-popular-col"><span class="badge-dash">—</span></td>
+                <td><span class="badge-check">✓</span></td>
+              </tr>
+
+              <!-- Group 4 -->
+              <tr class="cmp-category-row"><th scope="rowgroup" colspan="4">تفاصيل الشراء والترخيص</th></tr>
+              <tr>
+                <th scope="row">السعر الرسمي</th>
                 <td><b>300 د.ت</b></td>
-                <td class="is-pop-col"><b>450 د.ت</b></td>
+                <td class="cmp-popular-col"><b>450 د.ت</b></td>
                 <td><b>600 د.ت</b></td>
               </tr>
               <tr>
-                <th scope="row">طريقة الدفع</th>
-                <td>دفعة واحدة</td>
-                <td class="is-pop-col">دفعة واحدة</td>
-                <td>دفعة واحدة</td>
+                <th scope="row">مدة الترخيص</th>
+                <td>دائم مدى الحياة</td>
+                <td class="cmp-popular-col">دائم مدى الحياة</td>
+                <td>دائم مدى الحياة</td>
               </tr>
               <tr>
-                <th scope="row">الترخيص</th>
+                <th scope="row">الأجهزة المصرح بها</th>
                 <td>حاسوب واحد</td>
-                <td class="is-pop-col">حاسوب واحد</td>
+                <td class="cmp-popular-col">حاسوب واحد</td>
                 <td>حاسوب واحد</td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
-                <th scope="row">جاهز للبدء؟</th>
-                <td>
-                  <a class="btn-plan sm" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Essentiel%20(300%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">اطلب Essentiel</a>
-                </td>
-                <td class="is-pop-col">
-                  <a class="btn-plan sm" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Plus%20(450%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">اطلب Plus</a>
-                </td>
-                <td>
-                  <a class="btn-plan sm" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Complet%20(600%20%D8%AF.%D8%AA%20%E2%80%94%20%D8%AF%D9%81%D8%B9%D8%A9%20%D9%88%D8%A7%D8%AD%D8%AF%D8%A9)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.%20%D9%87%D9%84%20%D9%8A%D9%85%D9%83%D9%86%D9%83%D9%85%20%D8%A5%D8%B1%D8%B3%D8%A7%D9%84%20%D8%B1%D9%85%D8%B2%20%D8%A7%D9%84%D8%AA%D9%81%D8%B9%D9%8A%D9%84%D8%9F">اطلب Complet</a>
-                </td>
+                <th scope="row">جاهز لتطوير مدرستك؟</th>
+                <td><a class="btn-cmp-action" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Essentiel%20(300%20%D8%AF.%D8%AA)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.">طلب Essentiel</a></td>
+                <td class="cmp-popular-col"><a class="btn-cmp-action" style="box-shadow:0 6px 16px rgba(37,211,102,.4);" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Plus%20(450%20%D8%AF.%D8%AA)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.">طلب Plus</a></td>
+                <td><a class="btn-cmp-action" href="https://wa.me/21655518492?text=%D9%85%D8%B1%D8%AD%D8%A8%D9%8B%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%AA%D9%81%D8%B9%D9%8A%D9%84%20%D8%A8%D8%A7%D9%82%D8%A9%20Complet%20(600%20%D8%AF.%D8%AA)%20%D8%B9%D9%84%D9%89%20%D9%87%D8%B0%D8%A7%20%D8%A7%D9%84%D8%AD%D8%A7%D8%B3%D9%88%D8%A8.">طلب Complet</a></td>
               </tr>
             </tfoot>
           </table>
         </div>
-        <p class="cmp-note">كل الأرقام بالدينار التونسي. يمكنك الدفع دفعة واحدة، أو شهريًا، أو كل ثلاثة أشهر، أو كل سنة دراسية.</p>
       </div>
     </div>
   </section>
 
-  <!-- Features -->
-  <section id="features">
+  <!-- ── Steps / How To ──────────────────────────────────────── -->
+  <section id="how" class="how-section">
     <div class="wrap">
-      <div class="sec-head">
-        <h2>إدارة مدرستك في مكان واحد</h2>
-        <p>من التسجيل إلى آخر وصول — بدون أوراق ولا جداول متضاربة.</p>
+      <div class="sec-head reveal">
+        <span class="sec-pill">انطلاقة سريعة وسهلة</span>
+        <h2>أربع خطوات بسيطة للبدء اليوم</h2>
+        <p>بدون تعقيدات تقنية أو إعداد سيرفرات: ثبت التطبيق وابدأ في دقائق معدودة.</p>
       </div>
-      <div class="features">
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
-          <span class="f-tier b-ess">Essentiel</span>
-          <h3>الحضور والغياب</h3>
-          <p>سجلات حضور لكل مجموعة جاهزة للطباعة.</p>
+
+      <div class="steps-grid">
+        <div class="step-card reveal stagger-1">
+          <div class="step-number">1</div>
+          <h3>حمِّل المثبت</h3>
+          <p>ملف تثبيت خفيف وآمن لنظام ويندوز يقوم بتجهيز البرنامج وقاعدة البيانات آلياً.</p>
         </div>
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-          <span class="f-tier b-ess">Essentiel</span>
-          <h3>جدول الحصص</h3>
-          <p>جدولة الحصص والقاعات مع كشف تعارضات تلقائي وطباعة بضغطة واحدة.</p>
+
+        <div class="step-card reveal stagger-2">
+          <div class="step-number">2</div>
+          <h3>اختر باقتك</h3>
+          <p>حدد الباقة التي تلبي احتياجات مدرستك (Essentiel أو Plus أو Complet).</p>
         </div>
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
-          <span class="f-tier b-ess">Essentiel</span>
-          <h3>الوصولات والمالية</h3>
-          <p>وصولات الطلاب وكشوف أجور المعلمين وطباعة الوصلات.</p>
+
+        <div class="step-card reveal stagger-3">
+          <div class="step-number">3</div>
+          <h3>اطلب رمز التفعيل</h3>
+          <p>راسلنا مباشرة على واتساب لتسديد المقابل وتلقي رمز تفعيل جهازك فورياً.</p>
         </div>
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
-          <span class="f-tier b-ess">Essentiel</span>
-          <h3>المستخدمون والإعدادات</h3>
-          <p>أدوار للمدير والمحاسب والمعلمين، مع الشعار والهوية البصرية للمدرسة.</p>
-        </div>
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div>
-          <span class="f-tier b-plus">Plus</span>
-          <h3>استيراد من Excel</h3>
-          <p>استورد الطلاب والمعلمين مباشرة من ملف Excel مع معاينة قبل التأكيد.</p>
-        </div>
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
-          <span class="f-tier b-plus">Plus</span>
-          <h3>نسخ احتياطي سحابي</h3>
-          <p>نسخة احتياطية تلقائية لبيانات مدرستك تستعيدها بنقرة واحدة.</p>
-        </div>
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
-          <span class="f-tier b-comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>Complet</span>
-          <h3>تحليل المداخيل والتقارير</h3>
-          <p>تحليل المداخيل حسب المستوى والفرع والأستاذ، وتقارير مالية قابلة للتصدير.</p>
-        </div>
-        <div class="feature">
-          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-          <span class="f-tier b-comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20L19 9l-5 4L12 4 10 13 5 9z"/></svg>Complet</span>
-          <h3>سجل التدقيق والسبورة</h3>
-          <p>كل إجراء مسجل في سجل تدقيق واضح، مع سبورة بيضاء لملاحظاتك ودروس الدعم.</p>
+
+        <div class="step-card reveal stagger-4">
+          <div class="step-number">4</div>
+          <h3>الصق الرمز وانطلق</h3>
+          <p>في شاشة الإعدادات ← «الخطة والترخيص»، تفتح الميزات فوراً وبياناتك محفوظة دائماً.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- How -->
-  <section id="how" style="background:#fff;border-block:1px solid var(--line);">
+  <!-- ── FAQ Section (Smooth Animated Accordion) ─────────────── -->
+  <section id="faq" class="faq-section">
     <div class="wrap">
-      <div class="sec-head">
-        <h2>أربع خطوات فقط</h2>
-        <p>بدون خوادم ولا تركيب معقد: حمل، اختر باقتك، اطلب الرمز، وابدأ.</p>
+      <div class="sec-head reveal">
+        <span class="sec-pill">كل ما يدور في ذهنك</span>
+        <h2>الأسئلة الشائعة</h2>
+        <p>إجابات واضحة عن كل استفسارات استخدام وتثبيت أكادِكس.</p>
       </div>
-      <div class="steps">
-        <div class="step"><h3>حمِّل المثبت</h3><p>ملف واحد لنظام ويندوز.</p></div>
-        <div class="step"><h3>اختر باقتك</h3><p>ثلاث باقات، الدفع مرة واحدة.</p></div>
-        <div class="step"><h3>اطلب رمز التفعيل</h3><p>راسلنا على واتساب، ونرد عادةً في اليوم نفسه.</p></div>
-        <div class="step"><h3>الصق الرمز وابدأ</h3><p>في الإعدادات ← «الخطة والترخيص» — بياناتك لا تتغيّر.</p></div>
+
+      <div class="faq-container">
+        <!-- Q1 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>هل يحتاج التطبيق إلى اتصال دائم بالإنترنت؟</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer">
+            <p>لا على الإطلاق! تطبيق <b>Acadex</b> يعمل محلياً بنسبة 100% على حاسوبك دون إنترنت. الاتصال بالشبكة مطلوب فقط عند الرغبة في عمل نسخ احتياطي سحابي أو فحص التحديثات التلقائية.</p>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>أين يتم تخزين بيانات الطلبة والمالية؟</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer">
+            <p>جميع بيانات مدرستك وسجلاتها المالية والشخصية تُحفظ مباشرة داخل القرص الصلب لحاسوبك في بيئة آمنة وخاصة بك، ولا يتم مشاركتها مع أي خوادم خارجية إلا عند اختيارك تفعيل النسخ الاحتياطي السحابي المشفر.</p>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>كم تكلفة الباقات؟ وهل يمكنني الدفع بالتقسيط؟</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer">
+            <p>نوفر 3 باقات رئيسية: <b>Essentiel بـ 300 د.ت</b>، <b>Plus بـ 450 د.ت</b>، و <b>Complet بـ 600 د.ت</b>. الأصل هو الدفع <b>مرة واحدة لترخيص دائم</b>، مع إمكانية توفير الدفع <b>شهرياً</b>، <b>فصلياً</b>، أو <b>سنوياً</b> حسب اتفاقك معنا عبر واتساب بدون أي رسوم خفية.</p>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>هل يمكنني ترقية باقتي لاحقاً دون فقدان البيانات؟</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer">
+            <p>نعم، بكل سهولة وبدون أي توقف. تواصل معنا على واتساب، وسنزودك برمز ترقية لنفس الحاسوب؛ يتم فتح الميزات الجديدة فور إدخاله وتبقى جميع سجلاتك، طلبتك، وحساباتك كما هي تماماً دون أي تغيير.</p>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>على كم حاسوب يمكنني تشغيل الترخيص الواحد؟</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer">
+            <p>كل ترخيص مرتبط بجهاز حاسوب واحد لضمان الاستقرار وسرعة الأداء. إذا كان لديك جهاز إضافي في الإدارة أو فرع ثانٍ، فيمكنك طلب ترخيص إضافي له بسعر تشجيعي.</p>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="faq-item reveal">
+          <button class="faq-question">
+            <span>ما هي متطلبات النظام والأجهزة المدعومة؟</span>
+            <div class="faq-toggle-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+            </div>
+          </button>
+          <div class="faq-answer">
+            <p>يعمل البرنامج على نظامي <b>ويندوز 10 وويندوز 11 (64 بت)</b>. لا يتطلب حاسوباً خارقاً، فهو خفيف جداً (حجم المثبت نحو 111 ميغابايت) ويعمل بسلاسة تامة على الحواسيب المكتبية والمحمولة العادية.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- FAQ -->
-  <section>
+  <!-- ── Bottom Download CTA Band ────────────────────────────── -->
+  <section id="download" class="dl-band-section">
+    <div class="dl-band-in reveal">
+      <h2>جاهز لنقل مدرستك إلى مستوى احترافي جديد؟</h2>
+      <p>ابدأ بتحميل النسخة التجريبية المجانية اليوم على حاسوبك، واكتشف بنفسك سهولة وسرعة إدارة كل تفاصيل مدرستك.</p>
+      
+      <a class="btn-download-primary" href="https://acadex-backup.zglm.workers.dev/updates/latest">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        تحميل أكادِكس لويندوز مجاناً
+      </a>
+
+      <div class="dl-band-spec">
+        <div class="spec-chip">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+          <span>ويندوز 10 / 11 · 64 بت</span>
+        </div>
+        <div class="spec-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span>الحجم: حوالي 111 ميغابايت</span>
+        </div>
+        <div class="spec-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span class="version-label">الإصدار: 2.0.0-alpha</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact Section ─────────────────────────────────────── -->
+  <section id="contact" class="contact-section">
     <div class="wrap">
-      <div class="sec-head"><h2>أسئلة شائعة</h2></div>
-      <div class="faq">
-        <details>
-          <summary>هل أحتاج إنترنت؟</summary>
-          <p>لا. يعمل أكادِكس على جهازك دون اتصال، والشبكة فقط للنسخ الاحتياطي والتحديثات.</p>
-        </details>
-        <details>
-          <summary>أين تُخزن بياناتي؟</summary>
-          <p>على جهازك مباشرة، ويمكن استعادتها من النسخ الاحتياطي السحابي عند الفقدان.</p>
-        </details>
-        <details>
-          <summary>كم تكلّف الباقات؟ وهل يمكنني الدفع شهريًا؟</summary>
-          <p>ثلاث باقات: <b>Essentiel بـ 300 دينار</b>، <b>Plus بـ 450 دينار</b>، <b>Complet بـ 600 دينار</b> (دينار تونسي). ادفع <b>دفعة واحدة</b> (300 / 450 / 600 دينار)، أو اشتراكًا <b>شهريًا</b>، أو كل <b>ثلاثة أشهر</b>، أو لكل <b>سنة دراسية</b> — بنفس الباقة ونفس المزايا. لا رسوم خفية ولا تجديد تلقائي.</p>
-        </details>
-        <details>
-          <summary>هل يمكنني تغيير الباقة لاحقًا؟</summary>
-          <p>نعم. تواصل معنا عبر واتساب، نرسل لك رمز تفعيل جديدًا لنفس الجهاز، تُفتح المزايا فورًا وبياناتك تبقى كما هي.</p>
-        </details>
-        <details>
-          <summary>على كم حاسوب يعمل الترخيص؟</summary>
-          <p>الترخيص مرتبط بحاسوب واحد: تستعمل التطبيق على هذا الجهاز بكل بياناتك. جهاز آخر يحتاج رمز تفعيل خاصًا به — الترخيص متعدد الأجهزة غير متاح بعد.</p>
-        </details>
-        <details>
-          <summary>ما أنظمة ويندوز المدعومة؟</summary>
-          <p>ويندوز 10 و 11 (64 بت). المثبت نحو 111 ميغابايت ويعمل على أي حاسوب حديث.</p>
-        </details>
+      <div class="sec-head reveal">
+        <span class="sec-pill">نحن هنا لمساعدتك</span>
+        <h2>لديك استفسار أو ترغب في التفعيل؟</h2>
+        <p>فريقنا التقني في خدمتك للرد على أسئلتك وتوفير كود التفعيل في نفس اليوم.</p>
       </div>
-    </div>
-  </section>
 
-  <!-- Download band -->
-  <section id="download" class="dl-band">
-    <h2>جاهز للبدء؟</h2>
-    <p>ملف مثبت واحد يقوم بكل شيء — التطبيق وقاعدة البيانات والنسخ الاحتياطي.</p>
-    <a class="btn-download" href="https://acadex-backup.zglm.workers.dev/updates/latest">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-      تحميل أكادِكس
-    </a>
-    <div class="hero-spec">
-      <span>◆ ويندوز 10 / 11 · 64 بت</span>
-      <span>◆ الحجم: حوالي 111 ميغابايت</span>
-      <span>◆ الباقات: 300 / 450 / 600 د.ت — دفعة واحدة</span>
-      <span>◆ الإصدار: 2.0.0-alpha</span>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <div class="wrap">
-      <div class="sec-head"><h2>سؤال؟ تواصل معنا</h2><p>نرد عادةً في اليوم نفسه.</p></div>
-      <div class="contact-grid">
-        <a class="contact-card" href="https://wa.me/21655518492">
-          <div class="c-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg></div>
-          واتساب<div class="c-sub">+216 55 518 492</div>
+      <div class="contact-cards-grid">
+        <!-- WhatsApp -->
+        <a class="contact-card-box whatsapp reveal stagger-1" href="https://wa.me/21655518492" target="_blank" rel="noopener">
+          <div class="contact-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+          </div>
+          <span>محادثة واتساب مباشرة</span>
+          <div class="contact-subtext">+216 55 518 492</div>
         </a>
-        <a class="contact-card" href="mailto:mohamedncib900@gmail.com">
-          <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg></div>
-          البريد الإلكتروني<div class="c-sub">mohamedncib900@gmail.com</div>
+
+        <!-- Email -->
+        <a class="contact-card-box reveal stagger-2" href="mailto:mohamedncib900@gmail.com">
+          <div class="contact-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          </div>
+          <span>البريد الإلكتروني</span>
+          <div class="contact-subtext">mohamedncib900@gmail.com</div>
         </a>
-        <a class="contact-card" href="tel:+21655518492">
-          <div class="c-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-          اتصال<div class="c-sub">+216 55 518 492</div>
+
+        <!-- Phone -->
+        <a class="contact-card-box reveal stagger-3" href="tel:+21655518492">
+          <div class="contact-icon-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <span>اتصال هاتفي مباشر</span>
+          <div class="contact-subtext">+216 55 518 492</div>
         </a>
       </div>
     </div>
   </section>
 </main>
 
+<!-- ── Footer ──────────────────────────────────────────────── -->
 <footer>
-  <b>Acadex</b> — © 2026 · بياناتك على جهازك، بثقة.
+  <div class="footer-in">
+    <div class="footer-brand">
+      <img src="assets/logo.png" alt="Acadex Logo">
+      <span>Acadex</span>
+      <span style="font-weight: 500; font-size: 13px; color: rgba(255,255,255,0.6);">— إدارة المدارس والمراكز التعليمية</span>
+    </div>
+
+    <div class="footer-links">
+      <a href="#features">الميزات</a>
+      <a href="#plans">الباقات</a>
+      <a href="#faq">الأسئلة الشائعة</a>
+      <a href="#contact">تواصل</a>
+    </div>
+
+    <div>
+      © 2026 Acadex. جميع الحقوق محفوظة · بياناتك في أمان تام على جهازك.
+    </div>
+  </div>
 </footer>
 
+<!-- ── Floating WhatsApp CTA ───────────────────────────────── -->
+<a href="https://wa.me/21655518492" class="floating-wa-btn" target="_blank" rel="noopener" aria-label="محادثة واتساب سريعة">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+  <span>تواصل معنا على واتساب</span>
+</a>
+
+<!-- ── Back to Top Button ──────────────────────────────────── -->
+<button class="back-to-top" id="backToTop" aria-label="الرجوع للأعلى">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
+
+<!-- ── Interactive Scripts ─────────────────────────────────── -->
 <script>
-  // JS is on: the reveal (and the hero sequence) may run.
+  // Remove no-js flag
   document.documentElement.classList.remove("no-js");
 
-  const io = new IntersectionObserver((entries) => {
-    for (const e of entries) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
-  }, { threshold: .12 });
-  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  // Sticky Navbar shadow on scroll
+  const navbar = document.getElementById("navbar");
+  const backToTop = document.getElementById("backToTop");
+  
+  window.addEventListener("scroll", () => {
+    const scrollY = window.scrollY;
+    if (scrollY > 30) {
+      navbar.classList.add("scrolled");
+    } else {
+      navbar.classList.remove("scrolled");
+    }
 
-  // Live version, read from the very same update feed the download button
-  // points at (the feed answers CORS for this page). The static label stays as
-  // the fallback when the feed is unreachable.
+    if (scrollY > 400) {
+      backToTop.classList.add("show");
+    } else {
+      backToTop.classList.remove("show");
+    }
+  }, { passive: true });
+
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+  // Mobile menu toggle
+  const menuToggle = document.getElementById("menuToggle");
+  const mobileMenu = document.getElementById("mobileMenu");
+
+  menuToggle.addEventListener("click", () => {
+    mobileMenu.classList.toggle("open");
+  });
+
+  document.querySelectorAll(".mob-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      mobileMenu.classList.remove("open");
+    });
+  });
+
+  // Intersection Observer for Scroll Reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: "0px 0px -40px 0px"
+  });
+
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+  // Interactive FAQ Accordion
+  document.querySelectorAll(".faq-item").forEach((item) => {
+    const question = item.querySelector(".faq-question");
+    question.addEventListener("click", () => {
+      const isActive = item.classList.contains("active");
+      // Close other opened questions for clean UX
+      document.querySelectorAll(".faq-item").forEach((other) => {
+        if (other !== item) other.classList.remove("active");
+      });
+      item.classList.toggle("active", !isActive);
+    });
+  });
+
+  // Mousemove spotlight effect on feature cards
+  document.querySelectorAll(".feature-card").forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    });
+  });
+
+  // Live version fetch from Cloudflare Worker update feed
   (async () => {
     try {
       const res = await fetch("https://acadex-backup.zglm.workers.dev/updates/latest.yml", { cache: "no-store" });
+      if (!res.ok) return;
       const match = (await res.text()).match(/^version:\s*(.+)$/m);
       if (!match) return;
       const version = match[1].trim();
-      document.querySelectorAll(".hero-spec span").forEach((el) => {
-        if (el.textContent.includes("2.0.0-alpha")) el.textContent = el.textContent.replace("2.0.0-alpha", version);
+      document.querySelectorAll(".version-label").forEach((el) => {
+        el.textContent = `الإصدار: ${version}`;
       });
     } catch {
-      /* offline or feed unreachable: keep the static label */
+      /* Keep fallback version if network unreachable */
     }
   })();
 </script>
