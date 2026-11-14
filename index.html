@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Acadex — Système de gestion scolaire | نظام إدارة المدارس</title>
 <meta name="description" content="Acadex — Logiciel de gestion scolaire hors-ligne pour Windows : élèves, emplois du temps, présences, reçus et comptabilité.">
-<link rel="icon" type="image/png" href="assets/logo.png">
+<link rel="icon" type="image/png" href="assets/logo-128.png">
+<meta name="theme-color" content="#07090E">
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -788,21 +789,42 @@
     border-radius: var(--radius-md);
     font-size: 14px;
     font-weight: 800;
-    background: #25D366;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-light);
     color: #fff;
-    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.25);
+    cursor: pointer;
     transition: all var(--transition);
   }
 
   .btn-order:hover {
-    background: #20BD5A;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.32);
     transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(37, 211, 102, 0.4);
+  }
+
+  /* The one loud button of the page: the featured pack. */
+  .btn-order.is-gold-cta {
+    background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+    border-color: transparent;
+    color: #1A1204;
+    font-size: 15px;
+    padding: 15px 18px;
+    box-shadow: 0 10px 26px rgba(245, 158, 11, 0.35);
+  }
+
+  .btn-order.is-gold-cta:hover {
+    filter: brightness(1.06);
+    box-shadow: 0 14px 34px rgba(245, 158, 11, 0.5);
   }
 
   .btn-order svg {
     width: 18px;
     height: 18px;
+  }
+
+  /* The arrow points the way the text reads. */
+  html[dir="rtl"] .btn-order svg {
+    transform: scaleX(-1);
   }
 
   .pricing-guarantee {
@@ -874,8 +896,45 @@
   }
 
   .cmp-pop-col {
-    background: rgba(59, 130, 246, 0.06);
-    border-inline: 1px solid rgba(59, 130, 246, 0.15);
+    background: rgba(245, 158, 11, 0.07);
+    border-inline: 1px solid rgba(245, 158, 11, 0.22);
+  }
+
+  .cmp-table thead th.cmp-pop-col {
+    color: var(--accent-gold-light);
+    background: rgba(245, 158, 11, 0.12);
+  }
+
+  .cmp-order {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 0 14px;
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--border-light);
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .cmp-order:hover {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  .cmp-order.gold {
+    background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+    border-color: transparent;
+    color: #1A1204;
+  }
+
+  .cmp-table tr.cmp-cta-row th,
+  .cmp-table tr.cmp-cta-row td {
+    border-bottom: none;
+    padding-block: 18px;
   }
 
   .cmp-check {
@@ -1125,6 +1184,643 @@
     .contact-chips { flex-direction: column; width: 100%; }
     .contact-chip { width: 100%; justify-content: center; }
   }
+
+  /* ── Featured pack (Complet) ──────────────────────────────── */
+  .pricing-card.is-featured {
+    background:
+      linear-gradient(180deg, rgba(245, 158, 11, 0.17) 0%, rgba(12, 16, 26, 0.97) 44%) padding-box,
+      linear-gradient(160deg, #FCD34D 0%, #F59E0B 40%, rgba(59, 130, 246, 0.8) 100%) border-box;
+    border: 2px solid transparent;
+    box-shadow: 0 28px 70px -18px rgba(245, 158, 11, 0.4), 0 0 0 1px rgba(245, 158, 11, 0.12);
+    padding-top: 42px;
+  }
+
+  .pricing-card.is-featured:hover {
+    border-color: transparent;
+  }
+
+  .pricing-card.is-featured .p-head h3 { font-size: 26px; }
+  .pricing-card.is-featured .p-amount { font-size: 48px; color: var(--accent-gold-light); }
+  .pricing-card.is-featured .p-price-row { border-bottom-color: rgba(245, 158, 11, 0.25); }
+  .pricing-card.is-featured .p-list li { color: #fff; }
+  .pricing-card.is-plus .p-amount { color: var(--primary-light); }
+
+  .pricing-card.is-featured .pricing-ribbon {
+    top: -15px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 12.5px;
+    padding: 6px 18px;
+    background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+    color: #1A1204;
+    box-shadow: 0 8px 22px rgba(245, 158, 11, 0.45);
+  }
+
+  html[dir="ltr"] .pricing-card.is-featured .pricing-ribbon {
+    left: 50%;
+  }
+
+  /* What the extra money buys, said right under the price. */
+  .p-value {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin: -6px 0 18px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    background: rgba(245, 158, 11, 0.09);
+    border: 1px solid rgba(245, 158, 11, 0.22);
+    color: var(--accent-gold-light);
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .p-note {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+
+  @media (min-width: 960px) {
+    .pricing-grid {
+      grid-template-columns: 1fr 1fr 1.16fr;
+      align-items: center;
+    }
+    .pricing-card.is-featured {
+      transform: translateY(-6px);
+    }
+    .pricing-card.is-featured:hover {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* On a phone the featured pack is read first. */
+  @media (max-width: 959px) {
+    .pricing-card.is-featured { order: -1; }
+    .pricing-grid { row-gap: 30px; }
+  }
+
+  /* ── How it works ─────────────────────────────────────────── */
+  section.how-sec {
+    padding: 10px 24px 70px;
+  }
+
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .how-step {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 22px;
+    transition: all var(--transition);
+  }
+
+  .how-step:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+  }
+
+  .how-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin-bottom: 14px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--primary-light);
+    background: rgba(59, 130, 246, 0.14);
+    border: 1px solid rgba(59, 130, 246, 0.32);
+  }
+
+  .how-step:last-child .how-num {
+    color: var(--accent-gold-light);
+    background: rgba(245, 158, 11, 0.14);
+    border-color: rgba(245, 158, 11, 0.35);
+  }
+
+  .how-step h3 {
+    font-size: 16.5px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .how-step p {
+    color: var(--text-muted);
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .hero-note {
+    margin: -14px 0 22px;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+
+  .dl-strip .hero-btns { margin-bottom: 0; }
+
+  /* ── Mobile menu ──────────────────────────────────────────── */
+  .nav-toggle {
+    display: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    place-items: center;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
+  }
+
+  .nav-toggle svg { width: 18px; height: 18px; }
+
+  /* ── Sticky mobile call-to-action ─────────────────────────── */
+  .mobile-cta {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 95;
+    display: none;
+    gap: 10px;
+    padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(9, 12, 20, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--border-light);
+    transform: translateY(110%);
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .mobile-cta.show { transform: none; }
+
+  .mobile-cta a,
+  .mobile-cta button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 46px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  .mobile-cta .m-dl {
+    flex: 0 0 auto;
+    padding: 0 16px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid var(--border-light);
+  }
+
+  .mobile-cta .m-dl svg { width: 17px; height: 17px; }
+
+  .mobile-cta .m-order {
+    flex: 1;
+    color: #1A1204;
+    background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+  }
+
+  /* ── Order dialog ─────────────────────────────────────────── */
+  dialog.order-dialog {
+    width: min(580px, calc(100vw - 24px));
+    max-height: min(92vh, 880px);
+    margin: auto;
+    padding: 0;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    background: #0C111C;
+    color: var(--text-main);
+    box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.85);
+    overflow: hidden;
+  }
+
+  dialog.order-dialog::backdrop {
+    background: rgba(3, 5, 10, 0.74);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  dialog.order-dialog[open] {
+    display: flex;
+    flex-direction: column;
+    animation: dialogIn 0.28s var(--ease-out);
+  }
+
+  @keyframes dialogIn {
+    from { opacity: 0; transform: translateY(14px) scale(0.98); }
+  }
+
+  .od-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 22px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .od-head h2 { font-size: 19px; font-weight: 900; color: #fff; line-height: 1.3; }
+  .od-head p { font-size: 12.5px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+
+  .od-close {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+  }
+
+  .od-close:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+  .od-close svg { width: 18px; height: 18px; }
+
+  /* No bottom padding on the scroller itself: the pinned send bar must sit flush
+     with its edge (a sticky box stops at the padding, and text would show under it). */
+  .od-body { padding: 18px 22px 0; overflow-y: auto; }
+  .od-step { display: none; }
+  .od-step.active { display: block; padding-bottom: 22px; }
+
+  .od-label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 6px;
+  }
+
+  .od-label em { font-style: normal; font-weight: 600; color: var(--text-dim); }
+
+  .od-packs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+    border: none;
+  }
+
+  .od-pack { position: relative; display: block; cursor: pointer; }
+  .od-pack input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+  .od-pack .box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 11px 8px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-light);
+    background: rgba(255, 255, 255, 0.03);
+    transition: all var(--transition);
+  }
+
+  .od-pack b { font-size: 13.5px; font-weight: 800; color: #fff; }
+
+  .od-pack small {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .od-pack input:checked + .box {
+    border-color: var(--primary);
+    background: rgba(59, 130, 246, 0.12);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
+  }
+
+  .od-pack.gold input:checked + .box {
+    border-color: var(--accent-gold);
+    background: rgba(245, 158, 11, 0.12);
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+  }
+
+  .od-pack.gold input:checked + .box small { color: var(--accent-gold-light); }
+  .od-pack input:focus-visible + .box { outline: 2px solid #fff; outline-offset: 2px; }
+
+  .od-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .od-field { display: flex; flex-direction: column; min-width: 0; }
+  .od-field.full { grid-column: 1 / -1; }
+
+  .od-input {
+    width: 100%;
+    font: inherit;
+    font-size: 15px;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-light);
+    border-radius: 11px;
+    padding: 11px 12px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+
+  .od-input::placeholder { color: var(--text-dim); }
+
+  .od-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.18);
+  }
+
+  .od-input.invalid {
+    border-color: #F87171;
+    box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
+  }
+
+  select.od-input { appearance: none; -webkit-appearance: none; cursor: pointer; }
+  select.od-input option { background: #0C111C; color: #fff; }
+  textarea.od-input { resize: vertical; min-height: 66px; }
+  .od-ltr { direction: ltr; text-align: left; font-family: "Plus Jakarta Sans", sans-serif; }
+  html[dir="rtl"] .od-ltr { text-align: right; }
+
+  .od-hint { margin-top: 5px; font-size: 11.5px; font-weight: 500; color: var(--text-dim); line-height: 1.5; }
+
+  .od-details {
+    grid-column: 1 / -1;
+    border: 1px dashed var(--border-light);
+    border-radius: 11px;
+    padding: 10px 12px;
+  }
+
+  .od-details summary {
+    cursor: pointer;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--primary-light);
+  }
+
+  .od-details[open] summary { margin-bottom: 10px; }
+  .od-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+  .od-error {
+    display: none;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 11px;
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.3);
+    color: #FCA5A5;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .od-error.show { display: block; }
+
+  .od-send {
+    position: sticky;
+    bottom: 0;
+    z-index: 2;
+    margin: 16px -22px 0;
+    padding: 14px 22px 12px;
+    background: linear-gradient(to top, #0C111C 80%, rgba(12, 17, 28, 0));
+  }
+
+  .od-send .od-error { margin: 0 0 10px; }
+  .od-send .od-submit { margin-top: 0; }
+
+  .od-submit {
+    margin-top: 16px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 50px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    background: var(--primary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px var(--primary-glow);
+    transition: all var(--transition);
+  }
+
+  .od-submit:hover { background: var(--primary-deep); }
+  .od-submit[disabled] { opacity: 0.65; cursor: progress; }
+
+  .od-spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    animation: odSpin 0.7s linear infinite;
+  }
+
+  .od-submit.busy .od-spinner { display: block; }
+  @keyframes odSpin { to { transform: rotate(360deg); } }
+
+  .od-foot { margin-top: 10px; text-align: center; font-size: 12px; font-weight: 600; color: var(--text-dim); }
+
+  .od-done { text-align: center; }
+
+  .od-done-icon {
+    width: 58px;
+    height: 58px;
+    margin: 4px auto 12px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: var(--emerald);
+    background: rgba(16, 185, 129, 0.15);
+  }
+
+  .od-done-icon.warn { color: var(--accent-gold-light); background: rgba(245, 158, 11, 0.14); }
+  .od-done-icon svg { width: 28px; height: 28px; }
+  .od-done h3 { font-size: 19px; font-weight: 900; color: #fff; }
+  .od-done > p { font-size: 13.5px; font-weight: 500; color: var(--text-muted); margin-top: 4px; }
+
+  .od-ref {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px auto 2px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 1px dashed rgba(245, 158, 11, 0.5);
+    background: rgba(245, 158, 11, 0.08);
+    direction: ltr;
+  }
+
+  .od-ref code {
+    font-family: "Plus Jakarta Sans", ui-monospace, monospace;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: var(--accent-gold-light);
+  }
+
+  .od-copy {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    padding: 6px 11px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .od-copy:hover { background: rgba(255, 255, 255, 0.18); }
+
+  .od-next {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 18px 0;
+    text-align: start;
+  }
+
+  .od-next li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.55;
+  }
+
+  .od-next .n {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--primary-light);
+    background: rgba(59, 130, 246, 0.14);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+  }
+
+  .od-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .od-actions > * { flex: 1 1 140px; justify-content: center; min-height: 46px; }
+
+  .od-summary {
+    margin: 14px 0;
+    padding: 12px;
+    max-height: 170px;
+    overflow: auto;
+    white-space: pre-wrap;
+    text-align: start;
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.88);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+  }
+
+  /* ── Accessibility & small screens ────────────────────────── */
+  :focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 780px) {
+    .nav-toggle { display: grid; }
+    .nav-links {
+      position: absolute;
+      top: 100%;
+      inset-inline: 0;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: 6px 16px 12px;
+      background: #0B0F19;
+      border-bottom: 1px solid var(--border-light);
+      box-shadow: 0 24px 40px -20px rgba(0, 0, 0, 0.8);
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a {
+      padding: 13px 6px;
+      font-size: 15px;
+      color: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-links a:last-child { border-bottom: none; }
+    .how-grid { grid-template-columns: 1fr; }
+    .mobile-cta { display: flex; }
+    body { padding-bottom: 72px; }
+    .trust-strip { margin: 30px 0 50px; }
+    section.pricing-sec { padding: 50px 18px 70px; }
+    section.features-sec { padding: 30px 18px 60px; }
+    .cmp-box { margin-top: 44px; }
+    .cmp-table { min-width: 560px; font-size: 12.5px; }
+    .cmp-table th, .cmp-table td { padding: 12px 10px; }
+    /* The feature names stay in view while the packs scroll sideways. */
+    .cmp-table th:first-child {
+      position: sticky;
+      inset-inline-start: 0;
+      z-index: 1;
+      background: #0E1320;
+      width: 40%;
+      min-width: 150px;
+    }
+    .pricing-guarantee { align-items: flex-start; }
+  }
+
+  @media (max-width: 560px) {
+    dialog.order-dialog {
+      width: 100vw;
+      max-width: 100vw;
+      height: 100dvh;
+      max-height: 100dvh;
+      margin: 0;
+      border: none;
+      border-radius: 0;
+    }
+    .od-grid { grid-template-columns: 1fr; }
+    /* On a phone the three packs fit side by side: nothing to scroll for. */
+    .cmp-box { margin-inline: -12px; }
+    .cmp-table { min-width: 0; table-layout: fixed; font-size: 12px; }
+    .cmp-table th, .cmp-table td { padding: 11px 3px; }
+    .cmp-table thead th { padding: 14px 3px 12px; font-size: 11.5px; }
+    .cmp-table th:first-child { width: 38%; min-width: 0; padding-inline: 12px 6px; overflow-wrap: anywhere; }
+    .cmp-price { display: block; font-weight: 600; opacity: 0.75; }
+    .cmp-order { width: 100%; min-height: 36px; padding: 0 2px; font-size: 10.5px; letter-spacing: -0.1px; }
+    .od-head { padding: 16px 16px 12px; }
+    .od-body { padding: 16px 16px 0; }
+    .od-step.active { padding-bottom: 24px; }
+    .od-send { margin-inline: -16px; padding-inline: 16px; }
+    .od-pack b { font-size: 12.5px; }
+    .lang-btn { padding: 6px 9px; }
+    .nav-right { gap: 8px; }
+    .hero-meta { gap: 6px 12px; font-size: 12px; }
+    .sec-header { margin-bottom: 34px; }
+  }
+
+  @media (max-width: 380px) {
+    .brand span { display: none; }
+    .trust-metric-num { font-size: 21px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1133,11 +1829,11 @@
 <header class="topbar">
   <div class="topbar-in">
     <a href="#" class="brand">
-      <img src="assets/logo.png" alt="Acadex" class="brand-logo">
+      <img src="assets/logo-128.png" alt="Acadex" class="brand-logo" width="34" height="34">
       <span>Acadex</span>
     </a>
 
-    <nav class="nav-links">
+    <nav class="nav-links" id="nav-links">
       <a href="#features" data-i18n="nav_features">الميزات</a>
       <a href="#plans" data-i18n="nav_plans">الباقات</a>
       <a href="#compare" data-i18n="nav_compare">المقارنة</a>
@@ -1146,6 +1842,10 @@
     </nav>
 
     <div class="nav-right">
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+
       <!-- Language Switcher -->
       <div class="lang-switcher">
         <button class="lang-btn active" data-lang="ar">عربي</button>
@@ -1190,6 +1890,8 @@
         </a>
       </div>
 
+      <p class="hero-note" data-i18n="hero_note">التحميل مجاني · التفعيل بكود باقتك</p>
+
       <div class="hero-meta">
         <span>◆ Windows 10 / 11 (64-bit)</span>
         <span>◆ ~111 MB</span>
@@ -1210,7 +1912,10 @@
             <div class="mockup-title">Acadex 2.0 — Desktop School Management</div>
             <div style="width: 40px;"></div>
           </div>
-          <img src="assets/hero.png" alt="Acadex Dashboard" class="mockup-img" width="980" height="653">
+          <picture>
+            <source type="image/webp" srcset="assets/hero-960.webp 960w, assets/hero.webp 1536w" sizes="(max-width: 1000px) 96vw, 980px">
+            <img src="assets/hero.png" alt="Acadex Dashboard" class="mockup-img" width="980" height="653" fetchpriority="high" decoding="async">
+          </picture>
         </div>
       </div>
     </div>
@@ -1323,6 +2028,34 @@
     </div>
   </section>
 
+  <!-- ── How it works ────────────────────────────────────────── -->
+  <section id="how" class="how-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="how_badge">ثلاث خطوات</span>
+        <h2 class="sec-title" data-i18n="how_title">من التحميل إلى أول وصل في دقائق</h2>
+      </div>
+
+      <div class="how-grid">
+        <div class="how-step reveal">
+          <div class="how-num">1</div>
+          <h3 data-i18n="how1_t">حمّل وثبّت</h3>
+          <p data-i18n="how1_d">ملف واحد لويندوز. التثبيت في أقل من دقيقة، دون إعدادات معقدة.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-num">2</div>
+          <h3 data-i18n="how2_t">اختر باقتك واطلبها</h3>
+          <p data-i18n="how2_d">من هذه الصفحة مباشرة: نموذج قصير، دون دفع مسبق. نتصل بك لتأكيد الطلب.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-num">3</div>
+          <h3 data-i18n="how3_t">فعّل وابدأ</h3>
+          <p data-i18n="how3_d">تستلم كود التفعيل، تدخله في التطبيق، وتُفتح كل ميزات باقتك فوراً.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ── Pricing Plans ───────────────────────────────────────── -->
   <section id="plans" class="pricing-sec">
     <div class="wrap">
@@ -1355,15 +2088,14 @@
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p1_f5">نسخ احتياطي محلي واسترجاع بنقرة</span></li>
           </ul>
 
-          <a class="btn-order order-link" data-pack="Essentiel" data-price="300" href="#">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+          <button type="button" class="btn-order" data-order-pack="essentiel">
             <span data-i18n="btn_order_ess">طلب باقة Essentiel</span>
-          </a>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
         </div>
 
         <!-- Plus -->
-        <div class="pricing-card is-popular reveal">
-          <div class="pricing-ribbon" data-i18n="ribbon_popular">الأكثر طلباً ⭐</div>
+        <div class="pricing-card is-plus reveal">
           <div class="p-head">
             <h3>Plus</h3>
             <span class="bento-badge plus" data-i18n="tier_pro">الاحترافية</span>
@@ -1384,15 +2116,15 @@
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p2_f5">دعم فني وأولوية في الإعداد</span></li>
           </ul>
 
-          <a class="btn-order order-link" data-pack="Plus" data-price="450" href="#">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
-            <span data-i18n="btn_order_plus">طلب باقة Plus (موصى بها)</span>
-          </a>
+          <button type="button" class="btn-order" data-order-pack="plus">
+            <span data-i18n="btn_order_plus">طلب باقة Plus</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
         </div>
 
         <!-- Complet -->
-        <div class="pricing-card is-gold reveal">
-          <div class="pricing-ribbon gold" data-i18n="ribbon_complet">المتكاملة 👑</div>
+        <div class="pricing-card is-featured reveal">
+          <div class="pricing-ribbon gold" data-i18n="ribbon_complet">موصى بها · الأكثر اكتمالاً 👑</div>
           <div class="p-head">
             <h3>Complet</h3>
             <span class="bento-badge comp" data-i18n="tier_complet">الشاملة</span>
@@ -1405,6 +2137,8 @@
             <span class="p-badge-once" data-i18n="badge_lifetime">دفعة واحدة دائمة</span>
           </div>
 
+          <p class="p-value" data-i18n="p3_value">150 د.ت إضافية فقط عن Plus لتفتح التقارير، التدقيق وتصدير Excel.</p>
+
           <ul class="p-list">
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><b data-i18n="p3_f1">جميع ميزات Plus مع كل خواص السحابة</b></li>
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p3_f2">تحليل معمق للمداخيل حسب المستوى والأستاذ</span></li>
@@ -1413,10 +2147,11 @@
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p3_f5">سبورة بيضاء ذكية للملاحظات والدروس</span></li>
           </ul>
 
-          <a class="btn-order order-link" data-pack="Complet" data-price="600" href="#">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
-            <span data-i18n="btn_order_comp">طلب باقة Complet</span>
-          </a>
+          <button type="button" class="btn-order is-gold-cta" data-order-pack="complet">
+            <span data-i18n="btn_order_comp">اطلب باقة Complet</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+          <p class="p-note" data-i18n="p_no_pay">لا دفع عند الطلب — نتصل بك للتأكيد</p>
         </div>
       </div>
 
@@ -1432,59 +2167,77 @@
           <thead>
             <tr>
               <th scope="col" data-i18n="tbl_col_feat">الميزة</th>
-              <th scope="col">Essentiel (300)</th>
-              <th scope="col" class="cmp-pop-col">Plus (450)</th>
-              <th scope="col">Complet (600)</th>
+              <th scope="col">Essentiel <span class="cmp-price">(300)</span></th>
+              <th scope="col">Plus <span class="cmp-price">(450)</span></th>
+              <th scope="col" class="cmp-pop-col">Complet <span class="cmp-price">(600) 👑</span></th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <th scope="row" data-i18n="t_f1">الطلبة، الأساتذة، الأقسام، والمستويات</th>
               <td><span class="cmp-check">✓</span></td>
-              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
               <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
             </tr>
             <tr>
               <th scope="row" data-i18n="t_f2">جدول الحصص الأسبوعي والطباعة</th>
               <td><span class="cmp-check">✓</span></td>
-              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
               <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
             </tr>
             <tr>
               <th scope="row" data-i18n="t_f3">تسجيل الحضور والغياب</th>
               <td><span class="cmp-check">✓</span></td>
-              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
               <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
             </tr>
             <tr>
               <th scope="row" data-i18n="t_f4">الوصولات والمالية اليومية</th>
               <td><span class="cmp-check">✓</span></td>
-              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
               <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
             </tr>
             <tr>
               <th scope="row" data-i18n="t_f5">استيراد الطلبة من Excel</th>
               <td><span class="cmp-dash">—</span></td>
-              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
               <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
             </tr>
             <tr>
               <th scope="row" data-i18n="t_f6">نسخ احتياطي سحابي تلقائي</th>
               <td><span class="cmp-dash">—</span></td>
-              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
               <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
             </tr>
             <tr>
               <th scope="row" data-i18n="t_f7">تحليل المداخيل والتقارير المالية المتقدمة</th>
               <td><span class="cmp-dash">—</span></td>
-              <td class="cmp-pop-col"><span class="cmp-dash">—</span></td>
-              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
             </tr>
             <tr>
               <th scope="row" data-i18n="t_f8">سجل تدقيق العمليات (Audit Log)</th>
               <td><span class="cmp-dash">—</span></td>
-              <td class="cmp-pop-col"><span class="cmp-dash">—</span></td>
-              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f9">تصدير التقارير وسجلات الحضور إلى Excel</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f10">السبورة البيضاء</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr class="cmp-cta-row">
+              <th scope="row" data-i18n="t_cta">اطلب باقتك</th>
+              <td><button type="button" class="cmp-order" data-order-pack="essentiel">Essentiel</button></td>
+              <td><button type="button" class="cmp-order" data-order-pack="plus">Plus</button></td>
+              <td class="cmp-pop-col"><button type="button" class="cmp-order gold" data-order-pack="complet">Complet</button></td>
             </tr>
           </tbody>
         </table>
@@ -1540,6 +2293,16 @@
             <p data-i18n="faq_a4">نعم، بنقرة زر واحدة عبر إدخال كود جديد، وتفتح الميزات فوراً مع بقاء كامل بياناتك دون تغيير.</p>
           </div>
         </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q5">كيف أطلب الباقة وأستلم كود التفعيل؟</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a5">اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1547,13 +2310,18 @@
   <!-- ── Bottom CTA ──────────────────────────────────────────── -->
   <div class="dl-strip">
     <div class="dl-strip-in reveal">
-      <h2 data-i18n="cta_title">ابدأ تجربة Acadex الآن مجاناً</h2>
+      <h2 data-i18n="cta_title">جاهز لتنظيم مدرستك؟</h2>
       <p data-i18n="cta_desc">ملف تثبيت واحد لنظام ويندوز يثبت التطبيق وقاعدة البيانات في أقل من دقيقة.</p>
       
-      <a class="btn-primary" href="https://acadex-backup.zglm.workers.dev/updates/latest">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        <span data-i18n="cta_btn">تحميل النسخة المجانية</span>
-      </a>
+      <div class="hero-btns">
+        <a class="btn-primary" href="https://acadex-backup.zglm.workers.dev/updates/latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="cta_btn">تحميل التطبيق لويندوز</span>
+        </a>
+        <button type="button" class="btn-secondary" data-order-pack="complet">
+          <span data-i18n="cta_btn_order">اطلب باقتك</span>
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1586,10 +2354,143 @@
   </div>
 </footer>
 
-<!-- Floating WhatsApp -->
-<a href="https://wa.me/21655518492" class="fab-wa" target="_blank" rel="noopener" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
-</a>
+<!-- ── Sticky mobile call-to-action ───────────────────────── -->
+<div class="mobile-cta" id="mobile-cta">
+  <a class="m-dl" href="https://acadex-backup.zglm.workers.dev/updates/latest" aria-label="Download">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  </a>
+  <button type="button" class="m-order" data-order-pack="complet">
+    <span data-i18n="m_order">اطلب Complet · 600 د.ت</span>
+  </button>
+</div>
+
+<!-- ── Order dialog ────────────────────────────────────────── -->
+<dialog class="order-dialog" id="order-dialog" aria-labelledby="od-title">
+  <div class="od-head">
+    <div>
+      <h2 id="od-title" data-i18n="od_title">طلب باقة</h2>
+      <p data-i18n="od_sub">نموذج قصير — دون دفع الآن.</p>
+    </div>
+    <button type="button" class="od-close" data-od-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+  </div>
+
+  <div class="od-body">
+    <!-- 1 · the form -->
+    <div class="od-step active" data-step="form">
+      <form id="order-form" novalidate>
+        <span class="od-label" data-i18n="od_pack">الباقة</span>
+        <div class="od-packs" role="radiogroup" aria-labelledby="od-title">
+          <label class="od-pack">
+            <input type="radio" name="pack" value="essentiel">
+            <span class="box"><b>Essentiel</b><small>300 DT</small></span>
+          </label>
+          <label class="od-pack">
+            <input type="radio" name="pack" value="plus">
+            <span class="box"><b>Plus</b><small>450 DT</small></span>
+          </label>
+          <label class="od-pack gold">
+            <input type="radio" name="pack" value="complet" checked>
+            <span class="box"><b>Complet 👑</b><small>600 DT</small></span>
+          </label>
+        </div>
+
+        <div class="od-grid">
+          <div class="od-field full">
+            <label class="od-label" for="od-school" data-i18n="od_school">اسم المدرسة أو المركز</label>
+            <input class="od-input" id="od-school" name="school_name" type="text" autocomplete="organization" maxlength="120" required>
+          </div>
+          <div class="od-field">
+            <label class="od-label" for="od-name" data-i18n="od_name">اسمك</label>
+            <input class="od-input" id="od-name" name="contact_name" type="text" autocomplete="name" maxlength="80" required>
+          </div>
+          <div class="od-field">
+            <label class="od-label" for="od-phone" data-i18n="od_phone">رقم الهاتف</label>
+            <input class="od-input od-ltr" id="od-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="55 518 492" required>
+          </div>
+          <div class="od-field">
+            <label class="od-label" for="od-billing" data-i18n="od_billing">طريقة الدفع</label>
+            <select class="od-input" id="od-billing" name="billing" aria-describedby="od-billing-hint">
+              <option value="once" data-i18n="od_b_once">دفعة واحدة (ترخيص دائم)</option>
+              <option value="monthly" data-i18n="od_b_monthly">شهرياً</option>
+              <option value="term" data-i18n="od_b_term">كل ثلاثي</option>
+              <option value="annual" data-i18n="od_b_annual">سنوياً</option>
+            </select>
+            <p class="od-hint" id="od-billing-hint" data-i18n="od_billing_hint">السعر المعروض للدفعة الواحدة. نحدد معك أقساط الدفع الدوري عند التأكيد.</p>
+          </div>
+          <div class="od-field">
+            <label class="od-label" for="od-city"><span data-i18n="od_city">المدينة</span> <em data-i18n="od_optional">(اختياري)</em></label>
+            <input class="od-input" id="od-city" name="city" type="text" autocomplete="address-level2" maxlength="80">
+          </div>
+          <div class="od-field full">
+            <label class="od-label" for="od-email"><span data-i18n="od_email">البريد الإلكتروني</span> <em data-i18n="od_optional">(اختياري)</em></label>
+            <input class="od-input od-ltr" id="od-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120">
+          </div>
+          <details class="od-details">
+            <summary data-i18n="od_code_q">ثبّتَّ التطبيق؟ أضف كود الطلب لتفعيل أسرع</summary>
+            <input class="od-input od-ltr" id="od-code" name="request_code" type="text" autocomplete="off" spellcheck="false" maxlength="40" placeholder="ACX-R-XXXXX-XXXXX-XXXXX-XXX" aria-describedby="od-code-hint">
+            <p class="od-hint" id="od-code-hint" data-i18n="od_code_hint">يظهر في شاشة التفعيل داخل التطبيق ويبدأ بـ ACX-R.</p>
+          </details>
+          <div class="od-field full">
+            <label class="od-label" for="od-message"><span data-i18n="od_message">ملاحظة</span> <em data-i18n="od_optional">(اختياري)</em></label>
+            <textarea class="od-input" id="od-message" name="message" rows="2" maxlength="500" data-i18n-ph="od_message_ph" placeholder="عدد التلاميذ، أسئلة…"></textarea>
+          </div>
+        </div>
+
+        <!-- Not for people: a field only bots fill. -->
+        <div class="od-hp" aria-hidden="true">
+          <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <!-- Stays in view while the form scrolls: the way out is never below the fold. -->
+        <div class="od-send">
+          <p class="od-error" id="od-error" role="alert"></p>
+          <button type="submit" class="od-submit" id="od-submit">
+            <span class="od-spinner" aria-hidden="true"></span>
+            <span id="od-submit-label" data-i18n="od_submit">إرسال الطلب</span>
+          </button>
+        </div>
+        <p class="od-foot" data-i18n="od_foot">لا دفع الآن. نتصل بك لتأكيد الطلب وطريقة الدفع.</p>
+      </form>
+    </div>
+
+    <!-- 2 · received -->
+    <div class="od-step od-done" data-step="done">
+      <div class="od-done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3 data-i18n="od_done_title">تم تسجيل طلبك</h3>
+      <p data-i18n="od_done_sub">احتفظ بهذا المرجع:</p>
+      <div class="od-ref">
+        <code id="od-ref">ACX-O-······</code>
+        <button type="button" class="od-copy" id="od-copy" data-i18n="od_copy">نسخ</button>
+      </div>
+      <ol class="od-next">
+        <li><span class="n">1</span><span data-i18n="od_next1">حمّل التطبيق وثبّته الآن — دقيقة واحدة.</span></li>
+        <li><span class="n">2</span><span id="od-next2"></span></li>
+        <li><span class="n">3</span><span id="od-next3"></span></li>
+      </ol>
+      <div class="od-actions">
+        <a class="btn-primary" href="https://acadex-backup.zglm.workers.dev/updates/latest">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="od_dl">تحميل التطبيق</span>
+        </a>
+        <button type="button" class="btn-secondary" data-od-close data-i18n="od_close">إغلاق</button>
+      </div>
+    </div>
+
+    <!-- 3 · the online registration failed: the order is not lost -->
+    <div class="od-step od-done" data-step="fallback">
+      <div class="od-done-icon warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <h3 data-i18n="od_fb_title">تعذّر تسجيل الطلب عبر الإنترنت</h3>
+      <p data-i18n="od_fb_sub">طلبك جاهز أدناه: أرسله لنا مباشرة بإحدى هذه الطرق.</p>
+      <pre class="od-summary" id="od-summary"></pre>
+      <div class="od-actions">
+        <a class="btn-primary" id="od-fb-mail" href="mailto:mohamedncib900@gmail.com" data-i18n="od_fb_mail">إرسال بالبريد</a>
+        <a class="btn-secondary" id="od-fb-call" href="tel:+21655518492" data-i18n="od_fb_call">اتصال</a>
+        <a class="btn-secondary" id="od-fb-wa" href="https://wa.me/21655518492" target="_blank" rel="noopener">WhatsApp</a>
+        <button type="button" class="btn-secondary" id="od-fb-retry" data-i18n="od_fb_retry">إعادة المحاولة</button>
+      </div>
+    </div>
+  </div>
+</dialog>
 
 <!-- ── Translations & Minimal Interactive Scripts ──────────── -->
 <script>
@@ -1639,7 +2540,7 @@
       curr_dt: "د.ت",
       badge_lifetime: "دفعة واحدة دائمة",
       ribbon_popular: "الأكثر طلباً ⭐",
-      ribbon_complet: "المتكاملة 👑",
+      ribbon_complet: "موصى بها · الأكثر اكتمالاً 👑",
       p1_tag: "كل الأساسيات لتشغيل مدرستك اليومية بسلاسة.",
       p1_f1: "الطلبة، الأساتذة، الأقسام والمستويات",
       p1_f2: "برمجة الجداول الزمنية والطباعة",
@@ -1653,14 +2554,14 @@
       p2_f3: "نسخ احتياطي سحابي تلقائي مشفر",
       p2_f4: "استرجاع فوري للبيانات عند تبديل الحاسوب",
       p2_f5: "دعم فني وأولوية في الإعداد",
-      btn_order_plus: "طلب باقة Plus (موصى بها)",
+      btn_order_plus: "طلب باقة Plus",
       p3_tag: "كل ميزات Plus + التحليلات المالية وسجل تدقيق العمليات.",
       p3_f1: "جميع ميزات Plus مع كل خواص السحابة",
       p3_f2: "تحليل معمق للمداخيل حسب المستوى والأستاذ",
       p3_f3: "تصدير التقارير وسجلات الحضور إلى Excel",
       p3_f4: "سجل تدقيق أمني مفصل (من فعل ماذا ومتى)",
       p3_f5: "سبورة بيضاء ذكية للملاحظات والدروس",
-      btn_order_comp: "طلب باقة Complet",
+      btn_order_comp: "اطلب باقة Complet",
       p_guarantee: "<b>ترخيص دائم لحاسوب واحد:</b> دفع مرة واحدة أو بالتقسيط حسب الاتفاق. يمكن ترقية الباقة لاحقاً مع الحفاظ على كامل بياناتك.",
       tbl_col_feat: "الميزة",
       t_f1: "الطلبة، الأساتذة، الأقسام، والمستويات",
@@ -1681,11 +2582,76 @@
       faq_a3: "ترخيص دائم دفعة واحدة (300 / 450 / 600 د.ت)، مع خيار الدفع الفصلي أو السنوي لمن يرغب.",
       faq_q4: "هل يمكن ترقية الباقة لاحقاً؟",
       faq_a4: "نعم، بنقرة زر واحدة عبر إدخال كود جديد، وتفتح الميزات فوراً مع بقاء كامل بياناتك دون تغيير.",
-      cta_title: "ابدأ تجربة Acadex الآن مجاناً",
+      cta_title: "جاهز لتنظيم مدرستك؟",
       cta_desc: "ملف تثبيت واحد لنظام ويندوز يثبت التطبيق وقاعدة البيانات في أقل من دقيقة.",
-      cta_btn: "تحميل النسخة المجانية",
+      cta_btn: "تحميل التطبيق لويندوز",
       footer_copy: "بياناتك على جهازك بأمان وثقة.",
-      wa_msg: "مرحبًا، أريد تفعيل باقة {pack} ({price} د.ت) على هذا الحاسوب. هل يمكنكم إرسال رمز التفعيل؟"
+      hero_note: "التحميل مجاني · التفعيل بكود باقتك",
+      how_badge: "ثلاث خطوات",
+      how_title: "من التحميل إلى أول وصل في دقائق",
+      how1_t: "حمّل وثبّت",
+      how1_d: "ملف واحد لويندوز. التثبيت في أقل من دقيقة، دون إعدادات معقدة.",
+      how2_t: "اختر باقتك واطلبها",
+      how2_d: "من هذه الصفحة مباشرة: نموذج قصير، دون دفع مسبق. نتصل بك لتأكيد الطلب.",
+      how3_t: "فعّل وابدأ",
+      how3_d: "تستلم كود التفعيل، تدخله في التطبيق، وتُفتح كل ميزات باقتك فوراً.",
+      p3_value: "150 د.ت إضافية فقط عن Plus لتفتح التقارير، التدقيق وتصدير Excel.",
+      p_no_pay: "لا دفع عند الطلب — نتصل بك للتأكيد",
+      t_f9: "تصدير التقارير وسجلات الحضور إلى Excel",
+      t_f10: "السبورة البيضاء",
+      t_cta: "اطلب باقتك",
+      faq_q5: "كيف أطلب الباقة وأستلم كود التفعيل؟",
+      faq_a5: "اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.",
+      cta_btn_order: "اطلب باقتك",
+      m_order: "اطلب Complet · 600 د.ت",
+      od_title: "طلب باقة",
+      od_sub: "نموذج قصير — دون دفع الآن.",
+      od_pack: "الباقة",
+      od_school: "اسم المدرسة أو المركز",
+      od_name: "اسمك",
+      od_phone: "رقم الهاتف",
+      od_billing: "طريقة الدفع",
+      od_b_once: "دفعة واحدة (ترخيص دائم)",
+      od_b_monthly: "شهرياً",
+      od_b_term: "كل ثلاثي",
+      od_b_annual: "سنوياً",
+      od_billing_hint: "السعر المعروض للدفعة الواحدة. نحدد معك أقساط الدفع الدوري عند التأكيد.",
+      od_city: "المدينة",
+      od_email: "البريد الإلكتروني",
+      od_optional: "(اختياري)",
+      od_code_q: "ثبّتَّ التطبيق؟ أضف كود الطلب لتفعيل أسرع",
+      od_code_hint: "يظهر في شاشة التفعيل داخل التطبيق ويبدأ بـ ACX-R.",
+      od_message: "ملاحظة",
+      od_message_ph: "عدد التلاميذ، أسئلة…",
+      od_submit: "إرسال الطلب",
+      od_sending: "جارٍ الإرسال…",
+      od_foot: "لا دفع الآن. نتصل بك لتأكيد الطلب وطريقة الدفع.",
+      od_err_school: "اكتب اسم المدرسة أو المركز.",
+      od_err_name: "اكتب اسمك.",
+      od_err_phone: "رقم الهاتف غير صحيح. مثال: 55 518 492",
+      od_err_email: "البريد الإلكتروني غير صحيح.",
+      od_err_code: "كود الطلب غير صحيح. يبدأ بـ ACX-R ويُنسخ من شاشة التفعيل.",
+      od_err_rate: "طلبات كثيرة من هذا الاتصال. أعد المحاولة لاحقاً أو اتصل بنا مباشرة.",
+      od_done_title: "تم تسجيل طلبك",
+      od_done_sub: "احتفظ بهذا المرجع:",
+      od_copy: "نسخ",
+      od_copied: "تم النسخ ✓",
+      od_next1: "حمّل التطبيق وثبّته الآن — دقيقة واحدة.",
+      od_next2: "نتصل بك على {phone} لتأكيد الطلب وطريقة الدفع.",
+      od_next3: "تستلم كود التفعيل وتدخله في التطبيق: تُفتح باقة {pack} فوراً.",
+      od_dl: "تحميل التطبيق",
+      od_close: "إغلاق",
+      od_fb_title: "تعذّر تسجيل الطلب عبر الإنترنت",
+      od_fb_sub: "طلبك جاهز أدناه: أرسله لنا مباشرة بإحدى هذه الطرق.",
+      od_fb_mail: "إرسال بالبريد",
+      od_fb_call: "اتصال",
+      od_fb_retry: "إعادة المحاولة",
+      order_subject: "طلب باقة Acadex — {pack}",
+      order_msg: "طلب باقة Acadex\nالباقة: {pack} ({price} د.ت)\nالدفع: {billing}\nالمدرسة: {school}\nالاسم: {name}\nالهاتف: {phone}",
+      order_city: "المدينة: {value}",
+      order_email: "البريد: {value}",
+      order_code: "كود الطلب: {value}",
+      order_note: "ملاحظة: {value}"
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -1729,7 +2695,7 @@
       curr_dt: "DT",
       badge_lifetime: "Paiement unique",
       ribbon_popular: "Plus Populaire ⭐",
-      ribbon_complet: "Complet 👑",
+      ribbon_complet: "Recommandé · le plus complet 👑",
       p1_tag: "Tous les indispensables pour faire tourner votre école au quotidien.",
       p1_f1: "Élèves, enseignants, classes et niveaux",
       p1_f2: "Emplois du temps avec impression",
@@ -1743,7 +2709,7 @@
       p2_f3: "Sauvegarde Cloud automatique et sécurisée",
       p2_f4: "Restauration immédiate en cas de changement de PC",
       p2_f5: "Assistance prioritaire à l'installation",
-      btn_order_plus: "Commander le pack Plus (Recommandé)",
+      btn_order_plus: "Commander le pack Plus",
       p3_tag: "Tout Plus + Analyse financière approfondie et Journal d'Audit.",
       p3_f1: "Toutes les fonctions Plus avec Cloud",
       p3_f2: "Analyse des revenus par niveau et professeur",
@@ -1773,9 +2739,74 @@
       faq_a4: "Oui. En saisissant un nouveau code d'activation, les nouvelles options s'activent instantanément en gardant toutes vos données.",
       cta_title: "Prêt à moderniser votre école ?",
       cta_desc: "Un seul fichier d'installation Windows configure l'application et la base en moins d'une minute.",
-      cta_btn: "Télécharger la version d'essai",
+      cta_btn: "Télécharger pour Windows",
       footer_copy: "Vos données sur votre machine, en toute confiance.",
-      wa_msg: "Bonjour, je souhaite activer le pack {pack} ({price} DT) sur cet ordinateur. Pouvez-vous m'envoyer le code d'activation ?"
+      hero_note: "Téléchargement gratuit · activation avec le code de votre pack",
+      how_badge: "En 3 étapes",
+      how_title: "Du téléchargement au premier reçu en quelques minutes",
+      how1_t: "Téléchargez et installez",
+      how1_d: "Un seul fichier pour Windows. Installé en moins d'une minute, sans réglage compliqué.",
+      how2_t: "Choisissez votre pack et commandez",
+      how2_d: "Directement sur cette page : un court formulaire, sans paiement d'avance. Nous vous appelons pour confirmer.",
+      how3_t: "Activez et démarrez",
+      how3_d: "Vous recevez le code d'activation, vous le saisissez dans l'application, et tout votre pack se débloque aussitôt.",
+      p3_value: "Seulement +150 DT par rapport à Plus pour débloquer les rapports, l'audit et l'export Excel.",
+      p_no_pay: "Aucun paiement à la commande — nous vous appelons pour confirmer",
+      t_f9: "Export Excel des rapports et des présences",
+      t_f10: "Tableau blanc",
+      t_cta: "Commander",
+      faq_q5: "Comment commander et recevoir mon code d'activation ?",
+      faq_a5: "Cliquez sur « Commander » sous le pack choisi et remplissez le court formulaire de cette page. Nous vous appelons pour confirmer la commande et le mode de paiement, puis nous vous envoyons le code d'activation à saisir dans l'application.",
+      cta_btn_order: "Commander mon pack",
+      m_order: "Commander Complet · 600 DT",
+      od_title: "Commander un pack",
+      od_sub: "Un court formulaire — aucun paiement maintenant.",
+      od_pack: "Pack",
+      od_school: "Nom de l'école ou du centre",
+      od_name: "Votre nom",
+      od_phone: "Téléphone",
+      od_billing: "Mode de paiement",
+      od_b_once: "Paiement unique (licence à vie)",
+      od_b_monthly: "Mensuel",
+      od_b_term: "Par trimestre",
+      od_b_annual: "Annuel",
+      od_billing_hint: "Le prix affiché est celui du paiement unique. Les échéances d'un paiement périodique sont fixées avec vous à la confirmation.",
+      od_city: "Ville",
+      od_email: "E-mail",
+      od_optional: "(facultatif)",
+      od_code_q: "Application déjà installée ? Ajoutez le code de demande pour une activation plus rapide",
+      od_code_hint: "Affiché sur l'écran d'activation de l'application ; il commence par ACX-R.",
+      od_message: "Remarque",
+      od_message_ph: "Nombre d'élèves, questions…",
+      od_submit: "Envoyer la commande",
+      od_sending: "Envoi…",
+      od_foot: "Aucun paiement maintenant. Nous vous appelons pour confirmer la commande et le mode de paiement.",
+      od_err_school: "Indiquez le nom de l'école ou du centre.",
+      od_err_name: "Indiquez votre nom.",
+      od_err_phone: "Ce numéro de téléphone n'est pas valide. Exemple : 55 518 492",
+      od_err_email: "Cette adresse e-mail n'est pas valide.",
+      od_err_code: "Ce code de demande n'est pas valide. Il commence par ACX-R : copiez-le depuis l'écran d'activation.",
+      od_err_rate: "Trop de commandes depuis cette connexion. Réessayez plus tard ou contactez-nous directement.",
+      od_done_title: "Commande enregistrée",
+      od_done_sub: "Conservez cette référence :",
+      od_copy: "Copier",
+      od_copied: "Copié ✓",
+      od_next1: "Téléchargez et installez l'application maintenant — une minute.",
+      od_next2: "Nous vous appelons au {phone} pour confirmer la commande et le mode de paiement.",
+      od_next3: "Vous recevez le code d'activation ; saisissez-le dans l'application : le pack {pack} se débloque aussitôt.",
+      od_dl: "Télécharger l'application",
+      od_close: "Fermer",
+      od_fb_title: "La commande n'a pas pu être enregistrée en ligne",
+      od_fb_sub: "Votre commande est prête ci-dessous : envoyez-la nous directement par l'un de ces moyens.",
+      od_fb_mail: "Envoyer par e-mail",
+      od_fb_call: "Appeler",
+      od_fb_retry: "Réessayer",
+      order_subject: "Commande Acadex — pack {pack}",
+      order_msg: "Commande Acadex\nPack : {pack} ({price} DT)\nPaiement : {billing}\nÉcole : {school}\nNom : {name}\nTéléphone : {phone}",
+      order_city: "Ville : {value}",
+      order_email: "E-mail : {value}",
+      order_code: "Code de demande : {value}",
+      order_note: "Remarque : {value}"
     },
     en: {
       nav_features: "Features",
@@ -1819,7 +2850,7 @@
       curr_dt: "DT",
       badge_lifetime: "One-time payment",
       ribbon_popular: "Most Popular ⭐",
-      ribbon_complet: "All-in-One 👑",
+      ribbon_complet: "Recommended · most complete 👑",
       p1_tag: "All the essentials to operate your school smoothly day to day.",
       p1_f1: "Students, teachers, classes, and grades",
       p1_f2: "Weekly schedules with direct printing",
@@ -1833,7 +2864,7 @@
       p2_f3: "Encrypted automatic cloud backup",
       p2_f4: "Instant recovery when switching computers",
       p2_f5: "Priority installation support",
-      btn_order_plus: "Order Plus Pack (Recommended)",
+      btn_order_plus: "Order Plus Pack",
       p3_tag: "Everything in Plus + In-depth financial analytics and audit trail.",
       p3_f1: "All Plus features with full cloud sync",
       p3_f2: "In-depth revenue analysis by grade & teacher",
@@ -1863,9 +2894,74 @@
       faq_a4: "Yes. Simply enter a new activation code: features unlock immediately with all your data untouched.",
       cta_title: "Ready to Upgrade Your School?",
       cta_desc: "A single lightweight Windows installer configures the app and database in under a minute.",
-      cta_btn: "Download Free Trial",
+      cta_btn: "Download for Windows",
       footer_copy: "Your data securely on your computer.",
-      wa_msg: "Hello, I would like to activate the {pack} pack ({price} DT) on this computer. Can you send the activation code?"
+      hero_note: "Free download · activated with your pack's code",
+      how_badge: "3 steps",
+      how_title: "From download to your first receipt in minutes",
+      how1_t: "Download & install",
+      how1_d: "One file for Windows. Installed in under a minute, with nothing to configure.",
+      how2_t: "Pick your pack and order",
+      how2_d: "Right on this page: a short form, no payment up front. We call you to confirm.",
+      how3_t: "Activate and start",
+      how3_d: "You receive the activation code, enter it in the app, and your whole pack unlocks at once.",
+      p3_value: "Only +150 DT over Plus to unlock reports, the audit log and Excel export.",
+      p_no_pay: "No payment when ordering — we call you to confirm",
+      t_f9: "Excel export of reports & attendance",
+      t_f10: "Whiteboard",
+      t_cta: "Order",
+      faq_q5: "How do I order and get my activation code?",
+      faq_a5: "Click “Order” under the pack you want and fill in the short form on this page. We call you to confirm the order and the payment method, then send you the activation code to enter in the app.",
+      cta_btn_order: "Order my pack",
+      m_order: "Order Complet · 600 DT",
+      od_title: "Order a pack",
+      od_sub: "A short form — no payment now.",
+      od_pack: "Pack",
+      od_school: "School or centre name",
+      od_name: "Your name",
+      od_phone: "Phone",
+      od_billing: "Payment",
+      od_b_once: "One-time (lifetime licence)",
+      od_b_monthly: "Monthly",
+      od_b_term: "Per term",
+      od_b_annual: "Yearly",
+      od_billing_hint: "The price shown is the one-time payment. Instalments for a periodic payment are agreed with you at confirmation.",
+      od_city: "City",
+      od_email: "E-mail",
+      od_optional: "(optional)",
+      od_code_q: "Already installed? Add the request code for faster activation",
+      od_code_hint: "Shown on the app's activation screen; it starts with ACX-R.",
+      od_message: "Note",
+      od_message_ph: "Number of students, questions…",
+      od_submit: "Send order",
+      od_sending: "Sending…",
+      od_foot: "No payment now. We call you to confirm the order and the payment method.",
+      od_err_school: "Enter the school or centre name.",
+      od_err_name: "Enter your name.",
+      od_err_phone: "This phone number is not valid. Example: 55 518 492",
+      od_err_email: "This e-mail address is not valid.",
+      od_err_code: "This request code is not valid. It starts with ACX-R: copy it from the activation screen.",
+      od_err_rate: "Too many orders from this connection. Try again later or contact us directly.",
+      od_done_title: "Order received",
+      od_done_sub: "Keep this reference:",
+      od_copy: "Copy",
+      od_copied: "Copied ✓",
+      od_next1: "Download and install the app now — one minute.",
+      od_next2: "We call you on {phone} to confirm the order and the payment method.",
+      od_next3: "You receive the activation code; enter it in the app and the {pack} pack unlocks at once.",
+      od_dl: "Download the app",
+      od_close: "Close",
+      od_fb_title: "We couldn't register the order online",
+      od_fb_sub: "Your order is ready below: send it to us directly with one of these.",
+      od_fb_mail: "Send by e-mail",
+      od_fb_call: "Call",
+      od_fb_retry: "Try again",
+      order_subject: "Acadex order — {pack} pack",
+      order_msg: "Acadex order\nPack: {pack} ({price} DT)\nPayment: {billing}\nSchool: {school}\nName: {name}\nPhone: {phone}",
+      order_city: "City: {value}",
+      order_email: "E-mail: {value}",
+      order_code: "Request code: {value}",
+      order_note: "Note: {value}"
     }
   };
 
@@ -1903,13 +2999,21 @@
       }
     });
 
-    // Update WhatsApp links
-    document.querySelectorAll(".order-link").forEach(link => {
-      const pack = link.getAttribute("data-pack");
-      const price = link.getAttribute("data-price");
-      const rawMsg = dict.wa_msg.replace("{pack}", pack).replace("{price}", price);
-      link.href = `https://wa.me/21655518492?text=${encodeURIComponent(rawMsg)}`;
+    // Placeholders are attributes, not text.
+    document.querySelectorAll("[data-i18n-ph]").forEach(el => {
+      const value = dict[el.getAttribute("data-i18n-ph")];
+      if (value) el.setAttribute("placeholder", value);
     });
+
+    // The order dialog shows texts built from what the visitor typed.
+    document.dispatchEvent(new CustomEvent("acadex:lang"));
+  }
+
+  /** A text of the current language, with {name} placeholders filled in. */
+  function tr(key, vars) {
+    let text = (i18n[currentLang] || i18n.ar)[key] ?? i18n.ar[key] ?? key;
+    for (const name in vars || {}) text = text.split(`{${name}}`).join(vars[name]);
+    return text;
   }
 
   // Language buttons click event
@@ -1942,6 +3046,244 @@
       document.querySelectorAll(".faq-card").forEach(c => c.classList.remove("active"));
       if (!isOpen) card.classList.add("active");
     });
+  });
+
+  // Mobile menu
+  const navToggle = document.getElementById("nav-toggle");
+  const navLinks = document.getElementById("nav-links");
+  const setMenu = (open) => {
+    navLinks.classList.toggle("open", open);
+    navToggle.setAttribute("aria-expanded", String(open));
+  };
+  navToggle.addEventListener("click", () => setMenu(!navLinks.classList.contains("open")));
+  navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+
+  // Sticky mobile call-to-action: once the hero's own buttons are out of view.
+  const mobileCta = document.getElementById("mobile-cta");
+  const heroBtns = document.querySelector(".hero .hero-btns");
+  if (mobileCta && heroBtns && "IntersectionObserver" in window) {
+    new IntersectionObserver(([entry]) => {
+      mobileCta.classList.toggle("show", !entry.isIntersecting);
+    }).observe(heroBtns);
+  }
+
+  // ── Ordering a pack, on the page ─────────────────────────────
+  // The form posts to the same Cloudflare Worker that serves the download:
+  // no server of ours to keep running. If the worker cannot take the order
+  // (offline, not deployed yet), the visitor is handed their order as a text
+  // to send directly — an order is never lost in a failed request.
+  const ORDER_ENDPOINT = "https://acadex-backup.zglm.workers.dev/v1/orders";
+  const CONTACT = { email: "mohamedncib900@gmail.com", phone: "+21655518492", whatsapp: "21655518492" };
+  const PACKS = {
+    essentiel: { label: "Essentiel", price: 300 },
+    plus: { label: "Plus", price: 450 },
+    complet: { label: "Complet", price: 600 },
+  };
+  const REQUEST_CODE_RE = /^ACX-R-(?:[0-9A-Z]{5}-){3}[0-9A-Z]{3}$/;
+  const FIELD_ERRORS = {
+    school_name: "od_err_school",
+    contact_name: "od_err_name",
+    phone: "od_err_phone",
+    email: "od_err_email",
+    request_code: "od_err_code",
+  };
+
+  const orderDialog = document.getElementById("order-dialog");
+  const orderForm = document.getElementById("order-form");
+  const orderError = document.getElementById("od-error");
+  const orderSubmit = document.getElementById("od-submit");
+  const orderSubmitLabel = document.getElementById("od-submit-label");
+  let orderBusy = false;
+  /** The last order shown on the "received" or "fallback" step, to re-render it on a language switch. */
+  let orderShown = null;
+
+  const showOrderStep = (name) => {
+    orderDialog.querySelectorAll(".od-step").forEach(el => el.classList.toggle("active", el.dataset.step === name));
+    orderDialog.querySelector(".od-body").scrollTop = 0;
+  };
+
+  const clearOrderError = () => {
+    orderError.classList.remove("show");
+    orderError.textContent = "";
+    orderForm.querySelectorAll(".invalid").forEach(el => el.classList.remove("invalid"));
+  };
+
+  const showOrderError = (message, field) => {
+    orderError.textContent = message;
+    orderError.classList.add("show");
+    const input = field && orderForm.elements[field];
+    if (input && input.classList) {
+      if (field === "request_code") input.closest("details").open = true;
+      input.classList.add("invalid");
+      input.focus();
+    }
+  };
+
+  function openOrder(pack) {
+    const radio = orderForm.querySelector(`input[name="pack"][value="${PACKS[pack] ? pack : "complet"}"]`);
+    if (radio) radio.checked = true;
+    clearOrderError();
+    orderShown = null;
+    showOrderStep("form");
+    if (typeof orderDialog.showModal === "function") {
+      if (!orderDialog.open) orderDialog.showModal();
+    } else {
+      orderDialog.setAttribute("open", "");
+    }
+    const firstEmpty = ["school_name", "contact_name", "phone"].map(n => orderForm.elements[n]).find(el => !el.value.trim());
+    (firstEmpty || orderSubmit).focus();
+  }
+
+  const closeOrder = () => {
+    if (typeof orderDialog.close === "function") orderDialog.close();
+    else orderDialog.removeAttribute("open");
+  };
+
+  document.querySelectorAll("[data-order-pack]").forEach(btn => {
+    btn.addEventListener("click", () => openOrder(btn.getAttribute("data-order-pack")));
+  });
+  orderDialog.querySelectorAll("[data-od-close]").forEach(btn => btn.addEventListener("click", closeOrder));
+  // A click on the dimmed backdrop lands on the dialog element itself.
+  orderDialog.addEventListener("click", (e) => { if (e.target === orderDialog && !orderBusy) closeOrder(); });
+  orderDialog.addEventListener("cancel", (e) => { if (orderBusy) e.preventDefault(); });
+  orderForm.addEventListener("input", (e) => {
+    if (e.target.classList && e.target.classList.contains("invalid")) clearOrderError();
+  });
+
+  function readOrder() {
+    const data = new FormData(orderForm);
+    const value = (name) => String(data.get(name) || "").trim();
+    return {
+      pack: value("pack") || "complet",
+      billing: value("billing") || "once",
+      school_name: value("school_name"),
+      contact_name: value("contact_name"),
+      phone: value("phone"),
+      city: value("city"),
+      email: value("email"),
+      request_code: value("request_code").toUpperCase().replace(/\s+/g, ""),
+      message: value("message"),
+      website: value("website"),
+      lang: currentLang,
+    };
+  }
+
+  /** The same rules the worker applies, so most mistakes are caught before the request. */
+  function invalidOrderField(order) {
+    if (order.school_name.length < 2) return "school_name";
+    if (order.contact_name.length < 2) return "contact_name";
+    const digits = order.phone.replace(/\D/g, "");
+    if (/[^\d+\s().-]/.test(order.phone) || digits.length < 8 || digits.length > 15) return "phone";
+    if (order.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(order.email)) return "email";
+    if (order.request_code && !REQUEST_CODE_RE.test(order.request_code)) return "request_code";
+    return null;
+  }
+
+  function orderSummary(order) {
+    const pack = PACKS[order.pack] || PACKS.complet;
+    const lines = [tr("order_msg", {
+      pack: pack.label,
+      price: String(pack.price),
+      billing: tr(`od_b_${order.billing}`),
+      school: order.school_name,
+      name: order.contact_name,
+      phone: order.phone,
+    })];
+    if (order.city) lines.push(tr("order_city", { value: order.city }));
+    if (order.email) lines.push(tr("order_email", { value: order.email }));
+    if (order.request_code) lines.push(tr("order_code", { value: order.request_code }));
+    if (order.message) lines.push(tr("order_note", { value: order.message }));
+    return lines.join("\n");
+  }
+
+  function renderOrderOutcome() {
+    if (!orderShown) return;
+    const { order, reference } = orderShown;
+    const pack = PACKS[order.pack] || PACKS.complet;
+    if (reference) {
+      document.getElementById("od-ref").textContent = reference;
+      document.getElementById("od-next2").textContent = tr("od_next2", { phone: order.phone });
+      document.getElementById("od-next3").textContent = tr("od_next3", { pack: pack.label });
+      return;
+    }
+    const summary = orderSummary(order);
+    document.getElementById("od-summary").textContent = summary;
+    const subject = tr("order_subject", { pack: pack.label });
+    document.getElementById("od-fb-mail").href =
+      `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary)}`;
+    document.getElementById("od-fb-call").href = `tel:${CONTACT.phone}`;
+    document.getElementById("od-fb-wa").href = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(summary)}`;
+  }
+  document.addEventListener("acadex:lang", renderOrderOutcome);
+
+  const setOrderBusy = (busy) => {
+    orderBusy = busy;
+    orderSubmit.disabled = busy;
+    orderSubmit.classList.toggle("busy", busy);
+    orderSubmitLabel.textContent = tr(busy ? "od_sending" : "od_submit");
+  };
+
+  orderForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (orderBusy) return;
+    clearOrderError();
+    const order = readOrder();
+    const bad = invalidOrderField(order);
+    if (bad) return showOrderError(tr(FIELD_ERRORS[bad]), bad);
+
+    setOrderBusy(true);
+    const abort = new AbortController();
+    const timer = setTimeout(() => abort.abort(), 12000);
+    try {
+      const res = await fetch(ORDER_ENDPOINT, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(order),
+        signal: abort.signal,
+      });
+      const answer = await res.json().catch(() => ({}));
+      if (res.status === 201 && answer.reference) {
+        orderShown = { order, reference: answer.reference };
+        renderOrderOutcome();
+        // The contact details stay for a second order; the remark does not.
+        orderForm.elements.message.value = "";
+        showOrderStep("done");
+        return;
+      }
+      if (res.status === 400 && FIELD_ERRORS[answer.field]) {
+        return showOrderError(tr(FIELD_ERRORS[answer.field]), answer.field);
+      }
+      if (res.status === 429) return showOrderError(tr("od_err_rate"));
+      throw new Error("order not accepted");
+    } catch {
+      orderShown = { order, reference: null };
+      renderOrderOutcome();
+      showOrderStep("fallback");
+    } finally {
+      clearTimeout(timer);
+      setOrderBusy(false);
+    }
+  });
+
+  // A link can open the form directly (…/#order-complet): for a message, an ad, a QR code.
+  const orderHash = /^#order(?:-(essentiel|plus|complet))?$/.exec(location.hash);
+  if (orderHash) openOrder(orderHash[1] || "complet");
+
+  document.getElementById("od-fb-retry").addEventListener("click", () => {
+    orderShown = null;
+    showOrderStep("form");
+  });
+
+  document.getElementById("od-copy").addEventListener("click", async (e) => {
+    const button = e.currentTarget;
+    try {
+      await navigator.clipboard.writeText(document.getElementById("od-ref").textContent);
+      button.textContent = tr("od_copied");
+      setTimeout(() => { button.textContent = tr("od_copy"); }, 1800);
+    } catch {
+      /* no clipboard permission: the reference stays on screen to be read */
+    }
   });
 
   // Dynamic live version check from Cloudflare update feed
