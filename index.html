@@ -1411,7 +1411,7 @@
 
   /* ── Order dialog ─────────────────────────────────────────── */
   dialog.order-dialog {
-    width: min(580px, calc(100vw - 24px));
+    width: min(440px, calc(100vw - 24px));
     max-height: min(92vh, 880px);
     margin: auto;
     padding: 0;
@@ -1449,7 +1449,11 @@
   }
 
   .od-head h2 { font-size: 19px; font-weight: 900; color: #fff; line-height: 1.3; }
-  .od-head p { font-size: 12.5px; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
+  .od-head p { font-size: 13px; color: var(--text-muted); font-weight: 600; margin-top: 4px; }
+  /* What is being ordered, said once: the price and that it is paid one time. */
+  .od-terms b { font-weight: 800; color: #fff; }
+  .order-dialog[data-pack="plus"] .od-terms b { color: var(--primary-light); }
+  .order-dialog[data-pack="complet"] .od-terms b { color: var(--accent-gold-light); }
 
   .od-close {
     width: 36px;
@@ -1478,68 +1482,19 @@
     margin-bottom: 6px;
   }
 
-  .od-label em { font-style: normal; font-weight: 600; color: var(--text-dim); }
-
-  .od-packs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 16px;
-    border: none;
-  }
-
-  .od-pack { position: relative; display: block; cursor: pointer; }
-  .od-pack input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
-
-  .od-pack .box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    padding: 11px 8px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-light);
-    background: rgba(255, 255, 255, 0.03);
-    transition: all var(--transition);
-  }
-
-  .od-pack b { font-size: 13.5px; font-weight: 800; color: #fff; }
-
-  .od-pack small {
-    font-family: "Plus Jakarta Sans", sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-  }
-
-  .od-pack input:checked + .box {
-    border-color: var(--primary);
-    background: rgba(59, 130, 246, 0.12);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.16);
-  }
-
-  .od-pack.gold input:checked + .box {
-    border-color: var(--accent-gold);
-    background: rgba(245, 158, 11, 0.12);
-    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
-  }
-
-  .od-pack.gold input:checked + .box small { color: var(--accent-gold-light); }
-  .od-pack input:focus-visible + .box { outline: 2px solid #fff; outline-offset: 2px; }
-
-  .od-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   .od-field { display: flex; flex-direction: column; min-width: 0; }
-  .od-field.full { grid-column: 1 / -1; }
+  .od-field + .od-field { margin-top: 14px; }
 
   .od-input {
     width: 100%;
     font: inherit;
-    font-size: 15px;
+    /* 16px: a phone zooms the whole page on a smaller input. */
+    font-size: 16px;
     color: #fff;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-light);
     border-radius: 11px;
-    padding: 11px 12px;
+    padding: 13px 14px;
     transition: border-color var(--transition), box-shadow var(--transition);
   }
 
@@ -1556,29 +1511,9 @@
     box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
   }
 
-  select.od-input { appearance: none; -webkit-appearance: none; cursor: pointer; }
-  select.od-input option { background: #0C111C; color: #fff; }
-  textarea.od-input { resize: vertical; min-height: 66px; }
   .od-ltr { direction: ltr; text-align: left; font-family: "Plus Jakarta Sans", sans-serif; }
   html[dir="rtl"] .od-ltr { text-align: right; }
 
-  .od-hint { margin-top: 5px; font-size: 11.5px; font-weight: 500; color: var(--text-dim); line-height: 1.5; }
-
-  .od-details {
-    grid-column: 1 / -1;
-    border: 1px dashed var(--border-light);
-    border-radius: 11px;
-    padding: 10px 12px;
-  }
-
-  .od-details summary {
-    cursor: pointer;
-    font-size: 12.5px;
-    font-weight: 700;
-    color: var(--primary-light);
-  }
-
-  .od-details[open] summary { margin-bottom: 10px; }
   .od-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 
   .od-error {
@@ -1727,7 +1662,9 @@
   }
 
   .od-actions { display: flex; flex-wrap: wrap; gap: 10px; }
-  .od-actions > * { flex: 1 1 140px; justify-content: center; min-height: 46px; }
+  .od-actions > * { flex: 1 1 140px; justify-content: center; min-height: 46px; white-space: nowrap; }
+  /* The main action takes its own row: its label never wraps in the narrow dialog. */
+  .od-actions > .btn-primary { flex-basis: 100%; }
 
   .od-summary {
     margin: 14px 0;
@@ -1794,16 +1731,14 @@
   }
 
   @media (max-width: 560px) {
+    /* Two fields do not need the whole screen: a card pinned near the top keeps
+       both of them and the send button above the keyboard. */
     dialog.order-dialog {
-      width: 100vw;
-      max-width: 100vw;
-      height: 100dvh;
-      max-height: 100dvh;
-      margin: 0;
-      border: none;
-      border-radius: 0;
+      width: calc(100vw - 20px);
+      max-width: calc(100vw - 20px);
+      max-height: calc(100dvh - 24px);
+      margin: 12px auto auto;
     }
-    .od-grid { grid-template-columns: 1fr; }
     /* On a phone the three packs fit side by side: nothing to scroll for. */
     .cmp-box { margin-inline: -12px; }
     .cmp-table { min-width: 0; table-layout: fixed; font-size: 12px; }
@@ -1816,7 +1751,6 @@
     .od-body { padding: 16px 16px 0; }
     .od-step.active { padding-bottom: 24px; }
     .od-send { margin-inline: -16px; padding-inline: 16px; }
-    .od-pack b { font-size: 12.5px; }
     .lang-btn { padding: 6px 9px; }
     .nav-right { gap: 8px; }
     .hero-meta { gap: 6px 12px; font-size: 12px; }
@@ -2384,8 +2318,8 @@
 <dialog class="order-dialog" id="order-dialog" aria-labelledby="od-title">
   <div class="od-head">
     <div>
-      <h2 id="od-title" data-i18n="od_title">طلب باقة</h2>
-      <p data-i18n="od_sub">نموذج قصير — دون دفع الآن.</p>
+      <h2 id="od-title">طلب باقة</h2>
+      <p class="od-terms" id="od-terms"></p>
     </div>
     <button type="button" class="od-close" data-od-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
   </div>
@@ -2394,62 +2328,16 @@
     <!-- 1 · the form -->
     <div class="od-step active" data-step="form">
       <form id="order-form" novalidate>
-        <span class="od-label" data-i18n="od_pack">الباقة</span>
-        <div class="od-packs" role="radiogroup" aria-labelledby="od-title">
-          <label class="od-pack">
-            <input type="radio" name="pack" value="essentiel">
-            <span class="box"><b>Essentiel</b><small>300 DT</small></span>
-          </label>
-          <label class="od-pack">
-            <input type="radio" name="pack" value="plus">
-            <span class="box"><b>Plus ⭐</b><small>450 DT</small></span>
-          </label>
-          <label class="od-pack gold">
-            <input type="radio" name="pack" value="complet" checked>
-            <span class="box"><b>Complet 👑</b><small>600 DT</small></span>
-          </label>
-        </div>
+        <!-- The pack is the one whose button was clicked; the heading names it. -->
+        <input type="hidden" name="pack" value="complet">
 
-        <div class="od-grid">
-          <div class="od-field full">
-            <label class="od-label" for="od-school" data-i18n="od_school">اسم المدرسة أو المركز</label>
-            <input class="od-input" id="od-school" name="school_name" type="text" autocomplete="organization" maxlength="120" required>
-          </div>
-          <div class="od-field">
-            <label class="od-label" for="od-name" data-i18n="od_name">اسمك</label>
-            <input class="od-input" id="od-name" name="contact_name" type="text" autocomplete="name" maxlength="80" required>
-          </div>
-          <div class="od-field">
-            <label class="od-label" for="od-phone" data-i18n="od_phone">رقم الهاتف</label>
-            <input class="od-input od-ltr" id="od-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="55 518 492" required>
-          </div>
-          <div class="od-field">
-            <label class="od-label" for="od-billing" data-i18n="od_billing">طريقة الدفع</label>
-            <select class="od-input" id="od-billing" name="billing" aria-describedby="od-billing-hint">
-              <option value="once" data-i18n="od_b_once">دفعة واحدة (ترخيص دائم)</option>
-              <option value="monthly" data-i18n="od_b_monthly">شهرياً</option>
-              <option value="term" data-i18n="od_b_term">كل ثلاثي</option>
-              <option value="annual" data-i18n="od_b_annual">سنوياً</option>
-            </select>
-            <p class="od-hint" id="od-billing-hint" data-i18n="od_billing_hint">السعر المعروض للدفعة الواحدة. نحدد معك أقساط الدفع الدوري عند التأكيد.</p>
-          </div>
-          <div class="od-field">
-            <label class="od-label" for="od-city"><span data-i18n="od_city">المدينة</span> <em data-i18n="od_optional">(اختياري)</em></label>
-            <input class="od-input" id="od-city" name="city" type="text" autocomplete="address-level2" maxlength="80">
-          </div>
-          <div class="od-field full">
-            <label class="od-label" for="od-email"><span data-i18n="od_email">البريد الإلكتروني</span> <em data-i18n="od_optional">(اختياري)</em></label>
-            <input class="od-input od-ltr" id="od-email" name="email" type="email" inputmode="email" autocomplete="email" maxlength="120">
-          </div>
-          <details class="od-details">
-            <summary data-i18n="od_code_q">ثبّتَّ التطبيق؟ أضف كود الطلب لتفعيل أسرع</summary>
-            <input class="od-input od-ltr" id="od-code" name="request_code" type="text" autocomplete="off" spellcheck="false" maxlength="40" placeholder="ACX-R-XXXXX-XXXXX-XXXXX-XXX" aria-describedby="od-code-hint">
-            <p class="od-hint" id="od-code-hint" data-i18n="od_code_hint">يظهر في شاشة التفعيل داخل التطبيق ويبدأ بـ ACX-R.</p>
-          </details>
-          <div class="od-field full">
-            <label class="od-label" for="od-message"><span data-i18n="od_message">ملاحظة</span> <em data-i18n="od_optional">(اختياري)</em></label>
-            <textarea class="od-input" id="od-message" name="message" rows="2" maxlength="500" data-i18n-ph="od_message_ph" placeholder="عدد التلاميذ، أسئلة…"></textarea>
-          </div>
+        <div class="od-field">
+          <label class="od-label" for="od-name" data-i18n="od_name">الاسم واللقب</label>
+          <input class="od-input" id="od-name" name="contact_name" type="text" autocomplete="name" maxlength="80" required>
+        </div>
+        <div class="od-field">
+          <label class="od-label" for="od-phone" data-i18n="od_phone">رقم الهاتف</label>
+          <input class="od-input od-ltr" id="od-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" maxlength="24" placeholder="55 518 492" required>
         </div>
 
         <!-- Not for people: a field only bots fill. -->
@@ -2465,7 +2353,7 @@
             <span id="od-submit-label" data-i18n="od_submit">إرسال الطلب</span>
           </button>
         </div>
-        <p class="od-foot" data-i18n="od_foot">لا دفع الآن. نتصل بك لتأكيد الطلب وطريقة الدفع.</p>
+        <p class="od-foot" data-i18n="od_foot">لا دفع الآن. نتصل بك لتأكيد طلبك.</p>
       </form>
     </div>
 
@@ -2620,40 +2508,22 @@
       faq_a5: "اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.",
       cta_btn_order: "اطلب باقتك",
       m_order: "اطلب Complet · 600 د.ت",
-      od_title: "طلب باقة",
-      od_sub: "نموذج قصير — دون دفع الآن.",
-      od_pack: "الباقة",
-      od_school: "اسم المدرسة أو المركز",
-      od_name: "اسمك",
+      od_title: "طلب باقة {pack}",
+      od_terms: "دفعة واحدة · ترخيص دائم مدى الحياة",
+      od_name: "الاسم واللقب",
       od_phone: "رقم الهاتف",
-      od_billing: "طريقة الدفع",
-      od_b_once: "دفعة واحدة (ترخيص دائم)",
-      od_b_monthly: "شهرياً",
-      od_b_term: "كل ثلاثي",
-      od_b_annual: "سنوياً",
-      od_billing_hint: "السعر المعروض للدفعة الواحدة. نحدد معك أقساط الدفع الدوري عند التأكيد.",
-      od_city: "المدينة",
-      od_email: "البريد الإلكتروني",
-      od_optional: "(اختياري)",
-      od_code_q: "ثبّتَّ التطبيق؟ أضف كود الطلب لتفعيل أسرع",
-      od_code_hint: "يظهر في شاشة التفعيل داخل التطبيق ويبدأ بـ ACX-R.",
-      od_message: "ملاحظة",
-      od_message_ph: "عدد التلاميذ، أسئلة…",
       od_submit: "إرسال الطلب",
       od_sending: "جارٍ الإرسال…",
-      od_foot: "لا دفع الآن. نتصل بك لتأكيد الطلب وطريقة الدفع.",
-      od_err_school: "اكتب اسم المدرسة أو المركز.",
+      od_foot: "لا دفع الآن. نتصل بك لتأكيد طلبك.",
       od_err_name: "اكتب اسمك.",
       od_err_phone: "رقم الهاتف غير صحيح. مثال: 55 518 492",
-      od_err_email: "البريد الإلكتروني غير صحيح.",
-      od_err_code: "كود الطلب غير صحيح. يبدأ بـ ACX-R ويُنسخ من شاشة التفعيل.",
       od_err_rate: "طلبات كثيرة من هذا الاتصال. أعد المحاولة لاحقاً أو اتصل بنا مباشرة.",
       od_done_title: "تم تسجيل طلبك",
       od_done_sub: "احتفظ بهذا المرجع:",
       od_copy: "نسخ",
       od_copied: "تم النسخ ✓",
       od_next1: "حمّل التطبيق وثبّته الآن — دقيقة واحدة.",
-      od_next2: "نتصل بك على {phone} لتأكيد الطلب وطريقة الدفع.",
+      od_next2: "نتصل بك على {phone} لتأكيد الطلب.",
       od_next3: "تستلم كود التفعيل وتدخله في التطبيق: تُفتح باقة {pack} فوراً.",
       od_dl: "تحميل التطبيق",
       od_close: "إغلاق",
@@ -2663,11 +2533,7 @@
       od_fb_call: "اتصال",
       od_fb_retry: "إعادة المحاولة",
       order_subject: "طلب باقة Acadex — {pack}",
-      order_msg: "طلب باقة Acadex\nالباقة: {pack} ({price} د.ت)\nالدفع: {billing}\nالمدرسة: {school}\nالاسم: {name}\nالهاتف: {phone}",
-      order_city: "المدينة: {value}",
-      order_email: "البريد: {value}",
-      order_code: "كود الطلب: {value}",
-      order_note: "ملاحظة: {value}"
+      order_msg: "طلب باقة Acadex\nالباقة: {pack} ({price} د.ت) — دفعة واحدة، ترخيص دائم\nالاسم: {name}\nالهاتف: {phone}",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -2775,40 +2641,22 @@
       faq_a5: "Cliquez sur « Commander » sous le pack choisi et remplissez le court formulaire de cette page. Nous vous appelons pour confirmer la commande et le mode de paiement, puis nous vous envoyons le code d'activation à saisir dans l'application.",
       cta_btn_order: "Commander mon pack",
       m_order: "Commander Complet · 600 DT",
-      od_title: "Commander un pack",
-      od_sub: "Un court formulaire — aucun paiement maintenant.",
-      od_pack: "Pack",
-      od_school: "Nom de l'école ou du centre",
-      od_name: "Votre nom",
+      od_title: "Commander le pack {pack}",
+      od_terms: "paiement unique · licence à vie",
+      od_name: "Nom et prénom",
       od_phone: "Téléphone",
-      od_billing: "Mode de paiement",
-      od_b_once: "Paiement unique (licence à vie)",
-      od_b_monthly: "Mensuel",
-      od_b_term: "Par trimestre",
-      od_b_annual: "Annuel",
-      od_billing_hint: "Le prix affiché est celui du paiement unique. Les échéances d'un paiement périodique sont fixées avec vous à la confirmation.",
-      od_city: "Ville",
-      od_email: "E-mail",
-      od_optional: "(facultatif)",
-      od_code_q: "Application déjà installée ? Ajoutez le code de demande pour une activation plus rapide",
-      od_code_hint: "Affiché sur l'écran d'activation de l'application ; il commence par ACX-R.",
-      od_message: "Remarque",
-      od_message_ph: "Nombre d'élèves, questions…",
       od_submit: "Envoyer la commande",
       od_sending: "Envoi…",
-      od_foot: "Aucun paiement maintenant. Nous vous appelons pour confirmer la commande et le mode de paiement.",
-      od_err_school: "Indiquez le nom de l'école ou du centre.",
+      od_foot: "Aucun paiement maintenant. Nous vous appelons pour confirmer votre commande.",
       od_err_name: "Indiquez votre nom.",
       od_err_phone: "Ce numéro de téléphone n'est pas valide. Exemple : 55 518 492",
-      od_err_email: "Cette adresse e-mail n'est pas valide.",
-      od_err_code: "Ce code de demande n'est pas valide. Il commence par ACX-R : copiez-le depuis l'écran d'activation.",
       od_err_rate: "Trop de commandes depuis cette connexion. Réessayez plus tard ou contactez-nous directement.",
       od_done_title: "Commande enregistrée",
       od_done_sub: "Conservez cette référence :",
       od_copy: "Copier",
       od_copied: "Copié ✓",
       od_next1: "Téléchargez et installez l'application maintenant — une minute.",
-      od_next2: "Nous vous appelons au {phone} pour confirmer la commande et le mode de paiement.",
+      od_next2: "Nous vous appelons au {phone} pour confirmer la commande.",
       od_next3: "Vous recevez le code d'activation ; saisissez-le dans l'application : le pack {pack} se débloque aussitôt.",
       od_dl: "Télécharger l'application",
       od_close: "Fermer",
@@ -2818,11 +2666,7 @@
       od_fb_call: "Appeler",
       od_fb_retry: "Réessayer",
       order_subject: "Commande Acadex — pack {pack}",
-      order_msg: "Commande Acadex\nPack : {pack} ({price} DT)\nPaiement : {billing}\nÉcole : {school}\nNom : {name}\nTéléphone : {phone}",
-      order_city: "Ville : {value}",
-      order_email: "E-mail : {value}",
-      order_code: "Code de demande : {value}",
-      order_note: "Remarque : {value}"
+      order_msg: "Commande Acadex\nPack : {pack} ({price} DT) — paiement unique, licence à vie\nNom : {name}\nTéléphone : {phone}",
     },
     en: {
       nav_features: "Features",
@@ -2930,40 +2774,22 @@
       faq_a5: "Click “Order” under the pack you want and fill in the short form on this page. We call you to confirm the order and the payment method, then send you the activation code to enter in the app.",
       cta_btn_order: "Order my pack",
       m_order: "Order Complet · 600 DT",
-      od_title: "Order a pack",
-      od_sub: "A short form — no payment now.",
-      od_pack: "Pack",
-      od_school: "School or centre name",
-      od_name: "Your name",
+      od_title: "Order the {pack} pack",
+      od_terms: "one-time payment · lifetime licence",
+      od_name: "Full name",
       od_phone: "Phone",
-      od_billing: "Payment",
-      od_b_once: "One-time (lifetime licence)",
-      od_b_monthly: "Monthly",
-      od_b_term: "Per term",
-      od_b_annual: "Yearly",
-      od_billing_hint: "The price shown is the one-time payment. Instalments for a periodic payment are agreed with you at confirmation.",
-      od_city: "City",
-      od_email: "E-mail",
-      od_optional: "(optional)",
-      od_code_q: "Already installed? Add the request code for faster activation",
-      od_code_hint: "Shown on the app's activation screen; it starts with ACX-R.",
-      od_message: "Note",
-      od_message_ph: "Number of students, questions…",
       od_submit: "Send order",
       od_sending: "Sending…",
-      od_foot: "No payment now. We call you to confirm the order and the payment method.",
-      od_err_school: "Enter the school or centre name.",
+      od_foot: "No payment now. We call you to confirm your order.",
       od_err_name: "Enter your name.",
       od_err_phone: "This phone number is not valid. Example: 55 518 492",
-      od_err_email: "This e-mail address is not valid.",
-      od_err_code: "This request code is not valid. It starts with ACX-R: copy it from the activation screen.",
       od_err_rate: "Too many orders from this connection. Try again later or contact us directly.",
       od_done_title: "Order received",
       od_done_sub: "Keep this reference:",
       od_copy: "Copy",
       od_copied: "Copied ✓",
       od_next1: "Download and install the app now — one minute.",
-      od_next2: "We call you on {phone} to confirm the order and the payment method.",
+      od_next2: "We call you on {phone} to confirm the order.",
       od_next3: "You receive the activation code; enter it in the app and the {pack} pack unlocks at once.",
       od_dl: "Download the app",
       od_close: "Close",
@@ -2973,11 +2799,7 @@
       od_fb_call: "Call",
       od_fb_retry: "Try again",
       order_subject: "Acadex order — {pack} pack",
-      order_msg: "Acadex order\nPack: {pack} ({price} DT)\nPayment: {billing}\nSchool: {school}\nName: {name}\nPhone: {phone}",
-      order_city: "City: {value}",
-      order_email: "E-mail: {value}",
-      order_code: "Request code: {value}",
-      order_note: "Note: {value}"
+      order_msg: "Acadex order\nPack: {pack} ({price} DT) — one-time payment, lifetime licence\nName: {name}\nPhone: {phone}",
     }
   };
 
@@ -3096,13 +2918,9 @@
     plus: { label: "Plus", price: 450 },
     complet: { label: "Complet", price: 600 },
   };
-  const REQUEST_CODE_RE = /^ACX-R-(?:[0-9A-Z]{5}-){3}[0-9A-Z]{3}$/;
   const FIELD_ERRORS = {
-    school_name: "od_err_school",
     contact_name: "od_err_name",
     phone: "od_err_phone",
-    email: "od_err_email",
-    request_code: "od_err_code",
   };
 
   const orderDialog = document.getElementById("order-dialog");
@@ -3130,15 +2948,29 @@
     orderError.classList.add("show");
     const input = field && orderForm.elements[field];
     if (input && input.classList) {
-      if (field === "request_code") input.closest("details").open = true;
       input.classList.add("invalid");
       input.focus();
     }
   };
 
+  /**
+   * The form asks a name and a phone, nothing else: the pack is the one whose
+   * button was clicked, and the heading says which, at what price, paid once.
+   */
+  function renderOrderHead() {
+    const key = PACKS[orderForm.elements.pack.value] ? orderForm.elements.pack.value : "complet";
+    const pack = PACKS[key];
+    orderDialog.dataset.pack = key;
+    document.getElementById("od-title").textContent = tr("od_title", { pack: pack.label });
+    const price = document.createElement("b");
+    price.textContent = `${pack.price} ${tr("curr_dt")}`;
+    document.getElementById("od-terms").replaceChildren(price, ` · ${tr("od_terms")}`);
+  }
+  document.addEventListener("acadex:lang", renderOrderHead);
+
   function openOrder(pack) {
-    const radio = orderForm.querySelector(`input[name="pack"][value="${PACKS[pack] ? pack : "complet"}"]`);
-    if (radio) radio.checked = true;
+    orderForm.elements.pack.value = PACKS[pack] ? pack : "complet";
+    renderOrderHead();
     clearOrderError();
     orderShown = null;
     showOrderStep("form");
@@ -3147,7 +2979,7 @@
     } else {
       orderDialog.setAttribute("open", "");
     }
-    const firstEmpty = ["school_name", "contact_name", "phone"].map(n => orderForm.elements[n]).find(el => !el.value.trim());
+    const firstEmpty = ["contact_name", "phone"].map(n => orderForm.elements[n]).find(el => !el.value.trim());
     (firstEmpty || orderSubmit).focus();
   }
 
@@ -3170,16 +3002,16 @@
   function readOrder() {
     const data = new FormData(orderForm);
     const value = (name) => String(data.get(name) || "").trim();
+    const name = value("contact_name");
     return {
-      pack: value("pack") || "complet",
-      billing: value("billing") || "once",
-      school_name: value("school_name"),
-      contact_name: value("contact_name"),
+      pack: PACKS[value("pack")] ? value("pack") : "complet",
+      // Never asked: an order is for the one-time licence.
+      billing: "once",
+      contact_name: name,
+      // One name is asked. The order service still wants a school name, so the
+      // same name fills it; the school's own name is taken on the confirmation call.
+      school_name: name,
       phone: value("phone"),
-      city: value("city"),
-      email: value("email"),
-      request_code: value("request_code").toUpperCase().replace(/\s+/g, ""),
-      message: value("message"),
       website: value("website"),
       lang: currentLang,
     };
@@ -3187,30 +3019,20 @@
 
   /** The same rules the worker applies, so most mistakes are caught before the request. */
   function invalidOrderField(order) {
-    if (order.school_name.length < 2) return "school_name";
     if (order.contact_name.length < 2) return "contact_name";
     const digits = order.phone.replace(/\D/g, "");
     if (/[^\d+\s().-]/.test(order.phone) || digits.length < 8 || digits.length > 15) return "phone";
-    if (order.email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(order.email)) return "email";
-    if (order.request_code && !REQUEST_CODE_RE.test(order.request_code)) return "request_code";
     return null;
   }
 
   function orderSummary(order) {
     const pack = PACKS[order.pack] || PACKS.complet;
-    const lines = [tr("order_msg", {
+    return tr("order_msg", {
       pack: pack.label,
       price: String(pack.price),
-      billing: tr(`od_b_${order.billing}`),
-      school: order.school_name,
       name: order.contact_name,
       phone: order.phone,
-    })];
-    if (order.city) lines.push(tr("order_city", { value: order.city }));
-    if (order.email) lines.push(tr("order_email", { value: order.email }));
-    if (order.request_code) lines.push(tr("order_code", { value: order.request_code }));
-    if (order.message) lines.push(tr("order_note", { value: order.message }));
-    return lines.join("\n");
+    });
   }
 
   function renderOrderOutcome() {
@@ -3262,8 +3084,6 @@
       if (res.status === 201 && answer.reference) {
         orderShown = { order, reference: answer.reference };
         renderOrderOutcome();
-        // The contact details stay for a second order; the remark does not.
-        orderForm.elements.message.value = "";
         showOrderStep("done");
         return;
       }
@@ -3285,6 +3105,7 @@
   // A link can open the form directly (…/#order-complet): for a message, an ad, a QR code.
   const orderHash = /^#order(?:-(essentiel|plus|complet))?$/.exec(location.hash);
   if (orderHash) openOrder(orderHash[1] || "complet");
+  else renderOrderHead();
 
   document.getElementById("od-fb-retry").addEventListener("click", () => {
     orderShown = null;

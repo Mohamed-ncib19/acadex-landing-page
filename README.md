@@ -19,8 +19,10 @@ school management desktop app for Windows.
   to scroll back up to act. On a phone the three packs fit side by side —
   nothing scrolls sideways.
 - **Ordering never leaves the page.** Every plan button (`data-order-pack`)
-  opens the order form (`<dialog id="order-dialog">`): pack, school, name,
-  phone, payment rhythm, optional city / e-mail / request code / note. See
+  opens the order form (`<dialog id="order-dialog">`). The form asks **a name
+  and a phone, nothing else**: the pack is the one whose button was clicked
+  (the heading names it with its price) and the order is always for the
+  one-time licence. See
   « Orders » below. WhatsApp is only a contact chip in the footer and one of
   the fallbacks if the form cannot be sent.
 - A link can open the form directly: `…/#order` (Complet) or
