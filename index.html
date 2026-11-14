@@ -636,20 +636,32 @@
     border-color: var(--border-light);
   }
 
-  /* Plus / Most Popular Highlight */
+  /* Plus — marked « most popular ». Blue, and one step quieter than the
+     featured pack: it stays level with Essentiel, so Complet is the raised one. */
   .pricing-card.is-popular {
-    background: linear-gradient(180deg, rgba(30, 58, 138, 0.25) 0%, rgba(12, 16, 26, 0.95) 40%);
-    border: 2px solid var(--primary);
-    box-shadow: 0 20px 50px -15px var(--primary-glow);
+    background: linear-gradient(180deg, rgba(37, 99, 235, 0.22) 0%, rgba(12, 16, 26, 0.96) 42%);
+    border: 1.5px solid rgba(96, 165, 250, 0.7);
+    box-shadow: 0 22px 55px -22px rgba(59, 130, 246, 0.6);
+    padding-top: 40px;
   }
 
-  @media (min-width: 960px) {
-    .pricing-card.is-popular {
-      transform: translateY(-8px);
-    }
-    .pricing-card.is-popular:hover {
-      transform: translateY(-12px);
-    }
+  .pricing-card.is-popular:hover {
+    border-color: var(--primary-light);
+  }
+
+  .pricing-card.is-popular .p-price-row { border-bottom-color: rgba(96, 165, 250, 0.25); }
+
+  .pricing-card.is-popular .pricing-ribbon {
+    top: -14px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 5px 16px;
+    background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+    border: 1px solid rgba(147, 197, 253, 0.55);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.5);
   }
 
   .pricing-card.is-gold {
@@ -904,6 +916,8 @@
     color: var(--accent-gold-light);
     background: rgba(245, 158, 11, 0.12);
   }
+
+  .cmp-table thead th.cmp-plus-col { color: var(--primary-light); }
 
   .cmp-order {
     display: inline-flex;
@@ -1259,9 +1273,10 @@
     }
   }
 
-  /* On a phone the featured pack is read first. */
+  /* On a phone the packs read from the fullest down: Complet, Plus, Essentiel. */
   @media (max-width: 959px) {
-    .pricing-card.is-featured { order: -1; }
+    .pricing-card.is-featured { order: -2; }
+    .pricing-card.is-popular { order: -1; }
     .pricing-grid { row-gap: 30px; }
   }
 
@@ -2095,7 +2110,8 @@
         </div>
 
         <!-- Plus -->
-        <div class="pricing-card is-plus reveal">
+        <div class="pricing-card is-plus is-popular reveal">
+          <div class="pricing-ribbon" data-i18n="ribbon_popular">الأكثر طلباً ⭐</div>
           <div class="p-head">
             <h3>Plus</h3>
             <span class="bento-badge plus" data-i18n="tier_pro">الاحترافية</span>
@@ -2168,7 +2184,7 @@
             <tr>
               <th scope="col" data-i18n="tbl_col_feat">الميزة</th>
               <th scope="col">Essentiel <span class="cmp-price">(300)</span></th>
-              <th scope="col">Plus <span class="cmp-price">(450)</span></th>
+              <th scope="col" class="cmp-plus-col">Plus <span class="cmp-price">(450) ⭐</span></th>
               <th scope="col" class="cmp-pop-col">Complet <span class="cmp-price">(600) 👑</span></th>
             </tr>
           </thead>
@@ -2386,7 +2402,7 @@
           </label>
           <label class="od-pack">
             <input type="radio" name="pack" value="plus">
-            <span class="box"><b>Plus</b><small>450 DT</small></span>
+            <span class="box"><b>Plus ⭐</b><small>450 DT</small></span>
           </label>
           <label class="od-pack gold">
             <input type="radio" name="pack" value="complet" checked>
@@ -2694,7 +2710,7 @@
       tier_complet: "Complet",
       curr_dt: "DT",
       badge_lifetime: "Paiement unique",
-      ribbon_popular: "Plus Populaire ⭐",
+      ribbon_popular: "Le plus populaire ⭐",
       ribbon_complet: "Recommandé · le plus complet 👑",
       p1_tag: "Tous les indispensables pour faire tourner votre école au quotidien.",
       p1_f1: "Élèves, enseignants, classes et niveaux",
@@ -2849,7 +2865,7 @@
       tier_complet: "Complete",
       curr_dt: "DT",
       badge_lifetime: "One-time payment",
-      ribbon_popular: "Most Popular ⭐",
+      ribbon_popular: "Most popular ⭐",
       ribbon_complet: "Recommended · most complete 👑",
       p1_tag: "All the essentials to operate your school smoothly day to day.",
       p1_f1: "Students, teachers, classes, and grades",

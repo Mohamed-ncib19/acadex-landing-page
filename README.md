@@ -11,7 +11,9 @@ school management desktop app for Windows.
   one-time purchase. **`Complet` is the recommended pack**: it carries the
   `is-featured` class (the one bold element of the page: gold border, lifted,
   wider column, ribbon, its own value line and a gold button) and comes first
-  on a phone. `Plus` (`is-plus`) and `Essentiel` stay quiet on purpose.
+  on a phone. **`Plus` is the most popular pack** (`is-popular`): a blue card
+  with its own ribbon (`ribbon_popular`), one step quieter than Complet — it is
+  not raised — and second on a phone. `Essentiel` stays plain on purpose.
 - The **comparison table** under the packs repeats the same content with the
   `Complet` column tinted gold (`cmp-pop-col`), plus a CTA row so nobody has
   to scroll back up to act. On a phone the three packs fit side by side —
