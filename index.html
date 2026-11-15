@@ -4143,25 +4143,48 @@
 
   // ── Notion Database Order Persistence ────────────────────────
   const NOTION_API_KEY = atob("bnRuXzYxMjg5ODE3MDQ4OWJXWTlKMHE3d1U1WUFhQWFTS0RVQk82T01Dd1JyYzAzamQ=");
-  const NOTION_DATABASE_ID = "418e4528-63d8-8008-973d-d75810cc4ebd";
+  const NOTION_DATABASE_ID = "418e4528-63d8-807f-b5e9-df3bdd3a9ccb";
+  const NOTION_PAGE_ID = "418e4528-63d8-8008-973d-d75810cc4ebd";
 
   async function saveOrderToNotion(order, reference) {
     try {
+      let activeDbId = NOTION_DATABASE_ID;
       let titleProp = "Name";
-      let phoneProp = null;
+      let phoneProp = { name: "phone", type: "phone_number" };
       let packProp = null;
       let priceProp = null;
       let refProp = null;
       let dateProp = null;
 
       try {
-        const dbRes = await fetch(`https://api.notion.com/v1/databases/${NOTION_DATABASE_ID}`, {
+        let dbRes = await fetch(`https://api.notion.com/v1/databases/${activeDbId}`, {
           headers: {
             "Authorization": `Bearer ${NOTION_API_KEY}`,
             "Notion-Version": "2022-06-28"
           }
         });
-        if (dbRes.ok) {
+        if (!dbRes.ok && NOTION_PAGE_ID) {
+          const blocksRes = await fetch(`https://api.notion.com/v1/blocks/${NOTION_PAGE_ID}/children`, {
+            headers: {
+              "Authorization": `Bearer ${NOTION_API_KEY}`,
+              "Notion-Version": "2022-06-28"
+            }
+          });
+          if (blocksRes.ok) {
+            const blocks = await blocksRes.json();
+            const childDb = (blocks.results || []).find(b => b.type === "child_database");
+            if (childDb) {
+              activeDbId = childDb.id;
+              dbRes = await fetch(`https://api.notion.com/v1/databases/${activeDbId}`, {
+                headers: {
+                  "Authorization": `Bearer ${NOTION_API_KEY}`,
+                  "Notion-Version": "2022-06-28"
+                }
+              });
+            }
+          }
+        }
+        if (dbRes && dbRes.ok) {
           const dbData = await dbRes.json();
           const props = dbData.properties || {};
           for (const [k, v] of Object.entries(props)) {
@@ -4228,7 +4251,7 @@
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          parent: { database_id: NOTION_DATABASE_ID },
+          parent: { database_id: activeDbId },
           properties,
           children: [
             {
