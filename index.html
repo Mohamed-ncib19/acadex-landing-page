@@ -1954,6 +1954,67 @@
   .od-step { display: none; }
   .od-step.active { display: block; padding-bottom: 22px; }
 
+  .od-packs-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .od-pack-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 6px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1.5px solid var(--border-light);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition);
+    user-select: none;
+  }
+
+  .od-pack-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
+
+  .od-pack-btn .pk-title {
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .od-pack-btn .pk-price {
+    font-size: 11.5px;
+    font-weight: 700;
+    margin-top: 2px;
+    color: var(--text-dim);
+  }
+
+  .od-pack-btn.selected {
+    background: rgba(37, 99, 235, 0.16);
+    border-color: var(--primary);
+    color: #fff;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+  }
+
+  .od-pack-btn.selected .pk-price {
+    color: var(--primary-light);
+  }
+
+  .od-pack-btn.selected[data-pack="complet"] {
+    background: rgba(245, 158, 11, 0.14);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+  }
+
+  .od-pack-btn.selected[data-pack="complet"] .pk-price {
+    color: var(--accent-gold-light);
+  }
+
   .od-label {
     display: block;
     font-size: 12.5px;
@@ -3066,8 +3127,24 @@
     <!-- 1 · the form -->
     <div class="od-step active" data-step="form">
       <form id="order-form" novalidate>
-        <!-- The pack is the one whose button was clicked; the heading names it. -->
-        <input type="hidden" name="pack" value="complet">
+        <div class="od-field">
+          <label class="od-label" data-i18n="p_badge">الباقة المختارة</label>
+          <div class="od-packs-selector" id="od-packs-selector">
+            <button type="button" class="od-pack-btn" data-pack="essentiel">
+              <span class="pk-title">Essentiel</span>
+              <span class="pk-price">150 DT</span>
+            </button>
+            <button type="button" class="od-pack-btn" data-pack="plus">
+              <span class="pk-title">Plus</span>
+              <span class="pk-price">249 DT</span>
+            </button>
+            <button type="button" class="od-pack-btn selected" data-pack="complet">
+              <span class="pk-title">Complet</span>
+              <span class="pk-price">299 DT</span>
+            </button>
+          </div>
+          <input type="hidden" name="pack" value="complet">
+        </div>
 
         <div class="od-field">
           <label class="od-label" for="od-name" data-i18n="od_name">الاسم واللقب</label>
@@ -3992,10 +4069,19 @@
    * The form asks a name and a phone, nothing else: the pack is the one whose
    * button was clicked, and the heading says which, at what price, paid once.
    */
+  function syncPackSelector(key) {
+    const selector = document.getElementById("od-packs-selector");
+    if (!selector) return;
+    selector.querySelectorAll(".od-pack-btn").forEach(btn => {
+      btn.classList.toggle("selected", btn.getAttribute("data-pack") === key);
+    });
+  }
+
   function renderOrderHead() {
     const key = PACKS[orderForm.elements.pack.value] ? orderForm.elements.pack.value : "complet";
     const pack = PACKS[key];
     orderDialog.dataset.pack = key;
+    syncPackSelector(key);
     document.getElementById("od-title").textContent = tr("od_title", { pack: pack.label });
     const terms = document.getElementById("od-terms");
     const price = document.createElement("b");
@@ -4010,6 +4096,19 @@
     }
   }
   document.addEventListener("acadex:lang", renderOrderHead);
+
+  const packSelector = document.getElementById("od-packs-selector");
+  if (packSelector) {
+    packSelector.querySelectorAll(".od-pack-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const pk = btn.getAttribute("data-pack");
+        if (PACKS[pk]) {
+          orderForm.elements.pack.value = pk;
+          renderOrderHead();
+        }
+      });
+    });
+  }
 
   function openOrder(pack) {
     orderForm.elements.pack.value = PACKS[pack] ? pack : "complet";
@@ -4208,9 +4307,12 @@
         console.warn("[Notion] Schema discovery note:", e);
       }
 
+      const packNameFormatted = order.pack === "essentiel" ? "Essentiel" : order.pack === "plus" ? "Plus" : "Complet";
+      const packPrice = (PACKS[order.pack] && PACKS[order.pack].price) || 299;
+
       const properties = {};
       properties[titleProp] = {
-        title: [{ text: { content: `${order.contact_name} — ${order.pack.toUpperCase()}` } }]
+        title: [{ text: { content: order.contact_name } }]
       };
 
       if (phoneProp) {
@@ -4222,13 +4324,12 @@
       }
       if (packProp) {
         if (packProp.type === "select") {
-          properties[packProp.name] = { select: { name: order.pack.toUpperCase() } };
+          properties[packProp.name] = { select: { name: packNameFormatted } };
         } else {
-          properties[packProp.name] = { rich_text: [{ text: { content: order.pack } }] };
+          properties[packProp.name] = { rich_text: [{ text: { content: packNameFormatted } }] };
         }
       }
       if (priceProp) {
-        const packPrice = (PACKS[order.pack] && PACKS[order.pack].price) || 299;
         if (priceProp.type === "number") {
           properties[priceProp.name] = { number: packPrice };
         } else {
@@ -4241,8 +4342,7 @@
       if (dateProp) {
         properties[dateProp.name] = { date: { start: new Date().toISOString() } };
       }
-
-      const packPrice = (PACKS[order.pack] && PACKS[order.pack].price) || 299;
+      properties["Status"] = { select: { name: "Nouveau" } };
       const res = await fetch("https://api.notion.com/v1/pages", {
         method: "POST",
         headers: {
