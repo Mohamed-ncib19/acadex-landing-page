@@ -7,7 +7,7 @@ school management desktop app for Windows.
 
 - `index.html` — the whole page (inline CSS/JS, no build step)
 - The **packs block** (`#plans`) mirrors the app's three tiers — same names
-  (Essentiel / Plus / Complet), same prices (300 / 450 / 600 DT), same
+  (Essentiel / Plus / Complet), prices (150 DT / Plus 249 DT promo [was 450 DT] / Complet 299 DT promo [was 600 DT]), same
   one-time purchase. **`Complet` is the recommended pack**: it carries the
   `is-featured` class (the one bold element of the page: gold border, lifted,
   wider column, ribbon, its own value line and a gold button) and comes first
@@ -16,8 +16,10 @@ school management desktop app for Windows.
   not raised — and second on a phone. `Essentiel` stays plain on purpose.
 - The **comparison table** under the packs repeats the same content with the
   `Complet` column tinted gold (`cmp-pop-col`), plus a CTA row so nobody has
-  to scroll back up to act. On a phone the three packs fit side by side —
-  nothing scrolls sideways.
+  to scroll back up to act. On mobile/tablet, it provides an enhanced responsive view:
+  a pinned sticky feature column (`th:first-child`) with smooth horizontal swipe in
+  full comparison mode, plus interactive segmented tabs (`[الكل ⇋]` / `[Essentiel]` / `[Plus]` / `[Complet]`)
+  allowing instant switching between the complete matrix and an ultra-readable 2-column single-plan view.
 - **Ordering never leaves the page.** Every plan button (`data-order-pack`)
   opens the order form (`<dialog id="order-dialog">`). The form asks **a name
   and a phone, nothing else**: the pack is the one whose button was clicked

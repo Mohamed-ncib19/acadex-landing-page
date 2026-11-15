@@ -731,6 +731,18 @@
     line-height: 1;
   }
 
+  .p-old-amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-dim);
+    text-decoration: line-through;
+    text-decoration-thickness: 2.5px;
+    text-decoration-color: #EF4444;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    line-height: 1;
+    opacity: 0.75;
+  }
+
   .pricing-card.is-popular .p-amount { color: var(--primary-light); }
   .pricing-card.is-gold .p-amount { color: var(--accent-gold); }
 
@@ -860,33 +872,59 @@
     flex-shrink: 0;
   }
 
-  /* ── Comparison Table (Minimal Dark) ──────────────────────── */
-  .cmp-box {
+  /* ── Comparison Table (Enhanced Minimal Dark) ─────────────── */
+  .cmp-container {
     margin-top: 60px;
+    position: relative;
+  }
+
+  .cmp-tabs-wrap {
+    display: none;
+  }
+
+  .cmp-scroll-hint {
+    display: none;
+  }
+
+  .cmp-box {
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-xl);
     overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
   }
 
   .cmp-table {
     width: 100%;
-    min-width: 650px;
-    border-collapse: collapse;
+    min-width: 660px;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 13.5px;
     text-align: center;
   }
 
   .cmp-table th, .cmp-table td {
-    padding: 14px 16px;
+    padding: 15px 16px;
     border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+  }
+
+  .cmp-table tbody tr:last-child th,
+  .cmp-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .cmp-table tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
   }
 
   .cmp-table tbody th[scope="row"] {
     text-align: right;
     font-weight: 600;
     color: #fff;
-    width: 44%;
+    width: 40%;
+    line-height: 1.5;
   }
 
   html[dir="ltr"] .cmp-table tbody th[scope="row"] {
@@ -894,10 +932,11 @@
   }
 
   .cmp-table thead th {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.03);
     font-weight: 800;
     color: #fff;
     padding: 18px 16px 14px;
+    font-size: 14.5px;
   }
 
   .cmp-table thead th:first-child {
@@ -915,16 +954,48 @@
   .cmp-table thead th.cmp-pop-col {
     color: var(--accent-gold-light);
     background: rgba(245, 158, 11, 0.12);
+    border-top: 2px solid var(--accent-gold);
   }
 
-  .cmp-table thead th.cmp-plus-col { color: var(--primary-light); }
+  .cmp-table thead th.cmp-plus-col {
+    color: var(--primary-light);
+    border-top: 2px solid var(--primary);
+  }
+
+  .cmp-price {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    font-family: "Plus Jakarta Sans", sans-serif;
+  }
+
+  .cmp-table thead th.cmp-plus-col .cmp-price {
+    color: var(--primary-light);
+  }
+
+  .cmp-table thead th.cmp-pop-col .cmp-price {
+    color: var(--accent-gold-light);
+  }
+
+  .cmp-old {
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: #EF4444;
+    color: var(--text-dim);
+    opacity: 0.75;
+    margin-inline-end: 4px;
+    font-weight: 600;
+    font-size: 11.5px;
+  }
 
   .cmp-order {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: 38px;
-    padding: 0 14px;
+    padding: 0 16px;
     border-radius: var(--radius-full);
     font-size: 13px;
     font-weight: 800;
@@ -933,16 +1004,34 @@
     border: 1px solid var(--border-light);
     transition: all var(--transition);
     white-space: nowrap;
+    width: 85%;
   }
 
   .cmp-order:hover {
     background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+  }
+
+  .cmp-order.blue {
+    background: rgba(37, 99, 235, 0.2);
+    border-color: rgba(96, 165, 250, 0.5);
+    color: var(--primary-light);
+  }
+  .cmp-order.blue:hover {
+    background: rgba(37, 99, 235, 0.35);
+    border-color: var(--primary-light);
+    color: #fff;
   }
 
   .cmp-order.gold {
     background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
     border-color: transparent;
     color: #1A1204;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+  }
+  .cmp-order.gold:hover {
+    box-shadow: 0 6px 18px rgba(245, 158, 11, 0.45);
+    transform: translateY(-1px);
   }
 
   .cmp-table tr.cmp-cta-row th,
@@ -952,14 +1041,29 @@
   }
 
   .cmp-check {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.12);
     color: var(--emerald);
     font-weight: 900;
-    font-size: 15px;
+    font-size: 13px;
+    margin: 0 auto;
+  }
+
+  .cmp-pop-col .cmp-check {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--accent-gold-light);
   }
 
   .cmp-dash {
     color: var(--text-dim);
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 15px;
+    opacity: 0.5;
   }
 
   /* ── FAQ Minimal Accordion ────────────────────────────────── */
@@ -1215,6 +1319,7 @@
 
   .pricing-card.is-featured .p-head h3 { font-size: 26px; }
   .pricing-card.is-featured .p-amount { font-size: 48px; color: var(--accent-gold-light); }
+  .pricing-card.is-featured .p-old-amount { font-size: 26px; }
   .pricing-card.is-featured .p-price-row { border-bottom-color: rgba(245, 158, 11, 0.25); }
   .pricing-card.is-featured .p-list li { color: #fff; }
   .pricing-card.is-plus .p-amount { color: var(--primary-light); }
@@ -1454,6 +1559,14 @@
   .od-terms b { font-weight: 800; color: #fff; }
   .order-dialog[data-pack="plus"] .od-terms b { color: var(--primary-light); }
   .order-dialog[data-pack="complet"] .od-terms b { color: var(--accent-gold-light); }
+  .od-terms .od-old-price {
+    color: var(--text-dim);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    text-decoration-color: #EF4444;
+    margin-inline-end: 6px;
+    font-weight: 600;
+  }
 
   .od-close {
     width: 36px;
@@ -1715,17 +1828,166 @@
     .trust-strip { margin: 30px 0 50px; }
     section.pricing-sec { padding: 50px 18px 70px; }
     section.features-sec { padding: 30px 18px 60px; }
-    .cmp-box { margin-top: 44px; }
-    .cmp-table { min-width: 560px; font-size: 12.5px; }
-    .cmp-table th, .cmp-table td { padding: 12px 10px; }
-    /* The feature names stay in view while the packs scroll sideways. */
+    .cmp-container { margin-top: 44px; }
+    .cmp-tabs-wrap {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    .cmp-tabs-wrap::-webkit-scrollbar { display: none; }
+
+    .cmp-tab-btn {
+      flex: 1 1 auto;
+      min-height: 36px;
+      padding: 7px 11px;
+      border-radius: var(--radius-full);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      white-space: nowrap;
+      transition: all var(--transition);
+      font-family: inherit;
+    }
+
+    .cmp-tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .cmp-tab-btn.active {
+      background: #1E293B;
+      color: #fff;
+      border-color: var(--border-light);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .cmp-tab-btn[data-cmp-tab="plus"].active {
+      background: rgba(37, 99, 235, 0.28);
+      border-color: rgba(96, 165, 250, 0.6);
+      color: var(--primary-light);
+    }
+
+    .cmp-tab-btn[data-cmp-tab="complet"].active {
+      background: rgba(245, 158, 11, 0.22);
+      border-color: rgba(245, 158, 11, 0.55);
+      color: var(--accent-gold-light);
+    }
+
+    .cmp-tab-price {
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 0.85;
+      font-family: "Plus Jakarta Sans", sans-serif;
+    }
+
+    .cmp-scroll-hint {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+      transition: opacity 0.3s var(--ease-out);
+    }
+
+    .cmp-scroll-hint.is-hidden {
+      display: none;
+    }
+
+    .cmp-box {
+      border-radius: var(--radius-lg);
+    }
+
+    .cmp-table {
+      min-width: 580px;
+      font-size: 12.5px;
+    }
+
+    .cmp-table th, .cmp-table td {
+      padding: 12px 10px;
+    }
+
+    /* Pinned first column on tablet & mobile */
     .cmp-table th:first-child {
       position: sticky;
       inset-inline-start: 0;
-      z-index: 1;
+      z-index: 2;
+      background: #0B0F19;
+      width: 170px;
+      min-width: 170px;
+      max-width: 170px;
+      border-inline-end: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    html[dir="rtl"] .cmp-table th:first-child {
+      box-shadow: -6px 0 16px -2px rgba(0, 0, 0, 0.65);
+    }
+    html[dir="ltr"] .cmp-table th:first-child {
+      box-shadow: 6px 0 16px -2px rgba(0, 0, 0, 0.65);
+    }
+
+    .cmp-table thead th:first-child {
+      z-index: 3;
       background: #0E1320;
-      width: 40%;
-      min-width: 150px;
+    }
+
+    /* Single-pack Filtered View on Mobile */
+    .cmp-box[data-pack-view="essentiel"] .cmp-table th:nth-child(3),
+    .cmp-box[data-pack-view="essentiel"] .cmp-table td:nth-child(3),
+    .cmp-box[data-pack-view="essentiel"] .cmp-table th:nth-child(4),
+    .cmp-box[data-pack-view="essentiel"] .cmp-table td:nth-child(4),
+    .cmp-box[data-pack-view="plus"] .cmp-table th:nth-child(2),
+    .cmp-box[data-pack-view="plus"] .cmp-table td:nth-child(2),
+    .cmp-box[data-pack-view="plus"] .cmp-table th:nth-child(4),
+    .cmp-box[data-pack-view="plus"] .cmp-table td:nth-child(4),
+    .cmp-box[data-pack-view="complet"] .cmp-table th:nth-child(2),
+    .cmp-box[data-pack-view="complet"] .cmp-table td:nth-child(2),
+    .cmp-box[data-pack-view="complet"] .cmp-table th:nth-child(3),
+    .cmp-box[data-pack-view="complet"] .cmp-table td:nth-child(3) {
+      display: none !important;
+    }
+
+    .cmp-box[data-pack-view="essentiel"] .cmp-table,
+    .cmp-box[data-pack-view="plus"] .cmp-table,
+    .cmp-box[data-pack-view="complet"] .cmp-table {
+      min-width: 0 !important;
+      width: 100% !important;
+    }
+
+    .cmp-box[data-pack-view="essentiel"] .cmp-table th:first-child,
+    .cmp-box[data-pack-view="plus"] .cmp-table th:first-child,
+    .cmp-box[data-pack-view="complet"] .cmp-table th:first-child {
+      position: static !important;
+      box-shadow: none !important;
+      width: 58% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+    }
+
+    .cmp-box[data-pack-view="essentiel"] .cmp-table th:not(:first-child),
+    .cmp-box[data-pack-view="essentiel"] .cmp-table td:not(:first-child),
+    .cmp-box[data-pack-view="plus"] .cmp-table th:not(:first-child),
+    .cmp-box[data-pack-view="plus"] .cmp-table td:not(:first-child),
+    .cmp-box[data-pack-view="complet"] .cmp-table th:not(:first-child),
+    .cmp-box[data-pack-view="complet"] .cmp-table td:not(:first-child) {
+      width: 42% !important;
     }
     .pricing-guarantee { align-items: flex-start; }
   }
@@ -1739,14 +2001,8 @@
       max-height: calc(100dvh - 24px);
       margin: 12px auto auto;
     }
-    /* On a phone the three packs fit side by side: nothing to scroll for. */
-    .cmp-box { margin-inline: -12px; }
-    .cmp-table { min-width: 0; table-layout: fixed; font-size: 12px; }
-    .cmp-table th, .cmp-table td { padding: 11px 3px; }
-    .cmp-table thead th { padding: 14px 3px 12px; font-size: 11.5px; }
-    .cmp-table th:first-child { width: 38%; min-width: 0; padding-inline: 12px 6px; overflow-wrap: anywhere; }
-    .cmp-price { display: block; font-weight: 600; opacity: 0.75; }
-    .cmp-order { width: 100%; min-height: 36px; padding: 0 2px; font-size: 10.5px; letter-spacing: -0.1px; }
+    .cmp-box { margin-inline: -10px; border-radius: var(--radius-lg); }
+    .cmp-tabs-wrap { margin-inline: -6px; }
     .od-head { padding: 16px 16px 12px; }
     .od-body { padding: 16px 16px 0; }
     .od-step.active { padding-bottom: 24px; }
@@ -2024,7 +2280,7 @@
           <p class="p-tagline" data-i18n="p1_tag">كل الأساسيات لتشغيل مدرستك اليومية بسلاسة.</p>
 
           <div class="p-price-row">
-            <span class="p-amount">300</span>
+            <span class="p-amount">150</span>
             <span class="p-currency" data-i18n="curr_dt">د.ت</span>
             <span class="p-badge-once" data-i18n="badge_lifetime">دفعة واحدة دائمة</span>
           </div>
@@ -2053,7 +2309,8 @@
           <p class="p-tagline" data-i18n="p2_tag">كل ميزات الأساسية + الاستيراد من Excel والنسخ السحابي.</p>
 
           <div class="p-price-row">
-            <span class="p-amount">450</span>
+            <del class="p-old-amount">450</del>
+            <span class="p-amount">249</span>
             <span class="p-currency" data-i18n="curr_dt">د.ت</span>
             <span class="p-badge-once" data-i18n="badge_lifetime">دفعة واحدة دائمة</span>
           </div>
@@ -2082,12 +2339,13 @@
           <p class="p-tagline" data-i18n="p3_tag">كل ميزات Plus + التحليلات المالية وسجل تدقيق العمليات.</p>
 
           <div class="p-price-row">
-            <span class="p-amount">600</span>
+            <del class="p-old-amount">600</del>
+            <span class="p-amount">299</span>
             <span class="p-currency" data-i18n="curr_dt">د.ت</span>
             <span class="p-badge-once" data-i18n="badge_lifetime">دفعة واحدة دائمة</span>
           </div>
 
-          <p class="p-value" data-i18n="p3_value">150 د.ت إضافية فقط عن Plus لتفتح التقارير، التدقيق وتصدير Excel.</p>
+          <p class="p-value" data-i18n="p3_value">50 د.ت إضافية فقط عن Plus لتفتح التقارير، التدقيق وتصدير Excel.</p>
 
           <ul class="p-list">
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><b data-i18n="p3_f1">جميع ميزات Plus مع كل خواص السحابة</b></li>
@@ -2112,14 +2370,39 @@
       </div>
 
       <!-- ── Comparison Matrix ───────────────────────────────── -->
-      <div id="compare" class="cmp-box reveal">
+      <div id="compare" class="cmp-container reveal">
+        <!-- Mobile Segmented Tabs -->
+        <div class="cmp-tabs-wrap" role="tablist" aria-label="Select Plan">
+          <button type="button" class="cmp-tab-btn active" data-cmp-tab="all">
+            <span data-i18n="tbl_tab_all">مقارنة شاملة ⇋</span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="essentiel">
+            <span>Essentiel</span>
+            <span class="cmp-tab-price">150</span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="plus">
+            <span>Plus</span>
+            <span class="cmp-tab-price">249 ⭐</span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="complet">
+            <span>Complet</span>
+            <span class="cmp-tab-price">299 👑</span>
+          </button>
+        </div>
+
+        <div class="cmp-scroll-hint" id="cmp-scroll-hint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><path d="M18 8L22 12L18 16"/><path d="M6 8L2 12L6 16"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          <span data-i18n="cmp_scroll_hint">اسحب الجدول أفقياً لمقارنة كل الباقات</span>
+        </div>
+
+        <div class="cmp-box" id="cmp-box" data-pack-view="all">
         <table class="cmp-table">
           <thead>
             <tr>
               <th scope="col" data-i18n="tbl_col_feat">الميزة</th>
-              <th scope="col">Essentiel <span class="cmp-price">(300)</span></th>
-              <th scope="col" class="cmp-plus-col">Plus <span class="cmp-price">(450) ⭐</span></th>
-              <th scope="col" class="cmp-pop-col">Complet <span class="cmp-price">(600) 👑</span></th>
+              <th scope="col">Essentiel <span class="cmp-price">(150)</span></th>
+              <th scope="col" class="cmp-plus-col">Plus <span class="cmp-price"><del class="cmp-old">450</del> (249) ⭐</span></th>
+              <th scope="col" class="cmp-pop-col">Complet <span class="cmp-price"><del class="cmp-old">600</del> (299) 👑</span></th>
             </tr>
           </thead>
           <tbody>
@@ -2186,11 +2469,12 @@
             <tr class="cmp-cta-row">
               <th scope="row" data-i18n="t_cta">اطلب باقتك</th>
               <td><button type="button" class="cmp-order" data-order-pack="essentiel">Essentiel</button></td>
-              <td><button type="button" class="cmp-order" data-order-pack="plus">Plus</button></td>
+              <td><button type="button" class="cmp-order blue" data-order-pack="plus">Plus</button></td>
               <td class="cmp-pop-col"><button type="button" class="cmp-order gold" data-order-pack="complet">Complet</button></td>
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </section>
@@ -2230,7 +2514,7 @@
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
           </button>
           <div class="faq-content">
-            <p data-i18n="faq_a3">ترخيص دائم دفعة واحدة (300 / 450 / 600 د.ت)، مع خيار الدفع الفصلي أو السنوي لمن يرغب.</p>
+            <p data-i18n="faq_a3">ترخيص دائم دفعة واحدة (150 / 249 / 299 د.ت)، مع خيار الدفع الفصلي أو السنوي لمن يرغب.</p>
           </div>
         </div>
 
@@ -2310,7 +2594,7 @@
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
   </a>
   <button type="button" class="m-order" data-order-pack="complet">
-    <span data-i18n="m_order">اطلب Complet · 600 د.ت</span>
+    <span data-i18n="m_order">اطلب Complet · 299 د.ت</span>
   </button>
 </div>
 
@@ -2468,6 +2752,8 @@
       btn_order_comp: "اطلب باقة Complet",
       p_guarantee: "<b>ترخيص دائم لحاسوب واحد:</b> دفع مرة واحدة أو بالتقسيط حسب الاتفاق. يمكن ترقية الباقة لاحقاً مع الحفاظ على كامل بياناتك.",
       tbl_col_feat: "الميزة",
+      tbl_tab_all: "مقارنة شاملة ⇋",
+      cmp_scroll_hint: "اسحب الجدول أفقياً لمقارنة كل الباقات",
       t_f1: "الطلبة، الأساتذة، الأقسام، والمستويات",
       t_f2: "جدول الحصص الأسبوعي والطباعة",
       t_f3: "تسجيل الحضور والغياب",
@@ -2483,7 +2769,7 @@
       faq_q2: "أين تُحفظ بيانات مدرستنا؟",
       faq_a2: "على القرص الصلب لحاسوبك بأمان وسرية تامة دون أي مشاركة مع أطراف خارجية.",
       faq_q3: "هل الترخيص دائم أم اشتراك شهري؟",
-      faq_a3: "ترخيص دائم دفعة واحدة (300 / 450 / 600 د.ت)، مع خيار الدفع الفصلي أو السنوي لمن يرغب.",
+      faq_a3: "ترخيص دائم دفعة واحدة (150 / 249 / 299 د.ت)، مع خيار الدفع الفصلي أو السنوي لمن يرغب.",
       faq_q4: "هل يمكن ترقية الباقة لاحقاً؟",
       faq_a4: "نعم، بنقرة زر واحدة عبر إدخال كود جديد، وتفتح الميزات فوراً مع بقاء كامل بياناتك دون تغيير.",
       cta_title: "جاهز لتنظيم مدرستك؟",
@@ -2499,7 +2785,7 @@
       how2_d: "من هذه الصفحة مباشرة: نموذج قصير، دون دفع مسبق. نتصل بك لتأكيد الطلب.",
       how3_t: "فعّل وابدأ",
       how3_d: "تستلم كود التفعيل، تدخله في التطبيق، وتُفتح كل ميزات باقتك فوراً.",
-      p3_value: "150 د.ت إضافية فقط عن Plus لتفتح التقارير، التدقيق وتصدير Excel.",
+      p3_value: "50 د.ت إضافية فقط عن Plus لتفتح التقارير، التدقيق وتصدير Excel.",
       p_no_pay: "لا دفع عند الطلب — نتصل بك للتأكيد",
       t_f9: "تصدير التقارير وسجلات الحضور إلى Excel",
       t_f10: "السبورة البيضاء",
@@ -2507,7 +2793,7 @@
       faq_q5: "كيف أطلب الباقة وأستلم كود التفعيل؟",
       faq_a5: "اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.",
       cta_btn_order: "اطلب باقتك",
-      m_order: "اطلب Complet · 600 د.ت",
+      m_order: "اطلب Complet · 299 د.ت",
       od_title: "طلب باقة {pack}",
       od_terms: "دفعة واحدة · ترخيص دائم مدى الحياة",
       od_name: "الاسم واللقب",
@@ -2601,6 +2887,8 @@
       btn_order_comp: "Commander le pack Complet",
       p_guarantee: "<b>Licence à vie par PC :</b> Paiement unique ou échelonné. Mise à niveau du pack à tout moment sans perte de données.",
       tbl_col_feat: "Fonctionnalité",
+      tbl_tab_all: "Tout comparer ⇋",
+      cmp_scroll_hint: "Faites glisser horizontalement pour tout comparer",
       t_f1: "Élèves, professeurs, classes et filières",
       t_f2: "Planning hebdomadaire et impression",
       t_f3: "Gestion des présences et retards",
@@ -2616,7 +2904,7 @@
       faq_q2: "Où sont stockées nos données ?",
       faq_a2: "Directement sur le disque dur de votre ordinateur, en sécurité totale et sans partage externe.",
       faq_q3: "Est-ce un abonnement mensuel ?",
-      faq_a3: "Non, c'est un achat unique définitif (300 / 450 / 600 DT). Paiement trimestriel ou annuel sur demande.",
+      faq_a3: "Non, c'est un achat unique définitif (150 / 249 / 299 DT). Paiement trimestriel ou annuel sur demande.",
       faq_q4: "Puis-je changer d'offre plus tard ?",
       faq_a4: "Oui. En saisissant un nouveau code d'activation, les nouvelles options s'activent instantanément en gardant toutes vos données.",
       cta_title: "Prêt à moderniser votre école ?",
@@ -2632,7 +2920,7 @@
       how2_d: "Directement sur cette page : un court formulaire, sans paiement d'avance. Nous vous appelons pour confirmer.",
       how3_t: "Activez et démarrez",
       how3_d: "Vous recevez le code d'activation, vous le saisissez dans l'application, et tout votre pack se débloque aussitôt.",
-      p3_value: "Seulement +150 DT par rapport à Plus pour débloquer les rapports, l'audit et l'export Excel.",
+      p3_value: "Seulement +50 DT par rapport à Plus pour débloquer les rapports, l'audit et l'export Excel.",
       p_no_pay: "Aucun paiement à la commande — nous vous appelons pour confirmer",
       t_f9: "Export Excel des rapports et des présences",
       t_f10: "Tableau blanc",
@@ -2640,7 +2928,7 @@
       faq_q5: "Comment commander et recevoir mon code d'activation ?",
       faq_a5: "Cliquez sur « Commander » sous le pack choisi et remplissez le court formulaire de cette page. Nous vous appelons pour confirmer la commande et le mode de paiement, puis nous vous envoyons le code d'activation à saisir dans l'application.",
       cta_btn_order: "Commander mon pack",
-      m_order: "Commander Complet · 600 DT",
+      m_order: "Commander Complet · 299 DT",
       od_title: "Commander le pack {pack}",
       od_terms: "paiement unique · licence à vie",
       od_name: "Nom et prénom",
@@ -2734,6 +3022,8 @@
       btn_order_comp: "Order Complet Pack",
       p_guarantee: "<b>Lifetime License per PC:</b> One-time payment. Upgrade your pack anytime without losing your data.",
       tbl_col_feat: "Feature",
+      tbl_tab_all: "Compare all ⇋",
+      cmp_scroll_hint: "Swipe horizontally to compare all plans",
       t_f1: "Students, teachers, classes, and sections",
       t_f2: "Weekly timetable and direct print",
       t_f3: "Attendance and absence tracking",
@@ -2749,7 +3039,7 @@
       faq_q2: "Where is our school data stored?",
       faq_a2: "Directly on your local computer hard drive in complete privacy, never exposed to shared third-party servers.",
       faq_q3: "Is this a monthly subscription?",
-      faq_a3: "No. It is a permanent one-time purchase (300 / 450 / 600 DT). Term or annual installments available.",
+      faq_a3: "No. It is a permanent one-time purchase (150 / 249 / 299 DT). Term or annual installments available.",
       faq_q4: "Can I upgrade my plan later?",
       faq_a4: "Yes. Simply enter a new activation code: features unlock immediately with all your data untouched.",
       cta_title: "Ready to Upgrade Your School?",
@@ -2765,7 +3055,7 @@
       how2_d: "Right on this page: a short form, no payment up front. We call you to confirm.",
       how3_t: "Activate and start",
       how3_d: "You receive the activation code, enter it in the app, and your whole pack unlocks at once.",
-      p3_value: "Only +150 DT over Plus to unlock reports, the audit log and Excel export.",
+      p3_value: "Only +50 DT over Plus to unlock reports, the audit log and Excel export.",
       p_no_pay: "No payment when ordering — we call you to confirm",
       t_f9: "Excel export of reports & attendance",
       t_f10: "Whiteboard",
@@ -2773,7 +3063,7 @@
       faq_q5: "How do I order and get my activation code?",
       faq_a5: "Click “Order” under the pack you want and fill in the short form on this page. We call you to confirm the order and the payment method, then send you the activation code to enter in the app.",
       cta_btn_order: "Order my pack",
-      m_order: "Order Complet · 600 DT",
+      m_order: "Order Complet · 299 DT",
       od_title: "Order the {pack} pack",
       od_terms: "one-time payment · lifetime licence",
       od_name: "Full name",
@@ -2897,6 +3187,34 @@
   navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
 
+  // Comparison Table Mobile Tabs
+  const cmpBox = document.getElementById("cmp-box");
+  const cmpScrollHint = document.getElementById("cmp-scroll-hint");
+  const cmpTabs = document.querySelectorAll(".cmp-tab-btn");
+
+  cmpTabs.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tab = btn.getAttribute("data-cmp-tab");
+      cmpTabs.forEach(b => b.classList.toggle("active", b === btn));
+      if (cmpBox) {
+        cmpBox.setAttribute("data-pack-view", tab);
+        if (tab !== "all" && cmpScrollHint) {
+          cmpScrollHint.classList.add("is-hidden");
+        } else if (tab === "all" && cmpScrollHint) {
+          cmpScrollHint.classList.remove("is-hidden");
+        }
+      }
+    });
+  });
+
+  if (cmpBox && cmpScrollHint) {
+    cmpBox.addEventListener("scroll", () => {
+      if (Math.abs(cmpBox.scrollLeft) > 15) {
+        cmpScrollHint.classList.add("is-hidden");
+      }
+    }, { passive: true });
+  }
+
   // Sticky mobile call-to-action: once the hero's own buttons are out of view.
   const mobileCta = document.getElementById("mobile-cta");
   const heroBtns = document.querySelector(".hero .hero-btns");
@@ -2914,9 +3232,9 @@
   const ORDER_ENDPOINT = "https://acadex-backup.zglm.workers.dev/v1/orders";
   const CONTACT = { email: "mohamedncib900@gmail.com", phone: "+21655518492", whatsapp: "21655518492" };
   const PACKS = {
-    essentiel: { label: "Essentiel", price: 300 },
-    plus: { label: "Plus", price: 450 },
-    complet: { label: "Complet", price: 600 },
+    essentiel: { label: "Essentiel", price: 150 },
+    plus: { label: "Plus", price: 249, oldPrice: 450 },
+    complet: { label: "Complet", price: 299, oldPrice: 600 },
   };
   const FIELD_ERRORS = {
     contact_name: "od_err_name",
@@ -2962,9 +3280,17 @@
     const pack = PACKS[key];
     orderDialog.dataset.pack = key;
     document.getElementById("od-title").textContent = tr("od_title", { pack: pack.label });
+    const terms = document.getElementById("od-terms");
     const price = document.createElement("b");
     price.textContent = `${pack.price} ${tr("curr_dt")}`;
-    document.getElementById("od-terms").replaceChildren(price, ` · ${tr("od_terms")}`);
+    if (pack.oldPrice) {
+      const old = document.createElement("del");
+      old.className = "od-old-price";
+      old.textContent = `${pack.oldPrice} ${tr("curr_dt")}`;
+      terms.replaceChildren(old, " ", price, ` · ${tr("od_terms")}`);
+    } else {
+      terms.replaceChildren(price, ` · ${tr("od_terms")}`);
+    }
   }
   document.addEventListener("acadex:lang", renderOrderHead);
 
