@@ -30,9 +30,8 @@ school management desktop app for Windows.
 - A link can open the form directly: `…/#order` (Complet) or
   `…/#order-essentiel`, `…/#order-plus`, `…/#order-complet` — for a message,
   an ad or a QR code.
-- Images: `assets/logo-128.png` (favicon + header) and `assets/hero.webp` /
-  `assets/hero-960.webp` (hero, served through `<picture>`); the heavier
-  originals stay in `assets/` as the source.
+- Media: `assets/demo.mp4` (hero desktop app demo video, faststart, with `assets/demo-poster.webp` 0ms poster),
+  and `assets/logo-128.png` (favicon + header).
 - Three languages (`ar` default and RTL, `fr`, `en`) live in the `i18n`
   object at the bottom of `index.html`; every key must exist in all three.
 - No binaries: the download button points at the **stable update feed**

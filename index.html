@@ -464,18 +464,20 @@
   }
 
   .mockup-bar {
-    height: 36px;
+    height: 38px;
     background: #0F1424;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 14px;
     border-bottom: 1px solid var(--border);
+    gap: 12px;
   }
 
   .mockup-dots {
     display: flex;
     gap: 6px;
+    flex-shrink: 0;
   }
 
   .mockup-dot {
@@ -488,6 +490,101 @@
     font-size: 11.5px;
     color: var(--text-dim);
     font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mockup-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .mockup-live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--emerald);
+    background: rgba(16, 185, 129, 0.12);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  .mockup-live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--emerald);
+    animation: livePulse 2s ease-in-out infinite;
+  }
+
+  @keyframes livePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.85); }
+  }
+
+  .mockup-ctrl-btn {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .mockup-ctrl-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+  }
+
+  .mockup-video-wrap {
+    position: relative;
+    width: 100%;
+    background: #080C14;
+    aspect-ratio: 16 / 9;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mockup-video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    background: #080C14;
+  }
+
+  .mockup-center-play {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(12, 16, 26, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    transition: transform var(--transition), background var(--transition);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .mockup-video-wrap:hover .mockup-center-play {
+    transform: scale(1.08);
   }
 
   .mockup-img {
@@ -2115,12 +2212,40 @@
               <span class="mockup-dot" style="background:#10B981;"></span>
             </div>
             <div class="mockup-title">Acadex 2.0 — Desktop School Management</div>
-            <div style="width: 40px;"></div>
+            <div class="mockup-actions">
+              <span class="mockup-live-badge">
+                <span class="mockup-live-dot"></span>
+                <span data-i18n="demo_live">عرض حي</span>
+              </span>
+              <button type="button" class="mockup-ctrl-btn" id="mockup-play-toggle" aria-label="Play / Pause" title="Play / Pause">
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="display:none;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              </button>
+              <button type="button" class="mockup-ctrl-btn" id="mockup-fullscreen" aria-label="Fullscreen" title="Fullscreen">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              </button>
+            </div>
           </div>
-          <picture>
-            <source type="image/webp" srcset="assets/hero-960.webp 960w, assets/hero.webp 1536w" sizes="(max-width: 1000px) 96vw, 980px">
-            <img src="assets/hero.png" alt="Acadex Dashboard" class="mockup-img" width="980" height="653" fetchpriority="high" decoding="async">
-          </picture>
+          <div class="mockup-video-wrap" id="mockup-video-wrap">
+            <video
+              id="hero-demo-video"
+              class="mockup-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              poster="assets/demo-poster.webp"
+              width="1920"
+              height="1080"
+            >
+              <source src="assets/demo.mp4" type="video/mp4">
+              <img src="assets/demo-poster.webp" alt="Acadex Dashboard" class="mockup-img" width="1920" height="1080">
+            </video>
+            <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2700,6 +2825,7 @@
       hero_btn_dl: "تحميل نسخة ويندوز",
       hero_btn_plans: "عرض الباقات والأسعار",
       hero_meta_pay: "◆ شراء دائم دفعة واحدة",
+      demo_live: "عرض حي",
       trust_offline: "يعمل دون اتصال بالإنترنت",
       trust_monthly: "بدون أي اشتراك شهري إجباري",
       trust_print: "طباعة فورية للوصولات والكشوفات",
@@ -2835,6 +2961,7 @@
       hero_btn_dl: "Télécharger pour Windows",
       hero_btn_plans: "Découvrir les offres",
       hero_meta_pay: "◆ Achat unique à vie",
+      demo_live: "Démo en direct",
       trust_offline: "Fonctionne sans Internet",
       trust_monthly: "Zéro abonnement obligatoire",
       trust_print: "Impression directe en 1 clic",
@@ -2970,6 +3097,7 @@
       hero_btn_dl: "Download for Windows",
       hero_btn_plans: "View Plans & Pricing",
       hero_meta_pay: "◆ One-time lifetime purchase",
+      demo_live: "Live Demo",
       trust_offline: "Works without Internet",
       trust_monthly: "Zero mandatory monthly fees",
       trust_print: "Direct 1-click printing",
@@ -3213,6 +3341,63 @@
         cmpScrollHint.classList.add("is-hidden");
       }
     }, { passive: true });
+  }
+
+  // ── Hero Demo Video Controls & Performance Observer ──────────
+  const heroVideo = document.getElementById("hero-demo-video");
+  const playToggle = document.getElementById("mockup-play-toggle");
+  const centerPlay = document.getElementById("mockup-center-play");
+  const fullscreenBtn = document.getElementById("mockup-fullscreen");
+  const videoWrap = document.getElementById("mockup-video-wrap");
+
+  if (heroVideo) {
+    const iconPause = playToggle ? playToggle.querySelector(".icon-pause") : null;
+    const iconPlay = playToggle ? playToggle.querySelector(".icon-play") : null;
+
+    const updatePlayState = (isPlaying) => {
+      if (iconPause) iconPause.style.display = isPlaying ? "block" : "none";
+      if (iconPlay) iconPlay.style.display = isPlaying ? "none" : "block";
+      if (centerPlay) centerPlay.style.display = isPlaying ? "none" : "grid";
+    };
+
+    const togglePlay = () => {
+      if (heroVideo.paused) {
+        heroVideo.play().catch(() => {});
+        updatePlayState(true);
+      } else {
+        heroVideo.pause();
+        updatePlayState(false);
+      }
+    };
+
+    if (playToggle) playToggle.addEventListener("click", (e) => { e.stopPropagation(); togglePlay(); });
+    if (videoWrap) videoWrap.addEventListener("click", togglePlay);
+
+    heroVideo.addEventListener("play", () => updatePlayState(true));
+    heroVideo.addEventListener("pause", () => updatePlayState(false));
+
+    if (fullscreenBtn) {
+      fullscreenBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement) {
+          if (videoWrap && videoWrap.requestFullscreen) videoWrap.requestFullscreen().catch(() => {});
+          else if (heroVideo.requestFullscreen) heroVideo.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      });
+    }
+
+    if ("IntersectionObserver" in window) {
+      const videoObserver = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting && !heroVideo.paused) {
+          heroVideo.pause();
+        } else if (entry.isIntersecting && heroVideo.paused) {
+          heroVideo.play().catch(() => {});
+        }
+      }, { threshold: 0.15 });
+      videoObserver.observe(heroVideo);
+    }
   }
 
   // Sticky mobile call-to-action: once the hero's own buttons are out of view.
