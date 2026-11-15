@@ -7,15 +7,34 @@ school management desktop app for Windows.
 
 - `index.html` — the whole page (inline CSS/JS, no build step)
 - The **packs block** (`#plans`) mirrors the app's three tiers — same names
-  (Essentiel / Plus / Complet), same prices (300 / 450 / 600 DT), same
-  one-time purchase, same illustrations. `Plus` carries the `is-popular`
-  class (the one bold element of the page: lifted, blue, « الأكثر طلبًا »);
-  `Complet` keeps the gold premium treatment. Switching the recommended pack
-  is a one-line change: move `is-popular` to the other card.
-- The **comparison table** under the packs repeats the same content as
-  grouped rows (basics / import & cloud / reports & audit / purchase) with
-  the recommended column tinted, plus a CTA row so nobody has to scroll back
-  up to act.
+  (Essentiel / Plus / Complet), prices (150 DT / Plus 249 DT promo [was 450 DT] / Complet 299 DT promo [was 600 DT]), same
+  one-time purchase. **`Complet` is the recommended pack**: it carries the
+  `is-featured` class (the one bold element of the page: gold border, lifted,
+  wider column, ribbon, its own value line and a gold button) and comes first
+  on a phone. **`Plus` is the most popular pack** (`is-popular`): a blue card
+  with its own ribbon (`ribbon_popular`), one step quieter than Complet — it is
+  not raised — and second on a phone. `Essentiel` stays plain on purpose.
+- The **comparison table** under the packs repeats the same content with the
+  `Complet` column tinted gold (`cmp-pop-col`), plus a CTA row so nobody has
+  to scroll back up to act. On mobile/tablet, it provides an enhanced responsive view:
+  a pinned sticky feature column (`th:first-child`) with smooth horizontal swipe in
+  full comparison mode, plus interactive segmented tabs (`[الكل ⇋]` / `[Essentiel]` / `[Plus]` / `[Complet]`)
+  allowing instant switching between the complete matrix and an ultra-readable 2-column single-plan view.
+- **Ordering never leaves the page.** Every plan button (`data-order-pack`)
+  opens the order form (`<dialog id="order-dialog">`). The form asks **a name
+  and a phone, nothing else**: the pack is the one whose button was clicked
+  (the heading names it with its price) and the order is always for the
+  one-time licence. See
+  « Orders » below. WhatsApp is only a contact chip in the footer and one of
+  the fallbacks if the form cannot be sent.
+- A link can open the form directly: `…/#order` (Complet) or
+  `…/#order-essentiel`, `…/#order-plus`, `…/#order-complet` — for a message,
+  an ad or a QR code.
+- Images: `assets/logo-128.png` (favicon + header) and `assets/hero.webp` /
+  `assets/hero-960.webp` (hero, served through `<picture>`); the heavier
+  originals stay in `assets/` as the source.
+- Three languages (`ar` default and RTL, `fr`, `en`) live in the `i18n`
+  object at the bottom of `index.html`; every key must exist in all three.
 - No binaries: the download button points at the **stable update feed**
   (`https://acadex-backup.zglm.workers.dev/updates/latest`), which 302s to
   the current installer published to Cloudflare R2 by CI on every push to
@@ -27,6 +46,28 @@ school management desktop app for Windows.
   page keeps its static label.
 - `downloads/` (untracked) may hold a local bootstrap installer for idle
   installs; it stays out of git (GitHub refuses files >100 MB).
+
+## Orders (serverless)
+
+The page stays static. The form posts JSON to the Cloudflare Worker that
+already serves the update feed (`ORDER_ENDPOINT` in `index.html` →
+`https://acadex-backup.zglm.workers.dev/v1/orders`); the Worker stores the
+order in its D1 database and answers with a reference (`ACX-O-XXXXXX`) that
+the visitor sees and can copy.
+
+- **Before the Worker route is deployed** (or whenever it is unreachable)
+  nothing is lost: the form shows the visitor a ready-made summary with
+  e-mail / phone / WhatsApp buttons instead of an error.
+- **Reading the orders** (owner only, token set once with
+  `wrangler secret put ORDERS_TOKEN`):
+  `curl -H "x-orders-token: <token>" https://acadex-backup.zglm.workers.dev/v1/orders`
+- **Being notified** is optional: with the two Telegram secrets set on the
+  Worker, each order is pushed to the owner's chat.
+- Limits on the public route: 8 KB per request, 5 orders per hour per
+  visitor, a hidden field that only bots fill. The visitor's IP address is
+  never stored — only a fingerprint that changes every day.
+- The deploy steps (D1 migration, secrets) are written at the top of
+  `apps/backup-worker/migrations/0002-orders.sql` in the app repo.
 
 ## Preview locally
 
@@ -61,8 +102,13 @@ npx serve D:\Acadex
    - the Vercel dashboard → *Deployments → New Deployment* with this folder
      dragged in.
 
-Check what is live with `curl -sL https://acadex.pro/ | grep الباقات` — the
-packs section is the marker of the current build.
+Check what is live with `curl -sL https://acadex.pro/ | grep order-dialog` —
+the order form is the marker of the current build.
+
+> **To settle:** the app repo's `docs/PROJECT-STATUS.md` names
+> `acadex-rust.vercel.app` as the live address and says `acadex.pro` belongs
+> to a different product. One of the two documents is out of date — confirm
+> the real domain before the next deploy.
 
 ## How updates flow (see the main repo design doc)
 
