@@ -3,6 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  (function () {
+    var SUPPORTED_LANGS = ["ar", "fr", "en"];
+    var lang = null;
+    try {
+      var saved = localStorage.getItem("acadex_lang");
+      if (saved && SUPPORTED_LANGS.indexOf(saved) !== -1) lang = saved;
+    } catch (error) {
+      lang = null;
+    }
+    var languages = Array.isArray(navigator.languages) ? navigator.languages : [navigator.language || ""];
+    if (!lang) {
+      for (var i = 0; i < languages.length; i += 1) {
+        var prefix = String(languages[i] || "").toLowerCase().split(/[-_]/)[0];
+        if (SUPPORTED_LANGS.indexOf(prefix) !== -1) {
+          lang = prefix;
+          break;
+        }
+      }
+    }
+    if (!lang) lang = "en";
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
+    document.documentElement.classList.add("i18n-pending");
+    setTimeout(function () {
+      document.documentElement.classList.remove("i18n-pending");
+    }, 1500);
+  })();
+</script>
 <title>Acadex — Système de gestion scolaire | نظام إدارة المدارس</title>
 <meta name="description" content="Acadex — Logiciel de gestion scolaire hors-ligne pour Windows : élèves, emplois du temps, présences, reçus et comptabilité.">
 <link rel="icon" type="image/png" href="assets/logo-128.png">
@@ -14,6 +43,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+  html.i18n-pending body { visibility: hidden; }
+
   /* ── Ultra-Modern Dark Theme Tokens ───────────────────────── */
   :root {
     --bg: #07090E;
@@ -3212,6 +3243,9 @@
 </dialog>
 
 <!-- ── Translations & Minimal Interactive Scripts ──────────── -->
+<script src="assets/countries.js"></script>
+<script src="assets/rates.js"></script>
+<script src="assets/localization.js"></script>
 <script>
   document.documentElement.classList.remove("no-js");
 
@@ -3627,7 +3661,10 @@
     }
   };
 
-  let currentLang = localStorage.getItem("acadex_lang") || "ar";
+  const SUPPORTED_LANGS = ["ar", "fr", "en"];
+  let currentLang = "ar";
+  let currentCountry = "US";
+  let countryChosenByVisitor = false;
 
   const pageTitles = {
     ar: "Acadex — نظام إدارة المدارس والمراكز التعليمية",
@@ -3635,9 +3672,14 @@
     en: "Acadex — Offline School Management System"
   };
 
-  function applyLanguage(lang) {
+  function applyLanguage(lang, persist = false) {
+    if (SUPPORTED_LANGS.indexOf(lang) === -1) return;
     currentLang = lang;
-    localStorage.setItem("acadex_lang", lang);
+    if (persist) {
+      try {
+        localStorage.setItem("acadex_lang", lang);
+      } catch (error) { /* Storage unavailable: keep the current language. */ }
+    }
 
     document.documentElement.lang = lang;
     document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
@@ -3668,7 +3710,64 @@
     });
 
     // The order dialog shows texts built from what the visitor typed.
+    document.documentElement.classList.remove("i18n-pending");
     document.dispatchEvent(new CustomEvent("acadex:lang"));
+  }
+
+  /** The visitor's saved country, when it was picked manually. */
+  function savedCountry() {
+    try {
+      const code = localStorage.getItem("acadex_country");
+      return code && AcadexLocalization.isSupportedCountry(code) ? code : null;
+    } catch { return null; }
+  }
+
+  /** The visitor's saved supported language, when any. */
+  function savedLanguage() {
+    try {
+      const code = localStorage.getItem("acadex_lang");
+      return SUPPORTED_LANGS.includes(code) ? code : null;
+    } catch { return null; }
+  }
+
+  function initLocalization() {
+    const saved = savedCountry();
+    const languages = navigator.languages || [navigator.language || ""];
+    currentCountry = saved
+      || AcadexLocalization.countryFromBrowser(languages)
+      || "US";
+    countryChosenByVisitor = Boolean(saved);
+    applyLanguage(AcadexLocalization.resolveLanguage({
+      saved: savedLanguage(),
+      languages,
+      country: currentCountry,
+    }));
+    if (!saved) confirmCountryFromGeo();
+  }
+
+  async function confirmCountryFromGeo() {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 1500);
+    try {
+      const res = await fetch("/api/geo", { signal: controller.signal, cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (countryChosenByVisitor) return;
+      if (!data || !AcadexLocalization.isSupportedCountry(data.country)) return;
+      currentCountry = data.country;
+      if (!savedLanguage()) {
+        applyLanguage(AcadexLocalization.resolveLanguage({
+          saved: null,
+          languages: navigator.languages || [navigator.language || ""],
+          country: currentCountry,
+        }));
+      }
+      document.dispatchEvent(new CustomEvent("acadex:country"));
+    } catch {
+      /* Offline, file://, or no geo endpoint: the browser guess stands. */
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   /** A text of the current language, with {name} placeholders filled in. */
@@ -3681,12 +3780,12 @@
   // Language buttons click event
   document.querySelectorAll(".lang-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      applyLanguage(btn.getAttribute("data-lang"));
+      applyLanguage(btn.getAttribute("data-lang"), true);
     });
   });
 
   // Initialize Language
-  applyLanguage(currentLang);
+  initLocalization();
 
   // Scroll Reveal Animations
   const observer = new IntersectionObserver((entries) => {
