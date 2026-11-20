@@ -62,3 +62,25 @@ test("Notion is no longer called from the page", () => {
   assert.equal(html.includes("saveOrderToNotion"), false);
   assert.equal(html.toLowerCase().includes("notion"), false);
 });
+
+function dictKeys(lang) {
+  const start = html.indexOf(`    ${lang}: {`);
+  const end = lang === "ar"
+    ? html.indexOf("    fr: {")
+    : lang === "fr"
+      ? html.indexOf("    en: {")
+      : html.indexOf("\n  };", start);
+  const chunk = html.slice(start, end);
+  return [...chunk.matchAll(/^ {6}([A-Za-z0-9_]+):/gm)].map((m) => m[1]).sort();
+}
+
+test("all three dictionaries carry the same keys", () => {
+  assert.deepEqual(dictKeys("ar"), dictKeys("fr"));
+  assert.deepEqual(dictKeys("fr"), dictKeys("en"));
+});
+
+test("every data-i18n key exists in the dictionaries", () => {
+  const keys = new Set(dictKeys("en"));
+  const used = [...html.matchAll(/data-i18n(?:-ph)?="([^"]+)"/g)].map((m) => m[1]);
+  for (const key of new Set(used)) assert.ok(keys.has(key), `missing dictionary key: ${key}`);
+});
