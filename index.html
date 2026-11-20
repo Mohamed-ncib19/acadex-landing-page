@@ -2108,6 +2108,19 @@
     box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.15);
   }
 
+  .od-phone-row { display: flex; flex-direction: row; gap: 8px; align-items: stretch; }
+  .od-dial {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 0 10px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-light);
+    border-radius: 11px;
+  }
+
   .od-ltr { direction: ltr; text-align: left; font-family: "Plus Jakarta Sans", sans-serif; }
   html[dir="rtl"] .od-ltr { text-align: right; }
 
@@ -3323,8 +3336,17 @@
           <input class="od-input" id="od-name" name="contact_name" type="text" autocomplete="name" maxlength="80" required>
         </div>
         <div class="od-field">
+          <label class="od-label" for="od-country" data-i18n="od_country">الدولة</label>
+          <select class="od-input od-ltr" id="od-country" name="country"></select>
+        </div>
+        <div class="od-field">
           <label class="od-label" for="od-phone" data-i18n="od_phone">رقم الهاتف</label>
-          <input class="od-input od-ltr" id="od-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="12 345 678" required>
+          <div class="od-phone-row">
+            <span class="od-dial" id="od-dial">+216</span>
+            <input class="od-input od-ltr" id="od-phone" name="phone" type="tel"
+                   inputmode="tel" autocomplete="tel" maxlength="18"
+                   data-i18n-ph="od_phone_ph" placeholder="Your phone number" required>
+          </div>
         </div>
 
         <!-- Not for people: a field only bots fill. -->
@@ -3387,6 +3409,7 @@
 <script src="assets/countries.js"></script>
 <script src="assets/rates.js"></script>
 <script src="assets/localization.js"></script>
+<script src="assets/order.js"></script>
 <script>
   document.documentElement.classList.remove("no-js");
 
@@ -3503,12 +3526,15 @@
       od_title: "طلب باقة {pack}",
       od_terms: "دفعة واحدة · ترخيص دائم مدى الحياة",
       od_name: "الاسم واللقب",
+      od_country: "الدولة",
       od_phone: "رقم الهاتف",
+      od_phone_ph: "أدخل رقم هاتفك",
       od_submit: "إرسال الطلب",
       od_sending: "جارٍ الإرسال…",
       od_foot: "لا دفع الآن. نتصل بك لتأكيد طلبك.",
       od_err_name: "اكتب اسمك.",
       od_err_phone: "رقم الهاتف غير صحيح للدولة المختارة.",
+      od_err_country: "تعذر تحديد الدولة أو العملة. اختر الدولة مرة أخرى.",
       od_err_rate: "طلبات كثيرة من هذا الاتصال. أعد المحاولة لاحقاً أو اتصل بنا مباشرة.",
       od_done_title: "تم تسجيل طلبك",
       od_done_sub: "احتفظ بهذا المرجع:",
@@ -3642,12 +3668,15 @@
       od_title: "Commander le pack {pack}",
       od_terms: "paiement unique · licence à vie",
       od_name: "Nom et prénom",
+      od_country: "Pays",
       od_phone: "Téléphone",
+      od_phone_ph: "Votre numéro de téléphone",
       od_submit: "Envoyer la commande",
       od_sending: "Envoi…",
       od_foot: "Aucun paiement maintenant. Nous vous appelons pour confirmer votre commande.",
       od_err_name: "Indiquez votre nom.",
       od_err_phone: "Ce numéro de téléphone n'est pas valide pour le pays sélectionné.",
+      od_err_country: "Impossible de déterminer le pays ou la devise. Choisissez à nouveau le pays.",
       od_err_rate: "Trop de commandes depuis cette connexion. Réessayez plus tard ou contactez-nous directement.",
       od_done_title: "Commande enregistrée",
       od_done_sub: "Conservez cette référence :",
@@ -3781,12 +3810,15 @@
       od_title: "Order the {pack} pack",
       od_terms: "one-time payment · lifetime licence",
       od_name: "Full name",
+      od_country: "Country",
       od_phone: "Phone",
+      od_phone_ph: "Your phone number",
       od_submit: "Send order",
       od_sending: "Sending…",
       od_foot: "No payment now. We call you to confirm your order.",
       od_err_name: "Enter your name.",
       od_err_phone: "This phone number is not valid for the selected country.",
+      od_err_country: "Could not determine the country or currency. Please choose the country again.",
       od_err_rate: "Too many orders from this connection. Try again later or contact us directly.",
       od_done_title: "Order received",
       od_done_sub: "Keep this reference:",
@@ -3834,6 +3866,9 @@
   const FIELD_ERRORS = {
     contact_name: "od_err_name",
     phone: "od_err_phone",
+    country: "od_err_country",
+    currency: "od_err_country",
+    amount_minor: "od_err_country",
   };
 
   const orderDialog = document.getElementById("order-dialog");
@@ -3916,6 +3951,7 @@
       country: currentCountry,
     }));
     renderPrices();
+    populateOrderCountries();
     if (!saved) confirmCountryFromGeo();
   }
 
@@ -4516,27 +4552,61 @@
     if (e.target.classList && e.target.classList.contains("invalid")) clearOrderError();
   });
 
-  // ── Phone Input: Strictly digits with 'xx xxx xxx' format ───
+  // ── Phone Input: the dial prefix belongs to the chosen country ─
   const phoneInput = document.getElementById("od-phone");
 
-  const formatPhoneNumber = (val) => {
-    let digits = String(val || "").replace(/\D/g, "");
-    if (digits.startsWith("00216") && digits.length >= 13) digits = digits.slice(5);
-    else if (digits.startsWith("216") && digits.length >= 11) digits = digits.slice(3);
-    digits = digits.slice(0, 8);
-    if (digits.length <= 2) return digits;
-    if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`;
-    return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 8)}`;
+  /** Digits only; Tunisia keeps its familiar xx xxx xxx, others group by three. */
+  const formatPhoneNumber = (val, country) => {
+    let digits = String(val || "").replace(/\D/g, "").slice(0, 15);
+    if (country === "TN") {
+      if (digits.startsWith("00216") && digits.length >= 13) digits = digits.slice(5);
+      else if (digits.startsWith("216") && digits.length >= 11) digits = digits.slice(3);
+      digits = digits.slice(0, 8);
+      if (digits.length <= 2) return digits;
+      if (digits.length <= 5) return `${digits.slice(0, 2)} ${digits.slice(2)}`;
+      return `${digits.slice(0, 2)} ${digits.slice(2, 5)} ${digits.slice(5, 8)}`;
+    }
+    return (digits.match(/\d{1,3}/g) || []).join(" ");
   };
+
+  function updateOrderDial() {
+    const dial = (window.ACADEX_COUNTRIES[currentCountry] || {}).dial || "";
+    const el = document.getElementById("od-dial");
+    if (el) el.textContent = dial ? `+${dial}` : "";
+  }
+
+  function populateOrderCountries() {
+    const select = document.getElementById("od-country");
+    if (!select) return;
+    select.replaceChildren(...countryOptions().map((o) => {
+      const opt = document.createElement("option");
+      opt.value = o.code;
+      opt.textContent = `+${window.ACADEX_COUNTRIES[o.code].dial} · ${o.name}`;
+      return opt;
+    }));
+    select.value = currentCountry;
+    updateOrderDial();
+  }
+
+  document.getElementById("od-country").addEventListener("change", (e) => {
+    setCountry(e.target.value, true);
+  });
+  document.addEventListener("acadex:country", () => {
+    const select = document.getElementById("od-country");
+    if (select) select.value = currentCountry;
+    updateOrderDial();
+    if (phoneInput && phoneInput.value) phoneInput.value = formatPhoneNumber(phoneInput.value, currentCountry);
+  });
+  document.addEventListener("acadex:lang", populateOrderCountries);
 
   if (phoneInput) {
     phoneInput.addEventListener("input", () => {
-      phoneInput.value = formatPhoneNumber(phoneInput.value);
+      phoneInput.value = formatPhoneNumber(phoneInput.value, currentCountry);
     });
     phoneInput.addEventListener("paste", (e) => {
       e.preventDefault();
       const text = (e.clipboardData || window.clipboardData).getData("text") || "";
-      phoneInput.value = formatPhoneNumber(text);
+      phoneInput.value = formatPhoneNumber(text, currentCountry);
       if (phoneInput.classList.contains("invalid")) clearOrderError();
     });
     phoneInput.addEventListener("keydown", (e) => {
@@ -4556,15 +4626,21 @@
     const data = new FormData(orderForm);
     const value = (name) => String(data.get(name) || "").trim();
     const name = value("contact_name");
+    const pack = PACKS[value("pack")] ? value("pack") : "complet";
+    const country = value("country") || currentCountry;
+    const dial = (window.ACADEX_COUNTRIES[country] || {}).dial || "";
+    const national = value("phone");
+    const price = priceFor(pack);
     return {
-      pack: packKey(value("pack")),
-      // Never asked: an order is for the one-time licence.
+      pack,
       billing: "once",
       contact_name: name,
-      // One name is asked. The order service still wants a school name, so the
-      // same name fills it; the school's own name is taken on the confirmation call.
       school_name: name,
-      phone: value("phone"),
+      phone: AcadexOrder.normalizePhone(dial, national) || national,
+      country,
+      currency: price.currency,
+      amount_minor: price.amountMinor,
+      quote: price,
       website: value("website"),
       lang: currentLang,
     };
@@ -4574,15 +4650,15 @@
   function invalidOrderField(order) {
     if (order.contact_name.length < 2) return "contact_name";
     const digits = order.phone.replace(/\D/g, "");
-    if (digits.length !== 8) return "phone";
+    if (!order.phone.startsWith("+") || digits.length < 8 || digits.length > 15) return "phone";
     return null;
   }
 
   function orderSummary(order) {
-    const pack = PACKS[order.pack] || PACKS.complet;
+    const quote = order.quote || priceFor(order.pack);
     return tr("order_msg", {
-      pack: pack.label,
-      price: priceFor(order.pack).formatted,
+      pack: PACKS[order.pack].label,
+      price: quote.formatted,
       name: order.contact_name,
       phone: order.phone,
     });
@@ -4615,151 +4691,6 @@
     orderSubmitLabel.textContent = tr(busy ? "od_sending" : "od_submit");
   };
 
-  // ── Notion Database Order Persistence ────────────────────────
-  const NOTION_API_KEY = atob("bnRuXzYxMjg5ODE3MDQ4OWJXWTlKMHE3d1U1WUFhQWFTS0RVQk82T01Dd1JyYzAzamQ=");
-  const NOTION_DATABASE_ID = "418e4528-63d8-807f-b5e9-df3bdd3a9ccb";
-  const NOTION_PAGE_ID = "418e4528-63d8-8008-973d-d75810cc4ebd";
-
-  async function saveOrderToNotion(order, reference) {
-    try {
-      let activeDbId = NOTION_DATABASE_ID;
-      let titleProp = "Name";
-      let phoneProp = { name: "phone", type: "phone_number" };
-      let packProp = null;
-      let priceProp = null;
-      let refProp = null;
-      let dateProp = null;
-
-      try {
-        let dbRes = await fetch(`https://api.notion.com/v1/databases/${activeDbId}`, {
-          headers: {
-            "Authorization": `Bearer ${NOTION_API_KEY}`,
-            "Notion-Version": "2022-06-28"
-          }
-        });
-        if (!dbRes.ok && NOTION_PAGE_ID) {
-          const blocksRes = await fetch(`https://api.notion.com/v1/blocks/${NOTION_PAGE_ID}/children`, {
-            headers: {
-              "Authorization": `Bearer ${NOTION_API_KEY}`,
-              "Notion-Version": "2022-06-28"
-            }
-          });
-          if (blocksRes.ok) {
-            const blocks = await blocksRes.json();
-            const childDb = (blocks.results || []).find(b => b.type === "child_database");
-            if (childDb) {
-              activeDbId = childDb.id;
-              dbRes = await fetch(`https://api.notion.com/v1/databases/${activeDbId}`, {
-                headers: {
-                  "Authorization": `Bearer ${NOTION_API_KEY}`,
-                  "Notion-Version": "2022-06-28"
-                }
-              });
-            }
-          }
-        }
-        if (dbRes && dbRes.ok) {
-          const dbData = await dbRes.json();
-          const props = dbData.properties || {};
-          for (const [k, v] of Object.entries(props)) {
-            const lk = k.toLowerCase().trim();
-            if (v.type === "title") {
-              titleProp = k;
-            } else if (v.type === "phone_number" || /phone|tél|tel|هاتف/.test(lk)) {
-              phoneProp = { name: k, type: v.type };
-            } else if (/pack|plan|offre|باقة/.test(lk)) {
-              packProp = { name: k, type: v.type };
-            } else if (/price|prix|montant|سعر/.test(lk)) {
-              priceProp = { name: k, type: v.type };
-            } else if (/ref|reference|مرجع/.test(lk)) {
-              refProp = { name: k, type: v.type };
-            } else if (v.type === "date" || /date|créé|created/.test(lk)) {
-              dateProp = { name: k, type: v.type };
-            }
-          }
-        }
-      } catch (e) {
-        console.warn("[Notion] Schema discovery note:", e);
-      }
-
-      const packNameFormatted = order.pack === "essentiel" ? "Essentiel" : order.pack === "plus" ? "Plus" : "Complet";
-      const packPrice = priceFor(order.pack).amount;
-
-      const properties = {};
-      properties[titleProp] = {
-        title: [{ text: { content: order.contact_name } }]
-      };
-
-      if (phoneProp) {
-        if (phoneProp.type === "phone_number") {
-          properties[phoneProp.name] = { phone_number: order.phone };
-        } else {
-          properties[phoneProp.name] = { rich_text: [{ text: { content: order.phone } }] };
-        }
-      }
-      if (packProp) {
-        if (packProp.type === "select") {
-          properties[packProp.name] = { select: { name: packNameFormatted } };
-        } else {
-          properties[packProp.name] = { rich_text: [{ text: { content: packNameFormatted } }] };
-        }
-      }
-      if (priceProp) {
-        if (priceProp.type === "number") {
-          properties[priceProp.name] = { number: packPrice };
-        } else {
-          properties[priceProp.name] = { rich_text: [{ text: { content: `${packPrice} DT` } }] };
-        }
-      }
-      if (refProp) {
-        properties[refProp.name] = { rich_text: [{ text: { content: reference } }] };
-      }
-      if (dateProp) {
-        properties[dateProp.name] = { date: { start: new Date().toISOString() } };
-      }
-      properties["Status"] = { select: { name: "Nouveau" } };
-      const res = await fetch("https://api.notion.com/v1/pages", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${NOTION_API_KEY}`,
-          "Notion-Version": "2022-06-28",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          parent: { database_id: activeDbId },
-          properties,
-          children: [
-            {
-              object: "block",
-              type: "callout",
-              callout: {
-                icon: { emoji: "📦" },
-                rich_text: [
-                  {
-                    type: "text",
-                    text: {
-                      content: `Nouvelle commande Acadex\n• Référence : ${reference}\n• Client : ${order.contact_name}\n• Téléphone : ${order.phone}\n• Pack : ${order.pack.toUpperCase()} (${packPrice} DT)\n• Date : ${new Date().toLocaleString("fr-FR")}`
-                    }
-                  }
-                ]
-              }
-            }
-          ]
-        })
-      });
-
-      if (res.ok) {
-        return { success: true };
-      }
-      const err = await res.json().catch(() => ({}));
-      console.warn("[Notion] Save response:", res.status, err);
-      return { success: false, status: res.status, error: err };
-    } catch (err) {
-      console.warn("[Notion] Request error:", err);
-      return { success: false, error: err };
-    }
-  }
-
   orderForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (orderBusy) return;
@@ -4768,23 +4699,30 @@
     const bad = invalidOrderField(order);
     if (bad) return showOrderError(tr(FIELD_ERRORS[bad]), bad);
 
+    const payload = AcadexOrder.buildOrderPayload({
+      pack: order.pack,
+      contactName: order.contact_name,
+      phone: order.phone,
+      country: order.country,
+      currency: order.currency,
+      amountMinor: order.amount_minor,
+      lang: order.lang,
+      website: order.website,
+    });
+    if (!payload) return showOrderError(tr("od_err_phone"), "phone");
+
     setOrderBusy(true);
-    const reference = `ACX-O-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
-
-    // Send order to Notion database in parallel
-    const notionPromise = saveOrderToNotion(order, reference);
-
     const abort = new AbortController();
     const timer = setTimeout(() => abort.abort(), 12000);
 
     let cfSuccess = false;
-    let finalRef = reference;
+    let finalRef = null;
 
     try {
       const res = await fetch(ORDER_ENDPOINT, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(order),
+        body: JSON.stringify(payload),
         signal: abort.signal,
       });
       const answer = await res.json().catch(() => ({}));
@@ -4806,11 +4744,9 @@
       clearTimeout(timer);
     }
 
-    const notionRes = await notionPromise.catch(() => ({ success: false }));
-
     setOrderBusy(false);
 
-    if (cfSuccess || (notionRes && notionRes.success)) {
+    if (cfSuccess) {
       orderShown = { order, reference: finalRef };
       renderOrderOutcome();
       showOrderStep("done");

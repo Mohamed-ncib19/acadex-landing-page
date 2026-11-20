@@ -47,3 +47,18 @@ test("the hardcoded currency label is gone and the country dialog exists", () =>
   assert.ok(html.includes('id="country-search"'));
   assert.ok(html.includes('id="country-list"'));
 });
+
+test("the order form has a country selector and uses the order helper", () => {
+  assert.ok(html.includes('src="assets/order.js"'));
+  assert.ok(html.includes('id="od-country"'));
+  assert.ok(html.includes('id="od-dial"'));
+  assert.ok(html.includes("AcadexOrder.normalizePhone"));
+  assert.ok(html.includes("amount_minor"));
+});
+
+test("Notion is no longer called from the page", () => {
+  assert.equal(html.includes("NOTION_API_KEY"), false);
+  assert.equal(html.includes("api.notion.com"), false);
+  assert.equal(html.includes("saveOrderToNotion"), false);
+  assert.equal(html.toLowerCase().includes("notion"), false);
+});
