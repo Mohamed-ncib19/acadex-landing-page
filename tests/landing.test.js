@@ -25,3 +25,25 @@ test("no longer defaults the language to Arabic", () => {
 test("language buttons persist the visitor's choice", () => {
   assert.ok(html.includes('applyLanguage(btn.getAttribute("data-lang"), true)'));
 });
+
+test("every price location is driven by a hook", () => {
+  for (const pack of ["essentiel", "plus", "complet"]) {
+    assert.ok(html.includes(`data-price="${pack}"`), `missing data-price ${pack}`);
+    assert.ok(html.includes(`data-price-full="${pack}"`), `missing data-price-full ${pack}`);
+  }
+  assert.ok(html.includes('data-old-price="plus"'));
+  assert.ok(html.includes('data-old-price="complet"'));
+  assert.ok(html.includes('data-old-price-full="plus"'));
+  assert.ok(html.includes('data-old-price-full="complet"'));
+  assert.ok(html.includes('data-price-template="all"'));
+  assert.ok(html.includes('data-price-template="diff"'));
+  assert.ok(html.includes('data-price-template="complet"'));
+});
+
+test("the hardcoded currency label is gone and the country dialog exists", () => {
+  assert.equal(html.includes('data-i18n="curr_dt"'), false);
+  assert.ok(html.includes('id="country-chip"'));
+  assert.ok(html.includes('id="country-dialog"'));
+  assert.ok(html.includes('id="country-search"'));
+  assert.ok(html.includes('id="country-list"'));
+});
