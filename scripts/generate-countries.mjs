@@ -5,6 +5,12 @@ const SOURCE = "https://cdn.jsdelivr.net/npm/world-countries@5.1.0/countries.jso
 const OUTPUT = fileURLToPath(new URL("../assets/countries.js", import.meta.url));
 const MAGHREB = ["TN", "DZ", "MA", "MR"];
 const CURRENCY_FIXES = { CKD: "NZD", CUC: "CUP" };
+const DIAL_OVERRIDES = {
+  AX: "358", // Åland shares Finland's calling code; the source combines to 5 digits.
+  EH: "212", // Western Sahara
+  SH: "290", // Saint Helena
+  VA: "39", // Vatican City
+};
 
 const response = await fetch(SOURCE);
 if (!response.ok) {
@@ -27,8 +33,8 @@ for (const country of countries) {
   if (dial && Array.isArray(idd.suffixes) && idd.suffixes.length === 1) {
     dial += idd.suffixes[0];
   }
-  // Skip entries without a usable dial code. AX (Åland) combines to "35818" in the
-  // source data, which is longer than any real calling code, so it is dropped too.
+  if (DIAL_OVERRIDES[code]) dial = DIAL_OVERRIDES[code];
+  // Skip entries without a usable dial code.
   if (!dial || !/^\d{1,4}$/.test(dial)) continue;
 
   const languages = country.languages ? Object.keys(country.languages) : [];

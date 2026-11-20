@@ -28,3 +28,10 @@ test("the anchor markets map to the expected data", () => {
   assert.equal(countries.CK.currency, "NZD");
   assert.equal(countries.CU.currency, "CUP");
 });
+
+test("territories with multi-suffix or unusual source dial data use real calling codes", () => {
+  assert.deepEqual(countries.AX, { currency: "EUR", dial: "358", lang: "en" });
+  assert.equal(countries.EH.dial, "212");
+  assert.equal(countries.SH.dial, "290");
+  assert.equal(countries.VA.dial, "39");
+});
