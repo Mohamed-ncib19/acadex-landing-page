@@ -1,14 +1,21 @@
 # Academy — Landing Page
 
-Single-file static landing page (Arabic, RTL) for **Acadex**, the offline-first
-school management desktop app for Windows.
+Static landing page for **Acadex**, the offline-first school management
+desktop app for Windows. Files: `index.html` (the page shell, inline CSS/JS,
+no build step) plus `assets/countries.js`, `assets/rates.js`,
+`assets/localization.js`, `assets/order.js`, `api/geo.js`, `scripts/`
+(`generate-countries.mjs`, `generate-rates.mjs`) and `tests/`.
 
 ## Structure
 
-- `index.html` — the whole page (inline CSS/JS, no build step)
+- Files: `index.html` (inline CSS/JS, no build step) plus `assets/countries.js`,
+  `assets/rates.js`, `assets/localization.js`, `assets/order.js`, `api/geo.js`,
+  `scripts/` and `tests/`.
 - The **packs block** (`#plans`) mirrors the app's three tiers — same names
-  (Essentiel / Plus / Complet), prices (150 DT / Plus 249 DT promo [was 450 DT] / Complet 299 DT promo [was 600 DT]), same
-  one-time purchase. **`Complet` is the recommended pack**: it carries the
+  (Essentiel / Plus / Complet), same one-time purchase. Prices come from
+  `assets/localization.js`; TND/EUR/SAR/USD anchors are exact, other countries
+  convert through USD from `assets/rates.js`, and every price element is
+  driven by a `data-price` hook. **`Complet` is the recommended pack**: it carries the
   `is-featured` class (the one bold element of the page: gold border, lifted,
   wider column, ribbon, its own value line and a gold button) and comes first
   on a phone. **`Plus` is the most popular pack** (`is-popular`): a blue card
@@ -32,8 +39,9 @@ school management desktop app for Windows.
   an ad or a QR code.
 - Media: `assets/demo.mp4` (hero desktop app demo video, faststart, with `assets/demo-poster.webp` 0ms poster),
   and `assets/logo-128.png` (favicon + header).
-- Three languages (`ar` default and RTL, `fr`, `en`) live in the `i18n`
-  object at the bottom of `index.html`; every key must exist in all three.
+- Language: saved `acadex_lang` → browser language → country fallback →
+  English; Arabic is RTL, French and English are LTR. The country is
+  separate and is saved as `acadex_country`.
 - No binaries: the download button points at the **stable update feed**
   (`https://acadex-backup.zglm.workers.dev/updates/latest`), which 302s to
   the current installer published to Cloudflare R2 by CI on every push to
@@ -54,6 +62,13 @@ already serves the update feed (`ORDER_ENDPOINT` in `index.html` →
 order in its D1 database and answers with a reference (`ACX-O-XXXXXX`) that
 the visitor sees and can copy.
 
+- The payload includes `country` (ISO code), `currency` (ISO code) and
+  `amount_minor`, plus an E.164 `phone`.
+- `amount_minor` uses the currency's minor units: TND 299000, EUR 12900,
+  JPY 5900.
+- The worker defaults missing fields to `TN`/`TND`/`0` for older pages;
+  eight bare digits count as Tunisian only when the country is `TN` or
+  missing.
 - **Before the Worker route is deployed** (or whenever it is unreachable)
   nothing is lost: the form shows the visitor a ready-made summary with
   e-mail / phone / WhatsApp buttons instead of an error.
@@ -65,8 +80,25 @@ the visitor sees and can copy.
 - Limits on the public route: 8 KB per request, 5 orders per hour per
   visitor, a hidden field that only bots fill. The visitor's IP address is
   never stored — only a fingerprint that changes every day.
-- The deploy steps (D1 migration, secrets) are written at the top of
-  `apps/backup-worker/migrations/0002-orders.sql` in the app repo.
+- Worker migration: `apps/backup-worker/migrations/0003-order-localization.sql`
+  in the app repo; run it before deploying the worker that expects the
+  columns.
+- Notion is no longer used. The previously embedded token was public and
+  must be rotated in Notion.
+
+## Data refresh
+
+- `node scripts/generate-countries.mjs` — only when the country dataset needs updating.
+- `node scripts/generate-rates.mjs` — monthly is enough. Review the diff, run the tests, and commit the new dated snapshot.
+- The page never calls a live FX API, so two visits on the same deploy always show the same price.
+
+## Tests
+
+```
+node --test
+```
+
+Covers country data, rate coverage, anchors/conversion/rounding/formatting, language and country resolution, phone normalization, the order payload, the geo endpoint and the static page hooks.
 
 ## Preview locally
 
@@ -85,6 +117,15 @@ npx serve D:\Acadex
 - The download button is a cross-absolute URL to the Cloudflare worker —
   it works from localhost, Vercel, or any static host without
   configuration.
+- `api/geo.js` is a Vercel Node function; it reads `x-vercel-ip-country`
+  and returns `{ country }`. On any other host, or when opened from disk,
+  the page falls back to the browser region and the manual picker.
+- The site still has no build step; Vercel's framework preset stays
+  "None".
+- Deploy order: D1 migration → worker → landing page. If the landing page
+  ships first, orders still succeed but the quote fields are ignored; if
+  the worker ships before the migration, inserts fail with 503 and the
+  page shows the contact fallback.
 
 ### Publishing a change (one of the two)
 
