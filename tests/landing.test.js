@@ -190,3 +190,17 @@ test("every download button goes through the site's own /download", () => {
   assert.equal(/href="https:\/\/acadex-backup\.zglm\.workers\.dev\/updates\/latest"/.test(template), false);
   assert.ok(template.includes('href="/download"'));
 });
+
+test("robots.txt names the sitemap, and the sitemap lists every language page with its siblings", () => {
+  const robots = read("robots.txt");
+  assert.ok(robots.includes(`Sitemap: ${config.origin}/sitemap.xml`));
+  assert.ok(/^User-agent: \*$/m.test(robots));
+  const sitemap = read("sitemap.xml");
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  assert.deepEqual(locs, LANGS.map((lang) => `${config.origin}/${lang}/`));
+  for (const lang of LANGS) {
+    const count = sitemap.split(`hreflang="${lang}" href="${config.origin}/${lang}/"`).length - 1;
+    assert.equal(count, LANGS.length, `every entry must name the ${lang} page`);
+  }
+  assert.equal(sitemap.split('hreflang="x-default"').length - 1, LANGS.length);
+});

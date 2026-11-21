@@ -248,10 +248,42 @@ function renderRootStub() {
   ].join("\n");
 }
 
+/** Every language page, each one naming its siblings (the same hreflang set as in the pages). */
+function renderSitemap() {
+  const entries = LANGS.map((lang) => [
+    "  <url>",
+    `    <loc>${pageUrl(lang, true)}</loc>`,
+    ...LANGS.map((code) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${pageUrl(code, true)}"/>`),
+    `    <xhtml:link rel="alternate" hreflang="x-default" href="${pageUrl(config.defaultLang, true)}"/>`,
+    "  </url>",
+  ].join("\n"));
+  return [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    ...entries,
+    "</urlset>",
+    "",
+  ].join("\n");
+}
+
+function renderRobots() {
+  return [
+    "User-agent: *",
+    "Allow: /",
+    "Disallow: /api/",
+    "Disallow: /download",
+    "",
+    `Sitemap: ${config.origin}/sitemap.xml`,
+    "",
+  ].join("\n");
+}
+
 export function outputs() {
   const files = {};
   for (const lang of LANGS) files[`${lang}/index.html`] = renderPage(lang);
   files["index.html"] = renderRootStub();
+  files["sitemap.xml"] = renderSitemap();
+  files["robots.txt"] = renderRobots();
   return files;
 }
 
