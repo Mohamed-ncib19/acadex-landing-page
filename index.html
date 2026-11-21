@@ -2674,6 +2674,32 @@
       transition-duration: 0.01ms !important;
     }
   }
+
+  /* ── Who it is for ────────────────────────────────────────── */
+  section.seg-sec { padding: 20px 24px 70px; }
+  .seg-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .seg-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+  }
+  .seg-card h3 {
+    font-size: 19px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 16px;
+  }
+  .seg-card .p-list li b { color: #fff; }
+  @media (max-width: 760px) {
+    .seg-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -2830,6 +2856,44 @@
       </div>
     </div>
   </div>
+
+  <!-- ── Who it is for: private schools / course and training centres ── -->
+  <section id="pour-qui" class="seg-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="seg_badge">Pour qui ?</span>
+        <h2 class="sec-title" data-i18n="seg_title">Fait pour votre type d'établissement</h2>
+      </div>
+
+      <div class="seg-grid">
+        <article class="seg-card reveal" id="ecoles-privees">
+          <h3 data-i18n="seg_school_t">Pour les écoles privées</h3>
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_school_1"><b>Frais de scolarité et reçus :</b> chaque paiement donne un reçu imprimable, et vous voyez qui reste à payer.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_school_2"><b>Emplois du temps sans conflit :</b> l'application signale un professeur ou une salle déjà pris.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_school_3"><b>Présences à chaque séance :</b> l'appel se fait en classe et les feuilles de présence s'impriment.</span></li>
+          </ul>
+          <button type="button" class="btn-order is-gold-cta" data-order-pack="complet">
+            <span data-i18n="seg_school_cta">Commander pour mon école</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </article>
+
+        <article class="seg-card reveal" id="centres">
+          <h3 data-i18n="seg_center_t">Pour les centres de soutien et de formation</h3>
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_center_1"><b>Paie des professeurs au pourcentage :</b> la part de chaque professeur se calcule à partir des paiements encaissés de ses groupes.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_center_2"><b>Groupes, paiements et reçus :</b> les élèves sont rangés par groupe, et chaque paiement encaissé donne un reçu.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_center_3"><b>Séances et salles :</b> planning hebdomadaire des séances, salle par salle, et feuille de présence par groupe.</span></li>
+          </ul>
+          <button type="button" class="btn-order" data-order-pack="plus">
+            <span data-i18n="seg_center_cta">Commander pour mon centre</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <!-- ── Features Bento Grid ─────────────────────────────────── -->
   <section id="features" class="features-sec">
@@ -3663,6 +3727,18 @@
       terms3_d: "بعد تسليم كود التفعيل لا يُسترجع ثمن الترخيص. خذ وقتك في مشاهدة العرض قبل أن تقرر.",
       faq_q7: "هل يمكنني تجربة Acadex قبل الدفع؟",
       faq_a7: "لا توجد فترة تجريبية: دون كود التفعيل يبقى التطبيق على شاشة التفعيل. أما العرض فمجاني: فيديو هذه الصفحة يُظهر التطبيق وهو يعمل، ونقدّمه لك مباشرة عند الطلب (واتساب أو هاتف). بعد تسليم كود التفعيل لا يُسترجع ثمن الترخيص.",
+      seg_badge: "لمن؟",
+      seg_title: "مصمَّم لنوع مؤسستك",
+      seg_school_t: "للمدارس الخاصة",
+      seg_school_1: "<b>معاليم الدراسة والوصولات:</b> كل دفعة تعطي وصلاً قابلاً للطباعة، وترى من لم يخلّص بعد.",
+      seg_school_2: "<b>جداول دون تضارب:</b> التطبيق ينبّهك إذا كان الأستاذ أو القاعة مشغولين.",
+      seg_school_3: "<b>الحضور في كل حصة:</b> تسجيل الغياب في القسم وطباعة أوراق الحضور.",
+      seg_school_cta: "اطلب لمدرستي",
+      seg_center_t: "لمراكز الدعم والتكوين",
+      seg_center_1: "<b>أجور الأساتذة بالنسبة المئوية:</b> نصيب كل أستاذ يُحتسب من المبالغ المقبوضة لمجموعاته.",
+      seg_center_2: "<b>المجموعات والدفعات والوصولات:</b> التلاميذ مرتبون حسب المجموعة، وكل دفعة مقبوضة تعطي وصلاً.",
+      seg_center_3: "<b>الحصص والقاعات:</b> جدول أسبوعي للحصص قاعة بقاعة، وورقة حضور لكل مجموعة.",
+      seg_center_cta: "اطلب لمركزي",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -3815,6 +3891,18 @@
       terms3_d: "Une fois le code d'activation remis, la licence n'est pas remboursée. Prenez le temps de voir la démo avant de décider.",
       faq_q7: "Puis-je essayer Acadex avant de payer ?",
       faq_a7: "Il n'y a pas de période d'essai : sans code d'activation, l'application reste sur l'écran d'activation. La démo, elle, est gratuite : la vidéo de cette page montre l'application en fonctionnement, et nous vous la présentons en direct sur simple demande (WhatsApp ou téléphone). Après la remise du code d'activation, la licence n'est pas remboursée.",
+      seg_badge: "Pour qui ?",
+      seg_title: "Fait pour votre type d'établissement",
+      seg_school_t: "Pour les écoles privées",
+      seg_school_1: "<b>Frais de scolarité et reçus :</b> chaque paiement donne un reçu imprimable, et vous voyez qui reste à payer.",
+      seg_school_2: "<b>Emplois du temps sans conflit :</b> l'application signale un professeur ou une salle déjà pris.",
+      seg_school_3: "<b>Présences à chaque séance :</b> l'appel se fait en classe et les feuilles de présence s'impriment.",
+      seg_school_cta: "Commander pour mon école",
+      seg_center_t: "Pour les centres de soutien et de formation",
+      seg_center_1: "<b>Paie des professeurs au pourcentage :</b> la part de chaque professeur se calcule à partir des paiements encaissés de ses groupes.",
+      seg_center_2: "<b>Groupes, paiements et reçus :</b> les élèves sont rangés par groupe, et chaque paiement encaissé donne un reçu.",
+      seg_center_3: "<b>Séances et salles :</b> planning hebdomadaire des séances, salle par salle, et feuille de présence par groupe.",
+      seg_center_cta: "Commander pour mon centre",
     },
     en: {
       nav_features: "Features",
@@ -3967,6 +4055,18 @@
       terms3_d: "Once the activation code has been delivered, the licence is not refunded. Take the time to see the demo before you decide.",
       faq_q7: "Can I try Acadex before paying?",
       faq_a7: "There is no trial period: without an activation code the app stays on the activation screen. The demo is free: the video on this page shows the app running, and we present it live on request (WhatsApp or phone). Once the activation code has been delivered, the licence is not refunded.",
+      seg_badge: "Who is it for?",
+      seg_title: "Built for your kind of institution",
+      seg_school_t: "For private schools",
+      seg_school_1: "<b>Tuition fees and receipts:</b> every payment produces a printable receipt, and you see who still has to pay.",
+      seg_school_2: "<b>Timetables without clashes:</b> the app warns when a teacher or a room is already taken.",
+      seg_school_3: "<b>Attendance at every session:</b> roll call in class, and attendance sheets you can print.",
+      seg_school_cta: "Order for my school",
+      seg_center_t: "For tutoring and training centres",
+      seg_center_1: "<b>Teacher pay by percentage:</b> each teacher's share is worked out from the payments collected for their groups.",
+      seg_center_2: "<b>Groups, payments and receipts:</b> students are organised by group, and every payment collected produces a receipt.",
+      seg_center_3: "<b>Sessions and rooms:</b> a weekly plan of sessions, room by room, and an attendance sheet per group.",
+      seg_center_cta: "Order for my centre",
     }
   };
 
