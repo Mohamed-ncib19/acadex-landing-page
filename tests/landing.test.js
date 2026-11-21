@@ -88,3 +88,17 @@ test("every data-i18n key exists in the dictionaries", () => {
   const used = [...html.matchAll(/data-i18n(?:-ph)?="([^"]+)"/g)].map((m) => m[1]);
   for (const key of new Set(used)) assert.ok(keys.has(key), `missing dictionary key: ${key}`);
 });
+
+test("owner placeholders never reach a visitor", () => {
+  // Testimonials are real or absent: the block stays hidden while it holds a placeholder.
+  const block = /<div class="testimonials"[^>]*>/.exec(html);
+  assert.ok(block, "missing testimonials block");
+  const end = html.indexOf("</section>", block.index);
+  if (html.slice(block.index, end).includes("TODO_OWNER")) {
+    assert.ok(/\bhidden\b/.test(block[0]), "a testimonials block holding TODO_OWNER must be hidden");
+  }
+  // No dictionary value may carry a placeholder: those are shown as text.
+  const dictStart = html.indexOf("const i18n = {");
+  const dictEnd = html.indexOf("const SUPPORTED_LANGS", dictStart);
+  assert.equal(html.slice(dictStart, dictEnd).includes("TODO_OWNER"), false);
+});
