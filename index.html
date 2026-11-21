@@ -2731,7 +2731,7 @@
         <span>◆ Windows 10 / 11 (64-bit)</span>
         <span>◆ ~111 MB</span>
         <span data-i18n="hero_meta_pay">◆ شراء دائم دفعة واحدة</span>
-        <span class="version-badge">◆ Beta 1.0</span>
+        <span class="version-badge" data-version>◆ Acadex 2.0</span>
       </div>
 
       <!-- App Mockup -->
@@ -2744,7 +2744,7 @@
               <span class="mockup-dot" style="background:#F59E0B;"></span>
               <span class="mockup-dot" style="background:#10B981;"></span>
             </div>
-            <div class="mockup-title">Acadex 2.0 — Desktop School Management</div>
+            <div class="mockup-title" data-version data-i18n="demo_window_title">Acadex 2.0 — Desktop School Management</div>
             <div class="mockup-actions">
               <span class="mockup-live-badge">
                 <span class="mockup-live-dot"></span>
@@ -3253,7 +3253,7 @@
         <span class="mockup-dot" style="background:#F59E0B;"></span>
         <span class="mockup-dot" style="background:#10B981;"></span>
       </div>
-      <div class="theater-title">Acadex 2.0 — Aperçu interactif haute fidélité</div>
+      <div class="theater-title" data-version data-i18n="demo_window_title">Acadex 2.0 — Desktop School Management</div>
       <div class="theater-actions">
         <button type="button" class="theater-icon-btn close" id="theater-close-btn" aria-label="Fermer" title="Fermer (Échap)">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="14" height="14"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
@@ -3305,7 +3305,7 @@
 <!-- ── Footer ──────────────────────────────────────────────── -->
 <footer>
   <div class="footer-in">
-    <div><b>Acadex</b> — © 2026. <span data-i18n="footer_copy">بياناتك على جهازك بأمان وثقة.</span></div>
+    <div><b data-version>Acadex 2.0</b> — © 2026. <span data-i18n="footer_copy">بياناتك على جهازك بأمان وثقة.</span></div>
     <div>Windows 10 & 11 · 64-bit</div>
   </div>
 </footer>
@@ -3580,6 +3580,7 @@
       country_chip_aria: "تغيير الدولة والعملة",
       pricing_loc_hint: "الأسعار معروضة لـ {country} ({currency})",
       pricing_loc_change: "تغيير",
+      demo_window_title: "Acadex 2.0 — إدارة المدرسة على ويندوز",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -3719,6 +3720,7 @@
       country_chip_aria: "Changer de pays et de devise",
       pricing_loc_hint: "Prix affichés pour {country} ({currency})",
       pricing_loc_change: "Modifier",
+      demo_window_title: "Acadex 2.0 — Gestion scolaire pour Windows",
     },
     en: {
       nav_features: "Features",
@@ -3858,6 +3860,7 @@
       country_chip_aria: "Change country and currency",
       pricing_loc_hint: "Prices shown for {country} ({currency})",
       pricing_loc_change: "Change",
+      demo_window_title: "Acadex 2.0 — School management for Windows",
     }
   };
 
@@ -4812,6 +4815,16 @@
   });
 
   // Dynamic live version check from Cloudflare update feed
+  let versionLabel = null;
+  function setVersionLabel(label) {
+    if (label) versionLabel = label;
+    if (!versionLabel) return;
+    document.querySelectorAll("[data-version]").forEach((el) => {
+      el.textContent = el.textContent.replace(/Acadex d+.d+/, `Acadex ${versionLabel}`);
+    });
+  }
+  // A language switch rewrites the translated labels: put the version back.
+  document.addEventListener("acadex:lang", () => setVersionLabel());
   (async () => {
     try {
       const res = await fetch("https://acadex-backup.zglm.workers.dev/updates/latest.yml", { cache: "no-store" });
@@ -4820,9 +4833,10 @@
       const match = text.match(/^version:\s*(.+)$/m);
       if (match) {
         const v = match[1].trim();
-        if (!/alpha/i.test(v)) {
-          document.querySelector(".version-badge").textContent = `◆ v${v}`;
-        }
+        // One label everywhere: a published non-alpha build moves every
+        // "Acadex X.Y" on the page together (hero badge, demo window, footer).
+        const parts = /^(d+).(d+)./.exec(v);
+        if (parts && !/alpha|beta|rc/i.test(v)) setVersionLabel(`${parts[1]}.${parts[2]}`);
       }
     } catch {}
   })();
