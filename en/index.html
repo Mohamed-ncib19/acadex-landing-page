@@ -14,12 +14,12 @@
 <meta name="theme-color" content="#07090E">
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/plus-jakarta-sans-latin.woff2" crossorigin>
 <link rel="preload" as="image" href="/assets/demo-poster.webp?v=b2fc3ccf0b" media="(min-width: 781px)" fetchpriority="high">
-<link rel="stylesheet" href="/assets/site.css?v=8f27a5c42a">
+<link rel="stylesheet" href="/assets/site.css?v=981018a040">
 <script src="/assets/countries.js?v=533fd50faa" defer></script>
 <script src="/assets/rates.js?v=99a5921453" defer></script>
 <script src="/assets/localization.js?v=c1c986a3d8" defer></script>
 <script src="/assets/order.js?v=f9da0d9342" defer></script>
-<script src="/assets/site.js?v=9a53569aff" defer></script>
+<script src="/assets/site.js?v=e0c963baa4" defer></script>
 </head>
 <body>
 
@@ -31,7 +31,7 @@
       <span>Acadex</span>
     </a>
 
-    <nav class="nav-links" id="nav-links">
+    <nav class="nav-links" id="nav-links" aria-label="Main navigation">
       <a href="#features">Features</a>
       <a href="#plans">Pricing</a>
       <a href="#compare">Compare</a>
@@ -51,14 +51,14 @@
         <a class="lang-btn active" data-lang="en" href="/en/" hreflang="en" lang="en" aria-current="page">EN</a>
       </nav>
 
-      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog" aria-label="Change country and currency">
+      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog">
         <span id="country-chip-name">Tunisia</span>
         <span id="country-chip-code" hidden>TN</span>
         <span class="cc-sep">·</span>
         <span class="cc-cur" id="country-chip-currency">TND</span>
       </button>
 
-      <a class="btn-nav-dl" href="/download">
+      <a class="btn-nav-dl" href="/download" aria-label="Download">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         <span>Download</span>
       </a>
@@ -68,7 +68,7 @@
 
 <main>
   <!-- ── Hero Section ────────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero" id="top">
     <div class="hero-glow-top"></div>
     <div class="hero-in">
       <div class="hero-tag">
@@ -166,18 +166,18 @@
   </section>
 
   <!-- ── Minimal Trust Strip ─────────────────────────────────── -->
-  <div class="trust-strip">
+  <section class="trust-strip" aria-label="At a glance">
     <div class="trust-grid">
       <div>
         <div class="trust-metric-num">100%</div>
         <div class="trust-metric-label">Works without Internet</div>
       </div>
       <div>
-        <div class="trust-metric-num">0 DT</div>
+        <div class="trust-metric-num">0 TND</div>
         <div class="trust-metric-label">No monthly subscription</div>
       </div>
       <div>
-        <div class="trust-metric-num">⚡ 1 Clic</div>
+        <div class="trust-metric-num">⚡ 1 click</div>
         <div class="trust-metric-label">Direct 1-click printing</div>
       </div>
       <div>
@@ -185,10 +185,10 @@
         <div class="trust-metric-label">100% private on-premise data</div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- ── Who it is for: private schools / course and training centres ── -->
-  <section id="pour-qui" class="seg-sec">
+  <section id="who" class="seg-sec">
     <div class="wrap">
       <div class="sec-header reveal">
         <span class="sec-badge">Who is it for?</span>
@@ -196,7 +196,7 @@
       </div>
 
       <div class="seg-grid">
-        <article class="seg-card reveal" id="ecoles-privees">
+        <article class="seg-card reveal" id="schools">
           <h3>For private schools</h3>
           <ul class="p-list">
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Tuition fees and receipts:</b> every payment produces a printable receipt, and you see who still has to pay.</span></li>
@@ -209,7 +209,7 @@
           </button>
         </article>
 
-        <article class="seg-card reveal" id="centres">
+        <article class="seg-card reveal" id="centers">
           <h3>For tutoring and training centres</h3>
           <ul class="p-list">
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Teacher pay by percentage:</b> each teacher's share is worked out from the payments collected for their groups.</span></li>
@@ -311,7 +311,7 @@
   </section>
 
   <!-- ── Is my data safe? ────────────────────────────────────── -->
-  <section id="donnees" class="data-sec">
+  <section id="data" class="data-sec">
     <div class="wrap">
       <div class="sec-header reveal">
         <span class="sec-badge">Your data</span>
@@ -393,7 +393,7 @@
 
           <div class="p-price-row">
             <span class="p-amount" data-price="essentiel">150</span>
-            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-currency" data-currency>TND</span>
             <span class="p-badge-once">One-time payment</span>
           </div>
 
@@ -423,7 +423,7 @@
           <div class="p-price-row">
             <del class="p-old-amount" data-old-price="plus">450</del>
             <span class="p-amount" data-price="plus">249</span>
-            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-currency" data-currency>TND</span>
             <span class="p-badge-once">One-time payment</span>
           </div>
 
@@ -453,7 +453,7 @@
           <div class="p-price-row">
             <del class="p-old-amount" data-old-price="complet">600</del>
             <span class="p-amount" data-price="complet">299</span>
-            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-currency" data-currency>TND</span>
             <span class="p-badge-once">One-time payment</span>
           </div>
 
@@ -510,18 +510,18 @@
       <div id="compare" class="cmp-container reveal">
         <!-- Mobile Segmented Tabs -->
         <div class="cmp-tabs-wrap" role="group" aria-label="Choose a pack">
-          <button type="button" class="cmp-tab-btn active" data-cmp-tab="all">
+          <button type="button" class="cmp-tab-btn active" data-cmp-tab="all" aria-pressed="true">
             <span>Compare all ⇋</span>
           </button>
-          <button type="button" class="cmp-tab-btn" data-cmp-tab="essentiel">
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="essentiel" aria-pressed="false">
             <span>Essentiel</span>
             <span class="cmp-tab-price"><span data-price-full="essentiel">TND 150</span></span>
           </button>
-          <button type="button" class="cmp-tab-btn" data-cmp-tab="plus">
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="plus" aria-pressed="false">
             <span>Plus</span>
             <span class="cmp-tab-price"><span data-price-full="plus">TND 249</span> ⭐</span>
           </button>
-          <button type="button" class="cmp-tab-btn" data-cmp-tab="complet">
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="complet" aria-pressed="false">
             <span>Complet</span>
             <span class="cmp-tab-price"><span data-price-full="complet">TND 299</span> 👑</span>
           </button>
@@ -626,71 +626,71 @@
 
       <div class="faq-wrap">
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a1">
             <span>Is an active Internet connection required?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a1">
             <p>No. Acadex operates 100% offline. Network access is only required for optional cloud backup and updates.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a2">
             <span>Where is our school data stored?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a2">
             <p>Directly on your local computer hard drive in complete privacy, never exposed to shared third-party servers.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a3">
             <span>Is this a monthly subscription?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a3">
             <p data-i18n="faq_a3" data-price-template="all">No. It is a one-time purchase (TND 150 / TND 249 / TND 299) with no subscription.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a4">
             <span>Can I upgrade my plan later?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a4">
             <p>Yes. Simply enter a new activation code: features unlock immediately with all your data untouched.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a5">
             <span>How do I order and get my activation code?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a5">
             <p>Click “Order” under the pack you want and fill in the short form on this page. We call you to confirm the order and the payment method, then send you the activation code to enter in the app.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a6">
             <span>How do I pay?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a6">
             <p>In Tunisia: cash or D17 (the Tunisian Post payment app). Payment is made once; installments are not offered. Nothing is charged when you order: we call you first to confirm.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a7">
             <span>Can I try Acadex before paying?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a7">
             <p>There is no trial period: without an activation code the app stays on the activation screen. The demo is free: the video on this page shows the app running, and we present it live on request (WhatsApp or phone). Once the activation code has been delivered, the licence is not refunded.</p>
           </div>
         </div>
@@ -699,7 +699,7 @@
   </section>
 
   <!-- ── Bottom CTA ──────────────────────────────────────────── -->
-  <div class="dl-strip">
+  <section class="dl-strip" id="get">
     <div class="dl-strip-in reveal">
       <h2>Ready to Upgrade Your School?</h2>
       <p>A single lightweight Windows installer configures the app and database in under a minute.</p>
@@ -714,10 +714,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- ── Who is behind Acadex ────────────────────────────────── -->
-  <section id="a-propos" class="about-sec">
+  <section id="about" class="about-sec">
     <div class="wrap">
       <div class="sec-header reveal">
         <span class="sec-badge">Who we are</span>
@@ -747,7 +747,7 @@
         person's name and role, the school and its city — with the school's
         written permission — then remove the "hidden" attribute.
       -->
-      <div class="testimonials" id="temoignages" hidden>
+      <div class="testimonials" id="testimonials" hidden>
         <h3 class="terms-title">They use Acadex</h3>
         <div class="how-grid">
           <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
@@ -761,6 +761,7 @@
   <!-- ── Contact Section ─────────────────────────────────────── -->
   <section id="contact" class="contact-sec">
     <div class="wrap">
+      <h2 class="contact-title">Contact us</h2>
       <div class="contact-chips reveal">
         <a class="contact-chip wa" href="https://wa.me/21655518492?text=Hello%2C%20I%20would%20like%20a%20demo%20of%20Acadex%20for%20my%20school%2Fcentre." target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
@@ -780,7 +781,7 @@
 </main>
 
 <!-- ── Cinematic Theater Fullscreen Modal ────────────────────── -->
-<div class="theater-overlay" id="theater-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Acadex demo video">
+<div class="theater-overlay" id="theater-overlay" aria-hidden="true" inert role="dialog" aria-modal="true" aria-label="Acadex demo video">
   <div class="theater-backdrop" id="theater-backdrop"></div>
   <div class="theater-window" id="theater-window">
     <div class="theater-bar">
@@ -840,6 +841,14 @@
 
 <!-- ── Footer ──────────────────────────────────────────────── -->
 <footer>
+  <nav class="footer-nav" aria-label="Footer links">
+    <a href="#features">Features</a>
+    <a href="#plans">Pricing</a>
+    <a href="#data">Your data</a>
+    <a href="#faq">FAQ</a>
+    <a href="#about">Who we are</a>
+    <a href="#contact">Contact</a>
+  </nav>
   <div class="footer-in">
     <div><b data-version>Acadex 2.0</b> — © 2026. <span>Your data securely on your computer.</span></div>
     <div>Windows 10 & 11 · 64-bit</div>
@@ -873,7 +882,7 @@
 <dialog class="order-dialog" id="order-dialog" aria-labelledby="od-title">
   <div class="od-head">
     <div>
-      <h2 id="od-title">طلب باقة</h2>
+      <h2 id="od-title">Order a pack</h2>
       <p class="od-terms" id="od-terms"></p>
     </div>
     <button type="button" class="od-close" data-od-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
@@ -888,15 +897,15 @@
           <div class="od-packs-selector" id="od-packs-selector">
             <button type="button" class="od-pack-btn" data-pack="essentiel">
               <span class="pk-title">Essentiel</span>
-              <span class="pk-price"><span data-price="essentiel">150</span> <span data-currency>DT</span></span>
+              <span class="pk-price"><span data-price="essentiel">150</span> <span data-currency>TND</span></span>
             </button>
             <button type="button" class="od-pack-btn" data-pack="plus">
               <span class="pk-title">Plus</span>
-              <span class="pk-price"><span data-price="plus">249</span> <span data-currency>DT</span></span>
+              <span class="pk-price"><span data-price="plus">249</span> <span data-currency>TND</span></span>
             </button>
             <button type="button" class="od-pack-btn selected" data-pack="complet">
               <span class="pk-title">Complet</span>
-              <span class="pk-price"><span data-price="complet">299</span> <span data-currency>DT</span></span>
+              <span class="pk-price"><span data-price="complet">299</span> <span data-currency>TND</span></span>
             </button>
           </div>
           <input type="hidden" name="pack" value="complet">

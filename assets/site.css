@@ -54,7 +54,7 @@
 
   --text-main: #F8FAFC;
   --text-muted: #94A3B8;
-  --text-dim: #64748B;
+  --text-dim: #7B8798;
 
   --radius-sm: 8px;
   --radius-md: 14px;
@@ -241,7 +241,7 @@ html[dir="ltr"] .lang-btn[lang="ar"] {
 }
 
 .lang-btn.active {
-  background: var(--primary);
+  background: #2563EB;
   color: #fff;
   box-shadow: 0 2px 8px var(--primary-glow);
 }
@@ -2745,6 +2745,39 @@ section.about-sec + section.contact-sec {
   display: grid;
   gap: 6px;
   line-height: 1.6;
+}
+
+/* ── Headings added for the page outline ───────────────────── */
+.faq-q {
+  margin: 0;
+  font: inherit;
+}
+.contact-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 22px;
+  max-width: 1100px;
+  margin: 0 auto 18px;
+  font-weight: 600;
+}
+.footer-nav a { color: var(--text-muted); }
+.footer-nav a:hover { color: #fff; }
+
+/* Keyboard users always see where they are. */
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--primary-light);
+  outline-offset: 2px;
 }
 
 /* A phone cannot install a Windows app: on a narrow screen the top bar keeps

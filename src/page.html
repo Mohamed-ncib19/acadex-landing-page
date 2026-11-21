@@ -6,7 +6,7 @@
       <span>Acadex</span>
     </a>
 
-    <nav class="nav-links" id="nav-links">
+    <nav class="nav-links" id="nav-links" data-i18n-aria="aria_main_nav">
       <a href="#features" data-i18n="nav_features">الميزات</a>
       <a href="#plans" data-i18n="nav_plans">الباقات</a>
       <a href="#compare" data-i18n="nav_compare">المقارنة</a>
@@ -26,14 +26,14 @@
         <a class="lang-btn" data-lang="en" href="/en/" hreflang="en" lang="en">EN</a>
       </nav>
 
-      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog" data-i18n-aria="country_chip_aria">
-        <span id="country-chip-name">Tunisia</span>
+      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog">
+        <span id="country-chip-name" data-country-name>Tunisia</span>
         <span id="country-chip-code" hidden>TN</span>
         <span class="cc-sep">·</span>
         <span class="cc-cur" id="country-chip-currency">TND</span>
       </button>
 
-      <a class="btn-nav-dl" href="/download">
+      <a class="btn-nav-dl" href="/download" data-i18n-aria="nav_download">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         <span data-i18n="nav_download">تحميل</span>
       </a>
@@ -43,7 +43,7 @@
 
 <main>
   <!-- ── Hero Section ────────────────────────────────────────── -->
-  <section class="hero">
+  <section class="hero" id="top">
     <div class="hero-glow-top"></div>
     <div class="hero-in">
       <div class="hero-tag">
@@ -143,29 +143,29 @@
   </section>
 
   <!-- ── Minimal Trust Strip ─────────────────────────────────── -->
-  <div class="trust-strip">
+  <section class="trust-strip" data-i18n-aria="aria_keyfacts">
     <div class="trust-grid">
       <div>
         <div class="trust-metric-num">100%</div>
         <div class="trust-metric-label" data-i18n="trust_offline">يعمل دون اتصال بالإنترنت</div>
       </div>
       <div>
-        <div class="trust-metric-num">0 DT</div>
+        <div class="trust-metric-num" data-i18n="trust_zero">0 DT</div>
         <div class="trust-metric-label" data-i18n="trust_monthly">بدون أي اشتراك شهري</div>
       </div>
       <div>
-        <div class="trust-metric-num">⚡ 1 Clic</div>
+        <div class="trust-metric-num" data-i18n="trust_click">⚡ 1 Clic</div>
         <div class="trust-metric-label" data-i18n="trust_print">طباعة فورية للوصولات والكشوفات</div>
       </div>
       <div>
-        <div class="trust-metric-num">🔒 Local</div>
+        <div class="trust-metric-num" data-i18n="trust_local">🔒 Local</div>
         <div class="trust-metric-label" data-i18n="trust_privacy">خصوصية تامة لبيانات مدرستك</div>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- ── Who it is for: private schools / course and training centres ── -->
-  <section id="pour-qui" class="seg-sec">
+  <section id="who" class="seg-sec">
     <div class="wrap">
       <div class="sec-header reveal">
         <span class="sec-badge" data-i18n="seg_badge">Pour qui ?</span>
@@ -173,7 +173,7 @@
       </div>
 
       <div class="seg-grid">
-        <article class="seg-card reveal" id="ecoles-privees">
+        <article class="seg-card reveal" id="schools">
           <h3 data-i18n="seg_school_t">Pour les écoles privées</h3>
           <ul class="p-list">
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_school_1"><b>Frais de scolarité et reçus :</b> chaque paiement donne un reçu imprimable, et vous voyez qui reste à payer.</span></li>
@@ -186,7 +186,7 @@
           </button>
         </article>
 
-        <article class="seg-card reveal" id="centres">
+        <article class="seg-card reveal" id="centers">
           <h3 data-i18n="seg_center_t">Pour les centres de soutien et de formation</h3>
           <ul class="p-list">
             <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_center_1"><b>Paie des professeurs au pourcentage :</b> la part de chaque professeur se calcule à partir des paiements encaissés de ses groupes.</span></li>
@@ -288,7 +288,7 @@
   </section>
 
   <!-- ── Is my data safe? ────────────────────────────────────── -->
-  <section id="donnees" class="data-sec">
+  <section id="data" class="data-sec">
     <div class="wrap">
       <div class="sec-header reveal">
         <span class="sec-badge" data-i18n="data_badge">Vos données</span>
@@ -487,18 +487,18 @@
       <div id="compare" class="cmp-container reveal">
         <!-- Mobile Segmented Tabs -->
         <div class="cmp-tabs-wrap" role="group" data-i18n-aria="aria_select_plan">
-          <button type="button" class="cmp-tab-btn active" data-cmp-tab="all">
+          <button type="button" class="cmp-tab-btn active" data-cmp-tab="all" aria-pressed="true">
             <span data-i18n="tbl_tab_all">مقارنة شاملة ⇋</span>
           </button>
-          <button type="button" class="cmp-tab-btn" data-cmp-tab="essentiel">
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="essentiel" aria-pressed="false">
             <span>Essentiel</span>
             <span class="cmp-tab-price"><span data-price-full="essentiel">150</span></span>
           </button>
-          <button type="button" class="cmp-tab-btn" data-cmp-tab="plus">
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="plus" aria-pressed="false">
             <span>Plus</span>
             <span class="cmp-tab-price"><span data-price-full="plus">249</span> ⭐</span>
           </button>
-          <button type="button" class="cmp-tab-btn" data-cmp-tab="complet">
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="complet" aria-pressed="false">
             <span>Complet</span>
             <span class="cmp-tab-price"><span data-price-full="complet">299</span> 👑</span>
           </button>
@@ -603,71 +603,71 @@
 
       <div class="faq-wrap">
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a1">
             <span data-i18n="faq_q1">هل يتطلب التطبيق اتصالاً بالإنترنت؟</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a1">
             <p data-i18n="faq_a1">لا. يعمل التطبيق محلياً 100% دون إنترنت، والشبكة مطلوبة فقط للنسخ السحابي الاختياري أو التحديثات.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a2">
             <span data-i18n="faq_q2">أين تُحفظ بيانات مدرستنا؟</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a2">
             <p data-i18n="faq_a2">على القرص الصلب لحاسوبك بأمان وسرية تامة دون أي مشاركة مع أطراف خارجية.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a3">
             <span data-i18n="faq_q3">هل الترخيص دائم أم اشتراك شهري؟</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a3">
             <p data-i18n="faq_a3" data-price-template="all">ترخيص دائم بدفعة واحدة (150 / 249 / 299 د.ت)، دون أي اشتراك.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a4">
             <span data-i18n="faq_q4">هل يمكن ترقية الباقة لاحقاً؟</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a4">
             <p data-i18n="faq_a4">نعم، بنقرة زر واحدة عبر إدخال كود جديد، وتفتح الميزات فوراً مع بقاء كامل بياناتك دون تغيير.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a5">
             <span data-i18n="faq_q5">كيف أطلب الباقة وأستلم كود التفعيل؟</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a5">
             <p data-i18n="faq_a5">اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a6">
             <span data-i18n="faq_q6">Comment payer ?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a6">
             <p data-i18n="faq_a6">En Tunisie : en espèces ou par D17.</p>
           </div>
         </div>
 
         <div class="faq-card reveal">
-          <button class="faq-btn">
+          <h3 class="faq-q"><button type="button" class="faq-btn" aria-expanded="false" aria-controls="faq-a7">
             <span data-i18n="faq_q7">Puis-je essayer Acadex avant de payer ?</span>
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
-          </button>
-          <div class="faq-content">
+          </button></h3>
+          <div class="faq-content" id="faq-a7">
             <p data-i18n="faq_a7">Il n'y a pas de période d'essai : sans code d'activation, l'application reste sur l'écran d'activation.</p>
           </div>
         </div>
@@ -676,7 +676,7 @@
   </section>
 
   <!-- ── Bottom CTA ──────────────────────────────────────────── -->
-  <div class="dl-strip">
+  <section class="dl-strip" id="get">
     <div class="dl-strip-in reveal">
       <h2 data-i18n="cta_title">جاهز لتنظيم مدرستك؟</h2>
       <p data-i18n="cta_desc">ملف تثبيت واحد لنظام ويندوز يثبت التطبيق وقاعدة البيانات في أقل من دقيقة.</p>
@@ -691,10 +691,10 @@
         </button>
       </div>
     </div>
-  </div>
+  </section>
 
   <!-- ── Who is behind Acadex ────────────────────────────────── -->
-  <section id="a-propos" class="about-sec">
+  <section id="about" class="about-sec">
     <div class="wrap">
       <div class="sec-header reveal">
         <span class="sec-badge" data-i18n="about_badge">Qui sommes-nous</span>
@@ -724,7 +724,7 @@
         person's name and role, the school and its city — with the school's
         written permission — then remove the "hidden" attribute.
       -->
-      <div class="testimonials" id="temoignages" hidden>
+      <div class="testimonials" id="testimonials" hidden>
         <h3 class="terms-title" data-i18n="testi_title">Ils utilisent Acadex</h3>
         <div class="how-grid">
           <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
@@ -738,6 +738,7 @@
   <!-- ── Contact Section ─────────────────────────────────────── -->
   <section id="contact" class="contact-sec">
     <div class="wrap">
+      <h2 class="contact-title" data-i18n="contact_title">Nous contacter</h2>
       <div class="contact-chips reveal">
         <a class="contact-chip wa" data-wa-msg="wa_demo_msg" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d%27Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
@@ -757,7 +758,7 @@
 </main>
 
 <!-- ── Cinematic Theater Fullscreen Modal ────────────────────── -->
-<div class="theater-overlay" id="theater-overlay" aria-hidden="true" role="dialog" aria-modal="true" data-i18n-aria="aria_video">
+<div class="theater-overlay" id="theater-overlay" aria-hidden="true" inert role="dialog" aria-modal="true" data-i18n-aria="aria_video">
   <div class="theater-backdrop" id="theater-backdrop"></div>
   <div class="theater-window" id="theater-window">
     <div class="theater-bar">
@@ -817,6 +818,14 @@
 
 <!-- ── Footer ──────────────────────────────────────────────── -->
 <footer>
+  <nav class="footer-nav" data-i18n-aria="aria_footer_nav">
+    <a href="#features" data-i18n="nav_features">الميزات</a>
+    <a href="#plans" data-i18n="nav_plans">الباقات</a>
+    <a href="#data" data-i18n="data_badge">Vos données</a>
+    <a href="#faq" data-i18n="nav_faq">الأسئلة</a>
+    <a href="#about" data-i18n="about_badge">Qui sommes-nous</a>
+    <a href="#contact" data-i18n="nav_contact">تواصل</a>
+  </nav>
   <div class="footer-in">
     <div><b data-version>Acadex 2.0</b> — © 2026. <span data-i18n="footer_copy">بياناتك على جهازك بأمان وثقة.</span></div>
     <div>Windows 10 & 11 · 64-bit</div>
@@ -850,7 +859,7 @@
 <dialog class="order-dialog" id="order-dialog" aria-labelledby="od-title">
   <div class="od-head">
     <div>
-      <h2 id="od-title">طلب باقة</h2>
+      <h2 id="od-title" data-i18n="od_title_default">Commander un pack</h2>
       <p class="od-terms" id="od-terms"></p>
     </div>
     <button type="button" class="od-close" data-od-close data-i18n-aria="aria_close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>

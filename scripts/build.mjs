@@ -59,7 +59,8 @@ const MAIN_FONT = { ar: "assets/fonts/cairo-arabic.woff2", fr: "assets/fonts/plu
 
 /** Calls `fn(value, open, inner)` for every element carrying `attr`; `fn` returns `{ open, inner }`. */
 function mapElements(html, attr, fn) {
-  const pattern = new RegExp(`<([a-zA-Z0-9]+)\\b[^<>]*\\s${attr}="([^"]*)"[^<>]*>`, "g");
+  // The attribute may come without a value (`data-currency`); a longer name (`data-price-full`) is another hook.
+  const pattern = new RegExp(`<([a-zA-Z0-9]+)\\b[^<>]*\\s${attr}(?:="([^"]*)")?(?=[\\s>/])[^<>]*>`, "g");
   let out = "";
   let last = 0;
   let match;
@@ -172,6 +173,10 @@ export function renderBody(lang) {
     ? { open, inner: escapeHtml(table[pack].oldFormatted) }
     : { open: setAttr(open, "hidden", ""), inner: "" });
   html = mapElements(html, "data-currency", (_, open) => ({ open, inner: escapeHtml(table.essentiel.currencyText) }));
+  html = mapElements(html, "data-country-name", (_, open) => ({
+    open: dropAttr(open, "data-country-name"),
+    inner: escapeHtml(Localization.countryName(config.pricingCountry, lang)),
+  }));
   html = html.replace(/ hidden=""/g, " hidden");
 
   // The language links: this page's own is marked as the current one.

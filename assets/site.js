@@ -158,7 +158,7 @@ function renderCountryChip() {
   document.getElementById("country-chip-name").textContent = name;
   document.getElementById("country-chip-code").textContent = currentCountry;
   document.getElementById("country-chip-currency").textContent = currency;
-  chip.setAttribute("aria-label", tr("country_chip_aria"));
+  chip.setAttribute("aria-label", `${name} ${currentCountry} · ${currency} — ${tr("country_chip_aria")}`);
   chip.title = `${name} · ${currency}`;
 }
 
@@ -275,8 +275,14 @@ document.querySelectorAll(".faq-card").forEach(card => {
   const btn = card.querySelector(".faq-btn");
   btn.addEventListener("click", () => {
     const isOpen = card.classList.contains("active");
-    document.querySelectorAll(".faq-card").forEach(c => c.classList.remove("active"));
-    if (!isOpen) card.classList.add("active");
+    document.querySelectorAll(".faq-card").forEach(c => {
+      c.classList.remove("active");
+      c.querySelector(".faq-btn").setAttribute("aria-expanded", "false");
+    });
+    if (!isOpen) {
+      card.classList.add("active");
+      btn.setAttribute("aria-expanded", "true");
+    }
   });
 });
 
@@ -299,7 +305,10 @@ const cmpTabs = document.querySelectorAll(".cmp-tab-btn");
 cmpTabs.forEach(btn => {
   btn.addEventListener("click", () => {
     const tab = btn.getAttribute("data-cmp-tab");
-    cmpTabs.forEach(b => b.classList.toggle("active", b === btn));
+    cmpTabs.forEach(b => {
+      b.classList.toggle("active", b === btn);
+      b.setAttribute("aria-pressed", String(b === btn));
+    });
     if (cmpBox) {
       cmpBox.setAttribute("data-pack-view", tab);
       if (tab !== "all" && cmpScrollHint) {
@@ -378,6 +387,7 @@ const openTheater = () => {
   if (!theaterOverlay || !theaterVideo) return;
   theaterOverlay.classList.add("open");
   theaterOverlay.setAttribute("aria-hidden", "false");
+  theaterOverlay.inert = false;
   document.body.style.overflow = "hidden";
 
   if (heroVideo) {
@@ -398,6 +408,7 @@ const closeTheater = () => {
   }
   theaterOverlay.classList.remove("open");
   theaterOverlay.setAttribute("aria-hidden", "true");
+  theaterOverlay.inert = true;
   document.body.style.overflow = "";
 
   if (heroVideo && heroWanted) {

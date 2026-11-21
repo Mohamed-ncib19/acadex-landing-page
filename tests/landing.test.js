@@ -256,3 +256,29 @@ test("security headers are sent with every response", () => {
     assert.ok(csp.includes(origin), `the policy must allow ${origin}`);
   }
 });
+
+test("a page speaks one language: no Arabic left on the French and English pages", () => {
+  for (const lang of ["fr", "en"]) {
+    const arabic = [...page[lang].matchAll(/[^<>\n]*[؀-ۿ][^<>\n]*/g)].map((m) => m[0].trim());
+    // The only Arabic words are the link to the Arabic page.
+    assert.deepEqual(arabic, ["عربي"], `${lang} page`);
+  }
+});
+
+test("the page outline: one h1, no skipped heading level, landmarks present", () => {
+  for (const lang of LANGS) {
+    const body = page[lang].slice(page[lang].indexOf("<body>"));
+    const levels = [...body.matchAll(/<h([1-6])\b/g)].map((m) => Number(m[1]));
+    assert.equal(levels.filter((level) => level === 1).length, 1, `${lang}: exactly one h1`);
+    assert.equal(levels[0], 1, `${lang}: the first heading is the h1`);
+    for (let i = 1; i < levels.length; i += 1) {
+      assert.ok(levels[i] - levels[i - 1] <= 1, `${lang}: h${levels[i - 1]} is followed by h${levels[i]}`);
+    }
+    for (const tag of ["header", "nav", "main", "footer"]) assert.ok(body.includes(`<${tag}`), `${lang}: missing <${tag}>`);
+    for (const id of ["top", "who", "features", "data", "how", "plans", "faq", "about", "contact"]) {
+      assert.ok(new RegExp(`<section[^>]* id="${id}"`).test(body), `${lang}: missing section #${id}`);
+    }
+    // Every image says what it is, or says it is decoration.
+    for (const [img] of body.matchAll(/<img\b[^>]*>/g)) assert.ok(/\salt="/.test(img), `${lang}: image without alt: ${img}`);
+  }
+});

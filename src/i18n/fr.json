@@ -205,5 +205,13 @@
   "demo_tr_6": "Analyses, rapports et liste des transactions.",
   "demo_tr_7": "Emploi du temps de la semaine, séances, salles et horaires d'ouverture.",
   "demo_tr_8": "Feuille de présence d'un groupe et tableau blanc.",
-  "demo_tr_9": "Utilisateurs, journal d'audit, import Excel, paramètres et mode sombre."
+  "demo_tr_9": "Utilisateurs, journal d'audit, import Excel, paramètres et mode sombre.",
+  "aria_main_nav": "Navigation principale",
+  "aria_footer_nav": "Liens de bas de page",
+  "aria_keyfacts": "En bref",
+  "contact_title": "Nous contacter",
+  "od_title_default": "Commander un pack",
+  "trust_zero": "0 DT",
+  "trust_click": "⚡ 1 clic",
+  "trust_local": "🔒 Local"
 }

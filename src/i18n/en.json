@@ -205,5 +205,13 @@
   "demo_tr_6": "Analytics, reports and the list of transactions.",
   "demo_tr_7": "The weekly timetable, sessions, rooms and opening hours.",
   "demo_tr_8": "A group's attendance sheet and the whiteboard.",
-  "demo_tr_9": "Users, the audit log, Excel import, settings and dark mode."
+  "demo_tr_9": "Users, the audit log, Excel import, settings and dark mode.",
+  "aria_main_nav": "Main navigation",
+  "aria_footer_nav": "Footer links",
+  "aria_keyfacts": "At a glance",
+  "contact_title": "Contact us",
+  "od_title_default": "Order a pack",
+  "trust_zero": "0 TND",
+  "trust_click": "⚡ 1 click",
+  "trust_local": "🔒 Local"
 }
