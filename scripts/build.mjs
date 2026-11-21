@@ -12,6 +12,7 @@ import path from "node:path";
 import crypto from "node:crypto";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
+import { createContent } from "./content.mjs";
 
 const require = createRequire(import.meta.url);
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -148,7 +149,11 @@ export function runtimeKeys(template) {
 }
 
 export function renderBody(lang) {
-  let html = readText("src/page.html");
+  return renderFragment(readText("src/page.html"), lang);
+}
+
+/** Fills the hooks of a piece of the template (texts, prices, links) for one language. */
+function renderFragment(html, lang) {
   const table = priceTable(lang);
 
   // Texts.
@@ -191,10 +196,16 @@ export function renderBody(lang) {
   html = mapOpenTags(html, "data-lang", (code, open) =>
     code === lang ? setAttr(open.replace('class="lang-btn"', 'class="lang-btn active"'), "aria-current", "page") : open);
   html = html.split("{{HOME}}").join(pageUrl(lang));
+  // Links to the content pages (segments, features, pricing, blog): written in
+  // the page's language, and left out where that language does not have the page.
+  html = html.replace(/[ \t]*<a\b[^<>]*\sdata-page="([a-z-]+)"[^<>]*>[\s\S]*?<\/a>\n?/g, (link, id) => {
+    const href = content().pageHref(id, lang);
+    return href ? link.replace(/\sdata-page="[a-z-]+"/, "").replace(/\shref="[^"]*"/, ` href="${href}"`) : "";
+  });
   // Images and the video are addressed with their fingerprint, like the stylesheet.
   html = html.replace(/\b(src|poster)="\/(assets\/[^"?#]+)"/g, (_, attr, file) => `${attr}="${asset(file)}"`);
 
-  const leftover = /data-i18n-(ph|aria|title|alt)=|data-wa-msg=|{{[A-Z_]+}}/.exec(html);
+  const leftover = /data-i18n-(ph|aria|title|alt)=|data-wa-msg=|data-page=|{{[A-Z_]+}}/.exec(html);
   if (leftover) throw new Error(`unresolved hook in the ${lang} page: ${leftover[0]}`);
   return html;
 }
@@ -477,15 +488,19 @@ function renderNotFound() {
   ].join("\n");
 }
 
-/** Every language page, each one naming its siblings (the same hreflang set as in the pages). */
+/** Every published page, each one naming its siblings (the same hreflang set as in the pages). */
 function renderSitemap() {
-  const entries = LANGS.map((lang) => [
-    "  <url>",
-    `    <loc>${pageUrl(lang, true)}</loc>`,
-    ...LANGS.map((code) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${pageUrl(code, true)}"/>`),
-    `    <xhtml:link rel="alternate" hreflang="x-default" href="${pageUrl(config.defaultLang, true)}"/>`,
-    "  </url>",
-  ].join("\n"));
+  const homes = LANGS.map((lang) => [pageUrl(lang, true), LANGS.map((code) => [code, pageUrl(code, true)])]);
+  const entries = [...homes, ...content().sitemapEntries()].map(([loc, alternates]) => {
+    const xDefault = (alternates.find(([code]) => code === config.defaultLang) || alternates[0])[1];
+    return [
+      "  <url>",
+      `    <loc>${loc}</loc>`,
+      ...alternates.map(([code, href]) => `    <xhtml:link rel="alternate" hreflang="${code}" href="${href}"/>`),
+      `    <xhtml:link rel="alternate" hreflang="x-default" href="${xDefault}"/>`,
+      "  </url>",
+    ].join("\n");
+  });
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
@@ -507,14 +522,60 @@ function renderRobots() {
   ].join("\n");
 }
 
-export function outputs() {
-  const files = {};
-  for (const lang of LANGS) files[`${lang}/index.html`] = renderPage(lang);
-  files["index.html"] = renderRootStub();
-  files["404.html"] = renderNotFound();
-  files["sitemap.xml"] = renderSitemap();
-  files["robots.txt"] = renderRobots();
-  return files;
+// ── The content pages (scripts/content.mjs) ────────────────────
+
+let drafts = false;
+const contents = new Map();
+/** The content pages; with `drafts`, the ones still waiting for the owner's review too. */
+function content() {
+  if (!contents.has(drafts)) {
+    contents.set(drafts, createContent({
+      ROOT, LANGS, DIR, OG_LOCALE, config, dictionaries, asset, escapeHtml, escapeAttr, stripTags, text, priceTable, readText,
+      renderFragment, MAIN_FONT, analyticsTag: renderAnalyticsTag, includeDrafts: drafts,
+    }));
+  }
+  return contents.get(drafts);
+}
+/** The content pages as data, for the tests: `contentPages({ drafts: true })` includes the drafts. */
+export function contentPages(options = {}) {
+  const before = drafts;
+  drafts = Boolean(options.drafts);
+  try { return content(); } finally { drafts = before; }
+}
+
+/**
+ * Every published file. `outputs({ drafts: true })` also renders the pages
+ * marked « status: draft »: the preview server shows them, they are never written.
+ */
+export function outputs(options = {}) {
+  const before = drafts;
+  drafts = Boolean(options.drafts);
+  try {
+    const files = {};
+    for (const lang of LANGS) files[`${lang}/index.html`] = renderPage(lang);
+    Object.assign(files, content().outputs());
+    files["index.html"] = renderRootStub();
+    files["404.html"] = renderNotFound();
+    files["sitemap.xml"] = renderSitemap();
+    files["robots.txt"] = renderRobots();
+    return files;
+  } finally {
+    drafts = before;
+  }
+}
+
+/** Pages written by an earlier build that no source produces any more (a renamed or unpublished page). */
+function orphans(files) {
+  const found = [];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
+      const relative = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) walk(relative);
+      else if (entry.name === "index.html" && !(relative in files)) found.push(relative);
+    }
+  };
+  for (const lang of LANGS) if (fs.existsSync(path.join(ROOT, lang))) walk(lang);
+  return found;
 }
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
@@ -529,6 +590,13 @@ if (isMain) {
     fs.mkdirSync(path.dirname(target), { recursive: true });
     fs.writeFileSync(target, content);
     console.log(`wrote ${file} (${content.length} chars)`);
+  }
+  for (const file of orphans(outputs())) {
+    if (check) { stale.push(`${file} (to delete)`); continue; }
+    fs.rmSync(path.join(ROOT, file));
+    const dir = path.dirname(path.join(ROOT, file));
+    if (!fs.readdirSync(dir).length) fs.rmdirSync(dir);
+    console.log(`removed ${file}`);
   }
   if (check && stale.length) {
     console.error(`Out of date: ${stale.join(", ")} — run "node scripts/build.mjs".`);

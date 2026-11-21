@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logiciel pour centre de soutien et de formation | Acadex</title>
+<meta name="description" content="Paie des professeurs au pourcentage, frais par groupe, reçus et séances : Acadex gère un centre de soutien scolaire ou de formation en Tunisie, hors ligne.">
+<link rel="canonical" href="https://acadex-rust.vercel.app/fr/centres-formation-soutien/">
+<link rel="alternate" hreflang="ar" href="https://acadex-rust.vercel.app/ar/%D9%85%D8%B1%D8%A7%D9%83%D8%B2-%D8%A7%D9%84%D8%AF%D8%B1%D9%88%D8%B3-%D9%88%D8%A7%D9%84%D8%AA%D9%83%D9%88%D9%8A%D9%86/">
+<link rel="alternate" hreflang="fr" href="https://acadex-rust.vercel.app/fr/centres-formation-soutien/">
+<link rel="alternate" hreflang="x-default" href="https://acadex-rust.vercel.app/fr/centres-formation-soutien/">
+<link rel="icon" type="image/png" href="/assets/logo-128.png?v=91e742d622">
+<meta name="theme-color" content="#07090E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Acadex">
+<meta property="og:title" content="Logiciel pour centre de soutien et de formation | Acadex">
+<meta property="og:description" content="Paie des professeurs au pourcentage, frais par groupe, reçus et séances : Acadex gère un centre de soutien scolaire ou de formation en Tunisie, hors ligne.">
+<meta property="og:url" content="https://acadex-rust.vercel.app/fr/centres-formation-soutien/">
+<meta property="og:locale" content="fr_TN">
+<meta property="og:image" content="https://acadex-rust.vercel.app/assets/og-fr.jpg?v=009759b0e8">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Acadex : le tableau de bord du logiciel de gestion scolaire sur Windows">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Logiciel pour centre de soutien et de formation | Acadex">
+<meta name="twitter:description" content="Paie des professeurs au pourcentage, frais par groupe, reçus et séances : Acadex gère un centre de soutien scolaire ou de formation en Tunisie, hors ligne.">
+<meta name="twitter:image" content="https://acadex-rust.vercel.app/assets/og-fr.jpg?v=009759b0e8">
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/plus-jakarta-sans-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css?v=e0bbe455be">
+<script src="/assets/analytics.js?v=40af259e42" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://acadex-rust.vercel.app/#organization","name":"Acadex","url":"https://acadex-rust.vercel.app/","logo":"https://acadex-rust.vercel.app/assets/logo-512.png"},{"@type":"WebPage","@id":"https://acadex-rust.vercel.app/fr/centres-formation-soutien/#webpage","url":"https://acadex-rust.vercel.app/fr/centres-formation-soutien/","name":"Logiciel pour centre de soutien et de formation | Acadex","description":"Paie des professeurs au pourcentage, frais par groupe, reçus et séances : Acadex gère un centre de soutien scolaire ou de formation en Tunisie, hors ligne.","inLanguage":"fr","image":"https://acadex-rust.vercel.app/assets/shots/payroll.webp","isPartOf":{"@type":"WebSite","@id":"https://acadex-rust.vercel.app/#website","url":"https://acadex-rust.vercel.app/","name":"Acadex"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://acadex-rust.vercel.app/fr/"},{"@type":"ListItem","position":2,"name":"Centres de soutien et de formation","item":"https://acadex-rust.vercel.app/fr/centres-formation-soutien/"}]},{"@type":"FAQPage","@id":"https://acadex-rust.vercel.app/fr/centres-formation-soutien/#faq","inLanguage":"fr","mainEntity":[{"@type":"Question","name":"Le pourcentage est-il calculé sur ce qui est facturé ou sur ce qui est payé ?","acceptedAnswer":{"@type":"Answer","text":"Sur ce qui est réellement encaissé. Si un élève n'a payé que la moitié du mois, la part du professeur porte sur cette moitié."}},{"@type":"Question","name":"Peut-on fixer une règle différente pour chaque professeur ?","acceptedAnswer":{"@type":"Answer","text":"Oui. La rémunération se règle professeur par professeur."}},{"@type":"Question","name":"Un professeur peut-il recevoir une avance ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Un versement supérieur à son solde s'enregistre comme une avance, déduite ensuite de ce qu'il acquiert."}},{"@type":"Question","name":"Dans quelle langue est l'application ?","acceptedAnswer":{"@type":"Answer","text":"L'interface de l'application est en français."}}]}]}</script>
+</head>
+<body class="cp-page">
+
+<header class="cp-top" id="top">
+  <div class="cp-top-in">
+    <a class="brand" href="/fr/"><img src="/assets/logo-128.png?v=91e742d622" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>
+    <nav class="cp-nav" aria-label="Navigation principale">
+      <a href="/fr/#features">Fonctionnalités</a>
+      <a href="/fr/tarifs/">Tarifs</a>
+      <a href="/fr/ecoles-privees/">Écoles privées</a>
+      <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+      <a href="/fr/#contact">Contact</a>
+    </nav>
+    <div class="cp-top-actions">
+      <nav class="lang-switcher" aria-label="Langue">
+        <a class="lang-btn" data-lang="ar" href="/ar/%D9%85%D8%B1%D8%A7%D9%83%D8%B2-%D8%A7%D9%84%D8%AF%D8%B1%D9%88%D8%B3-%D9%88%D8%A7%D9%84%D8%AA%D9%83%D9%88%D9%8A%D9%86/" hreflang="ar" lang="ar">عربي</a>
+        <a class="lang-btn active" aria-current="page" data-lang="fr" href="#top" hreflang="fr" lang="fr">FR</a>
+        <a class="lang-btn" data-lang="en" href="/en/" hreflang="en" lang="en">EN</a>
+      </nav>
+      <a class="btn-primary cp-top-order" href="/fr/#order-plus">Commander</a>
+    </div>
+  </div>
+</header>
+<main class="cp">
+<nav class="cp-crumbs" aria-label="Fil d'Ariane"><ol><li><a href="/fr/">Accueil</a></li><li aria-current="page">Centres de soutien et de formation</li></ol></nav>
+<article>
+<header class="cp-hero">
+  <p class="cp-kicker">Pour les centres de soutien et de formation</p>
+  <h1>Logiciel de gestion pour centres de soutien scolaire et de formation</h1>
+  <p class="cp-lead">La part de chaque professeur calculée sur les paiements réellement encaissés, les frais par groupe, les reçus et les séances : tout sur un PC Windows, sans Internet.</p>
+  <div class="cp-hero-btns">
+    <a class="btn-primary" href="/fr/#order-plus">Commander le pack Plus</a>
+    <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+  </div>
+</header>
+<figure class="cp-shot">
+  <img src="/assets/shots/payroll.webp?v=772a8f199f" alt="Écran de paie des professeurs dans Acadex : montant acquis, montant versé et solde de chaque professeur pour le mois" width="1280" height="710" fetchpriority="high" decoding="async">
+  <figcaption>Capture d'écran de l'application Acadex (données de démonstration).</figcaption>
+</figure>
+<div class="cp-body">
+<h2>Le calcul qui prend le plus de temps : la part du professeur</h2>
+<p>Dans un centre de cours, le professeur est souvent payé au pourcentage de ce que ses élèves ont payé. À la main, il faut reprendre chaque groupe, chaque paiement, chaque retard. Dans Acadex, la part se calcule à chaque encaissement :</p>
+<ul>
+  <li>le pourcentage s'applique aux montants encaissés, pas aux montants facturés ;</li>
+  <li>vous voyez pour chaque professeur ce qu'il a acquis, ce qui lui a été versé et son solde ;</li>
+  <li>chaque versement donne un reçu pour le professeur.</li>
+</ul>
+<p>D'autres règles existent : salaire fixe, montant par élève, montant par groupe, ou fixe plus pourcentage. <a href="/fr/fonctionnalites/paie-professeurs/">Voir le détail de la paie des professeurs</a>.</p>
+<h2>Frais par groupe et reçus</h2>
+<p>Chaque groupe a son tarif mensuel. L'élève inscrit dans deux groupes a deux factures distinctes. Un paiement partiel est accepté, le solde reste visible, et chaque encaissement donne un reçu numéroté. <a href="/fr/fonctionnalites/recus-paiements/">Voir le détail des paiements et des reçus</a>.</p>
+<h2>Séances, salles et feuilles de présence</h2>
+<p>Le planning hebdomadaire se construit salle par salle : une salle déjà occupée est refusée. Pour chaque groupe, la feuille de présence du mois s'imprime avec une colonne par séance. Voir <a href="/fr/fonctionnalites/emploi-du-temps/">l'emploi du temps</a> et <a href="/fr/fonctionnalites/presences/">les feuilles de présence</a>.</p>
+<h2>Reprendre votre liste d'élèves depuis Excel</h2>
+<p>Avec le pack Plus, vous importez vos élèves depuis un fichier Excel (.xlsx), à partir d'un modèle fourni. Les niveaux, les groupes et les professeurs qui manquent sont créés au passage.</p>
+<h2>Quel pack pour un centre ?</h2>
+<p>Le pack Essentiel (150 DT) contient déjà la paie, les reçus et les séances. Le pack Plus (249 DT) ajoute l'import Excel et la sauvegarde cloud. <a href="/fr/tarifs/">Comparer les trois packs</a> ou <a href="/fr/#order-plus">envoyer une demande de pack</a>.</p>
+</div>
+<section class="cp-faq">
+  <h2>Questions fréquentes</h2>
+  <details><summary>Le pourcentage est-il calculé sur ce qui est facturé ou sur ce qui est payé ?</summary><p>Sur ce qui est réellement encaissé. Si un élève n'a payé que la moitié du mois, la part du professeur porte sur cette moitié.</p></details>
+  <details><summary>Peut-on fixer une règle différente pour chaque professeur ?</summary><p>Oui. La rémunération se règle professeur par professeur.</p></details>
+  <details><summary>Un professeur peut-il recevoir une avance ?</summary><p>Oui. Un versement supérieur à son solde s'enregistre comme une avance, déduite ensuite de ce qu'il acquiert.</p></details>
+  <details><summary>Dans quelle langue est l'application ?</summary><p>L'interface de l'application est en français.</p></details>
+</section>
+</article>
+<aside class="cp-cta">
+  <h2>Voyez Acadex avant de décider</h2>
+  <p>Demandez une démo gratuite par WhatsApp, ou envoyez votre demande de pack : aucun paiement à la commande, nous vous appelons pour confirmer.</p>
+  <div class="cp-cta-btns">
+    <a class="btn-primary" href="/fr/#order-plus">Commander le pack Plus</a>
+    <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+    <a class="cp-link" href="/fr/tarifs/">Voir les tarifs</a>
+  </div>
+</aside>
+<nav class="cp-related" aria-label="À lire aussi">
+  <h2>À lire aussi</h2>
+  <ul>
+    <li><a href="/fr/fonctionnalites/paie-professeurs/">Paie des professeurs : pourcentage, fixe ou par élève</a></li>
+    <li><a href="/fr/fonctionnalites/recus-paiements/">Paiements des élèves et reçus numérotés</a></li>
+    <li><a href="/fr/fonctionnalites/presences/">Feuilles de présence mensuelles, prêtes à imprimer</a></li>
+    <li><a href="/fr/fonctionnalites/emploi-du-temps/">Emploi du temps : séances, salles et professeurs sans conflit</a></li>
+  </ul>
+</nav>
+</main>
+<footer>
+  <nav class="footer-nav" aria-label="Liens de bas de page">
+    <a href="/fr/">Accueil</a>
+    <a href="/fr/#features">Fonctionnalités</a>
+    <a href="/fr/tarifs/">Tarifs</a>
+    <a href="/fr/ecoles-privees/">Écoles privées</a>
+    <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+    <a href="/fr/#contact">Contact</a>
+  </nav>
+  <div class="footer-in">
+    <div><b>Acadex</b> — © 2026. <span>Vos données sur votre machine, en toute confiance.</span></div>
+    <div>Windows 10 &amp; 11 · 64-bit</div>
+  </div>
+</footer>
+
+</body>
+</html>

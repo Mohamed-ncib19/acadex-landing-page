@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paie des professeurs au pourcentage ou au fixe | Acadex</title>
+<meta name="description" content="Acadex calcule la part de chaque professeur sur les paiements encaissés : pourcentage, salaire fixe, montant par élève ou par groupe. Reçu à chaque versement.">
+<link rel="canonical" href="https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/">
+<link rel="alternate" hreflang="ar" href="https://acadex-rust.vercel.app/ar/%D8%A7%D9%84%D9%85%D9%8A%D8%B2%D8%A7%D8%AA/%D8%A3%D8%AC%D9%88%D8%B1-%D8%A7%D9%84%D8%A3%D8%B3%D8%A7%D8%AA%D8%B0%D8%A9/">
+<link rel="alternate" hreflang="fr" href="https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/">
+<link rel="alternate" hreflang="x-default" href="https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/">
+<link rel="icon" type="image/png" href="/assets/logo-128.png?v=91e742d622">
+<meta name="theme-color" content="#07090E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Acadex">
+<meta property="og:title" content="Paie des professeurs au pourcentage ou au fixe | Acadex">
+<meta property="og:description" content="Acadex calcule la part de chaque professeur sur les paiements encaissés : pourcentage, salaire fixe, montant par élève ou par groupe. Reçu à chaque versement.">
+<meta property="og:url" content="https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/">
+<meta property="og:locale" content="fr_TN">
+<meta property="og:image" content="https://acadex-rust.vercel.app/assets/og-fr.jpg?v=009759b0e8">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Acadex : le tableau de bord du logiciel de gestion scolaire sur Windows">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Paie des professeurs au pourcentage ou au fixe | Acadex">
+<meta name="twitter:description" content="Acadex calcule la part de chaque professeur sur les paiements encaissés : pourcentage, salaire fixe, montant par élève ou par groupe. Reçu à chaque versement.">
+<meta name="twitter:image" content="https://acadex-rust.vercel.app/assets/og-fr.jpg?v=009759b0e8">
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/plus-jakarta-sans-latin.woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css?v=e0bbe455be">
+<script src="/assets/analytics.js?v=40af259e42" defer></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://acadex-rust.vercel.app/#organization","name":"Acadex","url":"https://acadex-rust.vercel.app/","logo":"https://acadex-rust.vercel.app/assets/logo-512.png"},{"@type":"WebPage","@id":"https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/#webpage","url":"https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/","name":"Paie des professeurs au pourcentage ou au fixe | Acadex","description":"Acadex calcule la part de chaque professeur sur les paiements encaissés : pourcentage, salaire fixe, montant par élève ou par groupe. Reçu à chaque versement.","inLanguage":"fr","image":"https://acadex-rust.vercel.app/assets/shots/payroll.webp","isPartOf":{"@type":"WebSite","@id":"https://acadex-rust.vercel.app/#website","url":"https://acadex-rust.vercel.app/","name":"Acadex"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://acadex-rust.vercel.app/fr/"},{"@type":"ListItem","position":2,"name":"Fonctionnalités","item":"https://acadex-rust.vercel.app/fr/#features"},{"@type":"ListItem","position":3,"name":"Paie des professeurs","item":"https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/"}]},{"@type":"FAQPage","@id":"https://acadex-rust.vercel.app/fr/fonctionnalites/paie-professeurs/#faq","inLanguage":"fr","mainEntity":[{"@type":"Question","name":"Le pourcentage est-il calculé sur le facturé ou sur l'encaissé ?","acceptedAnswer":{"@type":"Answer","text":"Sur l'encaissé. Tant qu'un élève n'a pas payé, rien n'est compté pour le professeur sur cette facture."}},{"@type":"Question","name":"Peut-on payer un professeur à la séance ou à l'heure ?","acceptedAnswer":{"@type":"Answer","text":"Il n'existe pas de règle « à la séance » ou « à l'heure ». Les règles proposées sont le pourcentage, le salaire fixe, le montant par élève, le montant par groupe, l'hybride et la formule personnalisée."}},{"@type":"Question","name":"Que se passe-t-il si je change le pourcentage en cours d'année ?","acceptedAnswer":{"@type":"Answer","text":"Le nouveau taux s'applique aux paiements encaissés ensuite. Ce qui a déjà été calculé reste inchangé."}}]}]}</script>
+</head>
+<body class="cp-page">
+
+<header class="cp-top" id="top">
+  <div class="cp-top-in">
+    <a class="brand" href="/fr/"><img src="/assets/logo-128.png?v=91e742d622" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>
+    <nav class="cp-nav" aria-label="Navigation principale">
+      <a href="/fr/#features">Fonctionnalités</a>
+      <a href="/fr/tarifs/">Tarifs</a>
+      <a href="/fr/ecoles-privees/">Écoles privées</a>
+      <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+      <a href="/fr/#contact">Contact</a>
+    </nav>
+    <div class="cp-top-actions">
+      <nav class="lang-switcher" aria-label="Langue">
+        <a class="lang-btn" data-lang="ar" href="/ar/%D8%A7%D9%84%D9%85%D9%8A%D8%B2%D8%A7%D8%AA/%D8%A3%D8%AC%D9%88%D8%B1-%D8%A7%D9%84%D8%A3%D8%B3%D8%A7%D8%AA%D8%B0%D8%A9/" hreflang="ar" lang="ar">عربي</a>
+        <a class="lang-btn active" aria-current="page" data-lang="fr" href="#top" hreflang="fr" lang="fr">FR</a>
+        <a class="lang-btn" data-lang="en" href="/en/" hreflang="en" lang="en">EN</a>
+      </nav>
+      <a class="btn-primary cp-top-order" href="/fr/#order-essentiel">Commander</a>
+    </div>
+  </div>
+</header>
+<main class="cp">
+<nav class="cp-crumbs" aria-label="Fil d'Ariane"><ol><li><a href="/fr/">Accueil</a></li><li><a href="/fr/#features">Fonctionnalités</a></li><li aria-current="page">Paie des professeurs</li></ol></nav>
+<article>
+<header class="cp-hero">
+  <p class="cp-kicker">Fonctionnalité · Paie des professeurs</p>
+  <h1>Paie des professeurs : pourcentage, fixe ou par élève</h1>
+  <p class="cp-lead">Choisissez la règle de chaque professeur. Acadex calcule ce qu'il a acquis à chaque paiement encaissé et garde la trace de chaque versement.</p>
+  <div class="cp-hero-btns">
+    <a class="btn-primary" href="/fr/#order-essentiel">Commander le pack Essentiel</a>
+    <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+  </div>
+</header>
+<figure class="cp-shot">
+  <img src="/assets/shots/payroll.webp?v=772a8f199f" alt="Écran de paie des professeurs dans Acadex : montant acquis, montant versé et solde de chaque professeur pour le mois" width="1280" height="710" fetchpriority="high" decoding="async">
+  <figcaption>Capture d'écran de l'application Acadex (données de démonstration).</figcaption>
+</figure>
+<div class="cp-body">
+<h2>Six façons de rémunérer un professeur</h2>
+<div class="cp-table"><table>
+<thead><tr><th scope="col">Règle</th><th scope="col">Ce que touche le professeur</th></tr></thead>
+<tbody><tr><th scope="row">Pourcentage</th><td>Une part des paiements encaissés de ses élèves</td></tr><tr><th scope="row">Salaire fixe</th><td>Un montant mensuel</td></tr><tr><th scope="row">Fixé par étudiant</th><td>Un montant par élève, par mois</td></tr><tr><th scope="row">Fixé par groupe</th><td>Un montant par groupe, par mois</td></tr><tr><th scope="row">Hybride</th><td>Un montant fixe, plus un pourcentage</td></tr><tr><th scope="row">Personnalisé</th><td>Une formule que vous écrivez</td></tr></tbody>
+</table></div>
+<h2>Le pourcentage porte sur l'argent encaissé</h2>
+<p>La part du professeur est calculée au moment où le paiement d'un élève est encaissé, puis figée. Si vous changez le taux plus tard, les mois déjà calculés ne bougent pas.</p>
+<h2>Solde, versements et avances</h2>
+<ul>
+  <li>Pour chaque professeur : ce qu'il a acquis, ce qui lui a été versé et son solde.</li>
+  <li>Un versement s'enregistre en quelques secondes.</li>
+  <li>Un versement supérieur au solde peut être enregistré comme une avance, déduite ensuite.</li>
+</ul>
+<h2>Un document à chaque versement</h2>
+<p>Chaque versement produit un reçu de règlement pour le professeur et un rapport de règlement pour l'établissement. Ils restent dans l'historique et se réimpriment tels qu'ils étaient ce jour-là.</p>
+<h2>Dans quel pack ?</h2>
+<p>La paie et ses documents sont dans tous les packs, dès Essentiel (150 DT). Le rapport de paie exportable en PDF, Excel ou CSV fait partie du pack Complet. <a href="/fr/tarifs/">Comparer les trois packs</a> ou <a href="/fr/#order-essentiel">envoyer une demande de pack</a>.</p>
+</div>
+<section class="cp-faq">
+  <h2>Questions fréquentes</h2>
+  <details><summary>Le pourcentage est-il calculé sur le facturé ou sur l'encaissé ?</summary><p>Sur l'encaissé. Tant qu'un élève n'a pas payé, rien n'est compté pour le professeur sur cette facture.</p></details>
+  <details><summary>Peut-on payer un professeur à la séance ou à l'heure ?</summary><p>Il n'existe pas de règle « à la séance » ou « à l'heure ». Les règles proposées sont le pourcentage, le salaire fixe, le montant par élève, le montant par groupe, l'hybride et la formule personnalisée.</p></details>
+  <details><summary>Que se passe-t-il si je change le pourcentage en cours d'année ?</summary><p>Le nouveau taux s'applique aux paiements encaissés ensuite. Ce qui a déjà été calculé reste inchangé.</p></details>
+</section>
+</article>
+<aside class="cp-cta">
+  <h2>Voyez Acadex avant de décider</h2>
+  <p>Demandez une démo gratuite par WhatsApp, ou envoyez votre demande de pack : aucun paiement à la commande, nous vous appelons pour confirmer.</p>
+  <div class="cp-cta-btns">
+    <a class="btn-primary" href="/fr/#order-essentiel">Commander le pack Essentiel</a>
+    <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+    <a class="cp-link" href="/fr/tarifs/">Voir les tarifs</a>
+  </div>
+</aside>
+<nav class="cp-related" aria-label="À lire aussi">
+  <h2>À lire aussi</h2>
+  <ul>
+    <li><a href="/fr/fonctionnalites/recus-paiements/">Paiements des élèves et reçus numérotés</a></li>
+    <li><a href="/fr/centres-formation-soutien/">Logiciel de gestion pour centres de soutien scolaire et de formation</a></li>
+    <li><a href="/fr/ecoles-privees/">Logiciel de gestion scolaire pour les écoles privées en Tunisie</a></li>
+  </ul>
+</nav>
+</main>
+<footer>
+  <nav class="footer-nav" aria-label="Liens de bas de page">
+    <a href="/fr/">Accueil</a>
+    <a href="/fr/#features">Fonctionnalités</a>
+    <a href="/fr/tarifs/">Tarifs</a>
+    <a href="/fr/ecoles-privees/">Écoles privées</a>
+    <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+    <a href="/fr/#contact">Contact</a>
+  </nav>
+  <div class="footer-in">
+    <div><b>Acadex</b> — © 2026. <span>Vos données sur votre machine, en toute confiance.</span></div>
+    <div>Windows 10 &amp; 11 · 64-bit</div>
+  </div>
+</footer>
+
+</body>
+</html>

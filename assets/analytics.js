@@ -10,7 +10,8 @@
 //
 // Events (one naming scheme: object_action, lower case):
 //   download_click        { location }
-//   plan_request_open     { pack, trigger: "button" | "link" }
+//   plan_request_open     { pack, trigger: "button" | "link", from } — from: the page whose link opened the form
+//   file_download         { file }                                    — a file offered by an article
 //   order_submit_success  { pack }
 //   order_submit_failure  { pack, reason: "invalid_<field>" | "rejected" | "not_saved" }
 //   whatsapp_click        { location }
@@ -37,7 +38,8 @@
   var UTM = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
   function clean(value) {
-    return String(value).replace(/[^\w .:/+\-]/g, "").slice(0, 80);
+    // Any script is kept (Arabic campaign names, Arabic page addresses); markup and control characters are not.
+    return String(value).replace(/[\u0000-\u001f<>"'`\\]/g, "").slice(0, 80);
   }
 
   function readSource() {
@@ -130,11 +132,23 @@
 
   /** Where on the page an element sits: the header, a section, the order form… */
   function place(element) {
-    var box = element.closest("dialog, .mobile-cta, header, footer, section[id]");
+    var box = element.closest("dialog, .mobile-cta, .cp-cta, .cp-hero, .cp-body, .cp-faq, header, footer, section[id]");
     if (!box) return "page";
     if (box.matches(".mobile-cta")) return "mobile_bar";
+    if (box.matches(".cp-cta")) return "cta";
+    if (box.matches(".cp-hero")) return "hero";
+    if (box.matches(".cp-body, .cp-faq")) return "text";
     if (box.id === "order-dialog") return "order_form";
     return box.id || box.tagName.toLowerCase();
+  }
+
+  /** The page of this site the visitor arrived from (a segment page, an article…), or "". */
+  function cameFrom() {
+    try {
+      var previous = new URL(document.referrer);
+      if (previous.origin !== location.origin || previous.pathname === location.pathname) return "";
+      return clean(decodeURIComponent(previous.pathname));
+    } catch (error) { return ""; }
   }
 
   var lastPackClick = 0;
@@ -144,6 +158,7 @@
     if (target.hasAttribute("data-order-pack")) lastPackClick = Date.now();
     var href = target.getAttribute("href") || "";
     if (href === "/download") track("download_click", { location: place(target) });
+    else if (href.indexOf("/assets/files/") === 0) track("file_download", { file: href.split("/").pop() });
     else if (href.indexOf("https://wa.me/") === 0) track("whatsapp_click", { location: place(target) });
     else if (href.indexOf("tel:") === 0) track("phone_click", { location: place(target) });
     else if (href.indexOf("mailto:") === 0) track("email_click", { location: place(target) });
@@ -164,7 +179,8 @@
     new MutationObserver(function () {
       var open = dialog.hasAttribute("open");
       if (open && !wasOpen) {
-        track("plan_request_open", { pack: pack(), trigger: Date.now() - lastPackClick < 1500 ? "button" : "link" });
+        var byButton = Date.now() - lastPackClick < 1500;
+        track("plan_request_open", { pack: pack(), trigger: byButton ? "button" : "link", from: byButton ? "" : cameFrom() });
       }
       wasOpen = open;
 

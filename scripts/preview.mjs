@@ -7,6 +7,8 @@
 //   node scripts/preview.mjs 8080          another port
 //   GEO=FR node scripts/preview.mjs        the country /api/geo answers (default TN)
 //   ORDERS=fake node scripts/preview.mjs   the order form succeeds (nothing is saved)
+//   DRAFTS=1 node scripts/preview.mjs      also shows the pages marked « status: draft »
+//                                          (rendered in memory: nothing is written)
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -15,11 +17,13 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const port = Number(process.argv[2] || 4173);
+// With DRAFTS=1 the pages are rendered now, drafts included, and served from memory.
+const drafts = process.env.DRAFTS ? (await import("./build.mjs")).outputs({ drafts: true }) : null;
 const TYPES = {
   ".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8",
   ".json": "application/json; charset=utf-8", ".xml": "application/xml; charset=utf-8", ".txt": "text/plain; charset=utf-8",
   ".png": "image/png", ".webp": "image/webp", ".jpg": "image/jpeg", ".svg": "image/svg+xml", ".mp4": "video/mp4",
-  ".woff2": "font/woff2", ".ico": "image/x-icon", ".vtt": "text/vtt; charset=utf-8", ".webmanifest": "application/manifest+json",
+  ".woff2": "font/woff2", ".ico": "image/x-icon", ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", ".vtt": "text/vtt; charset=utf-8", ".webmanifest": "application/manifest+json",
 };
 
 function config() {
@@ -68,6 +72,18 @@ http.createServer((req, res) => {
     req.resume();
     res.writeHead(201, { "Content-Type": "application/json", "Cache-Control": "no-store" });
     return res.end(JSON.stringify({ ok: true, reference: "ACX-O-PREVIEW" }));
+  }
+
+  if (drafts) {
+    const key = (pathname.endsWith("/") ? pathname + "index.html" : pathname).slice(1);
+    if (drafts[key] !== undefined && key.endsWith(".html")) {
+      const headers = { "Content-Type": TYPES[".html"], "Cache-Control": "no-store" };
+      for (const rule of cfg.headers || []) {
+        if (toRegex(rule.source).test(pathname) && hasMatches(rule, req, url)) for (const h of rule.headers) headers[h.key] = h.value;
+      }
+      res.writeHead(200, headers);
+      return res.end(drafts[key]);
+    }
   }
 
   let file = path.join(root, pathname);

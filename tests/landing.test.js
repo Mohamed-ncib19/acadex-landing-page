@@ -197,12 +197,13 @@ test("robots.txt names the sitemap, and the sitemap lists every language page wi
   assert.ok(/^User-agent: \*$/m.test(robots));
   const sitemap = read("sitemap.xml");
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  assert.deepEqual(locs, LANGS.map((lang) => `${config.origin}/${lang}/`));
+  // The three home pages come first; the content pages follow (checked with the content pages below).
+  assert.deepEqual(locs.slice(0, LANGS.length), LANGS.map((lang) => `${config.origin}/${lang}/`));
   for (const lang of LANGS) {
     const count = sitemap.split(`hreflang="${lang}" href="${config.origin}/${lang}/"`).length - 1;
     assert.equal(count, LANGS.length, `every entry must name the ${lang} page`);
   }
-  assert.equal(sitemap.split('hreflang="x-default"').length - 1, LANGS.length);
+  assert.equal(sitemap.split('hreflang="x-default"').length - 1, locs.length);
 });
 
 test("fonts are served by the site, and every asset is addressed with its fingerprint", () => {
@@ -408,4 +409,143 @@ test("the default country is written in the page, so nothing is redrawn for it a
     assert.ok(/id="pricing-loc-text">[^<]+</.test(page[lang]), `${lang}: the « prices shown for » line must be written`);
   }
   assert.ok(script.includes('getAttribute("data-country")'));
+});
+
+// ── Content pages: segments, features, pricing, blog (scripts/content.mjs) ──
+
+const { pathToFileURL } = require("node:url");
+const loadBuild = () => import(pathToFileURL(path.join(root, "scripts", "build.mjs")).href);
+const CONTENT_LANGS = ["fr", "ar"];
+const length = (text) => [...text].length;
+const headingLevels = (html) => [...html.matchAll(/<h([1-6])\b/g)].map((m) => Number(m[1]));
+const metaOf = (html, name) => (new RegExp(`<meta name="${name}" content="([^"]*)">`).exec(html) || [])[1];
+
+test("the pages the brief asks for exist in French and in Arabic, and the two versions match", async () => {
+  const content = (await loadBuild()).contentPages({ drafts: true });
+  const ids = [...new Set(content.all.map((p) => p.id))];
+  for (const id of ["schools", "centers", "attendance", "timetable", "receipts", "payroll", "pricing"]) {
+    assert.ok(ids.includes(id), `missing page: ${id}`);
+    assert.equal(content.find(id, "fr").draft, false, `${id} must be published`);
+  }
+  for (const id of ids) {
+    const [fr, ar] = CONTENT_LANGS.map((lang) => content.find(id, lang));
+    assert.ok(fr && ar, `${id}: needs a French and an Arabic version`);
+    assert.equal(fr.meta.type, ar.meta.type, `${id}: type`);
+    assert.equal(fr.draft, ar.draft, `${id}: published in one language only`);
+    assert.equal(fr.meta.pack, ar.meta.pack, `${id}: pack`);
+    assert.equal(fr.meta.related, ar.meta.related, `${id}: related pages`);
+    assert.equal(ARABIC.test(fr.body), false, `${id}: Arabic text in the French page`);
+    assert.ok(ARABIC.test(ar.meta.slug) && ARABIC.test(ar.meta.h1), `${id}: the Arabic page needs its Arabic address and heading`);
+  }
+});
+
+test("a content page is complete: language, address, sibling, one heading, described images, no script of its own", async () => {
+  const build = await loadBuild();
+  const content = build.contentPages({ drafts: true });
+  const files = build.outputs({ drafts: true });
+  for (const p of content.pages) {
+    const file = content.fileOf(p);
+    const html = files[file];
+    assert.ok(html, `${file} is not rendered`);
+    assert.ok(html.includes(`<html lang="${p.lang}" dir="${p.lang === "ar" ? "rtl" : "ltr"}"`), `${file}: language and direction`);
+    assert.ok(html.includes(`<link rel="canonical" href="${content.urlOf(p, true)}">`), `${file}: canonical`);
+    for (const lang of CONTENT_LANGS) {
+      assert.ok(html.includes(`hreflang="${lang}" href="${content.urlOf(content.find(p.id, lang), true)}"`), `${file}: hreflang ${lang}`);
+    }
+    assert.ok(html.includes('hreflang="x-default"'), `${file}: x-default`);
+
+    const title = /<title>([^<]*)<\/title>/.exec(html)[1];
+    assert.ok(length(title) >= 30 && length(title) <= 65, `${file}: title is ${length(title)} characters (30–65)`);
+    const description = metaOf(html, "description");
+    assert.ok(length(description) >= 110 && length(description) <= 165, `${file}: description is ${length(description)} characters (110–165)`);
+
+    const levels = headingLevels(html);
+    assert.equal(levels.filter((level) => level === 1).length, 1, `${file}: one h1`);
+    levels.forEach((level, index) => { if (index) assert.ok(level <= levels[index - 1] + 1, `${file}: heading level skipped (h${levels[index - 1]} → h${level})`); });
+    for (const [img] of html.matchAll(/<img\b[^>]*>/g)) {
+      assert.ok(/\salt="/.test(img) && /\swidth="\d+"/.test(img) && /\sheight="\d+"/.test(img), `${file}: ${img}`);
+    }
+    // No script of its own: the measurement file, and data.
+    const scripts = [...html.matchAll(/<script\b([^>]*)>/g)].map((m) => m[1]);
+    for (const attrs of scripts) assert.ok(/src="\/assets\/analytics\.js\?v=/.test(attrs) || /type="application\/ld\+json"/.test(attrs), `${file}: <script${attrs}>`);
+    assert.equal(/<button\b|data-order-pack=|data-i18n|TODO_OWNER/.test(html), false, `${file}: a control that needs the page script, or a placeholder`);
+    assert.equal(html.includes('content="noindex"'), p.draft, `${file}: only a draft is kept out of search engines`);
+
+    // Structured data: valid, and its questions are the ones shown.
+    const data = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(html)[1]);
+    const types = data["@graph"].map((node) => node["@type"]);
+    assert.ok(types.includes("BreadcrumbList") && types.includes(p.meta.type === "article" ? "Article" : "WebPage"), `${file}: ${types}`);
+    const shown = [...html.matchAll(/<summary>([^<]*)<\/summary>/g)].map((m) => m[1].replace(/&amp;/g, "&"));
+    const faq = data["@graph"].find((node) => node["@type"] === "FAQPage");
+    assert.deepEqual(faq ? faq.mainEntity.map((q) => q.name) : [], shown, `${file}: FAQ data and FAQ shown differ`);
+    assert.equal(/aggregateRating|"review"/i.test(JSON.stringify(data)), false, `${file}: no rating may be invented`);
+  }
+});
+
+test("segment and feature pages lead to the prices and to the order form; every article leads to a page", async () => {
+  const build = await loadBuild();
+  const content = build.contentPages({ drafts: true });
+  const files = build.outputs({ drafts: true });
+  for (const p of content.pages) {
+    const html = files[content.fileOf(p)];
+    const body = html.slice(html.indexOf('<div class="cp-body">'), html.indexOf("</article>"));
+    const order = `href="/${p.lang}/#order-`;
+    assert.ok(html.includes(order), `${p.file}: no link to the order form`);
+    if (p.meta.type === "segment" || p.meta.type === "feature") {
+      assert.ok(body.includes(`href="${content.pageHref("pricing", p.lang)}"`), `${p.file}: the text must link to the pricing page`);
+      assert.ok(body.includes(order), `${p.file}: the text must link to the order form`);
+    }
+    if (p.meta.type === "article") {
+      const targets = content.pages.filter((other) => other.lang === p.lang && other.meta.type !== "article").map((other) => `href="${content.urlOf(other)}"`);
+      assert.ok(targets.some((target) => body.includes(target)), `${p.file}: an article must link to one relevant page`);
+    }
+    if (p.meta.type === "pricing") {
+      for (const pack of ["essentiel", "plus", "complet"]) assert.ok(html.includes(`${order}${pack}"`), `${p.file}: order link for ${pack}`);
+      for (const price of ["150", "249", "299"]) assert.ok(html.includes(price), `${p.file}: price ${price}`);
+    }
+  }
+});
+
+test("every internal link of every page leads somewhere that exists", async () => {
+  const files = (await loadBuild()).outputs({ drafts: true });
+  for (const [file, html] of Object.entries(files)) {
+    if (!file.endsWith(".html")) continue;
+    for (const [, href] of html.matchAll(/<a\b[^>]*\shref="(\/[^"#?]*)/g)) {
+      if (href === "/download") continue;
+      const target = decodeURIComponent(href).slice(1);
+      if (target.startsWith("assets/")) assert.ok(fs.existsSync(path.join(root, target)), `${file}: ${href} does not exist`);
+      else assert.ok((target.endsWith("/") ? `${target}index.html` : target) in files, `${file}: ${href} leads nowhere`);
+    }
+  }
+});
+
+test("a draft is never published: no file, no sitemap entry, no link from a published page", async () => {
+  const build = await loadBuild();
+  const all = build.contentPages({ drafts: true });
+  const published = build.outputs();
+  const sitemap = read("sitemap.xml");
+  const drafts = all.all.filter((p) => p.draft);
+  for (const draft of drafts) {
+    const file = all.fileOf(draft);
+    assert.equal(file in published, false, `${file} is a draft and is built`);
+    assert.equal(fs.existsSync(path.join(root, file)), false, `${file} is a draft and is on disk`);
+    assert.equal(sitemap.includes(all.urlOf(draft, true)), false, `${file} is a draft and is in the sitemap`);
+    for (const [name, html] of Object.entries(published)) assert.equal(html.includes(`href="${all.urlOf(draft)}"`), false, `${name} links to the draft ${file}`);
+  }
+  // The sitemap lists exactly the published pages, each with its sibling.
+  const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+  const expected = Object.keys(published).filter((file) => /^(ar|fr|en)\/.*index\.html$/.test(file)).map((file) => `${config.origin}/${file.replace(/index\.html$/, "").split("/").map(encodeURIComponent).join("/")}`);
+  assert.deepEqual([...locs].sort(), expected.sort());
+});
+
+test("the home pages link to the content pages of their language, and only to those", async () => {
+  const content = (await loadBuild()).contentPages();
+  for (const lang of LANGS) {
+    for (const id of ["schools", "centers", "attendance", "timetable", "receipts", "payroll", "pricing"]) {
+      const href = content.pageHref(id, lang);
+      if (href) assert.ok(page[lang].includes(`href="${href}"`), `${lang} home page must link to ${id}`);
+    }
+    assert.equal(page[lang].includes("data-page="), false);
+  }
+  assert.equal(page.en.includes('class="more-link"'), false, "no English content page exists yet: the English home page must not link to one");
 });
