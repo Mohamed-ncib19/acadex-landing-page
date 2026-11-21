@@ -100,10 +100,23 @@ the visitor gets a ready-made summary with e-mail, phone and WhatsApp buttons.
 Environment variables on Vercel: `NOTION_API_KEY`, `NOTION_DATABASE_ID`,
 `NOTION_PAGE_ID`.
 
-Known gaps of the endpoint, left as they are until the owner decides (the order
-flow is not changed without asking): no rate limit, the hidden anti-bot field is
-not checked on the server, Notion's error text is returned to the browser, and
-default database and page identifiers are written in the file.
+What the endpoint refuses (`tests/order-api.test.js`):
+
+- a request whose hidden trap field is filled (only a bot fills it): 400, nothing saved;
+- more than 5 saved requests a minute, or 20 an hour, from one visitor: 429 — the
+  form then shows its « too many requests » message;
+- a request over 4 KB: 413.
+
+When Notion refuses a request, its answer goes to the function's log on Vercel
+(without the visitor's name or phone) and the browser only learns that the
+request was not saved.
+
+Limits to know: the count of requests lives in the memory of the running
+function — it starts again when Vercel restarts it, and each running copy counts
+on its own. It stops a loop or a crude bot; a shared counter (Vercel KV, Upstash)
+would be the next step if spam appears. Default database and page identifiers
+are written in the file; they are not secrets (the key is `NOTION_API_KEY`, only
+on Vercel).
 
 ## Measurement
 
@@ -150,8 +163,8 @@ Webmaster Tools.
 ### Campaign links
 
 `docs/marketing/campaign-links.md`. The campaign is attached to the measured
-events; it is **not** stored with the order itself (that changes the order
-request and the leads table, and waits for the owner's decision).
+events; it is **not** stored with the order itself (owner's decision,
+2026-11-22: analytics only, the order request is not changed).
 
 ## Tests
 

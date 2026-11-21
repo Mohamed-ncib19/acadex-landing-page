@@ -24,7 +24,7 @@ Use lower case, no spaces, and keep the same names from one post to the next.
 ## What is recorded, and what is not
 
 - **In the analytics** (once a provider is set in `site.config.json`): yes, on every event.
-- **With the request itself, in the leads table**: not yet. That needs one more field in the request and in the leads table; it changes the order form's request, so it waits for the owner's go-ahead.
+- **With the request itself, in the leads table**: no. Owner's decision (2026-11-22): the source is read in the analytics only, the order request is not changed. To know which campaign brought a request, compare the time of the request with the `order_submit_success` events.
 - A click from Facebook without `utm_source` is still recognised as `facebook` (from the click id Facebook adds).
 
 ## Check a link
