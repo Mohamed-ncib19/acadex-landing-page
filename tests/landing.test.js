@@ -18,8 +18,11 @@ test("bootstraps the document language before the body renders", () => {
   assert.ok(html.includes("setTimeout"));
 });
 
-test("no longer defaults the language to Arabic", () => {
+test("defaults the language to French", () => {
   assert.equal(html.includes('localStorage.getItem("acadex_lang") || "ar"'), false);
+  assert.ok(html.includes('<html lang="fr" dir="ltr"'));
+  assert.ok(html.includes('if (!lang) lang = "fr";'));
+  assert.ok(html.includes('let currentLang = "fr";'));
 });
 
 test("language buttons persist the visitor's choice", () => {

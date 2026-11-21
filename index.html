@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark no-js">
+<html lang="fr" dir="ltr" class="dark no-js">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +23,7 @@
         }
       }
     }
-    if (!lang) lang = "en";
+    if (!lang) lang = "fr";
     document.documentElement.lang = lang;
     document.documentElement.dir = (lang === "ar") ? "rtl" : "ltr";
     document.documentElement.classList.add("i18n-pending");
@@ -2676,8 +2676,8 @@
 
       <!-- Language Switcher -->
       <div class="lang-switcher">
-        <button class="lang-btn active" data-lang="ar">عربي</button>
-        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="ar">عربي</button>
+        <button class="lang-btn active" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="en">EN</button>
       </div>
 
@@ -3862,7 +3862,7 @@
   };
 
   const SUPPORTED_LANGS = ["ar", "fr", "en"];
-  let currentLang = "ar";
+  let currentLang = "fr";
   let currentCountry = "US";
   let countryChosenByVisitor = false;
 

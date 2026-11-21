@@ -278,14 +278,14 @@
     const entry = (COUNTRIES || {})[upper(input.country)];
     if (entry && SUPPORTED_LANGUAGES.indexOf(entry.lang) !== -1) return entry.lang;
 
-    return "en";
+    return "fr";
   }
 
   function countryName(code, lang) {
     const key = upper(code);
     if (!isSupportedCountry(key)) return code;
     try {
-      const locale = SUPPORTED_LANGUAGES.indexOf(lang) !== -1 ? lang : "en";
+      const locale = SUPPORTED_LANGUAGES.indexOf(lang) !== -1 ? lang : "fr";
       const names = new Intl.DisplayNames([locale], { type: "region" });
       return names.of(key) || code;
     } catch (error) {
