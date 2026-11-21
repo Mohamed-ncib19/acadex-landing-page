@@ -213,5 +213,12 @@
   "od_title_default": "Order a pack",
   "trust_zero": "0 TND",
   "trust_click": "⚡ 1 click",
-  "trust_local": "🔒 Local"
+  "trust_local": "🔒 Local",
+  "og_kicker": "School management software for Windows",
+  "og_chip1": "100% offline",
+  "og_chip2": "Windows 10 / 11",
+  "og_chip3": "Lifetime licence, no subscription",
+  "og_image_alt": "Acadex: the dashboard of the school management software on Windows",
+  "ld_category": "School management software",
+  "ld_offer": "Lifetime licence, one-time payment, no subscription"
 }

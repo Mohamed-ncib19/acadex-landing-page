@@ -282,3 +282,70 @@ test("the page outline: one h1, no skipped heading level, landmarks present", ()
     for (const [img] of body.matchAll(/<img\b[^>]*>/g)) assert.ok(/\salt="/.test(img), `${lang}: image without alt: ${img}`);
   }
 });
+
+const escapeText = (text) => text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+/** Width and height of a JPEG, read from its frame header. */
+function jpegSize(file) {
+  const data = fs.readFileSync(file);
+  let offset = 2;
+  while (offset < data.length) {
+    if (data[offset] !== 0xff) throw new Error("not a JPEG marker");
+    const marker = data[offset + 1];
+    const length = data.readUInt16BE(offset + 2);
+    if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+      return { height: data.readUInt16BE(offset + 5), width: data.readUInt16BE(offset + 7) };
+    }
+    offset += 2 + length;
+  }
+  throw new Error("no frame header");
+}
+
+test("a shared link shows a title, a description and a 1200 × 630 image in its language", () => {
+  for (const lang of LANGS) {
+    const meta = (name) => {
+      const found = new RegExp(`<meta (?:property|name)="${name}" content="([^"]*)">`).exec(page[lang]);
+      assert.ok(found, `${lang}: missing ${name}`);
+      return found[1];
+    };
+    const title = /<title>([^<]*)<\/title>/.exec(page[lang])[1];
+    assert.equal(meta("og:title"), title);
+    assert.equal(meta("og:url"), `${config.origin}/${lang}/`);
+    assert.equal(meta("og:type"), "website");
+    assert.equal(meta("twitter:card"), "summary_large_image");
+    assert.ok(meta("og:description").length >= 100);
+    assert.ok(meta("og:image:alt").length > 10);
+    const image = meta("og:image");
+    assert.equal(meta("twitter:image"), image);
+    assert.ok(image.startsWith(`${config.origin}/assets/og-${lang}.jpg?v=`), `${lang}: the image address must be absolute`);
+    const file = path.join(root, `assets/og-${lang}.jpg`);
+    assert.deepEqual(jpegSize(file), { width: 1200, height: 630 });
+    assert.ok(fs.statSync(file).size < 300 * 1024, "a share image stays light");
+  }
+});
+
+test("structured data says what the page says, and nothing invented", () => {
+  for (const lang of LANGS) {
+    const blocks = [...page[lang].matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+    assert.equal(blocks.length, 1, `${lang}: one structured data block`);
+    const graph = JSON.parse(blocks[0][1])["@graph"];
+    const node = (type) => graph.find((entry) => entry["@type"] === type);
+    for (const type of ["Organization", "WebSite", "WebPage", "SoftwareApplication", "FAQPage"]) assert.ok(node(type), `${lang}: missing ${type}`);
+
+    const software = node("SoftwareApplication");
+    assert.deepEqual(software.offers.map((offer) => `${offer.price} ${offer.priceCurrency}`), ["150 TND", "249 TND", "299 TND"]);
+    assert.ok(/Windows/.test(software.operatingSystem));
+    assert.equal(node("WebPage").inLanguage, lang);
+
+    // The FAQ of the data is the FAQ of the page, question for question.
+    const shown = [...page[lang].matchAll(/<h3 class="faq-q">[\s\S]*?<span[^>]*>([^<]*)<\/span>/g)].map((m) => m[1]);
+    const told = node("FAQPage").mainEntity.map((entry) => entry.name);
+    assert.ok(told.length >= 5);
+    assert.deepEqual(told.map(escapeText), shown);
+    for (const entry of node("FAQPage").mainEntity) assert.ok(entry.acceptedAnswer.text.length > 20);
+
+    // No rating, review or award: there is none to show yet.
+    assert.equal(/aggregateRating|"review"|ratingValue|"award"/.test(blocks[0][1]), false);
+    assert.equal(/TODO_OWNER/.test(blocks[0][1]), false);
+  }
+});

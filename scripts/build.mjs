@@ -205,6 +205,7 @@ function renderHead(lang) {
     `<link rel="alternate" hreflang="x-default" href="${pageUrl(config.defaultLang, true)}">`,
     `<link rel="icon" type="image/png" href="${asset("assets/logo-128.png")}">`,
     '<meta name="theme-color" content="#07090E">',
+    ...renderSocialTags(lang),
     `<link rel="preload" as="font" type="font/woff2" href="/${MAIN_FONT[lang]}" crossorigin>`,
     // On a wide screen the demo poster is the largest thing in view: fetch it first.
     `<link rel="preload" as="image" href="${asset("assets/demo-poster.webp")}" media="(min-width: 781px)" fetchpriority="high">`,
@@ -213,6 +214,132 @@ function renderHead(lang) {
       .map((file) => `<script src="${asset(file)}" defer></script>`),
   ];
   return lines.join("\n");
+}
+
+/** What a link to the page looks like when it is shared (Facebook, WhatsApp, X…). */
+function renderSocialTags(lang) {
+  const t = (key) => escapeAttr(stripTags(text(lang, key)));
+  const image = config.origin + asset(`assets/og-${lang}.jpg`);
+  return [
+    '<meta property="og:type" content="website">',
+    '<meta property="og:site_name" content="Acadex">',
+    `<meta property="og:title" content="${t("meta_title")}">`,
+    `<meta property="og:description" content="${t("meta_description")}">`,
+    `<meta property="og:url" content="${pageUrl(lang, true)}">`,
+    `<meta property="og:locale" content="${OG_LOCALE[lang]}">`,
+    ...LANGS.filter((code) => code !== lang).map((code) => `<meta property="og:locale:alternate" content="${OG_LOCALE[code]}">`),
+    `<meta property="og:image" content="${image}">`,
+    '<meta property="og:image:type" content="image/jpeg">',
+    '<meta property="og:image:width" content="1200">',
+    '<meta property="og:image:height" content="630">',
+    `<meta property="og:image:alt" content="${t("og_image_alt")}">`,
+    '<meta name="twitter:card" content="summary_large_image">',
+    `<meta name="twitter:title" content="${t("meta_title")}">`,
+    `<meta name="twitter:description" content="${t("meta_description")}">`,
+    `<meta name="twitter:image" content="${image}">`,
+    `<meta name="twitter:image:alt" content="${t("og_image_alt")}">`,
+  ];
+}
+
+/** The FAQ of the page, read from the template: the questions shown and nothing else. */
+function faqEntries(lang) {
+  const template = readText("src/page.html");
+  const numbers = [...template.matchAll(/data-i18n="faq_q(\d+)"/g)].map((match) => match[1]);
+  return numbers.map((n) => ({ question: stripTags(text(lang, `faq_q${n}`)), answer: stripTags(text(lang, `faq_a${n}`)) }));
+}
+
+/**
+ * Structured data: who publishes the site, the site, the software and its three
+ * offers, and the FAQ. Only what the page itself says: no rating, no review.
+ */
+export function structuredData(lang) {
+  const t = (key) => stripTags(text(lang, key));
+  const table = priceTable(lang);
+  const home = `${config.origin}/`;
+  const page = pageUrl(lang, true);
+  const packs = ["essentiel", "plus", "complet"];
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${home}#organization`,
+        name: "Acadex",
+        url: home,
+        logo: { "@type": "ImageObject", url: `${config.origin}/assets/logo-512.png`, width: 512, height: 512 },
+        email: config.email,
+        telephone: `+${config.whatsapp}`,
+        address: { "@type": "PostalAddress", addressLocality: config.city, addressCountry: config.country },
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          telephone: `+${config.whatsapp}`,
+          email: config.email,
+          availableLanguage: ["ar", "fr", "en"],
+          areaServed: config.country,
+        },
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${home}#website`,
+        url: home,
+        name: "Acadex",
+        inLanguage: LANGS,
+        publisher: { "@id": `${home}#organization` },
+      },
+      {
+        "@type": "WebPage",
+        "@id": `${page}#webpage`,
+        url: page,
+        name: t("meta_title"),
+        description: t("meta_description"),
+        inLanguage: lang,
+        isPartOf: { "@id": `${home}#website` },
+        about: { "@id": `${home}#software` },
+        primaryImageOfPage: { "@type": "ImageObject", url: `${config.origin}/assets/og-${lang}.jpg`, width: 1200, height: 630 },
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": `${home}#software`,
+        name: "Acadex",
+        description: t("meta_description"),
+        url: page,
+        applicationCategory: "BusinessApplication",
+        applicationSubCategory: t("ld_category"),
+        operatingSystem: "Windows 10, Windows 11",
+        processorRequirements: "x64",
+        inLanguage: LANGS,
+        downloadUrl: `${config.origin}/download`,
+        image: `${config.origin}/assets/og-${lang}.jpg`,
+        publisher: { "@id": `${home}#organization` },
+        offers: packs.map((pack) => ({
+          "@type": "Offer",
+          name: `Acadex ${pack[0].toUpperCase()}${pack.slice(1)}`,
+          description: t("ld_offer"),
+          price: String(table[pack].amount),
+          priceCurrency: table[pack].currency,
+          availability: "https://schema.org/InStock",
+          url: `${page}#order-${pack}`,
+          eligibleRegion: config.country,
+        })),
+      },
+      {
+        "@type": "FAQPage",
+        "@id": `${page}#faq`,
+        inLanguage: lang,
+        isPartOf: { "@id": `${page}#webpage` },
+        mainEntity: faqEntries(lang).map(({ question, answer }) => ({
+          "@type": "Question",
+          name: question,
+          acceptedAnswer: { "@type": "Answer", text: answer },
+        })),
+      },
+    ],
+  };
+}
+
+function renderStructuredData(lang) {
+  return `<script type="application/ld+json">${JSON.stringify(structuredData(lang)).replace(/</g, "\\u003c")}</script>`;
 }
 
 /** The texts the page script needs, as data: nothing here is executed. */
@@ -228,6 +355,7 @@ export function renderPage(lang) {
     `<html lang="${lang}" dir="${DIR[lang]}" class="dark">`,
     "<head>",
     renderHead(lang),
+    renderStructuredData(lang),
     "</head>",
     "<body>",
     "",
