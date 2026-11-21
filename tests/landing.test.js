@@ -169,14 +169,16 @@ test("every hook of the template names a text that exists", () => {
 });
 
 test("owner placeholders never reach a visitor", () => {
-  // Testimonials are real or absent: the block stays hidden while it holds a placeholder.
-  for (const html of [template, ...Object.values(page)]) {
-    const block = /<div class="testimonials"[^>]*>/.exec(html);
-    assert.ok(block, "missing testimonials block");
-    const end = html.indexOf("</section>", block.index);
-    if (html.slice(block.index, end).includes("TODO_OWNER")) {
-      assert.ok(/\bhidden\b/.test(block[0]), "a testimonials block holding TODO_OWNER must be hidden");
-    }
+  // Testimonials are real or absent: in the source, the block stays hidden while it holds a placeholder…
+  const block = /<div class="testimonials"[^>]*>/.exec(template);
+  assert.ok(block, "missing testimonials block");
+  const end = template.indexOf("</section>", block.index);
+  const waiting = template.slice(block.index, end).includes("TODO_OWNER");
+  if (waiting) assert.ok(/\bhidden\b/.test(block[0]), "a testimonials block holding TODO_OWNER must be hidden");
+  // …and the build leaves every placeholder out: none is published, not even hidden or in a comment.
+  for (const [lang, html] of Object.entries(page)) {
+    assert.equal(html.includes("TODO_OWNER"), false, `${lang}: a placeholder is published`);
+    assert.equal(html.includes('class="testimonials"'), !waiting, `${lang}: the testimonials block is published only when it is real`);
   }
   // No text of the dictionaries may carry a placeholder: those are shown as they are.
   for (const lang of LANGS) assert.equal(JSON.stringify(dict[lang]).includes("TODO_OWNER"), false);

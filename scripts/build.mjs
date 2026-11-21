@@ -149,7 +149,39 @@ export function runtimeKeys(template) {
 }
 
 export function renderBody(lang) {
-  return renderFragment(readText("src/page.html"), lang);
+  return renderFragment(dropPlaceholders(readText("src/page.html")), lang);
+}
+
+/**
+ * What waits for the owner stays in the source: a comment or a hidden block that
+ * holds a TODO_OWNER placeholder is not published. The block is published by
+ * itself once its placeholders are replaced with real text.
+ */
+export function dropPlaceholders(html) {
+  html = html.replace(/[ \t]*<!--[\s\S]*?-->\n?/g, (comment) => (comment.includes("TODO_OWNER") ? "" : comment));
+  const hiddenDiv = /[ \t]*<div\b[^<>]*\shidden(?=[\s>])[^<>]*>/g;
+  let match;
+  while ((match = hiddenDiv.exec(html))) {
+    const from = match.index;
+    // The end of this <div>: the </div> that brings the count of open ones back to zero.
+    const tags = /<(\/?)div\b[^<>]*>/g;
+    tags.lastIndex = from;
+    let depth = 0;
+    let to = -1;
+    let tag;
+    while ((tag = tags.exec(html))) {
+      depth += tag[1] ? -1 : 1;
+      if (depth === 0) { to = tags.lastIndex; break; }
+    }
+    if (to < 0) throw new Error(`no </div> after ${match[0].trim()}`);
+    if (!html.slice(from, to).includes("TODO_OWNER")) continue;
+    if (html[to] === "\r") to += 1;
+    if (html[to] === "\n") to += 1;
+    html = html.slice(0, from) + html.slice(to);
+    hiddenDiv.lastIndex = from;
+  }
+  if (html.includes("TODO_OWNER")) throw new Error("a TODO_OWNER placeholder is outside a comment or a hidden block: it would be published");
+  return html;
 }
 
 /** Fills the hooks of a piece of the template (texts, prices, links) for one language. */
