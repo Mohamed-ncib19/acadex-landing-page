@@ -4819,7 +4819,10 @@
       const text = await res.text();
       const match = text.match(/^version:\s*(.+)$/m);
       if (match) {
-        document.querySelector(".version-badge").textContent = `◆ v${match[1].trim()}`;
+        const v = match[1].trim();
+        if (!/alpha/i.test(v)) {
+          document.querySelector(".version-badge").textContent = `◆ v${v}`;
+        }
       }
     } catch {}
   })();
