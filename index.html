@@ -2700,6 +2700,14 @@
   @media (max-width: 760px) {
     .seg-grid { grid-template-columns: 1fr; }
   }
+
+  /* ── Is my data safe? ─────────────────────────────────────── */
+  section.data-sec { padding: 10px 24px 70px; }
+  .how-grid.data-grid { grid-template-columns: repeat(2, 1fr); }
+  .data-grid .how-step:last-child .how-num { color: inherit; }
+  @media (max-width: 780px) {
+    .how-grid.data-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
 <body>
@@ -2975,6 +2983,36 @@
           </div>
           <h3 data-i18n="f6_title">تقارير وتدقيق مالي</h3>
           <p data-i18n="f6_desc">تحليل المداخيل حسب المستويات والأقسام، وسجل تدقيق تفصيلي لكل حركة مع تصدير Excel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Is my data safe? ────────────────────────────────────── -->
+  <section id="donnees" class="data-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="data_badge">Vos données</span>
+        <h2 class="sec-title" data-i18n="data_title">Vos données sont-elles en sécurité ?</h2>
+        <p class="sec-desc" data-i18n="data_desc">Tout reste sur votre ordinateur, avec des sauvegardes pour le jour où il tombe en panne.</p>
+      </div>
+
+      <div class="how-grid data-grid">
+        <div class="how-step reveal">
+          <h3 data-i18n="data1_t">Stockées sur votre PC</h3>
+          <p data-i18n="data1_d">Les données de l'école sont enregistrées sur le disque de votre ordinateur. Rien ne quitte la machine, sauf la sauvegarde cloud si votre pack l'inclut.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="data2_t">Sauvegarde locale dans tous les packs</h3>
+          <p data-i18n="data2_d">Une sauvegarde automatique quotidienne à régler dans les paramètres (les 7 dernières sont conservées), des sauvegardes manuelles quand vous voulez, et une restauration en un clic.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="data3_t">Sauvegarde cloud avec Plus et Complet</h3>
+          <p data-i18n="data3_d">Une copie chiffrée est envoyée automatiquement dans le cloud, pour restaurer vos données sur un autre ordinateur.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="data4_t">Si le PC tombe en panne</h3>
+          <p data-i18n="data4_d">Avec Plus ou Complet, vous restaurez la sauvegarde cloud sur le nouveau PC. Avec Essentiel, les sauvegardes sont sur le même ordinateur : enregistrez-en régulièrement une copie sur une clé USB ou un disque externe. La licence étant liée à un PC, contactez-nous pour l'activer sur la nouvelle machine.</p>
         </div>
       </div>
     </div>
@@ -3739,6 +3777,17 @@
       seg_center_2: "<b>المجموعات والدفعات والوصولات:</b> التلاميذ مرتبون حسب المجموعة، وكل دفعة مقبوضة تعطي وصلاً.",
       seg_center_3: "<b>الحصص والقاعات:</b> جدول أسبوعي للحصص قاعة بقاعة، وورقة حضور لكل مجموعة.",
       seg_center_cta: "اطلب لمركزي",
+      data_badge: "بياناتك",
+      data_title: "هل بياناتك في أمان؟",
+      data_desc: "كل شيء يبقى على حاسوبك، مع نسخ احتياطية ليوم يتعطل فيه.",
+      data1_t: "محفوظة على حاسوبك",
+      data1_d: "بيانات المدرسة تُسجَّل على قرص حاسوبك. لا شيء يغادر الجهاز، إلا النسخة السحابية إذا كانت ضمن باقتك.",
+      data2_t: "نسخ احتياطي محلي في كل الباقات",
+      data2_d: "نسخة تلقائية يومية تُضبط من الإعدادات (يُحتفظ بآخر 7 نسخ)، ونسخ يدوية متى شئت، واسترجاع بنقرة واحدة.",
+      data3_t: "نسخ سحابي مع Plus و Complet",
+      data3_d: "نسخة مشفّرة تُرسل تلقائياً إلى السحابة، لاسترجاع بياناتك على حاسوب آخر.",
+      data4_t: "إذا تعطّل الحاسوب",
+      data4_d: "مع Plus أو Complet تسترجع النسخة السحابية على الحاسوب الجديد. مع Essentiel النسخ موجودة على نفس الحاسوب: احفظ نسخة منها بانتظام على مفتاح USB أو قرص خارجي. الترخيص مرتبط بحاسوب واحد، فاتصل بنا لتفعيله على الجهاز الجديد.",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -3903,6 +3952,17 @@
       seg_center_2: "<b>Groupes, paiements et reçus :</b> les élèves sont rangés par groupe, et chaque paiement encaissé donne un reçu.",
       seg_center_3: "<b>Séances et salles :</b> planning hebdomadaire des séances, salle par salle, et feuille de présence par groupe.",
       seg_center_cta: "Commander pour mon centre",
+      data_badge: "Vos données",
+      data_title: "Vos données sont-elles en sécurité ?",
+      data_desc: "Tout reste sur votre ordinateur, avec des sauvegardes pour le jour où il tombe en panne.",
+      data1_t: "Stockées sur votre PC",
+      data1_d: "Les données de l'école sont enregistrées sur le disque de votre ordinateur. Rien ne quitte la machine, sauf la sauvegarde cloud si votre pack l'inclut.",
+      data2_t: "Sauvegarde locale dans tous les packs",
+      data2_d: "Une sauvegarde automatique quotidienne à régler dans les paramètres (les 7 dernières sont conservées), des sauvegardes manuelles quand vous voulez, et une restauration en un clic.",
+      data3_t: "Sauvegarde cloud avec Plus et Complet",
+      data3_d: "Une copie chiffrée est envoyée automatiquement dans le cloud, pour restaurer vos données sur un autre ordinateur.",
+      data4_t: "Si le PC tombe en panne",
+      data4_d: "Avec Plus ou Complet, vous restaurez la sauvegarde cloud sur le nouveau PC. Avec Essentiel, les sauvegardes sont sur le même ordinateur : enregistrez-en régulièrement une copie sur une clé USB ou un disque externe. La licence étant liée à un PC, contactez-nous pour l'activer sur la nouvelle machine.",
     },
     en: {
       nav_features: "Features",
@@ -4067,6 +4127,17 @@
       seg_center_2: "<b>Groups, payments and receipts:</b> students are organised by group, and every payment collected produces a receipt.",
       seg_center_3: "<b>Sessions and rooms:</b> a weekly plan of sessions, room by room, and an attendance sheet per group.",
       seg_center_cta: "Order for my centre",
+      data_badge: "Your data",
+      data_title: "Is my data safe?",
+      data_desc: "Everything stays on your computer, with backups for the day it breaks down.",
+      data1_t: "Stored on your PC",
+      data1_d: "The school's data is saved on your computer's disk. Nothing leaves the machine, except the cloud backup when your pack includes it.",
+      data2_t: "Local backup in every pack",
+      data2_d: "A daily automatic backup set in the settings (the last 7 are kept), manual backups whenever you want, and a one-click restore.",
+      data3_t: "Cloud backup with Plus and Complet",
+      data3_d: "An encrypted copy is sent to the cloud automatically, so you can restore your data on another computer.",
+      data4_t: "If the PC breaks down",
+      data4_d: "With Plus or Complet, you restore the cloud backup on the new PC. With Essentiel, the backups sit on the same computer: save a copy to a USB key or an external drive regularly. The licence is tied to one PC, so contact us to activate it on the new machine.",
     }
   };
 
