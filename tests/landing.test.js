@@ -427,6 +427,7 @@ test("the pages the brief asks for exist in French and in Arabic, and the two ve
     assert.ok(ids.includes(id), `missing page: ${id}`);
     assert.equal(content.find(id, "fr").draft, false, `${id} must be published`);
   }
+  assert.ok(content.all.filter((p) => p.lang === "fr" && p.meta.type === "article").length >= 4, "the blog needs 4 to 6 launch articles");
   for (const id of ids) {
     const [fr, ar] = CONTENT_LANGS.map((lang) => content.find(id, lang));
     assert.ok(fr && ar, `${id}: needs a French and an Arabic version`);
