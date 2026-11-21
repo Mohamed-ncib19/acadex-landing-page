@@ -2819,6 +2819,19 @@ summary:focus-visible,
 .nf-block h2 { font-size: 18px; font-weight: 800; color: #fff; }
 .nf-block p { font-size: 14px; color: var(--text-muted); flex: 1; }
 
+/* ── Off-screen sections cost nothing until they are scrolled to ──
+   The page is long. A section below the first screen is laid out and painted
+   only when it comes near the viewport, so the first render and the font swap
+   do not pay for the whole page (measured: it froze a slow phone for half a
+   second). The height is a placeholder, replaced by the real one once shown. */
+main > section:not(.hero),
+footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+main > section.trust-strip { contain-intrinsic-size: auto 220px; }
+footer { contain-intrinsic-size: auto 150px; }
+
 /* A phone cannot install a Windows app: on a narrow screen the top bar keeps
    the menu, the languages and the country, and no longer overflows. */
 @media (max-width: 560px) {

@@ -173,9 +173,17 @@ export function renderBody(lang) {
     ? { open, inner: escapeHtml(table[pack].oldFormatted) }
     : { open: setAttr(open, "hidden", ""), inner: "" });
   html = mapElements(html, "data-currency", (_, open) => ({ open, inner: escapeHtml(table.essentiel.currencyText) }));
-  html = mapElements(html, "data-country-name", (_, open) => ({
-    open: dropAttr(open, "data-country-name"),
-    inner: escapeHtml(Localization.countryName(config.pricingCountry, lang)),
+  // The default country, as the page script would write it: name, button label, hint.
+  const countryName = Localization.countryName(config.pricingCountry, lang);
+  const countryCurrency = Localization.effectiveCurrency(config.pricingCountry, RATES);
+  html = mapElements(html, "data-country-name", (_, open) => ({ open: dropAttr(open, "data-country-name"), inner: escapeHtml(countryName) }));
+  html = mapOpenTags(html, "data-country-chip", (key, open) => {
+    const label = `${countryName} · ${countryCurrency}`;
+    return setAttr(setAttr(dropAttr(open, "data-country-chip"), "aria-label", `${label} — ${stripTags(text(lang, key))}`), "title", label);
+  });
+  html = mapElements(html, "data-country-hint", (key, open) => ({
+    open: dropAttr(open, "data-country-hint"),
+    inner: escapeHtml(fill(dictionaries[lang][key], { country: countryName, currency: countryCurrency })),
   }));
   html = html.replace(/ hidden=""/g, " hidden");
 
@@ -207,8 +215,9 @@ function renderHead(lang) {
     '<meta name="theme-color" content="#07090E">',
     ...renderSocialTags(lang),
     `<link rel="preload" as="font" type="font/woff2" href="/${MAIN_FONT[lang]}" crossorigin>`,
-    // On a wide screen the demo poster is the largest thing in view: fetch it first.
-    `<link rel="preload" as="image" href="${asset("assets/demo-poster.webp")}" media="(min-width: 781px)" fetchpriority="high">`,
+    // The demo poster is the largest thing in the first screen (on a phone too,
+    // where its top shows under the Arabic headline): fetch it first.
+    `<link rel="preload" as="image" href="${asset("assets/demo-poster.webp")}" fetchpriority="high">`,
     `<link rel="stylesheet" href="${asset("assets/site.css")}">`,
     ...["assets/countries.js", "assets/rates.js", "assets/localization.js", "assets/order.js", "assets/site.js"]
       .map((file) => `<script src="${asset(file)}" defer></script>`),
@@ -352,7 +361,8 @@ function renderRuntimeDictionary(lang) {
 export function renderPage(lang) {
   return [
     "<!DOCTYPE html>",
-    `<html lang="${lang}" dir="${DIR[lang]}" class="dark">`,
+    // data-country: the country whose prices are written in the page (read by the page script).
+    `<html lang="${lang}" dir="${DIR[lang]}" class="dark" data-country="${config.pricingCountry}">`,
     "<head>",
     renderHead(lang),
     renderStructuredData(lang),

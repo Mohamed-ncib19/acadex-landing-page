@@ -47,14 +47,24 @@ function savedCountry() {
   } catch { return null; }
 }
 
+/** The country whose prices are already written in the page (scripts/build.mjs). */
+const PAGE_COUNTRY = document.documentElement.getAttribute("data-country") || "";
+
+function browserCountry() {
+  return AcadexLocalization.countryFromBrowser(navigator.languages || [navigator.language || ""]);
+}
+
+// The page arrives with the prices of its default country. They stay as they
+// are until the visitor's country is known: a saved choice at once, otherwise
+// the answer of /api/geo. Nothing is redrawn for a visitor of the default
+// country, and no price flashes in another currency while the answer comes.
 function initLocalization() {
   const saved = savedCountry();
-  const languages = navigator.languages || [navigator.language || ""];
-  currentCountry = saved
-    || AcadexLocalization.countryFromBrowser(languages)
-    || "US";
   countryChosenByVisitor = Boolean(saved);
-  renderPrices();
+  const pageCountry = AcadexLocalization.isSupportedCountry(PAGE_COUNTRY) ? PAGE_COUNTRY : null;
+  currentCountry = saved || pageCountry || browserCountry() || "US";
+  if (currentCountry !== pageCountry) renderPrices();
+  else if (saved) renderPricingLocationHint();
   populateOrderCountries();
   if (!saved) confirmCountryFromGeo();
 }
@@ -62,20 +72,25 @@ function initLocalization() {
 async function confirmCountryFromGeo() {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 1500);
+  let country = null;
   try {
     const res = await fetch("/api/geo", { signal: controller.signal, cache: "no-store" });
-    if (!res.ok) return;
-    const data = await res.json();
-    if (countryChosenByVisitor) return;
-    if (!data || !AcadexLocalization.isSupportedCountry(data.country)) return;
-    currentCountry = data.country;
-    renderPrices();
-    document.dispatchEvent(new CustomEvent("acadex:country"));
+    if (res.ok) {
+      const data = await res.json();
+      if (data && AcadexLocalization.isSupportedCountry(data.country)) country = data.country;
+    }
   } catch {
-    /* Offline, file://, or no geo endpoint: the browser guess stands. */
+    /* Offline, file://, or no geo endpoint. */
   } finally {
     clearTimeout(timer);
   }
+  if (countryChosenByVisitor) return;
+  // No answer: the region of the browser is the next best guess.
+  if (!country) country = browserCountry();
+  if (!country || country === currentCountry) return;
+  currentCountry = country;
+  renderPrices();
+  document.dispatchEvent(new CustomEvent("acadex:country"));
 }
 
 /** A text of the page's language, with {name} placeholders filled in. */
@@ -158,7 +173,7 @@ function renderCountryChip() {
   document.getElementById("country-chip-name").textContent = name;
   document.getElementById("country-chip-code").textContent = currentCountry;
   document.getElementById("country-chip-currency").textContent = currency;
-  chip.setAttribute("aria-label", `${name} ${currentCountry} · ${currency} — ${tr("country_chip_aria")}`);
+  chip.setAttribute("aria-label", `${name} · ${currency} — ${tr("country_chip_aria")}`);
   chip.title = `${name} · ${currency}`;
 }
 
@@ -251,23 +266,28 @@ countryDialog.addEventListener("click", (e) => { if (e.target === countryDialog)
 
 initLocalization();
 
-// Scroll reveal: only what is below the fold when the script starts is hidden,
-// then shown as it scrolls into view. Above the fold, nothing moves.
+// Scroll reveal: only what is below the fold is hidden, then shown as it scrolls
+// into view. Above the fold, nothing moves. The observer reports where every
+// block stands on its first run, so the script never asks the browser to lay
+// the page out (measuring 40 blocks one by one froze a phone for 300 ms).
 if ("IntersectionObserver" in window) {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
+      const el = e.target;
       if (e.isIntersecting) {
-        e.target.classList.add("in");
-        observer.unobserve(e.target);
+        if (el.classList.contains("pre")) el.classList.add("in");
+        observer.unobserve(el);
+      } else if (e.boundingClientRect.top > 0 || (e.boundingClientRect.width === 0 && e.boundingClientRect.height === 0)) {
+        // Below the fold, or in a section the browser has not laid out yet
+        // (content-visibility): hidden until it scrolls into view.
+        el.classList.add("pre");
+      } else {
+        // Already scrolled past (the page opened on an anchor): leave it shown.
+        observer.unobserve(el);
       }
     });
   }, { threshold: 0.1 });
-  const fold = window.innerHeight;
-  document.querySelectorAll(".reveal").forEach(el => {
-    if (el.getBoundingClientRect().top < fold) return;
-    el.classList.add("pre");
-    observer.observe(el);
-  });
+  document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 }
 
 // FAQ Accordion
@@ -889,8 +909,9 @@ orderForm.addEventListener("submit", async (e) => {
 
 // A link can open the form directly (…/#order-complet): for a message, an ad, a QR code.
 const orderHash = /^#order(?:-(essentiel|plus|complet))?$/.exec(location.hash);
+// Otherwise the form's heading is written when the form opens (openOrder), not
+// at page load: formatting a price there cost a slow phone 150 ms for nothing.
 if (orderHash) openOrder(orderHash[1] || "complet");
-else renderOrderHead();
 
 document.getElementById("od-fb-retry").addEventListener("click", () => {
   orderShown = null;
@@ -914,7 +935,7 @@ function setVersionLabel(label) {
   if (label) versionLabel = label;
   if (!versionLabel) return;
   document.querySelectorAll("[data-version]").forEach((el) => {
-    el.textContent = el.textContent.replace(/Acadex d+.d+/, `Acadex ${versionLabel}`);
+    el.textContent = el.textContent.replace(/Acadex \d+\.\d+/, `Acadex ${versionLabel}`);
   });
 }
 (async () => {
@@ -927,7 +948,7 @@ function setVersionLabel(label) {
       const v = match[1].trim();
       // One label everywhere: a published non-alpha build moves every
       // "Acadex X.Y" on the page together (hero badge, demo window, footer).
-      const parts = /^(d+).(d+)./.exec(v);
+      const parts = /^(\d+)\.(\d+)\./.exec(v);
       if (parts && !/alpha|beta|rc/i.test(v)) setVersionLabel(`${parts[1]}.${parts[2]}`);
     }
   } catch {}
