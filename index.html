@@ -1975,20 +1975,23 @@
     font-weight: 800;
   }
 
-  .mobile-cta .m-dl {
-    flex: 0 0 auto;
-    padding: 0 16px;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.07);
-    border: 1px solid var(--border-light);
+  /* WhatsApp is the first action on a phone; the order stays one tap away. */
+  .mobile-cta .m-wa {
+    flex: 1.2;
+    padding: 0 12px;
+    color: #06240F;
+    background: #25D366;
   }
 
-  .mobile-cta .m-dl svg { width: 17px; height: 17px; }
+  .mobile-cta .m-wa svg { width: 18px; height: 18px; flex-shrink: 0; }
 
   .mobile-cta .m-order {
     flex: 1;
-    color: #1A1204;
-    background: linear-gradient(135deg, #FCD34D 0%, #F59E0B 100%);
+    padding: 0 10px;
+    font-size: 13px;
+    color: var(--accent-gold-light);
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.45);
   }
 
   /* ── Order dialog ─────────────────────────────────────────── */
@@ -3463,7 +3466,7 @@
   <section id="contact" class="contact-sec">
     <div class="wrap">
       <div class="contact-chips reveal">
-        <a class="contact-chip wa" href="https://wa.me/21655518492" target="_blank" rel="noopener">
+        <a class="contact-chip wa" data-wa-msg="wa_demo_msg" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d%27Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
           <span>WhatsApp : +216 55 518 492</span>
         </a>
@@ -3549,11 +3552,12 @@
 
 <!-- ── Sticky mobile call-to-action ───────────────────────── -->
 <div class="mobile-cta" id="mobile-cta">
-  <a class="m-dl" href="https://acadex-backup.zglm.workers.dev/updates/latest" aria-label="Download">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  <a class="m-wa" data-wa-msg="wa_demo_msg" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d%27Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+    <span data-i18n="m_wa">Démo sur WhatsApp</span>
   </a>
   <button type="button" class="m-order" data-order-pack="complet">
-    <span data-i18n="m_order" data-price-template="complet">اطلب Complet · 299 د.ت</span>
+    <span data-i18n="m_order" data-price-template="complet">Commander · 299 DT</span>
   </button>
 </div>
 
@@ -3786,7 +3790,7 @@
       faq_q5: "كيف أطلب الباقة وأستلم كود التفعيل؟",
       faq_a5: "اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.",
       cta_btn_order: "اطلب باقتك",
-      m_order: "اطلب Complet · {price}",
+      m_order: "اطلب · {price}",
       od_title: "طلب باقة {pack}",
       od_terms: "دفعة واحدة · ترخيص دائم مدى الحياة",
       od_name: "الاسم واللقب",
@@ -3863,6 +3867,8 @@
       about3_t: "تحديثات من داخل التطبيق",
       about3_d: "الإصدارات الجديدة تُحمَّل من التطبيق وتُثبَّت بموافقتك.",
       testi_title: "يستعملون Acadex",
+      wa_demo_msg: "مرحباً، أريد عرضاً تجريبياً لتطبيق Acadex لمدرستي/مركزي.",
+      m_wa: "عرض على واتساب",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -3971,7 +3977,7 @@
       faq_q5: "Comment commander et recevoir mon code d'activation ?",
       faq_a5: "Cliquez sur « Commander » sous le pack choisi et remplissez le court formulaire de cette page. Nous vous appelons pour confirmer la commande et le mode de paiement, puis nous vous envoyons le code d'activation à saisir dans l'application.",
       cta_btn_order: "Commander mon pack",
-      m_order: "Commander Complet · {price}",
+      m_order: "Commander · {price}",
       od_title: "Commander le pack {pack}",
       od_terms: "paiement unique · licence à vie",
       od_name: "Nom et prénom",
@@ -4048,6 +4054,8 @@
       about3_t: "Mises à jour depuis l'application",
       about3_d: "Les nouvelles versions se téléchargent dans l'application et s'installent avec votre accord.",
       testi_title: "Ils utilisent Acadex",
+      wa_demo_msg: "Bonjour, je veux une démo d'Acadex pour mon école/centre.",
+      m_wa: "Démo sur WhatsApp",
     },
     en: {
       nav_features: "Features",
@@ -4156,7 +4164,7 @@
       faq_q5: "How do I order and get my activation code?",
       faq_a5: "Click “Order” under the pack you want and fill in the short form on this page. We call you to confirm the order and the payment method, then send you the activation code to enter in the app.",
       cta_btn_order: "Order my pack",
-      m_order: "Order Complet · {price}",
+      m_order: "Order · {price}",
       od_title: "Order the {pack} pack",
       od_terms: "one-time payment · lifetime licence",
       od_name: "Full name",
@@ -4233,10 +4241,13 @@
       about3_t: "Updates from inside the app",
       about3_d: "New versions are downloaded inside the app and installed with your approval.",
       testi_title: "They use Acadex",
+      wa_demo_msg: "Hello, I would like a demo of Acadex for my school/centre.",
+      m_wa: "Demo on WhatsApp",
     }
   };
 
   const SUPPORTED_LANGS = ["ar", "fr", "en"];
+  const WHATSAPP_NUMBER = "21655518492";
   let currentLang = "fr";
   let currentCountry = "US";
   let countryChosenByVisitor = false;
@@ -4300,6 +4311,12 @@
           el.textContent = dict[key];
         }
       }
+    });
+
+    // WhatsApp links open on a prefilled message in the visitor's language.
+    document.querySelectorAll("[data-wa-msg]").forEach(el => {
+      const message = dict[el.getAttribute("data-wa-msg")];
+      if (message) el.setAttribute("href", `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`);
     });
 
     // Placeholders are attributes, not text.
@@ -4866,14 +4883,9 @@
     }
   }
 
-  // Sticky mobile call-to-action: once the hero's own buttons are out of view.
+  // Sticky mobile call-to-action: on screen from the first view, WhatsApp first.
   const mobileCta = document.getElementById("mobile-cta");
-  const heroBtns = document.querySelector(".hero .hero-btns");
-  if (mobileCta && heroBtns && "IntersectionObserver" in window) {
-    new IntersectionObserver(([entry]) => {
-      mobileCta.classList.toggle("show", !entry.isIntersecting);
-    }).observe(heroBtns);
-  }
+  if (mobileCta) mobileCta.classList.add("show");
 
   // ── Ordering a pack, on the page ─────────────────────────────
   // The form posts to the same Cloudflare Worker that serves the download:
