@@ -1274,6 +1274,35 @@
     transform: scaleX(-1);
   }
 
+  .pricing-loc-hint {
+    margin: 0 auto 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(96, 165, 250, 0.22);
+    background: rgba(59, 130, 246, 0.08);
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .sec-header + .pricing-loc-hint { display: flex; width: fit-content; }
+  .pricing-loc-hint[hidden] { display: none !important; }
+  .pricing-loc-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--primary-light); box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.14);
+    flex-shrink: 0;
+  }
+  .pricing-loc-change {
+    color: var(--primary-light);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  .pricing-loc-change:hover { color: #fff; }
+
   .pricing-guarantee {
     max-width: 760px;
     margin: 32px auto 0;
@@ -2898,6 +2927,11 @@
         <h2 class="sec-title" data-i18n="p_title">اختر باقتك — ترخيص دائم مدى الحياة</h2>
         <p class="sec-desc" data-i18n="p_desc">ادفع مرة واحدة واستعمل التطبيق دائماً، مع إمكانية الدفع الدوري (فصلي أو سنوي).</p>
       </div>
+      <div class="pricing-loc-hint" id="pricing-loc-hint" hidden>
+        <span class="pricing-loc-dot" aria-hidden="true"></span>
+        <span id="pricing-loc-text"></span>
+        <button type="button" class="pricing-loc-change" id="pricing-loc-change" data-i18n="pricing_loc_change">Change</button>
+      </div>
 
       <div class="pricing-grid">
         <!-- Essentiel -->
@@ -3336,10 +3370,6 @@
           <input class="od-input" id="od-name" name="contact_name" type="text" autocomplete="name" maxlength="80" required>
         </div>
         <div class="od-field">
-          <label class="od-label" for="od-country" data-i18n="od_country">الدولة</label>
-          <select class="od-input od-ltr" id="od-country" name="country"></select>
-        </div>
-        <div class="od-field">
           <label class="od-label" for="od-phone" data-i18n="od_phone">رقم الهاتف</label>
           <div class="od-phone-row">
             <span class="od-dial" id="od-dial">+216</span>
@@ -3526,7 +3556,6 @@
       od_title: "طلب باقة {pack}",
       od_terms: "دفعة واحدة · ترخيص دائم مدى الحياة",
       od_name: "الاسم واللقب",
-      od_country: "الدولة",
       od_phone: "رقم الهاتف",
       od_phone_ph: "أدخل رقم هاتفك",
       od_submit: "إرسال الطلب",
@@ -3556,6 +3585,8 @@
       country_search_ph: "ابحث عن دولة",
       country_empty: "لا توجد دولة",
       country_chip_aria: "تغيير الدولة والعملة",
+      pricing_loc_hint: "الأسعار معروضة لـ {country} ({currency})",
+      pricing_loc_change: "تغيير",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -3668,7 +3699,6 @@
       od_title: "Commander le pack {pack}",
       od_terms: "paiement unique · licence à vie",
       od_name: "Nom et prénom",
-      od_country: "Pays",
       od_phone: "Téléphone",
       od_phone_ph: "Votre numéro de téléphone",
       od_submit: "Envoyer la commande",
@@ -3698,6 +3728,8 @@
       country_search_ph: "Rechercher un pays",
       country_empty: "Aucun pays trouvé",
       country_chip_aria: "Changer de pays et de devise",
+      pricing_loc_hint: "Prix affichés pour {country} ({currency})",
+      pricing_loc_change: "Modifier",
     },
     en: {
       nav_features: "Features",
@@ -3810,7 +3842,6 @@
       od_title: "Order the {pack} pack",
       od_terms: "one-time payment · lifetime licence",
       od_name: "Full name",
-      od_country: "Country",
       od_phone: "Phone",
       od_phone_ph: "Your phone number",
       od_submit: "Send order",
@@ -3840,6 +3871,8 @@
       country_search_ph: "Search for a country",
       country_empty: "No country found",
       country_chip_aria: "Change country and currency",
+      pricing_loc_hint: "Prices shown for {country} ({currency})",
+      pricing_loc_change: "Change",
     }
   };
 
@@ -4033,7 +4066,22 @@
       else if (kind === "complet") el.textContent = tr(key, { price: table.complet.formatted });
     });
     renderCountryChip();
+    renderPricingLocationHint();
     renderOrderHead();
+  }
+
+  function renderPricingLocationHint() {
+    const hint = document.getElementById("pricing-loc-hint");
+    const text = document.getElementById("pricing-loc-text");
+    if (!hint || !text) return;
+    if (countryChosenByVisitor) {
+      hint.hidden = true;
+      return;
+    }
+    const name = AcadexLocalization.countryName(currentCountry, currentLang);
+    const currency = AcadexLocalization.effectiveCurrency(currentCountry, window.ACADEX_RATES);
+    text.textContent = tr("pricing_loc_hint", { country: name, currency });
+    hint.hidden = false;
   }
 
   function renderCountryChip() {
@@ -4115,13 +4163,16 @@
 
   const countryDialog = document.getElementById("country-dialog");
   const countrySearch = document.getElementById("country-search");
-  document.getElementById("country-chip").addEventListener("click", () => {
+  function openCountryDialog() {
     countrySearch.value = "";
     renderCountryList("");
     if (typeof countryDialog.showModal === "function") countryDialog.showModal();
     else countryDialog.setAttribute("open", "");
     countrySearch.focus();
-  });
+  }
+  document.getElementById("country-chip").addEventListener("click", openCountryDialog);
+  const pricingLocChange = document.getElementById("pricing-loc-change");
+  if (pricingLocChange) pricingLocChange.addEventListener("click", openCountryDialog);
   countrySearch.addEventListener("input", () => renderCountryList(countrySearch.value));
   document.getElementById("country-list").addEventListener("click", (e) => {
     const btn = e.target.closest("[data-country]");
@@ -4592,18 +4643,20 @@
 
   function populateOrderCountries() {
     const select = document.getElementById("od-country");
-    if (!select) return;
-    select.replaceChildren(...countryOptions().map((o) => {
-      const opt = document.createElement("option");
-      opt.value = o.code;
-      opt.textContent = `+${window.ACADEX_COUNTRIES[o.code].dial} · ${o.name}`;
-      return opt;
-    }));
-    select.value = currentCountry;
+    if (select) {
+      select.replaceChildren(...countryOptions().map((o) => {
+        const opt = document.createElement("option");
+        opt.value = o.code;
+        opt.textContent = `+${window.ACADEX_COUNTRIES[o.code].dial} · ${o.name}`;
+        return opt;
+      }));
+      select.value = currentCountry;
+    }
     updateOrderDial();
   }
 
-  document.getElementById("od-country").addEventListener("change", (e) => {
+  const odCountrySelect = document.getElementById("od-country");
+  if (odCountrySelect) odCountrySelect.addEventListener("change", (e) => {
     setCountry(e.target.value, true);
   });
   document.addEventListener("acadex:country", () => {
@@ -4642,7 +4695,7 @@
     const value = (name) => String(data.get(name) || "").trim();
     const name = value("contact_name");
     const pack = PACKS[value("pack")] ? value("pack") : "complet";
-    const country = value("country") || currentCountry;
+    const country = currentCountry;
     const dial = (window.ACADEX_COUNTRIES[country] || {}).dial || "";
     const national = value("phone");
     const price = priceFor(pack);
