@@ -12,7 +12,7 @@
   "hero_btn_dl": "Download for Windows",
   "hero_btn_plans": "View Plans & Pricing",
   "hero_meta_pay": "◆ One-time lifetime purchase",
-  "demo_live": "Live Demo",
+  "demo_live": "Demo video",
   "trust_offline": "Works without Internet",
   "trust_monthly": "No monthly subscription",
   "trust_print": "Direct 1-click printing",
@@ -195,5 +195,15 @@
   "aria_progress": "Progress bar",
   "aria_sound": "Sound",
   "aria_select_plan": "Choose a pack",
-  "alt_demo": "Screenshot of the Acadex dashboard"
+  "alt_demo": "Screenshot of the Acadex dashboard",
+  "demo_tr_summary": "What the video shows, step by step",
+  "demo_tr_1": "First launch: creating the school and the administrator account, then the setup questionnaire (levels, fees, teachers' share, opening hours).",
+  "demo_tr_2": "Signing in and the dashboard.",
+  "demo_tr_3": "Students: the list, the cards and adding a student.",
+  "demo_tr_4": "Finance: collecting a payment and its receipt.",
+  "demo_tr_5": "Teacher payroll: a payout and its documents.",
+  "demo_tr_6": "Analytics, reports and the list of transactions.",
+  "demo_tr_7": "The weekly timetable, sessions, rooms and opening hours.",
+  "demo_tr_8": "A group's attendance sheet and the whiteboard.",
+  "demo_tr_9": "Users, the audit log, Excel import, settings and dark mode."
 }

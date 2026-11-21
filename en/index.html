@@ -18,12 +18,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="/assets/site.css?v=f8def518b0">
+<link rel="stylesheet" href="/assets/site.css?v=a365518beb">
 <script src="/assets/countries.js?v=533fd50faa" defer></script>
 <script src="/assets/rates.js?v=99a5921453" defer></script>
 <script src="/assets/localization.js?v=c1c986a3d8" defer></script>
 <script src="/assets/order.js?v=f9da0d9342" defer></script>
-<script src="/assets/site.js?v=ca162003c0" defer></script>
+<script src="/assets/site.js?v=9a53569aff" defer></script>
 </head>
 <body>
 
@@ -31,7 +31,7 @@
 <header class="topbar">
   <div class="topbar-in">
     <a href="/en/" class="brand">
-      <img src="/assets/logo-128.png" alt="Acadex" class="brand-logo" width="34" height="34">
+      <img src="/assets/logo-128.png" alt="" class="brand-logo" width="34" height="34">
       <span>Acadex</span>
     </a>
 
@@ -120,11 +120,11 @@
             <div class="mockup-actions">
               <span class="mockup-live-badge">
                 <span class="mockup-live-dot"></span>
-                <span>Live Demo</span>
+                <span>Demo video</span>
               </span>
               <button type="button" class="mockup-ctrl-btn" id="mockup-play-toggle" aria-label="Play / Pause" title="Play / Pause">
-                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="display:none;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="display:none;"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><polygon points="6 3 20 12 6 21 6 3"/></svg>
               </button>
               <button type="button" class="mockup-ctrl-btn" id="mockup-fullscreen" aria-label="Full screen" title="Full screen">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
@@ -135,11 +135,10 @@
             <video
               id="hero-demo-video"
               class="mockup-video"
-              autoplay
               muted
               loop
               playsinline
-              preload="metadata"
+              preload="none"
               poster="/assets/demo-poster.webp"
               width="1920"
               height="1080"
@@ -147,11 +146,25 @@
               <source src="/assets/demo.mp4" type="video/mp4">
               <img src="/assets/demo-poster.webp" class="mockup-img" width="1920" height="1080" alt="Screenshot of the Acadex dashboard">
             </video>
-            <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true" style="display:none;">
+            <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="6 3 20 12 6 21 6 3"/></svg>
             </div>
           </div>
         </div>
+        <details class="demo-transcript">
+          <summary>What the video shows, step by step</summary>
+          <ol>
+            <li>First launch: creating the school and the administrator account, then the setup questionnaire (levels, fees, teachers' share, opening hours).</li>
+            <li>Signing in and the dashboard.</li>
+            <li>Students: the list, the cards and adding a student.</li>
+            <li>Finance: collecting a payment and its receipt.</li>
+            <li>Teacher payroll: a payout and its documents.</li>
+            <li>Analytics, reports and the list of transactions.</li>
+            <li>The weekly timetable, sessions, rooms and opening hours.</li>
+            <li>A group's attendance sheet and the whiteboard.</li>
+            <li>Users, the audit log, Excel import, settings and dark mode.</li>
+          </ol>
+        </details>
       </div>
     </div>
   </section>

@@ -12,7 +12,7 @@
   "hero_btn_dl": "Télécharger pour Windows",
   "hero_btn_plans": "Découvrir les offres",
   "hero_meta_pay": "◆ Achat unique à vie",
-  "demo_live": "Démo en direct",
+  "demo_live": "Démo vidéo",
   "trust_offline": "Fonctionne sans Internet",
   "trust_monthly": "Aucun abonnement mensuel",
   "trust_print": "Impression directe en 1 clic",
@@ -195,5 +195,15 @@
   "aria_progress": "Barre de progression",
   "aria_sound": "Son",
   "aria_select_plan": "Choisir un pack",
-  "alt_demo": "Capture d'écran du tableau de bord d'Acadex"
+  "alt_demo": "Capture d'écran du tableau de bord d'Acadex",
+  "demo_tr_summary": "Ce que montre la vidéo, étape par étape",
+  "demo_tr_1": "Première ouverture : création de l'école et du compte administrateur, puis questionnaire de configuration (niveaux, frais, part des professeurs, horaires).",
+  "demo_tr_2": "Connexion et tableau de bord.",
+  "demo_tr_3": "Élèves : la liste, les fiches et l'ajout d'un élève.",
+  "demo_tr_4": "Finances : encaissement d'un paiement et son reçu.",
+  "demo_tr_5": "Paie des professeurs : un versement et ses documents.",
+  "demo_tr_6": "Analyses, rapports et liste des transactions.",
+  "demo_tr_7": "Emploi du temps de la semaine, séances, salles et horaires d'ouverture.",
+  "demo_tr_8": "Feuille de présence d'un groupe et tableau blanc.",
+  "demo_tr_9": "Utilisateurs, journal d'audit, import Excel, paramètres et mode sombre."
 }

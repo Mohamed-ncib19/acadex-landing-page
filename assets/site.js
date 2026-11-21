@@ -321,6 +321,8 @@ if (cmpBox && cmpScrollHint) {
 
 // ── Hero Demo Video Controls & Performance Observer ──────────
 const heroVideo = document.getElementById("hero-demo-video");
+/** True once the visitor has started the hero video (and not paused it since). */
+let heroWanted = false;
 const playToggle = document.getElementById("mockup-play-toggle");
 const centerPlay = document.getElementById("mockup-center-play");
 const fullscreenBtn = document.getElementById("mockup-fullscreen");
@@ -398,7 +400,7 @@ const closeTheater = () => {
   theaterOverlay.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 
-  if (heroVideo) {
+  if (heroVideo && heroWanted) {
     try {
       heroVideo.currentTime = theaterVideo.currentTime || 0;
       heroVideo.play().catch(() => {});
@@ -538,11 +540,14 @@ if (heroVideo) {
     if (centerPlay) centerPlay.style.display = isPlaying ? "none" : "grid";
   };
 
+  // The video is fetched on the visitor's first click, never before.
   const togglePlay = () => {
     if (heroVideo.paused) {
+      heroWanted = true;
       heroVideo.play().catch(() => {});
       updatePlayState(true);
     } else {
+      heroWanted = false;
       heroVideo.pause();
       updatePlayState(false);
     }
@@ -569,9 +574,10 @@ if (heroVideo) {
 
   if ("IntersectionObserver" in window) {
     const videoObserver = new IntersectionObserver(([entry]) => {
+      // Scrolled away: pause. Back in view: resume only a video the visitor had started.
       if (!entry.isIntersecting && !heroVideo.paused && (!theaterOverlay || !theaterOverlay.classList.contains("open"))) {
         heroVideo.pause();
-      } else if (entry.isIntersecting && heroVideo.paused && (!theaterOverlay || !theaterOverlay.classList.contains("open"))) {
+      } else if (entry.isIntersecting && heroWanted && heroVideo.paused && (!theaterOverlay || !theaterOverlay.classList.contains("open"))) {
         heroVideo.play().catch(() => {});
       }
     }, { threshold: 0.15 });

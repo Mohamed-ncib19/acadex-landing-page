@@ -2,7 +2,7 @@
 <header class="topbar">
   <div class="topbar-in">
     <a href="{{HOME}}" class="brand">
-      <img src="/assets/logo-128.png" alt="Acadex" class="brand-logo" width="34" height="34">
+      <img src="/assets/logo-128.png" alt="" class="brand-logo" width="34" height="34">
       <span>Acadex</span>
     </a>
 
@@ -96,8 +96,8 @@
                 <span data-i18n="demo_live">عرض حي</span>
               </span>
               <button type="button" class="mockup-ctrl-btn" id="mockup-play-toggle" data-i18n-aria="aria_play" data-i18n-title="aria_play">
-                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
-                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="display:none;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="display:none;"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><polygon points="6 3 20 12 6 21 6 3"/></svg>
               </button>
               <button type="button" class="mockup-ctrl-btn" id="mockup-fullscreen" data-i18n-aria="aria_fullscreen" data-i18n-title="aria_fullscreen">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
@@ -108,11 +108,10 @@
             <video
               id="hero-demo-video"
               class="mockup-video"
-              autoplay
               muted
               loop
               playsinline
-              preload="metadata"
+              preload="none"
               poster="/assets/demo-poster.webp"
               width="1920"
               height="1080"
@@ -120,11 +119,25 @@
               <source src="/assets/demo.mp4" type="video/mp4">
               <img src="/assets/demo-poster.webp" data-i18n-alt="alt_demo" class="mockup-img" width="1920" height="1080">
             </video>
-            <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true" style="display:none;">
+            <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="6 3 20 12 6 21 6 3"/></svg>
             </div>
           </div>
         </div>
+        <details class="demo-transcript">
+          <summary data-i18n="demo_tr_summary">Ce que montre la vidéo, étape par étape</summary>
+          <ol>
+            <li data-i18n="demo_tr_1"></li>
+            <li data-i18n="demo_tr_2"></li>
+            <li data-i18n="demo_tr_3"></li>
+            <li data-i18n="demo_tr_4"></li>
+            <li data-i18n="demo_tr_5"></li>
+            <li data-i18n="demo_tr_6"></li>
+            <li data-i18n="demo_tr_7"></li>
+            <li data-i18n="demo_tr_8"></li>
+            <li data-i18n="demo_tr_9"></li>
+          </ol>
+        </details>
       </div>
     </div>
   </section>
