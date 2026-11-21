@@ -1,0 +1,10 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    {
+      "source": "/download",
+      "destination": "https://acadex-backup.zglm.workers.dev/updates/latest",
+      "permanent": false
+    }
+  ]
+}

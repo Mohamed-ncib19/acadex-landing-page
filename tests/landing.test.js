@@ -102,3 +102,13 @@ test("owner placeholders never reach a visitor", () => {
   const dictEnd = html.indexOf("const SUPPORTED_LANGS", dictStart);
   assert.equal(html.slice(dictStart, dictEnd).includes("TODO_OWNER"), false);
 });
+
+test("every download button goes through the site's own /download", () => {
+  const vercel = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "vercel.json"), "utf8"));
+  const rule = vercel.redirects.find((r) => r.source === "/download");
+  assert.ok(rule, "missing /download redirect");
+  assert.equal(rule.destination, "https://acadex-backup.zglm.workers.dev/updates/latest");
+  assert.equal(rule.permanent, false, "the installer changes with every release: never a permanent redirect");
+  assert.equal(/href="https:\/\/acadex-backup\.zglm\.workers\.dev\/updates\/latest"/.test(html), false);
+  assert.ok(html.includes('href="/download"'));
+});
