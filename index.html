@@ -1326,6 +1326,29 @@
 
   .pricing-guarantee.pricing-pay { margin-top: 12px; }
 
+  /* ── Trial and refund terms ───────────────────────────────── */
+  .terms-box {
+    max-width: 980px;
+    margin: 34px auto 0;
+  }
+  .terms-title {
+    font-size: 17px;
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .how-step h4 {
+    font-size: 15.5px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .terms-grid .how-step:last-child { border-color: rgba(245, 158, 11, 0.28); }
+  @media (max-width: 760px) {
+    .terms-grid { grid-template-columns: 1fr; }
+  }
+
   /* ── Comparison Table (Enhanced Minimal Dark) ─────────────── */
   .cmp-container {
     margin-top: 60px;
@@ -2727,7 +2750,7 @@
         </a>
       </div>
 
-      <p class="hero-note" data-i18n="hero_note">التحميل مجاني · التفعيل بكود باقتك</p>
+      <p class="hero-note" data-i18n="hero_note">Téléchargement gratuit · un code d'activation est nécessaire pour utiliser l'application</p>
 
       <div class="hero-meta">
         <span>◆ Windows 10 / 11 (64-bit)</span>
@@ -3040,6 +3063,25 @@
         <span data-i18n="p_pay"><b>Paiement en Tunisie :</b> en espèces ou par D17. En une seule fois, sans échelonnement.</span>
       </div>
 
+      <!-- Trial and refund terms (owner decision 2026-11-21: demo first, no refund) -->
+      <div class="terms-box reveal" id="terms">
+        <h3 class="terms-title" data-i18n="terms_title">Avant d'acheter : ce qu'il faut savoir</h3>
+        <div class="how-grid terms-grid">
+          <div class="how-step">
+            <h4 data-i18n="terms1_t">Pas de période d'essai</h4>
+            <p data-i18n="terms1_d">Le téléchargement est gratuit, mais l'application s'ouvre sur l'écran d'activation : sans code, elle ne peut pas être utilisée.</p>
+          </div>
+          <div class="how-step">
+            <h4 data-i18n="terms2_t">Démo gratuite avant l'achat</h4>
+            <p data-i18n="terms2_d">Regardez la vidéo de démonstration en haut de page, ou demandez une démo en direct par WhatsApp ou par téléphone. Aucun paiement à la commande.</p>
+          </div>
+          <div class="how-step">
+            <h4 data-i18n="terms3_t">Pas de remboursement après l'activation</h4>
+            <p data-i18n="terms3_d">Une fois le code d'activation remis, la licence n'est pas remboursée. Prenez le temps de voir la démo avant de décider.</p>
+          </div>
+        </div>
+      </div>
+
       <!-- ── Comparison Matrix ───────────────────────────────── -->
       <div id="compare" class="cmp-container reveal">
         <!-- Mobile Segmented Tabs -->
@@ -3216,6 +3258,16 @@
           </button>
           <div class="faq-content">
             <p data-i18n="faq_a6">En Tunisie : en espèces ou par D17.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q7">Puis-je essayer Acadex avant de payer ?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a7">Il n'y a pas de période d'essai : sans code d'activation, l'application reste sur l'écran d'activation.</p>
           </div>
         </div>
       </div>
@@ -3550,7 +3602,7 @@
       cta_desc: "ملف تثبيت واحد لنظام ويندوز يثبت التطبيق وقاعدة البيانات في أقل من دقيقة.",
       cta_btn: "تحميل التطبيق لويندوز",
       footer_copy: "بياناتك على جهازك بأمان وثقة.",
-      hero_note: "التحميل مجاني · التفعيل بكود باقتك",
+      hero_note: "التحميل مجاني · استعمال التطبيق يتطلب كود تفعيل",
       how_badge: "ثلاث خطوات",
       how_title: "من التحميل إلى أول وصل في دقائق",
       how1_t: "حمّل وثبّت",
@@ -3602,6 +3654,15 @@
       p_pay: "<b>طرق الدفع في تونس:</b> نقداً أو عبر D17. الدفع مرة واحدة، دون تقسيط.",
       faq_q6: "كيف يتم الدفع؟",
       faq_a6: "في تونس: نقداً أو عبر D17 (تطبيق الدفع للبريد التونسي). الدفع مرة واحدة، ولا نقترح الدفع بالتقسيط. لا يُطلب منك أي مبلغ عند الطلب: نتصل بك أولاً لتأكيده.",
+      terms_title: "قبل الشراء: ما يجب أن تعرفه",
+      terms1_t: "لا توجد فترة تجريبية",
+      terms1_d: "التحميل مجاني، لكن التطبيق يفتح على شاشة التفعيل: دون كود لا يمكن استعماله.",
+      terms2_t: "عرض تجريبي مجاني قبل الشراء",
+      terms2_d: "شاهد فيديو العرض في أعلى الصفحة، أو اطلب عرضاً مباشراً عبر واتساب أو الهاتف. لا دفع عند الطلب.",
+      terms3_t: "لا استرجاع للمبلغ بعد التفعيل",
+      terms3_d: "بعد تسليم كود التفعيل لا يُسترجع ثمن الترخيص. خذ وقتك في مشاهدة العرض قبل أن تقرر.",
+      faq_q7: "هل يمكنني تجربة Acadex قبل الدفع؟",
+      faq_a7: "لا توجد فترة تجريبية: دون كود التفعيل يبقى التطبيق على شاشة التفعيل. أما العرض فمجاني: فيديو هذه الصفحة يُظهر التطبيق وهو يعمل، ونقدّمه لك مباشرة عند الطلب (واتساب أو هاتف). بعد تسليم كود التفعيل لا يُسترجع ثمن الترخيص.",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -3693,7 +3754,7 @@
       cta_desc: "Un seul fichier d'installation Windows configure l'application et la base en moins d'une minute.",
       cta_btn: "Télécharger pour Windows",
       footer_copy: "Vos données sur votre machine, en toute confiance.",
-      hero_note: "Téléchargement gratuit · activation avec le code de votre pack",
+      hero_note: "Téléchargement gratuit · un code d'activation est nécessaire pour utiliser l'application",
       how_badge: "En 3 étapes",
       how_title: "Du téléchargement au premier reçu en quelques minutes",
       how1_t: "Téléchargez et installez",
@@ -3745,6 +3806,15 @@
       p_pay: "<b>Paiement en Tunisie :</b> en espèces ou par D17. En une seule fois, sans échelonnement.",
       faq_q6: "Comment payer ?",
       faq_a6: "En Tunisie : en espèces ou par D17 (l'application de paiement de La Poste Tunisienne). Le paiement se fait en une seule fois ; le paiement en plusieurs fois n'est pas proposé. Rien n'est demandé au moment de la commande : nous vous appelons d'abord pour la confirmer.",
+      terms_title: "Avant d'acheter : ce qu'il faut savoir",
+      terms1_t: "Pas de période d'essai",
+      terms1_d: "Le téléchargement est gratuit, mais l'application s'ouvre sur l'écran d'activation : sans code, elle ne peut pas être utilisée.",
+      terms2_t: "Démo gratuite avant l'achat",
+      terms2_d: "Regardez la vidéo de démonstration en haut de page, ou demandez une démo en direct par WhatsApp ou par téléphone. Aucun paiement à la commande.",
+      terms3_t: "Pas de remboursement après l'activation",
+      terms3_d: "Une fois le code d'activation remis, la licence n'est pas remboursée. Prenez le temps de voir la démo avant de décider.",
+      faq_q7: "Puis-je essayer Acadex avant de payer ?",
+      faq_a7: "Il n'y a pas de période d'essai : sans code d'activation, l'application reste sur l'écran d'activation. La démo, elle, est gratuite : la vidéo de cette page montre l'application en fonctionnement, et nous vous la présentons en direct sur simple demande (WhatsApp ou téléphone). Après la remise du code d'activation, la licence n'est pas remboursée.",
     },
     en: {
       nav_features: "Features",
@@ -3836,7 +3906,7 @@
       cta_desc: "A single lightweight Windows installer configures the app and database in under a minute.",
       cta_btn: "Download for Windows",
       footer_copy: "Your data securely on your computer.",
-      hero_note: "Free download · activated with your pack's code",
+      hero_note: "Free download · an activation code is required to use the app",
       how_badge: "3 steps",
       how_title: "From download to your first receipt in minutes",
       how1_t: "Download & install",
@@ -3888,6 +3958,15 @@
       p_pay: "<b>Payment in Tunisia:</b> cash or D17. A single payment, no installments.",
       faq_q6: "How do I pay?",
       faq_a6: "In Tunisia: cash or D17 (the Tunisian Post payment app). Payment is made once; installments are not offered. Nothing is charged when you order: we call you first to confirm.",
+      terms_title: "Before you buy: what to know",
+      terms1_t: "No trial period",
+      terms1_d: "The download is free, but the app opens on the activation screen: without a code it cannot be used.",
+      terms2_t: "Free demo before you buy",
+      terms2_d: "Watch the demo video at the top of the page, or ask for a live demo on WhatsApp or by phone. No payment when you order.",
+      terms3_t: "No refund after activation",
+      terms3_d: "Once the activation code has been delivered, the licence is not refunded. Take the time to see the demo before you decide.",
+      faq_q7: "Can I try Acadex before paying?",
+      faq_a7: "There is no trial period: without an activation code the app stays on the activation screen. The demo is free: the video on this page shows the app running, and we present it live on request (WhatsApp or phone). Once the activation code has been delivered, the licence is not refunded.",
     }
   };
 
