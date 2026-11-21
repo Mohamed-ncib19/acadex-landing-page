@@ -239,3 +239,20 @@ test("the demo video is never fetched before the visitor asks for it", () => {
     }
   }
 });
+
+test("security headers are sent with every response", () => {
+  const all = vercel.headers.find((rule) => rule.source === "/(.*)");
+  assert.ok(all, "missing the rule for every path");
+  const header = (name) => (all.headers.find((h) => h.key === name) || {}).value;
+  assert.ok(/max-age=\d{7,}/.test(header("Strict-Transport-Security")));
+  assert.equal(header("X-Content-Type-Options"), "nosniff");
+  assert.equal(header("Referrer-Policy"), "strict-origin-when-cross-origin");
+  const csp = header("Content-Security-Policy");
+  assert.ok(csp.includes("default-src 'self'"));
+  assert.ok(/script-src 'self'(;|$)/.test(csp), "scripts come from the site only: no inline code, no third party");
+  assert.ok(csp.includes("frame-ancestors 'none'"));
+  // What the page really calls must be allowed, or it breaks silently.
+  for (const [, origin] of script.matchAll(/fetch\("(https:\/\/[^/"]+)/g)) {
+    assert.ok(csp.includes(origin), `the policy must allow ${origin}`);
+  }
+});
