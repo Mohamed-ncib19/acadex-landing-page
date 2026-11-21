@@ -2738,7 +2738,7 @@
               muted
               loop
               playsinline
-              preload="auto"
+              preload="metadata"
               poster="assets/demo-poster.webp"
               width="1920"
               height="1080"
@@ -3231,7 +3231,7 @@
         id="theater-video"
         class="theater-video"
         playsinline
-        preload="auto"
+        preload="none"
         poster="assets/demo-poster.webp"
       >
         <source src="assets/demo.mp4" type="video/mp4">
@@ -4050,20 +4050,35 @@
 
   function countryOptions() {
     let display = null;
+    let displayCurrency = null;
     try { display = new Intl.DisplayNames([currentLang], { type: "region" }); } catch {}
+    try { displayCurrency = new Intl.DisplayNames([currentLang], { type: "currency" }); } catch {}
     return Object.keys(window.ACADEX_COUNTRIES)
-      .map((code) => ({
-        code,
-        name: (display && display.of(code)) || code,
-        currency: window.ACADEX_COUNTRIES[code].currency,
-      }))
+      .map((code) => {
+        const entry = window.ACADEX_COUNTRIES[code];
+        const currency = entry.currency;
+        let currencyName = "";
+        try { currencyName = displayCurrency ? (displayCurrency.of(currency) || "") : ""; } catch {}
+        return {
+          code,
+          name: (display && display.of(code)) || code,
+          currency,
+          currencyName,
+          dial: entry.dial || "",
+        };
+      })
       .sort((a, b) => a.name.localeCompare(b.name, currentLang));
   }
 
   function renderCountryList(query = "") {
     const q = query.trim().toLowerCase();
     const items = countryOptions().filter((o) =>
-      !q || o.name.toLowerCase().includes(q) || o.code.toLowerCase().includes(q) || o.currency.toLowerCase().includes(q));
+      !q
+      || o.name.toLowerCase().includes(q)
+      || o.code.toLowerCase().includes(q)
+      || o.currency.toLowerCase().includes(q)
+      || (o.currencyName && o.currencyName.toLowerCase().includes(q))
+      || (o.dial && (o.dial.includes(q) || ("+" + o.dial).includes(q))));
     const list = document.getElementById("country-list");
     list.replaceChildren(...items.map((o) => {
       const li = document.createElement("li");
