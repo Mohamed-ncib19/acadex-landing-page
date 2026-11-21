@@ -248,6 +248,7 @@ html[dir="ltr"] .lang-btn[lang="ar"] {
 
 /* Country Switcher Chip */
 .country-chip {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -266,8 +267,30 @@ html[dir="ltr"] .lang-btn[lang="ar"] {
 .country-chip .cc-sep { color: var(--text-muted); }
 .country-chip .cc-cur { color: var(--primary-light); }
 
+/* Read by a screen reader, not drawn. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 @media (max-width: 720px) {
-  #country-chip-name { display: none; }
+  /* The code is shown in place of the name; the name is still read out. */
+  #country-chip-name {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
   #country-chip-code { display: inline; }
 }
 

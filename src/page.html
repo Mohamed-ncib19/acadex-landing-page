@@ -30,11 +30,14 @@
         <a class="lang-btn" data-lang="en" href="/en/" hreflang="en" lang="en">EN</a>
       </nav>
 
-      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog" data-country-chip="country_chip_aria">
+      <!-- Named by its content, not by an aria-label: a phone shows the code (TN), a wide
+           screen the name, and what is announced must contain what is shown. -->
+      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog" data-country-title="">
         <span id="country-chip-name" data-country-name>Tunisia</span>
         <span id="country-chip-code" hidden>TN</span>
         <span class="cc-sep">·</span>
         <span class="cc-cur" id="country-chip-currency">TND</span>
+        <span class="sr-only" data-i18n="country_chip_aria">تغيير الدولة والعملة</span>
       </button>
 
       <a class="btn-nav-dl" href="/download" data-i18n-aria="nav_download">

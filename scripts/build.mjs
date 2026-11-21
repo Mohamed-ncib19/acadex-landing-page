@@ -214,10 +214,7 @@ function renderFragment(html, lang) {
   const countryName = Localization.countryName(config.pricingCountry, lang);
   const countryCurrency = Localization.effectiveCurrency(config.pricingCountry, RATES);
   html = mapElements(html, "data-country-name", (_, open) => ({ open: dropAttr(open, "data-country-name"), inner: escapeHtml(countryName) }));
-  html = mapOpenTags(html, "data-country-chip", (key, open) => {
-    const label = `${countryName} · ${countryCurrency}`;
-    return setAttr(setAttr(dropAttr(open, "data-country-chip"), "aria-label", `${label} — ${stripTags(text(lang, key))}`), "title", label);
-  });
+  html = mapOpenTags(html, "data-country-title", (_, open) => setAttr(dropAttr(open, "data-country-title"), "title", `${countryName} · ${countryCurrency}`));
   html = mapElements(html, "data-country-hint", (key, open) => ({
     open: dropAttr(open, "data-country-hint"),
     inner: escapeHtml(fill(dictionaries[lang][key], { country: countryName, currency: countryCurrency })),

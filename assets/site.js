@@ -173,7 +173,7 @@ function renderCountryChip() {
   document.getElementById("country-chip-name").textContent = name;
   document.getElementById("country-chip-code").textContent = currentCountry;
   document.getElementById("country-chip-currency").textContent = currency;
-  chip.setAttribute("aria-label", `${name} · ${currency} — ${tr("country_chip_aria")}`);
+  // No aria-label: the button is named by its content (the name, the code shown on a phone, the currency).
   chip.title = `${name} · ${currency}`;
 }
 

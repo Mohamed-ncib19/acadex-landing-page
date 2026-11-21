@@ -407,7 +407,13 @@ test("search engine verification tags appear only once the owner has set their c
 test("the default country is written in the page, so nothing is redrawn for it at load", () => {
   for (const lang of LANGS) {
     assert.ok(page[lang].includes(`data-country="${config.pricingCountry}"`), `${lang}: <html> must name the country of its prices`);
-    assert.ok(/<button type="button" class="country-chip" id="country-chip"[^>]* aria-label="[^"]+"/.test(page[lang]), `${lang}: the country button needs its label`);
+    // The button is named by its content: a phone shows the code, a wide screen the name,
+    // and an aria-label could only match one of the two.
+    const chip = /<button type="button" class="country-chip" id="country-chip"([^>]*)>([\s\S]*?)<\/button>/.exec(page[lang]);
+    assert.ok(chip, `${lang}: the country button is missing`);
+    assert.ok(!chip[1].includes("aria-label="), `${lang}: the country button must be named by what it shows`);
+    assert.ok(/id="country-chip-name">[^<]+</.test(chip[2]) && /id="country-chip-currency">[^<]+</.test(chip[2]), `${lang}: the country and the currency must be written`);
+    assert.ok(/<span class="sr-only">[^<]+<\/span>/.test(chip[2]), `${lang}: the button must say what it does`);
     assert.ok(/id="pricing-loc-text">[^<]+</.test(page[lang]), `${lang}: the « prices shown for » line must be written`);
   }
   assert.ok(script.includes('getAttribute("data-country")'));
