@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acadex — Offline School Management Software for Windows</title>
+<meta name="description" content="Offline school management software for Windows: students, timetables, attendance, fee receipts and teacher payroll. Lifetime licence from TND 150.">
+<link rel="canonical" href="https://acadex-rust.vercel.app/en/">
+<link rel="alternate" hreflang="ar" href="https://acadex-rust.vercel.app/ar/">
+<link rel="alternate" hreflang="fr" href="https://acadex-rust.vercel.app/fr/">
+<link rel="alternate" hreflang="en" href="https://acadex-rust.vercel.app/en/">
+<link rel="alternate" hreflang="x-default" href="https://acadex-rust.vercel.app/fr/">
+<link rel="icon" type="image/png" href="/assets/logo-128.png">
+<meta name="theme-color" content="#07090E">
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="/assets/site.css?v=f8def518b0">
+<script src="/assets/countries.js?v=533fd50faa" defer></script>
+<script src="/assets/rates.js?v=99a5921453" defer></script>
+<script src="/assets/localization.js?v=c1c986a3d8" defer></script>
+<script src="/assets/order.js?v=f9da0d9342" defer></script>
+<script src="/assets/site.js?v=ca162003c0" defer></script>
+</head>
+<body>
+
+<!-- ── Navigation Bar ──────────────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-in">
+    <a href="/en/" class="brand">
+      <img src="/assets/logo-128.png" alt="Acadex" class="brand-logo" width="34" height="34">
+      <span>Acadex</span>
+    </a>
+
+    <nav class="nav-links" id="nav-links">
+      <a href="#features">Features</a>
+      <a href="#plans">Pricing</a>
+      <a href="#compare">Compare</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="nav-right">
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+
+      <!-- Language Switcher -->
+      <nav class="lang-switcher" aria-label="Language">
+        <a class="lang-btn" data-lang="ar" href="/ar/" hreflang="ar" lang="ar">عربي</a>
+        <a class="lang-btn" data-lang="fr" href="/fr/" hreflang="fr" lang="fr">FR</a>
+        <a class="lang-btn active" data-lang="en" href="/en/" hreflang="en" lang="en" aria-current="page">EN</a>
+      </nav>
+
+      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog" aria-label="Change country and currency">
+        <span id="country-chip-name">Tunisia</span>
+        <span id="country-chip-code" hidden>TN</span>
+        <span class="cc-sep">·</span>
+        <span class="cc-cur" id="country-chip-currency">TND</span>
+      </button>
+
+      <a class="btn-nav-dl" href="/download">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Download</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ── Hero Section ────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-glow-top"></div>
+    <div class="hero-in">
+      <div class="hero-tag">
+        <span class="dot-pulse"></span>
+        <span>100% Offline · Private Data on Your Machine</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="text-gradient">Complete school management.</span><br>
+        <span class="text-gold">Without Internet connection.</span>
+      </h1>
+
+      <p class="hero-lead">A fast, native Windows desktop app for students, schedules, attendance, receipts, and accounting.</p>
+
+      <div class="hero-btns">
+        <a class="btn-primary" href="/download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download for Windows</span>
+        </a>
+        <a class="btn-secondary" href="#plans">
+          <span>View Plans &amp; Pricing</span>
+        </a>
+      </div>
+
+      <p class="hero-note">Free download · an activation code is required to use the app</p>
+
+      <div class="hero-meta">
+        <span>◆ Windows 10 / 11 (64-bit)</span>
+        <span>◆ ~111 MB</span>
+        <span>◆ One-time lifetime purchase</span>
+        <span class="version-badge" data-version>◆ Acadex 2.0</span>
+      </div>
+
+      <!-- App Mockup -->
+      <div class="hero-mockup-wrap">
+        <div class="mockup-ambient-light"></div>
+        <div class="mockup-frame">
+          <div class="mockup-bar">
+            <div class="mockup-dots">
+              <span class="mockup-dot" style="background:#EF4444;"></span>
+              <span class="mockup-dot" style="background:#F59E0B;"></span>
+              <span class="mockup-dot" style="background:#10B981;"></span>
+            </div>
+            <div class="mockup-title" data-version>Acadex 2.0 — School management for Windows</div>
+            <div class="mockup-actions">
+              <span class="mockup-live-badge">
+                <span class="mockup-live-dot"></span>
+                <span>Live Demo</span>
+              </span>
+              <button type="button" class="mockup-ctrl-btn" id="mockup-play-toggle" aria-label="Play / Pause" title="Play / Pause">
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="display:none;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              </button>
+              <button type="button" class="mockup-ctrl-btn" id="mockup-fullscreen" aria-label="Full screen" title="Full screen">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="mockup-video-wrap" id="mockup-video-wrap">
+            <video
+              id="hero-demo-video"
+              class="mockup-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster="/assets/demo-poster.webp"
+              width="1920"
+              height="1080"
+            >
+              <source src="/assets/demo.mp4" type="video/mp4">
+              <img src="/assets/demo-poster.webp" class="mockup-img" width="1920" height="1080" alt="Screenshot of the Acadex dashboard">
+            </video>
+            <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Minimal Trust Strip ─────────────────────────────────── -->
+  <div class="trust-strip">
+    <div class="trust-grid">
+      <div>
+        <div class="trust-metric-num">100%</div>
+        <div class="trust-metric-label">Works without Internet</div>
+      </div>
+      <div>
+        <div class="trust-metric-num">0 DT</div>
+        <div class="trust-metric-label">No monthly subscription</div>
+      </div>
+      <div>
+        <div class="trust-metric-num">⚡ 1 Clic</div>
+        <div class="trust-metric-label">Direct 1-click printing</div>
+      </div>
+      <div>
+        <div class="trust-metric-num">🔒 Local</div>
+        <div class="trust-metric-label">100% private on-premise data</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Who it is for: private schools / course and training centres ── -->
+  <section id="pour-qui" class="seg-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge">Who is it for?</span>
+        <h2 class="sec-title">Built for your kind of institution</h2>
+      </div>
+
+      <div class="seg-grid">
+        <article class="seg-card reveal" id="ecoles-privees">
+          <h3>For private schools</h3>
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Tuition fees and receipts:</b> every payment produces a printable receipt, and you see who still has to pay.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Timetables without clashes:</b> the app warns when a teacher or a room is already taken.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Attendance at every session:</b> roll call in class, and attendance sheets you can print.</span></li>
+          </ul>
+          <button type="button" class="btn-order is-gold-cta" data-order-pack="complet">
+            <span>Order for my school</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </article>
+
+        <article class="seg-card reveal" id="centres">
+          <h3>For tutoring and training centres</h3>
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Teacher pay by percentage:</b> each teacher's share is worked out from the payments collected for their groups.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Groups, payments and receipts:</b> students are organised by group, and every payment collected produces a receipt.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span><b>Sessions and rooms:</b> a weekly plan of sessions, room by room, and an attendance sheet per group.</span></li>
+          </ul>
+          <button type="button" class="btn-order" data-order-pack="plus">
+            <span>Order for my centre</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features Bento Grid ─────────────────────────────────── -->
+  <section id="features" class="features-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge">Core Highlights</span>
+        <h2 class="sec-title">Everything you need to run your school</h2>
+        <p class="sec-desc">Practical tools built to eliminate paper chaos and manual spreadsheet errors.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- 1 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <span class="bento-badge ess">Essentiel</span>
+          </div>
+          <h3>Attendance Tracking</h3>
+          <p>Instant roll call for each group and ready-to-print official attendance sheets.</p>
+        </div>
+
+        <!-- 2 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span class="bento-badge ess">Essentiel</span>
+          </div>
+          <h3>Schedules &amp; Rooms</h3>
+          <p>Smart class scheduling with automated room and teacher conflict prevention.</p>
+        </div>
+
+        <!-- 3 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <span class="bento-badge ess">Essentiel</span>
+          </div>
+          <h3>Receipts &amp; Cash Flow</h3>
+          <p>Student fee receipts, payroll cycles, teacher wages, and accurate cash balance.</p>
+        </div>
+
+        <!-- 4 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+            </div>
+            <span class="bento-badge plus">Plus</span>
+          </div>
+          <h3>Excel Import</h3>
+          <p>Batch import students and teachers in seconds using pre-formatted Excel templates.</p>
+        </div>
+
+        <!-- 5 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            </div>
+            <span class="bento-badge plus">Plus</span>
+          </div>
+          <h3>Cloud Backup</h3>
+          <p>Automated encrypted cloud backups to restore your data seamlessly when changing computers.</p>
+        </div>
+
+        <!-- 6 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <span class="bento-badge comp">Complet</span>
+          </div>
+          <h3>Reports &amp; Audit Log</h3>
+          <p>Detailed income analysis by grade/teacher and complete audit trail with Excel export.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Is my data safe? ────────────────────────────────────── -->
+  <section id="donnees" class="data-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge">Your data</span>
+        <h2 class="sec-title">Is my data safe?</h2>
+        <p class="sec-desc">Everything stays on your computer, with backups for the day it breaks down.</p>
+      </div>
+
+      <div class="how-grid data-grid">
+        <div class="how-step reveal">
+          <h3>Stored on your PC</h3>
+          <p>The school's data is saved on your computer's disk. Nothing leaves the machine, except the cloud backup when your pack includes it.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3>Local backup in every pack</h3>
+          <p>A daily automatic backup set in the settings (the last 7 are kept), manual backups whenever you want, and a one-click restore.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3>Cloud backup with Plus and Complet</h3>
+          <p>An encrypted copy is sent to the cloud automatically, so you can restore your data on another computer.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3>If the PC breaks down</h3>
+          <p>With Plus or Complet, you restore the cloud backup on the new PC. With Essentiel, the backups sit on the same computer: save a copy to a USB key or an external drive regularly. The licence is tied to one PC, so contact us to activate it on the new machine.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it works ────────────────────────────────────────── -->
+  <section id="how" class="how-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge">3 steps</span>
+        <h2 class="sec-title">From download to your first receipt in minutes</h2>
+      </div>
+
+      <div class="how-grid">
+        <div class="how-step reveal">
+          <div class="how-num">1</div>
+          <h3>Download &amp; install</h3>
+          <p>One file for Windows. Installed in under a minute, with nothing to configure.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-num">2</div>
+          <h3>Pick your pack and order</h3>
+          <p>Right on this page: a short form, no payment up front. We call you to confirm.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-num">3</div>
+          <h3>Activate and start</h3>
+          <p>You receive the activation code, enter it in the app, and your whole pack unlocks at once.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing Plans ───────────────────────────────────────── -->
+  <section id="plans" class="pricing-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge">Pricing Plans</span>
+        <h2 class="sec-title">Select Your Plan — Lifetime License</h2>
+        <p class="sec-desc">Pay once and use it for good: no subscription, no recurring fees.</p>
+      </div>
+      <div class="pricing-loc-hint" id="pricing-loc-hint" hidden>
+        <span class="pricing-loc-dot" aria-hidden="true"></span>
+        <span id="pricing-loc-text"></span>
+        <button type="button" class="pricing-loc-change" id="pricing-loc-change">Change</button>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Essentiel -->
+        <div class="pricing-card reveal">
+          <div class="p-head">
+            <h3>Essentiel</h3>
+            <span class="bento-badge ess">Basic</span>
+          </div>
+          <p class="p-tagline">All the essentials to operate your school smoothly day to day.</p>
+
+          <div class="p-price-row">
+            <span class="p-amount" data-price="essentiel">150</span>
+            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-badge-once">One-time payment</span>
+          </div>
+
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Students, teachers, classes, and grades</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Weekly schedules with direct printing</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Attendance roll call and printed registers</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Tuition payment receipts and teacher payroll</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Local backup and 1-click restore</span></li>
+          </ul>
+
+          <button type="button" class="btn-order" data-order-pack="essentiel">
+            <span>Order Essentiel Pack</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Plus -->
+        <div class="pricing-card is-plus is-popular reveal">
+          <div class="pricing-ribbon">Most popular ⭐</div>
+          <div class="p-head">
+            <h3>Plus</h3>
+            <span class="bento-badge plus">Professional</span>
+          </div>
+          <p class="p-tagline">Everything in Essentiel + Excel Import and Automated Cloud Backup.</p>
+
+          <div class="p-price-row">
+            <del class="p-old-amount" data-old-price="plus">450</del>
+            <span class="p-amount" data-price="plus">249</span>
+            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-badge-once">One-time payment</span>
+          </div>
+
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><b>All Essentiel features included</b></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Batch import students from Excel in seconds</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Encrypted automatic cloud backup</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Instant recovery when switching computers</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Priority installation support</span></li>
+          </ul>
+
+          <button type="button" class="btn-order" data-order-pack="plus">
+            <span>Order Plus Pack</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Complet -->
+        <div class="pricing-card is-featured reveal">
+          <div class="pricing-ribbon gold">Recommended · most complete 👑</div>
+          <div class="p-head">
+            <h3>Complet</h3>
+            <span class="bento-badge comp">Complete</span>
+          </div>
+          <p class="p-tagline">Everything in Plus + In-depth financial analytics and audit trail.</p>
+
+          <div class="p-price-row">
+            <del class="p-old-amount" data-old-price="complet">600</del>
+            <span class="p-amount" data-price="complet">299</span>
+            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-badge-once">One-time payment</span>
+          </div>
+
+          <p class="p-value" data-i18n="p3_value" data-price-template="diff">Only TND 50 more than Plus to unlock reports, audit and Excel export.</p>
+
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><b>All Plus features with full cloud sync</b></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>In-depth revenue analysis by grade &amp; teacher</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Export financial reports &amp; attendance to Excel</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Complete security audit log (who did what, when)</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span>Whiteboard for reminders &amp; tutoring sessions</span></li>
+          </ul>
+
+          <button type="button" class="btn-order is-gold-cta" data-order-pack="complet">
+            <span>Order Complet Pack</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+          <p class="p-note">No payment when ordering — we call you to confirm</p>
+        </div>
+      </div>
+
+      <!-- Compact Guarantee Notice -->
+      <div class="pricing-guarantee reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span><b>Lifetime licence for one PC:</b> one-time payment. You can move to a higher pack later without losing your data.</span>
+      </div>
+
+      <!-- Accepted payment methods (owner decision 2026-11-21: cash and D17, no installments) -->
+      <div class="pricing-guarantee pricing-pay reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span><b>Payment in Tunisia:</b> cash or D17. A single payment, no installments.</span>
+      </div>
+
+      <!-- Trial and refund terms (owner decision 2026-11-21: demo first, no refund) -->
+      <div class="terms-box reveal" id="terms">
+        <h3 class="terms-title">Before you buy: what to know</h3>
+        <div class="how-grid terms-grid">
+          <div class="how-step">
+            <h4>No trial period</h4>
+            <p>The download is free, but the app opens on the activation screen: without a code it cannot be used.</p>
+          </div>
+          <div class="how-step">
+            <h4>Free demo before you buy</h4>
+            <p>Watch the demo video at the top of the page, or ask for a live demo on WhatsApp or by phone. No payment when you order.</p>
+          </div>
+          <div class="how-step">
+            <h4>No refund after activation</h4>
+            <p>Once the activation code has been delivered, the licence is not refunded. Take the time to see the demo before you decide.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Comparison Matrix ───────────────────────────────── -->
+      <div id="compare" class="cmp-container reveal">
+        <!-- Mobile Segmented Tabs -->
+        <div class="cmp-tabs-wrap" role="group" aria-label="Choose a pack">
+          <button type="button" class="cmp-tab-btn active" data-cmp-tab="all">
+            <span>Compare all ⇋</span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="essentiel">
+            <span>Essentiel</span>
+            <span class="cmp-tab-price"><span data-price-full="essentiel">TND 150</span></span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="plus">
+            <span>Plus</span>
+            <span class="cmp-tab-price"><span data-price-full="plus">TND 249</span> ⭐</span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="complet">
+            <span>Complet</span>
+            <span class="cmp-tab-price"><span data-price-full="complet">TND 299</span> 👑</span>
+          </button>
+        </div>
+
+        <div class="cmp-scroll-hint" id="cmp-scroll-hint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><path d="M18 8L22 12L18 16"/><path d="M6 8L2 12L6 16"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          <span>Swipe horizontally to compare all plans</span>
+        </div>
+
+        <div class="cmp-box" id="cmp-box" data-pack-view="all">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              <th scope="col">Essentiel <span class="cmp-price">(<span data-price-full="essentiel">TND 150</span>)</span></th>
+              <th scope="col" class="cmp-plus-col">Plus <span class="cmp-price"><del class="cmp-old" data-old-price-full="plus">TND 450</del> (<span data-price-full="plus">TND 249</span>) ⭐</span></th>
+              <th scope="col" class="cmp-pop-col">Complet <span class="cmp-price"><del class="cmp-old" data-old-price-full="complet">TND 600</del> (<span data-price-full="complet">TND 299</span>) 👑</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Students, teachers, classes, and sections</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Weekly timetable and direct print</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Attendance and absence tracking</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Daily receipts and cash registers</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Excel student batch import</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Encrypted cloud backup</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Advanced financial reports &amp; breakdown</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Complete security audit log</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Excel export of reports &amp; attendance</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row">Whiteboard</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr class="cmp-cta-row">
+              <th scope="row">Order</th>
+              <td><button type="button" class="cmp-order" data-order-pack="essentiel">Essentiel</button></td>
+              <td><button type="button" class="cmp-order blue" data-order-pack="plus">Plus</button></td>
+              <td class="cmp-pop-col"><button type="button" class="cmp-order gold" data-order-pack="complet">Complet</button></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ Section (Minimal Accordion) ─────────────────────── -->
+  <section id="faq" class="faq-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge">Quick Answers</span>
+        <h2 class="sec-title">Frequently Asked Questions</h2>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span>Is an active Internet connection required?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p>No. Acadex operates 100% offline. Network access is only required for optional cloud backup and updates.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span>Where is our school data stored?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p>Directly on your local computer hard drive in complete privacy, never exposed to shared third-party servers.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span>Is this a monthly subscription?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a3" data-price-template="all">No. It is a one-time purchase (TND 150 / TND 249 / TND 299) with no subscription.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span>Can I upgrade my plan later?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p>Yes. Simply enter a new activation code: features unlock immediately with all your data untouched.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span>How do I order and get my activation code?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p>Click “Order” under the pack you want and fill in the short form on this page. We call you to confirm the order and the payment method, then send you the activation code to enter in the app.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span>How do I pay?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p>In Tunisia: cash or D17 (the Tunisian Post payment app). Payment is made once; installments are not offered. Nothing is charged when you order: we call you first to confirm.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span>Can I try Acadex before paying?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p>There is no trial period: without an activation code the app stays on the activation screen. The demo is free: the video on this page shows the app running, and we present it live on request (WhatsApp or phone). Once the activation code has been delivered, the licence is not refunded.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bottom CTA ──────────────────────────────────────────── -->
+  <div class="dl-strip">
+    <div class="dl-strip-in reveal">
+      <h2>Ready to Upgrade Your School?</h2>
+      <p>A single lightweight Windows installer configures the app and database in under a minute.</p>
+      
+      <div class="hero-btns">
+        <a class="btn-primary" href="/download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download for Windows</span>
+        </a>
+        <button type="button" class="btn-secondary" data-order-pack="complet">
+          <span>Order my pack</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Who is behind Acadex ────────────────────────────────── -->
+  <section id="a-propos" class="about-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge">Who we are</span>
+        <h2 class="sec-title">Software made in Tunisia, one person to talk to</h2>
+      </div>
+      <!-- TODO_OWNER: confirm the name to show here and add the legal identity (company name, matricule fiscal, address). -->
+      <p class="about-text reveal">Acadex is designed and developed in Sousse, Tunisia, by Mohamed Ncib. When you call or write, you talk directly to the person who builds the software.</p>
+
+      <div class="how-grid about-grid">
+        <div class="how-step reveal">
+          <h3>Based in Sousse</h3>
+          <p>Design, development and support from Sousse, Tunisia.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3>Direct contact</h3>
+          <p>WhatsApp, phone or e-mail: the contact details are just below.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3>Updates from inside the app</h3>
+          <p>New versions are downloaded inside the app and installed with your approval.</p>
+        </div>
+      </div>
+
+      <!--
+        TODO_OWNER: testimonials and pilot schools.
+        Nothing here may be invented. Fill each card with a real quote, the
+        person's name and role, the school and its city — with the school's
+        written permission — then remove the "hidden" attribute.
+      -->
+      <div class="testimonials" id="temoignages" hidden>
+        <h3 class="terms-title">They use Acadex</h3>
+        <div class="how-grid">
+          <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
+          <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
+          <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact Section ─────────────────────────────────────── -->
+  <section id="contact" class="contact-sec">
+    <div class="wrap">
+      <div class="contact-chips reveal">
+        <a class="contact-chip wa" href="https://wa.me/21655518492?text=Hello%2C%20I%20would%20like%20a%20demo%20of%20Acadex%20for%20my%20school%2Fcentre." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+          <span>WhatsApp : +216 55 518 492</span>
+        </a>
+        <a class="contact-chip" href="mailto:mohamedncib900@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          <span>mohamedncib900@gmail.com</span>
+        </a>
+        <a class="contact-chip" href="tel:+21655518492">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+216 55 518 492</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ── Cinematic Theater Fullscreen Modal ────────────────────── -->
+<div class="theater-overlay" id="theater-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Acadex demo video">
+  <div class="theater-backdrop" id="theater-backdrop"></div>
+  <div class="theater-window" id="theater-window">
+    <div class="theater-bar">
+      <div class="mockup-dots">
+        <button type="button" class="mockup-dot red-btn" id="theater-close-dot" aria-label="Close" title="Close"></button>
+        <span class="mockup-dot" style="background:#F59E0B;"></span>
+        <span class="mockup-dot" style="background:#10B981;"></span>
+      </div>
+      <div class="theater-title" data-version>Acadex 2.0 — School management for Windows</div>
+      <div class="theater-actions">
+        <button type="button" class="theater-icon-btn close" id="theater-close-btn" aria-label="Close" title="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="14" height="14"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="theater-stage" id="theater-stage">
+      <video
+        id="theater-video"
+        class="theater-video"
+        playsinline
+        preload="none"
+        poster="/assets/demo-poster.webp"
+      >
+        <source src="/assets/demo.mp4" type="video/mp4">
+      </video>
+      <div class="theater-center-play" id="theater-center-play" role="button" tabindex="0" aria-label="Play / Pause">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><polygon points="7 4 20 12 7 20 7 4"/></svg>
+      </div>
+      <div class="theater-controls" id="theater-controls">
+        <div class="theater-progress-wrap" id="theater-progress-wrap" role="slider" tabindex="0" aria-label="Progress bar">
+          <div class="theater-progress-bar" id="theater-progress-bar" style="width: 0%;">
+            <span class="theater-progress-thumb"></span>
+          </div>
+        </div>
+        <div class="theater-ctrls-row">
+          <div class="theater-ctrls-left">
+            <button type="button" class="theater-ctrl-btn" id="theater-play-toggle" aria-label="Play / Pause">
+              <svg class="th-pause" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+              <svg class="th-play" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="display:none;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            </button>
+            <button type="button" class="theater-ctrl-btn" id="theater-mute-toggle" aria-label="Sound">
+              <svg class="th-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <svg class="th-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+            <span class="theater-time" id="theater-time">0:00 / 0:00</span>
+          </div>
+          <div class="theater-ctrls-right">
+            <button type="button" class="theater-ctrl-btn" id="theater-native-fs" aria-label="Full screen" title="Full screen">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-in">
+    <div><b data-version>Acadex 2.0</b> — © 2026. <span>Your data securely on your computer.</span></div>
+    <div>Windows 10 & 11 · 64-bit</div>
+  </div>
+</footer>
+
+<!-- ── Sticky mobile call-to-action ───────────────────────── -->
+<div class="mobile-cta" id="mobile-cta">
+  <a class="m-wa" href="https://wa.me/21655518492?text=Hello%2C%20I%20would%20like%20a%20demo%20of%20Acadex%20for%20my%20school%2Fcentre." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+    <span>Demo on WhatsApp</span>
+  </a>
+  <button type="button" class="m-order" data-order-pack="complet">
+    <span data-i18n="m_order" data-price-template="complet">Order · TND 299</span>
+  </button>
+</div>
+
+<!-- ── Country picker dialog ────────────────────────────────── -->
+<dialog class="country-dialog" id="country-dialog" aria-labelledby="country-dialog-title">
+  <div class="cd-head">
+    <h2 id="country-dialog-title">Country and currency</h2>
+    <button type="button" class="od-close" data-country-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+  </div>
+  <input class="cd-search" id="country-search" type="search" autocomplete="off"
+         placeholder="Search for a country">
+  <ul class="cd-list" id="country-list" role="listbox"></ul>
+  <p class="cd-empty" id="country-empty" hidden>No country found</p>
+</dialog>
+
+<!-- ── Order dialog ────────────────────────────────────────── -->
+<dialog class="order-dialog" id="order-dialog" aria-labelledby="od-title">
+  <div class="od-head">
+    <div>
+      <h2 id="od-title">طلب باقة</h2>
+      <p class="od-terms" id="od-terms"></p>
+    </div>
+    <button type="button" class="od-close" data-od-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+  </div>
+
+  <div class="od-body">
+    <!-- 1 · the form -->
+    <div class="od-step active" data-step="form">
+      <form id="order-form" novalidate>
+        <div class="od-field">
+          <label class="od-label">Pricing Plans</label>
+          <div class="od-packs-selector" id="od-packs-selector">
+            <button type="button" class="od-pack-btn" data-pack="essentiel">
+              <span class="pk-title">Essentiel</span>
+              <span class="pk-price"><span data-price="essentiel">150</span> <span data-currency>DT</span></span>
+            </button>
+            <button type="button" class="od-pack-btn" data-pack="plus">
+              <span class="pk-title">Plus</span>
+              <span class="pk-price"><span data-price="plus">249</span> <span data-currency>DT</span></span>
+            </button>
+            <button type="button" class="od-pack-btn selected" data-pack="complet">
+              <span class="pk-title">Complet</span>
+              <span class="pk-price"><span data-price="complet">299</span> <span data-currency>DT</span></span>
+            </button>
+          </div>
+          <input type="hidden" name="pack" value="complet">
+        </div>
+
+        <div class="od-field">
+          <label class="od-label" for="od-name">Full name</label>
+          <input class="od-input" id="od-name" name="contact_name" type="text" autocomplete="name" maxlength="80" required>
+        </div>
+        <div class="od-field">
+          <label class="od-label" for="od-phone">Phone</label>
+          <div class="od-phone-row">
+            <span class="od-dial" id="od-dial">+216</span>
+            <input class="od-input od-ltr" id="od-phone" name="phone" type="tel"
+                   inputmode="tel" autocomplete="tel" maxlength="18"
+                   placeholder="Your phone number" required>
+          </div>
+        </div>
+
+        <!-- Not for people: a field only bots fill. -->
+        <div class="od-hp" aria-hidden="true">
+          <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <!-- Stays in view while the form scrolls: the way out is never below the fold. -->
+        <div class="od-send">
+          <p class="od-error" id="od-error" role="alert"></p>
+          <button type="submit" class="od-submit" id="od-submit">
+            <span class="od-spinner" aria-hidden="true"></span>
+            <span id="od-submit-label">Send order</span>
+          </button>
+        </div>
+        <p class="od-foot">No payment now. We call you to confirm your order.</p>
+      </form>
+    </div>
+
+    <!-- 2 · received -->
+    <div class="od-step od-done" data-step="done">
+      <div class="od-done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3>Order received</h3>
+      <p>Keep this reference:</p>
+      <div class="od-ref">
+        <code id="od-ref">ACX-O-······</code>
+        <button type="button" class="od-copy" id="od-copy">Copy</button>
+      </div>
+      <ol class="od-next">
+        <li><span class="n">1</span><span>Download and install the app now — one minute.</span></li>
+        <li><span class="n">2</span><span id="od-next2"></span></li>
+        <li><span class="n">3</span><span id="od-next3"></span></li>
+      </ol>
+      <div class="od-actions">
+        <a class="btn-primary" href="/download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span>Download the app</span>
+        </a>
+        <button type="button" class="btn-secondary" data-od-close>Close</button>
+      </div>
+    </div>
+
+    <!-- 3 · the online registration failed -->
+    <div class="od-step od-done" data-step="fallback">
+      <div class="od-done-icon warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <h3>We couldn't register the order</h3>
+      <p>Something went wrong while saving your order. Please try again.</p>
+      <div class="od-actions">
+        <button type="button" class="btn-primary" id="od-fb-retry">Try again</button>
+        <button type="button" class="btn-secondary" data-od-close>Close</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script type="application/json" id="acadex-i18n">{"country_chip_aria":"Change country and currency","faq_a3":"No. It is a one-time purchase ({p1} / {p2} / {p3}) with no subscription.","m_order":"Order · {price}","od_copied":"Copied ✓","od_copy":"Copy","od_err_country":"Could not determine the country or currency. Please choose the country again.","od_err_name":"Enter your name.","od_err_phone":"This phone number is not valid for the selected country.","od_err_rate":"Too many orders from this connection. Try again later or contact us directly.","od_next2":"We call you on {phone} to confirm the order.","od_next3":"You receive the activation code; enter it in the app and the {pack} pack unlocks at once.","od_sending":"Sending…","od_submit":"Send order","od_terms":"one-time payment · lifetime licence","od_title":"Order the {pack} pack","p3_value":"Only {diff} more than Plus to unlock reports, audit and Excel export.","pricing_loc_hint":"Prices shown for {country} ({currency})"}</script>
+</body>
+</html>

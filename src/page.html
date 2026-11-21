@@ -1,0 +1,934 @@
+<!-- ── Navigation Bar ──────────────────────────────────────── -->
+<header class="topbar">
+  <div class="topbar-in">
+    <a href="{{HOME}}" class="brand">
+      <img src="/assets/logo-128.png" alt="Acadex" class="brand-logo" width="34" height="34">
+      <span>Acadex</span>
+    </a>
+
+    <nav class="nav-links" id="nav-links">
+      <a href="#features" data-i18n="nav_features">الميزات</a>
+      <a href="#plans" data-i18n="nav_plans">الباقات</a>
+      <a href="#compare" data-i18n="nav_compare">المقارنة</a>
+      <a href="#faq" data-i18n="nav_faq">الأسئلة</a>
+      <a href="#contact" data-i18n="nav_contact">تواصل</a>
+    </nav>
+
+    <div class="nav-right">
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-controls="nav-links" aria-expanded="false" data-i18n-aria="aria_menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+      </button>
+
+      <!-- Language Switcher -->
+      <nav class="lang-switcher" data-i18n-aria="aria_lang">
+        <a class="lang-btn" data-lang="ar" href="/ar/" hreflang="ar" lang="ar">عربي</a>
+        <a class="lang-btn" data-lang="fr" href="/fr/" hreflang="fr" lang="fr">FR</a>
+        <a class="lang-btn" data-lang="en" href="/en/" hreflang="en" lang="en">EN</a>
+      </nav>
+
+      <button type="button" class="country-chip" id="country-chip" aria-haspopup="dialog" data-i18n-aria="country_chip_aria">
+        <span id="country-chip-name">Tunisia</span>
+        <span id="country-chip-code" hidden>TN</span>
+        <span class="cc-sep">·</span>
+        <span class="cc-cur" id="country-chip-currency">TND</span>
+      </button>
+
+      <a class="btn-nav-dl" href="/download">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span data-i18n="nav_download">تحميل</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- ── Hero Section ────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="hero-glow-top"></div>
+    <div class="hero-in">
+      <div class="hero-tag">
+        <span class="dot-pulse"></span>
+        <span data-i18n="hero_pill">يعمل 100% دون إنترنت · بياناتك على جهازك</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="text-gradient" data-i18n="hero_h1_part1">إدارة متكاملة لمدرستك.</span><br>
+        <span class="text-gold" data-i18n="hero_h1_part2">بدون اتصال بالإنترنت.</span>
+      </h1>
+
+      <p class="hero-lead" data-i18n="hero_lead">
+        تطبيق ويندوز قوي وسريع يجمع الطلبة، الجداول، تسجيل الحضور، الوصولات والتقارير المالية في نظام واحد متين.
+      </p>
+
+      <div class="hero-btns">
+        <a class="btn-primary" href="/download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="hero_btn_dl">تحميل نسخة ويندوز</span>
+        </a>
+        <a class="btn-secondary" href="#plans">
+          <span data-i18n="hero_btn_plans">عرض الباقات والأسعار</span>
+        </a>
+      </div>
+
+      <p class="hero-note" data-i18n="hero_note">Téléchargement gratuit · un code d'activation est nécessaire pour utiliser l'application</p>
+
+      <div class="hero-meta">
+        <span>◆ Windows 10 / 11 (64-bit)</span>
+        <span>◆ ~111 MB</span>
+        <span data-i18n="hero_meta_pay">◆ شراء دائم دفعة واحدة</span>
+        <span class="version-badge" data-version>◆ Acadex 2.0</span>
+      </div>
+
+      <!-- App Mockup -->
+      <div class="hero-mockup-wrap">
+        <div class="mockup-ambient-light"></div>
+        <div class="mockup-frame">
+          <div class="mockup-bar">
+            <div class="mockup-dots">
+              <span class="mockup-dot" style="background:#EF4444;"></span>
+              <span class="mockup-dot" style="background:#F59E0B;"></span>
+              <span class="mockup-dot" style="background:#10B981;"></span>
+            </div>
+            <div class="mockup-title" data-version data-i18n="demo_window_title">Acadex 2.0 — Desktop School Management</div>
+            <div class="mockup-actions">
+              <span class="mockup-live-badge">
+                <span class="mockup-live-dot"></span>
+                <span data-i18n="demo_live">عرض حي</span>
+              </span>
+              <button type="button" class="mockup-ctrl-btn" id="mockup-play-toggle" data-i18n-aria="aria_play" data-i18n-title="aria_play">
+                <svg class="icon-pause" viewBox="0 0 24 24" fill="currentColor" width="13" height="13"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+                <svg class="icon-play" viewBox="0 0 24 24" fill="currentColor" width="13" height="13" style="display:none;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+              </button>
+              <button type="button" class="mockup-ctrl-btn" id="mockup-fullscreen" data-i18n-aria="aria_fullscreen" data-i18n-title="aria_fullscreen">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="13" height="13"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="mockup-video-wrap" id="mockup-video-wrap">
+            <video
+              id="hero-demo-video"
+              class="mockup-video"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              poster="/assets/demo-poster.webp"
+              width="1920"
+              height="1080"
+            >
+              <source src="/assets/demo.mp4" type="video/mp4">
+              <img src="/assets/demo-poster.webp" data-i18n-alt="alt_demo" class="mockup-img" width="1920" height="1080">
+            </video>
+            <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true" style="display:none;">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Minimal Trust Strip ─────────────────────────────────── -->
+  <div class="trust-strip">
+    <div class="trust-grid">
+      <div>
+        <div class="trust-metric-num">100%</div>
+        <div class="trust-metric-label" data-i18n="trust_offline">يعمل دون اتصال بالإنترنت</div>
+      </div>
+      <div>
+        <div class="trust-metric-num">0 DT</div>
+        <div class="trust-metric-label" data-i18n="trust_monthly">بدون أي اشتراك شهري</div>
+      </div>
+      <div>
+        <div class="trust-metric-num">⚡ 1 Clic</div>
+        <div class="trust-metric-label" data-i18n="trust_print">طباعة فورية للوصولات والكشوفات</div>
+      </div>
+      <div>
+        <div class="trust-metric-num">🔒 Local</div>
+        <div class="trust-metric-label" data-i18n="trust_privacy">خصوصية تامة لبيانات مدرستك</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Who it is for: private schools / course and training centres ── -->
+  <section id="pour-qui" class="seg-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="seg_badge">Pour qui ?</span>
+        <h2 class="sec-title" data-i18n="seg_title">Fait pour votre type d'établissement</h2>
+      </div>
+
+      <div class="seg-grid">
+        <article class="seg-card reveal" id="ecoles-privees">
+          <h3 data-i18n="seg_school_t">Pour les écoles privées</h3>
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_school_1"><b>Frais de scolarité et reçus :</b> chaque paiement donne un reçu imprimable, et vous voyez qui reste à payer.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_school_2"><b>Emplois du temps sans conflit :</b> l'application signale un professeur ou une salle déjà pris.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_school_3"><b>Présences à chaque séance :</b> l'appel se fait en classe et les feuilles de présence s'impriment.</span></li>
+          </ul>
+          <button type="button" class="btn-order is-gold-cta" data-order-pack="complet">
+            <span data-i18n="seg_school_cta">Commander pour mon école</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </article>
+
+        <article class="seg-card reveal" id="centres">
+          <h3 data-i18n="seg_center_t">Pour les centres de soutien et de formation</h3>
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_center_1"><b>Paie des professeurs au pourcentage :</b> la part de chaque professeur se calcule à partir des paiements encaissés de ses groupes.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_center_2"><b>Groupes, paiements et reçus :</b> les élèves sont rangés par groupe, et chaque paiement encaissé donne un reçu.</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="seg_center_3"><b>Séances et salles :</b> planning hebdomadaire des séances, salle par salle, et feuille de présence par groupe.</span></li>
+          </ul>
+          <button type="button" class="btn-order" data-order-pack="plus">
+            <span data-i18n="seg_center_cta">Commander pour mon centre</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features Bento Grid ─────────────────────────────────── -->
+  <section id="features" class="features-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="f_badge">الميزات الأساسية</span>
+        <h2 class="sec-title" data-i18n="f_title">كل ما تحتاجه لإدارة مدرستك</h2>
+        <p class="sec-desc" data-i18n="f_desc">أدوات عملية تختصر وقتك وتغنيك عن السجلات الورقية والحسابات اليدوية.</p>
+      </div>
+
+      <div class="bento-grid">
+        <!-- 1 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <span class="bento-badge ess">Essentiel</span>
+          </div>
+          <h3 data-i18n="f1_title">الغياب والحضور</h3>
+          <p data-i18n="f1_desc">تسجيل فوري لغياب الطلبة في كل حصة مع طباعة كشوفات حضور رسمية للأقسام.</p>
+        </div>
+
+        <!-- 2 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span class="bento-badge ess">Essentiel</span>
+          </div>
+          <h3 data-i18n="f2_title">جدول الحصص والقاعات</h3>
+          <p data-i18n="f2_desc">جدولة الحصص الأسبوعية مع كشف وتنبيه آلي لمنع تضارب أوقات الأساتذة والقاعات.</p>
+        </div>
+
+        <!-- 3 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <span class="bento-badge ess">Essentiel</span>
+          </div>
+          <h3 data-i18n="f3_title">الوصولات والمالية</h3>
+          <p data-i18n="f3_desc">إصدار وصولات خلاص التلاميذ، متابعة الصندوق واحتساب أجور ونسب الأساتذة بدقة.</p>
+        </div>
+
+        <!-- 4 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>
+            </div>
+            <span class="bento-badge plus">Plus</span>
+          </div>
+          <h3 data-i18n="f4_title">استيراد من Excel</h3>
+          <p data-i18n="f4_desc">استيراد قوائم الطلبة والأساتذة بضغطة زر واحدة عبر قوالب معتمدة دون كتابة يدوية.</p>
+        </div>
+
+        <!-- 5 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+            </div>
+            <span class="bento-badge plus">Plus</span>
+          </div>
+          <h3 data-i18n="f5_title">نسخ سحابي آلي</h3>
+          <p data-i18n="f5_desc">نسخ احتياطي مشفر نحو السحابة لاسترجاع كامل بياناتك بضغطة زر عند تغيير الجهاز.</p>
+        </div>
+
+        <!-- 6 -->
+        <div class="bento-card reveal">
+          <div class="bento-top">
+            <div class="bento-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            </div>
+            <span class="bento-badge comp">Complet</span>
+          </div>
+          <h3 data-i18n="f6_title">تقارير وتدقيق مالي</h3>
+          <p data-i18n="f6_desc">تحليل المداخيل حسب المستويات والأقسام، وسجل تدقيق تفصيلي لكل حركة مع تصدير Excel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Is my data safe? ────────────────────────────────────── -->
+  <section id="donnees" class="data-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="data_badge">Vos données</span>
+        <h2 class="sec-title" data-i18n="data_title">Vos données sont-elles en sécurité ?</h2>
+        <p class="sec-desc" data-i18n="data_desc">Tout reste sur votre ordinateur, avec des sauvegardes pour le jour où il tombe en panne.</p>
+      </div>
+
+      <div class="how-grid data-grid">
+        <div class="how-step reveal">
+          <h3 data-i18n="data1_t">Stockées sur votre PC</h3>
+          <p data-i18n="data1_d">Les données de l'école sont enregistrées sur le disque de votre ordinateur. Rien ne quitte la machine, sauf la sauvegarde cloud si votre pack l'inclut.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="data2_t">Sauvegarde locale dans tous les packs</h3>
+          <p data-i18n="data2_d">Une sauvegarde automatique quotidienne à régler dans les paramètres (les 7 dernières sont conservées), des sauvegardes manuelles quand vous voulez, et une restauration en un clic.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="data3_t">Sauvegarde cloud avec Plus et Complet</h3>
+          <p data-i18n="data3_d">Une copie chiffrée est envoyée automatiquement dans le cloud, pour restaurer vos données sur un autre ordinateur.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="data4_t">Si le PC tombe en panne</h3>
+          <p data-i18n="data4_d">Avec Plus ou Complet, vous restaurez la sauvegarde cloud sur le nouveau PC. Avec Essentiel, les sauvegardes sont sur le même ordinateur : enregistrez-en régulièrement une copie sur une clé USB ou un disque externe. La licence étant liée à un PC, contactez-nous pour l'activer sur la nouvelle machine.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How it works ────────────────────────────────────────── -->
+  <section id="how" class="how-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="how_badge">ثلاث خطوات</span>
+        <h2 class="sec-title" data-i18n="how_title">من التحميل إلى أول وصل في دقائق</h2>
+      </div>
+
+      <div class="how-grid">
+        <div class="how-step reveal">
+          <div class="how-num">1</div>
+          <h3 data-i18n="how1_t">حمّل وثبّت</h3>
+          <p data-i18n="how1_d">ملف واحد لويندوز. التثبيت في أقل من دقيقة، دون إعدادات معقدة.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-num">2</div>
+          <h3 data-i18n="how2_t">اختر باقتك واطلبها</h3>
+          <p data-i18n="how2_d">من هذه الصفحة مباشرة: نموذج قصير، دون دفع مسبق. نتصل بك لتأكيد الطلب.</p>
+        </div>
+        <div class="how-step reveal">
+          <div class="how-num">3</div>
+          <h3 data-i18n="how3_t">فعّل وابدأ</h3>
+          <p data-i18n="how3_d">تستلم كود التفعيل، تدخله في التطبيق، وتُفتح كل ميزات باقتك فوراً.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Pricing Plans ───────────────────────────────────────── -->
+  <section id="plans" class="pricing-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="p_badge">الباقات والأسعار</span>
+        <h2 class="sec-title" data-i18n="p_title">اختر باقتك — ترخيص دائم مدى الحياة</h2>
+        <p class="sec-desc" data-i18n="p_desc">ادفع مرة واحدة واستعمل التطبيق دائماً، دون اشتراك ولا مصاريف دورية.</p>
+      </div>
+      <div class="pricing-loc-hint" id="pricing-loc-hint" hidden>
+        <span class="pricing-loc-dot" aria-hidden="true"></span>
+        <span id="pricing-loc-text"></span>
+        <button type="button" class="pricing-loc-change" id="pricing-loc-change" data-i18n="pricing_loc_change">Change</button>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Essentiel -->
+        <div class="pricing-card reveal">
+          <div class="p-head">
+            <h3>Essentiel</h3>
+            <span class="bento-badge ess" data-i18n="tier_basic">الأساسية</span>
+          </div>
+          <p class="p-tagline" data-i18n="p1_tag">كل الأساسيات لتشغيل مدرستك اليومية بسلاسة.</p>
+
+          <div class="p-price-row">
+            <span class="p-amount" data-price="essentiel">150</span>
+            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-badge-once" data-i18n="badge_lifetime">دفعة واحدة دائمة</span>
+          </div>
+
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p1_f1">الطلبة، الأساتذة، الأقسام والمستويات</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p1_f2">برمجة الجداول الزمنية والطباعة</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p1_f3">تسجيل الحضور وسجلات الأقسام</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p1_f4">وصولات الدفع ودورة أجور الأساتذة</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p1_f5">نسخ احتياطي محلي واسترجاع بنقرة</span></li>
+          </ul>
+
+          <button type="button" class="btn-order" data-order-pack="essentiel">
+            <span data-i18n="btn_order_ess">طلب باقة Essentiel</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Plus -->
+        <div class="pricing-card is-plus is-popular reveal">
+          <div class="pricing-ribbon" data-i18n="ribbon_popular">الأكثر طلباً ⭐</div>
+          <div class="p-head">
+            <h3>Plus</h3>
+            <span class="bento-badge plus" data-i18n="tier_pro">الاحترافية</span>
+          </div>
+          <p class="p-tagline" data-i18n="p2_tag">كل ميزات الأساسية + الاستيراد من Excel والنسخ السحابي.</p>
+
+          <div class="p-price-row">
+            <del class="p-old-amount" data-old-price="plus">450</del>
+            <span class="p-amount" data-price="plus">249</span>
+            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-badge-once" data-i18n="badge_lifetime">دفعة واحدة دائمة</span>
+          </div>
+
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><b data-i18n="p2_f1">جميع ميزات باقة Essentiel بالكامل</b></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p2_f2">استيراد الطلبة والأساتذة من Excel بنقرة</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p2_f3">نسخ احتياطي سحابي تلقائي مشفر</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p2_f4">استرجاع فوري للبيانات عند تبديل الحاسوب</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p2_f5">دعم فني وأولوية في الإعداد</span></li>
+          </ul>
+
+          <button type="button" class="btn-order" data-order-pack="plus">
+            <span data-i18n="btn_order_plus">طلب باقة Plus</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+
+        <!-- Complet -->
+        <div class="pricing-card is-featured reveal">
+          <div class="pricing-ribbon gold" data-i18n="ribbon_complet">موصى بها · الأكثر اكتمالاً 👑</div>
+          <div class="p-head">
+            <h3>Complet</h3>
+            <span class="bento-badge comp" data-i18n="tier_complet">الشاملة</span>
+          </div>
+          <p class="p-tagline" data-i18n="p3_tag">كل ميزات Plus + التحليلات المالية وسجل تدقيق العمليات.</p>
+
+          <div class="p-price-row">
+            <del class="p-old-amount" data-old-price="complet">600</del>
+            <span class="p-amount" data-price="complet">299</span>
+            <span class="p-currency" data-currency>د.ت</span>
+            <span class="p-badge-once" data-i18n="badge_lifetime">دفعة واحدة دائمة</span>
+          </div>
+
+          <p class="p-value" data-i18n="p3_value" data-price-template="diff">50 د.ت إضافية فقط عن Plus لتفتح التقارير، التدقيق وتصدير Excel.</p>
+
+          <ul class="p-list">
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><b data-i18n="p3_f1">جميع ميزات Plus مع كل خواص السحابة</b></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p3_f2">تحليل معمق للمداخيل حسب المستوى والأستاذ</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p3_f3">تصدير التقارير وسجلات الحضور إلى Excel</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p3_f4">سجل تدقيق أمني مفصل (من فعل ماذا ومتى)</span></li>
+            <li><span class="p-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg></span><span data-i18n="p3_f5">سبورة بيضاء ذكية للملاحظات والدروس</span></li>
+          </ul>
+
+          <button type="button" class="btn-order is-gold-cta" data-order-pack="complet">
+            <span data-i18n="btn_order_comp">اطلب باقة Complet</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+          <p class="p-note" data-i18n="p_no_pay">لا دفع عند الطلب — نتصل بك للتأكيد</p>
+        </div>
+      </div>
+
+      <!-- Compact Guarantee Notice -->
+      <div class="pricing-guarantee reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span data-i18n="p_guarantee"><b>Licence à vie pour un PC :</b> paiement unique. Vous pouvez passer à un pack supérieur plus tard sans perdre vos données.</span>
+      </div>
+
+      <!-- Accepted payment methods (owner decision 2026-11-21: cash and D17, no installments) -->
+      <div class="pricing-guarantee pricing-pay reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span data-i18n="p_pay"><b>Paiement en Tunisie :</b> en espèces ou par D17. En une seule fois, sans échelonnement.</span>
+      </div>
+
+      <!-- Trial and refund terms (owner decision 2026-11-21: demo first, no refund) -->
+      <div class="terms-box reveal" id="terms">
+        <h3 class="terms-title" data-i18n="terms_title">Avant d'acheter : ce qu'il faut savoir</h3>
+        <div class="how-grid terms-grid">
+          <div class="how-step">
+            <h4 data-i18n="terms1_t">Pas de période d'essai</h4>
+            <p data-i18n="terms1_d">Le téléchargement est gratuit, mais l'application s'ouvre sur l'écran d'activation : sans code, elle ne peut pas être utilisée.</p>
+          </div>
+          <div class="how-step">
+            <h4 data-i18n="terms2_t">Démo gratuite avant l'achat</h4>
+            <p data-i18n="terms2_d">Regardez la vidéo de démonstration en haut de page, ou demandez une démo en direct par WhatsApp ou par téléphone. Aucun paiement à la commande.</p>
+          </div>
+          <div class="how-step">
+            <h4 data-i18n="terms3_t">Pas de remboursement après l'activation</h4>
+            <p data-i18n="terms3_d">Une fois le code d'activation remis, la licence n'est pas remboursée. Prenez le temps de voir la démo avant de décider.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Comparison Matrix ───────────────────────────────── -->
+      <div id="compare" class="cmp-container reveal">
+        <!-- Mobile Segmented Tabs -->
+        <div class="cmp-tabs-wrap" role="group" data-i18n-aria="aria_select_plan">
+          <button type="button" class="cmp-tab-btn active" data-cmp-tab="all">
+            <span data-i18n="tbl_tab_all">مقارنة شاملة ⇋</span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="essentiel">
+            <span>Essentiel</span>
+            <span class="cmp-tab-price"><span data-price-full="essentiel">150</span></span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="plus">
+            <span>Plus</span>
+            <span class="cmp-tab-price"><span data-price-full="plus">249</span> ⭐</span>
+          </button>
+          <button type="button" class="cmp-tab-btn" data-cmp-tab="complet">
+            <span>Complet</span>
+            <span class="cmp-tab-price"><span data-price-full="complet">299</span> 👑</span>
+          </button>
+        </div>
+
+        <div class="cmp-scroll-hint" id="cmp-scroll-hint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="14" height="14"><path d="M18 8L22 12L18 16"/><path d="M6 8L2 12L6 16"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          <span data-i18n="cmp_scroll_hint">اسحب الجدول أفقياً لمقارنة كل الباقات</span>
+        </div>
+
+        <div class="cmp-box" id="cmp-box" data-pack-view="all">
+        <table class="cmp-table">
+          <thead>
+            <tr>
+              <th scope="col" data-i18n="tbl_col_feat">الميزة</th>
+              <th scope="col">Essentiel <span class="cmp-price">(<span data-price-full="essentiel">150</span>)</span></th>
+              <th scope="col" class="cmp-plus-col">Plus <span class="cmp-price"><del class="cmp-old" data-old-price-full="plus">450</del> (<span data-price-full="plus">249</span>) ⭐</span></th>
+              <th scope="col" class="cmp-pop-col">Complet <span class="cmp-price"><del class="cmp-old" data-old-price-full="complet">600</del> (<span data-price-full="complet">299</span>) 👑</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row" data-i18n="t_f1">الطلبة، الأساتذة، الأقسام، والمستويات</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f2">جدول الحصص الأسبوعي والطباعة</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f3">تسجيل الحضور والغياب</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f4">الوصولات والمالية اليومية</th>
+              <td><span class="cmp-check">✓</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f5">استيراد الطلبة من Excel</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f6">نسخ احتياطي سحابي تلقائي</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-check">✓</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f7">تحليل المداخيل والتقارير المالية المتقدمة</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f8">سجل تدقيق العمليات (Audit Log)</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f9">تصدير التقارير وسجلات الحضور إلى Excel</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr>
+              <th scope="row" data-i18n="t_f10">السبورة البيضاء</th>
+              <td><span class="cmp-dash">—</span></td>
+              <td><span class="cmp-dash">—</span></td>
+              <td class="cmp-pop-col"><span class="cmp-check">✓</span></td>
+            </tr>
+            <tr class="cmp-cta-row">
+              <th scope="row" data-i18n="t_cta">اطلب باقتك</th>
+              <td><button type="button" class="cmp-order" data-order-pack="essentiel">Essentiel</button></td>
+              <td><button type="button" class="cmp-order blue" data-order-pack="plus">Plus</button></td>
+              <td class="cmp-pop-col"><button type="button" class="cmp-order gold" data-order-pack="complet">Complet</button></td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FAQ Section (Minimal Accordion) ─────────────────────── -->
+  <section id="faq" class="faq-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="faq_badge">إجابات سريعة</span>
+        <h2 class="sec-title" data-i18n="faq_title">الأسئلة الشائعة</h2>
+      </div>
+
+      <div class="faq-wrap">
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q1">هل يتطلب التطبيق اتصالاً بالإنترنت؟</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a1">لا. يعمل التطبيق محلياً 100% دون إنترنت، والشبكة مطلوبة فقط للنسخ السحابي الاختياري أو التحديثات.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q2">أين تُحفظ بيانات مدرستنا؟</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a2">على القرص الصلب لحاسوبك بأمان وسرية تامة دون أي مشاركة مع أطراف خارجية.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q3">هل الترخيص دائم أم اشتراك شهري؟</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a3" data-price-template="all">ترخيص دائم بدفعة واحدة (150 / 249 / 299 د.ت)، دون أي اشتراك.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q4">هل يمكن ترقية الباقة لاحقاً؟</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a4">نعم، بنقرة زر واحدة عبر إدخال كود جديد، وتفتح الميزات فوراً مع بقاء كامل بياناتك دون تغيير.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q5">كيف أطلب الباقة وأستلم كود التفعيل؟</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a5">اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q6">Comment payer ?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a6">En Tunisie : en espèces ou par D17.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q7">Puis-je essayer Acadex avant de payer ?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a7">Il n'y a pas de période d'essai : sans code d'activation, l'application reste sur l'écran d'activation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Bottom CTA ──────────────────────────────────────────── -->
+  <div class="dl-strip">
+    <div class="dl-strip-in reveal">
+      <h2 data-i18n="cta_title">جاهز لتنظيم مدرستك؟</h2>
+      <p data-i18n="cta_desc">ملف تثبيت واحد لنظام ويندوز يثبت التطبيق وقاعدة البيانات في أقل من دقيقة.</p>
+      
+      <div class="hero-btns">
+        <a class="btn-primary" href="/download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="cta_btn">تحميل التطبيق لويندوز</span>
+        </a>
+        <button type="button" class="btn-secondary" data-order-pack="complet">
+          <span data-i18n="cta_btn_order">اطلب باقتك</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Who is behind Acadex ────────────────────────────────── -->
+  <section id="a-propos" class="about-sec">
+    <div class="wrap">
+      <div class="sec-header reveal">
+        <span class="sec-badge" data-i18n="about_badge">Qui sommes-nous</span>
+        <h2 class="sec-title" data-i18n="about_title">Un logiciel conçu en Tunisie, un interlocuteur direct</h2>
+      </div>
+      <!-- TODO_OWNER: confirm the name to show here and add the legal identity (company name, matricule fiscal, address). -->
+      <p class="about-text reveal" data-i18n="about_text">Acadex est conçu et développé à Sousse, en Tunisie, par Mohamed Ncib. Quand vous appelez ou écrivez, vous parlez directement à la personne qui développe le logiciel.</p>
+
+      <div class="how-grid about-grid">
+        <div class="how-step reveal">
+          <h3 data-i18n="about1_t">Basé à Sousse</h3>
+          <p data-i18n="about1_d">Conception, développement et support depuis Sousse, Tunisie.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="about2_t">Contact direct</h3>
+          <p data-i18n="about2_d">WhatsApp, téléphone ou e-mail : les coordonnées sont juste en dessous.</p>
+        </div>
+        <div class="how-step reveal">
+          <h3 data-i18n="about3_t">Mises à jour depuis l'application</h3>
+          <p data-i18n="about3_d">Les nouvelles versions se téléchargent dans l'application et s'installent avec votre accord.</p>
+        </div>
+      </div>
+
+      <!--
+        TODO_OWNER: testimonials and pilot schools.
+        Nothing here may be invented. Fill each card with a real quote, the
+        person's name and role, the school and its city — with the school's
+        written permission — then remove the "hidden" attribute.
+      -->
+      <div class="testimonials" id="temoignages" hidden>
+        <h3 class="terms-title" data-i18n="testi_title">Ils utilisent Acadex</h3>
+        <div class="how-grid">
+          <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
+          <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
+          <figure class="how-step"><blockquote>TODO_OWNER</blockquote><figcaption>TODO_OWNER</figcaption></figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Contact Section ─────────────────────────────────────── -->
+  <section id="contact" class="contact-sec">
+    <div class="wrap">
+      <div class="contact-chips reveal">
+        <a class="contact-chip wa" data-wa-msg="wa_demo_msg" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d%27Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+          <span>WhatsApp : +216 55 518 492</span>
+        </a>
+        <a class="contact-chip" href="mailto:mohamedncib900@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          <span>mohamedncib900@gmail.com</span>
+        </a>
+        <a class="contact-chip" href="tel:+21655518492">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span>+216 55 518 492</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ── Cinematic Theater Fullscreen Modal ────────────────────── -->
+<div class="theater-overlay" id="theater-overlay" aria-hidden="true" role="dialog" aria-modal="true" data-i18n-aria="aria_video">
+  <div class="theater-backdrop" id="theater-backdrop"></div>
+  <div class="theater-window" id="theater-window">
+    <div class="theater-bar">
+      <div class="mockup-dots">
+        <button type="button" class="mockup-dot red-btn" id="theater-close-dot" data-i18n-aria="aria_close" data-i18n-title="aria_close"></button>
+        <span class="mockup-dot" style="background:#F59E0B;"></span>
+        <span class="mockup-dot" style="background:#10B981;"></span>
+      </div>
+      <div class="theater-title" data-version data-i18n="demo_window_title">Acadex 2.0 — Desktop School Management</div>
+      <div class="theater-actions">
+        <button type="button" class="theater-icon-btn close" id="theater-close-btn" data-i18n-aria="aria_close" data-i18n-title="aria_close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" width="14" height="14"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="theater-stage" id="theater-stage">
+      <video
+        id="theater-video"
+        class="theater-video"
+        playsinline
+        preload="none"
+        poster="/assets/demo-poster.webp"
+      >
+        <source src="/assets/demo.mp4" type="video/mp4">
+      </video>
+      <div class="theater-center-play" id="theater-center-play" data-i18n-aria="aria_play" role="button" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><polygon points="7 4 20 12 7 20 7 4"/></svg>
+      </div>
+      <div class="theater-controls" id="theater-controls">
+        <div class="theater-progress-wrap" id="theater-progress-wrap" role="slider" data-i18n-aria="aria_progress" tabindex="0">
+          <div class="theater-progress-bar" id="theater-progress-bar" style="width: 0%;">
+            <span class="theater-progress-thumb"></span>
+          </div>
+        </div>
+        <div class="theater-ctrls-row">
+          <div class="theater-ctrls-left">
+            <button type="button" class="theater-ctrl-btn" id="theater-play-toggle" data-i18n-aria="aria_play">
+              <svg class="th-pause" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+              <svg class="th-play" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="display:none;"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+            </button>
+            <button type="button" class="theater-ctrl-btn" id="theater-mute-toggle" data-i18n-aria="aria_sound">
+              <svg class="th-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+              <svg class="th-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:none;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </button>
+            <span class="theater-time" id="theater-time">0:00 / 0:00</span>
+          </div>
+          <div class="theater-ctrls-right">
+            <button type="button" class="theater-ctrl-btn" id="theater-native-fs" data-i18n-aria="aria_fullscreen" data-i18n-title="aria_fullscreen">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" width="15" height="15"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ──────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-in">
+    <div><b data-version>Acadex 2.0</b> — © 2026. <span data-i18n="footer_copy">بياناتك على جهازك بأمان وثقة.</span></div>
+    <div>Windows 10 & 11 · 64-bit</div>
+  </div>
+</footer>
+
+<!-- ── Sticky mobile call-to-action ───────────────────────── -->
+<div class="mobile-cta" id="mobile-cta">
+  <a class="m-wa" data-wa-msg="wa_demo_msg" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d%27Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.04 1.02-1.04 2.49s1.07 2.89 1.22 3.09c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.62.71.23 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.42.25-.7.25-1.29.17-1.42-.07-.12-.27-.2-.57-.35zM12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 7c0 5.45-4.44 9.88-9.9 9.88zm8.42-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.87 11.87 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.9 0-3.18-1.24-6.16-3.47-8.41z"/></svg>
+    <span data-i18n="m_wa">Démo sur WhatsApp</span>
+  </a>
+  <button type="button" class="m-order" data-order-pack="complet">
+    <span data-i18n="m_order" data-price-template="complet">Commander · 299 DT</span>
+  </button>
+</div>
+
+<!-- ── Country picker dialog ────────────────────────────────── -->
+<dialog class="country-dialog" id="country-dialog" aria-labelledby="country-dialog-title">
+  <div class="cd-head">
+    <h2 id="country-dialog-title" data-i18n="country_title">Country and currency</h2>
+    <button type="button" class="od-close" data-country-close data-i18n-aria="aria_close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+  </div>
+  <input class="cd-search" id="country-search" type="search" autocomplete="off"
+         data-i18n-ph="country_search_ph" placeholder="Search for a country">
+  <ul class="cd-list" id="country-list" role="listbox"></ul>
+  <p class="cd-empty" id="country-empty" data-i18n="country_empty" hidden>No country found.</p>
+</dialog>
+
+<!-- ── Order dialog ────────────────────────────────────────── -->
+<dialog class="order-dialog" id="order-dialog" aria-labelledby="od-title">
+  <div class="od-head">
+    <div>
+      <h2 id="od-title">طلب باقة</h2>
+      <p class="od-terms" id="od-terms"></p>
+    </div>
+    <button type="button" class="od-close" data-od-close data-i18n-aria="aria_close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg></button>
+  </div>
+
+  <div class="od-body">
+    <!-- 1 · the form -->
+    <div class="od-step active" data-step="form">
+      <form id="order-form" novalidate>
+        <div class="od-field">
+          <label class="od-label" data-i18n="p_badge">الباقة المختارة</label>
+          <div class="od-packs-selector" id="od-packs-selector">
+            <button type="button" class="od-pack-btn" data-pack="essentiel">
+              <span class="pk-title">Essentiel</span>
+              <span class="pk-price"><span data-price="essentiel">150</span> <span data-currency>DT</span></span>
+            </button>
+            <button type="button" class="od-pack-btn" data-pack="plus">
+              <span class="pk-title">Plus</span>
+              <span class="pk-price"><span data-price="plus">249</span> <span data-currency>DT</span></span>
+            </button>
+            <button type="button" class="od-pack-btn selected" data-pack="complet">
+              <span class="pk-title">Complet</span>
+              <span class="pk-price"><span data-price="complet">299</span> <span data-currency>DT</span></span>
+            </button>
+          </div>
+          <input type="hidden" name="pack" value="complet">
+        </div>
+
+        <div class="od-field">
+          <label class="od-label" for="od-name" data-i18n="od_name">الاسم واللقب</label>
+          <input class="od-input" id="od-name" name="contact_name" type="text" autocomplete="name" maxlength="80" required>
+        </div>
+        <div class="od-field">
+          <label class="od-label" for="od-phone" data-i18n="od_phone">رقم الهاتف</label>
+          <div class="od-phone-row">
+            <span class="od-dial" id="od-dial">+216</span>
+            <input class="od-input od-ltr" id="od-phone" name="phone" type="tel"
+                   inputmode="tel" autocomplete="tel" maxlength="18"
+                   data-i18n-ph="od_phone_ph" placeholder="Your phone number" required>
+          </div>
+        </div>
+
+        <!-- Not for people: a field only bots fill. -->
+        <div class="od-hp" aria-hidden="true">
+          <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <!-- Stays in view while the form scrolls: the way out is never below the fold. -->
+        <div class="od-send">
+          <p class="od-error" id="od-error" role="alert"></p>
+          <button type="submit" class="od-submit" id="od-submit">
+            <span class="od-spinner" aria-hidden="true"></span>
+            <span id="od-submit-label" data-i18n="od_submit">إرسال الطلب</span>
+          </button>
+        </div>
+        <p class="od-foot" data-i18n="od_foot">لا دفع الآن. نتصل بك لتأكيد طلبك.</p>
+      </form>
+    </div>
+
+    <!-- 2 · received -->
+    <div class="od-step od-done" data-step="done">
+      <div class="od-done-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3 data-i18n="od_done_title">تم تسجيل طلبك</h3>
+      <p data-i18n="od_done_sub">احتفظ بهذا المرجع:</p>
+      <div class="od-ref">
+        <code id="od-ref">ACX-O-······</code>
+        <button type="button" class="od-copy" id="od-copy" data-i18n="od_copy">نسخ</button>
+      </div>
+      <ol class="od-next">
+        <li><span class="n">1</span><span data-i18n="od_next1">حمّل التطبيق وثبّته الآن — دقيقة واحدة.</span></li>
+        <li><span class="n">2</span><span id="od-next2"></span></li>
+        <li><span class="n">3</span><span id="od-next3"></span></li>
+      </ol>
+      <div class="od-actions">
+        <a class="btn-primary" href="/download">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="od_dl">تحميل التطبيق</span>
+        </a>
+        <button type="button" class="btn-secondary" data-od-close data-i18n="od_close">إغلاق</button>
+      </div>
+    </div>
+
+    <!-- 3 · the online registration failed -->
+    <div class="od-step od-done" data-step="fallback">
+      <div class="od-done-icon warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <h3 data-i18n="od_fb_title">تعذّر تسجيل الطلب</h3>
+      <p data-i18n="od_fb_sub">حدث خطأ أثناء حفظ طلبك. يرجى إعادة المحاولة.</p>
+      <div class="od-actions">
+        <button type="button" class="btn-primary" id="od-fb-retry" data-i18n="od_fb_retry">إعادة المحاولة</button>
+        <button type="button" class="btn-secondary" data-od-close data-i18n="od_close">إغلاق</button>
+      </div>
+    </div>
+  </div>
+</dialog>

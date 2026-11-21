@@ -1,5 +1,6 @@
 downloads/
-.git/
-.env*
-.vercel/
-node_modules/
+.vercel
+src/
+scripts/
+tests/
+docs/
