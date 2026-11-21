@@ -10,15 +10,11 @@
 <link rel="alternate" hreflang="fr" href="https://acadex-rust.vercel.app/fr/">
 <link rel="alternate" hreflang="en" href="https://acadex-rust.vercel.app/en/">
 <link rel="alternate" hreflang="x-default" href="https://acadex-rust.vercel.app/fr/">
-<link rel="icon" type="image/png" href="/assets/logo-128.png">
+<link rel="icon" type="image/png" href="/assets/logo-128.png?v=91e742d622">
 <meta name="theme-color" content="#07090E">
-
-<!-- Google Fonts -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="/assets/site.css?v=a365518beb">
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/plus-jakarta-sans-latin.woff2" crossorigin>
+<link rel="preload" as="image" href="/assets/demo-poster.webp?v=b2fc3ccf0b" media="(min-width: 781px)" fetchpriority="high">
+<link rel="stylesheet" href="/assets/site.css?v=8f27a5c42a">
 <script src="/assets/countries.js?v=533fd50faa" defer></script>
 <script src="/assets/rates.js?v=99a5921453" defer></script>
 <script src="/assets/localization.js?v=c1c986a3d8" defer></script>
@@ -31,7 +27,7 @@
 <header class="topbar">
   <div class="topbar-in">
     <a href="/en/" class="brand">
-      <img src="/assets/logo-128.png" alt="" class="brand-logo" width="34" height="34">
+      <img src="/assets/logo-128.png?v=91e742d622" alt="" class="brand-logo" width="34" height="34">
       <span>Acadex</span>
     </a>
 
@@ -139,12 +135,12 @@
               loop
               playsinline
               preload="none"
-              poster="/assets/demo-poster.webp"
+              poster="/assets/demo-poster.webp?v=b2fc3ccf0b"
               width="1920"
               height="1080"
             >
-              <source src="/assets/demo.mp4" type="video/mp4">
-              <img src="/assets/demo-poster.webp" class="mockup-img" width="1920" height="1080" alt="Screenshot of the Acadex dashboard">
+              <source src="/assets/demo.mp4?v=b25d1455b9" type="video/mp4">
+              <img src="/assets/demo-poster.webp?v=b2fc3ccf0b" class="mockup-img" width="1920" height="1080" alt="Screenshot of the Acadex dashboard">
             </video>
             <div class="mockup-center-play" id="mockup-center-play" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><polygon points="6 3 20 12 6 21 6 3"/></svg>
@@ -806,9 +802,9 @@
         class="theater-video"
         playsinline
         preload="none"
-        poster="/assets/demo-poster.webp"
+        poster="/assets/demo-poster.webp?v=b2fc3ccf0b"
       >
-        <source src="/assets/demo.mp4" type="video/mp4">
+        <source src="/assets/demo.mp4?v=b25d1455b9" type="video/mp4">
       </video>
       <div class="theater-center-play" id="theater-center-play" role="button" tabindex="0" aria-label="Play / Pause">
         <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><polygon points="7 4 20 12 7 20 7 4"/></svg>

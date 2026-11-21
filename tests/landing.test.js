@@ -204,3 +204,38 @@ test("robots.txt names the sitemap, and the sitemap lists every language page wi
   }
   assert.equal(sitemap.split('hreflang="x-default"').length - 1, LANGS.length);
 });
+
+test("fonts are served by the site, and every asset is addressed with its fingerprint", () => {
+  const css = read("assets/site.css");
+  for (const lang of LANGS) {
+    assert.equal(/fonts\.(googleapis|gstatic)\.com/.test(page[lang]), false, `${lang} page still calls Google Fonts`);
+    const refs = [...page[lang].matchAll(/(?:src|poster|href)="(\/assets\/[^"]+)"/g)].map((m) => m[1]);
+    assert.ok(refs.length >= 8);
+    for (const ref of refs) {
+      assert.ok(/\?v=[0-9a-f]{10}$/.test(ref) || ref.startsWith("/assets/fonts/"), `unversioned asset on the ${lang} page: ${ref}`);
+      assert.ok(fs.existsSync(path.join(root, ref.split("?")[0])), `missing file: ${ref}`);
+    }
+  }
+  assert.ok(page.ar.includes('rel="preload" as="font" type="font/woff2" href="/assets/fonts/cairo-arabic.woff2" crossorigin'));
+  assert.ok(page.fr.includes('rel="preload" as="font" type="font/woff2" href="/assets/fonts/plus-jakarta-sans-latin.woff2" crossorigin'));
+  for (const [, file] of css.matchAll(/url\("(\/assets\/fonts\/[^"]+)"\)/g)) {
+    assert.ok(fs.existsSync(path.join(root, file)), `missing font: ${file}`);
+  }
+  assert.equal(css.split("font-display: swap").length - 1, css.split("@font-face").length - 1);
+  // A fingerprinted address never changes content: it may be cached for good.
+  const immutable = vercel.headers.filter((rule) => rule.headers.some((h) => h.key === "Cache-Control" && /immutable/.test(h.value)));
+  assert.ok(immutable.some((rule) => rule.source === "/assets/(.*)" && rule.has && rule.has[0].type === "query" && rule.has[0].key === "v"));
+  assert.ok(immutable.some((rule) => rule.source === "/assets/fonts/(.*)"));
+});
+
+test("the demo video is never fetched before the visitor asks for it", () => {
+  for (const lang of LANGS) {
+    const videos = [...page[lang].matchAll(/<video\b[^>]*>/g)].map((m) => m[0]);
+    assert.equal(videos.length, 2);
+    for (const video of videos) {
+      assert.ok(/preload="none"/.test(video), "a video must not preload");
+      assert.equal(/\sautoplay\b/.test(video), false, "a video must not autoplay");
+      assert.ok(/poster="\/assets\/demo-poster\.webp/.test(video));
+    }
+  }
+});

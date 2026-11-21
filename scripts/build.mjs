@@ -35,12 +35,23 @@ export function pageUrl(lang, full = false) {
   return `${full ? config.origin : ""}/${lang}/`;
 }
 
-/** A short fingerprint of a file, so a changed stylesheet or script is never served stale. */
+/**
+ * A short fingerprint of a file. Every asset is addressed with it, so the host
+ * can cache assets for a year and a changed file is still never served stale.
+ */
+const versions = new Map();
 function assetVersion(file) {
-  const text = readText(file);
-  return crypto.createHash("sha256").update(text).digest("hex").slice(0, 10);
+  if (!versions.has(file)) {
+    // Text is hashed with normalised line endings: the same on every checkout.
+    const content = /\.(css|js|json|svg|txt)$/.test(file) ? readText(file) : fs.readFileSync(path.join(ROOT, file));
+    versions.set(file, crypto.createHash("sha256").update(content).digest("hex").slice(0, 10));
+  }
+  return versions.get(file);
 }
 const asset = (file) => `/${file}?v=${assetVersion(file)}`;
+
+/** The font a page's own text is set in: fetched early, the others only if needed. */
+const MAIN_FONT = { ar: "assets/fonts/cairo-arabic.woff2", fr: "assets/fonts/plus-jakarta-sans-latin.woff2", en: "assets/fonts/plus-jakarta-sans-latin.woff2" };
 
 // ── Working on the template without a DOM ───────────────────────
 // The template is ours and regular: an element that carries a hook never
@@ -167,6 +178,8 @@ export function renderBody(lang) {
   html = mapOpenTags(html, "data-lang", (code, open) =>
     code === lang ? setAttr(open.replace('class="lang-btn"', 'class="lang-btn active"'), "aria-current", "page") : open);
   html = html.split("{{HOME}}").join(pageUrl(lang));
+  // Images and the video are addressed with their fingerprint, like the stylesheet.
+  html = html.replace(/\b(src|poster)="\/(assets\/[^"?#]+)"/g, (_, attr, file) => `${attr}="${asset(file)}"`);
 
   const leftover = /data-i18n-(ph|aria|title|alt)=|data-wa-msg=|{{[A-Z_]+}}/.exec(html);
   if (leftover) throw new Error(`unresolved hook in the ${lang} page: ${leftover[0]}`);
@@ -185,14 +198,11 @@ function renderHead(lang) {
     `<link rel="canonical" href="${pageUrl(lang, true)}">`,
     ...LANGS.map((code) => `<link rel="alternate" hreflang="${code}" href="${pageUrl(code, true)}">`),
     `<link rel="alternate" hreflang="x-default" href="${pageUrl(config.defaultLang, true)}">`,
-    '<link rel="icon" type="image/png" href="/assets/logo-128.png">',
+    `<link rel="icon" type="image/png" href="${asset("assets/logo-128.png")}">`,
     '<meta name="theme-color" content="#07090E">',
-    "",
-    "<!-- Google Fonts -->",
-    '<link rel="preconnect" href="https://fonts.googleapis.com">',
-    '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>',
-    '<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">',
-    "",
+    `<link rel="preload" as="font" type="font/woff2" href="/${MAIN_FONT[lang]}" crossorigin>`,
+    // On a wide screen the demo poster is the largest thing in view: fetch it first.
+    `<link rel="preload" as="image" href="${asset("assets/demo-poster.webp")}" media="(min-width: 781px)" fetchpriority="high">`,
     `<link rel="stylesheet" href="${asset("assets/site.css")}">`,
     ...["assets/countries.js", "assets/rates.js", "assets/localization.js", "assets/order.js", "assets/site.js"]
       .map((file) => `<script src="${asset(file)}" defer></script>`),

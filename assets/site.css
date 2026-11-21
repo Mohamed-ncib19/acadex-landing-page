@@ -1,4 +1,33 @@
 
+/* ── Fonts ──────────────────────────────────────────────────
+   Served by the site itself (both are under the SIL Open Font License, see
+   assets/fonts/README.txt): no request to a third party. Each file covers one
+   script, and a page only fetches the ones its text needs. */
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url("/assets/fonts/plus-jakarta-sans-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Cairo";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/assets/fonts/cairo-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+@font-face {
+  font-family: "Cairo";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/assets/fonts/cairo-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 /* ── Ultra-Modern Dark Theme Tokens ───────────────────────── */
 :root {
   --bg: #07090E;
@@ -203,6 +232,12 @@ button {
   border-radius: var(--radius-full);
   color: var(--text-muted);
   transition: all var(--transition);
+}
+
+/* On a French or English page the one Arabic word is the language link: it
+   uses a system font, so the Arabic font file is not fetched for it. */
+html[dir="ltr"] .lang-btn[lang="ar"] {
+  font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", system-ui, sans-serif;
 }
 
 .lang-btn.active {
