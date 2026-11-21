@@ -3,11 +3,50 @@
 const DEFAULT_DATABASE_ID = "418e4528-63d8-807f-b5e9-df3bdd3a9ccb";
 const DEFAULT_PAGE_ID = "418e4528-63d8-8008-973d-d75810cc4ebd";
 
+// A real request is a few hundred bytes.
+const MAX_BODY_BYTES = 4096;
+
+// How many requests one visitor may have saved: 5 a minute, 20 an hour.
+// Counted in the memory of the running function: the count starts again when the
+// host restarts it, and each running copy counts on its own. It stops a loop or a
+// crude bot; it does not replace a shared counter.
+const LIMITS = [
+  { windowMs: 60 * 1000, max: 5 },
+  { windowMs: 60 * 60 * 1000, max: 20 },
+];
+const LONGEST_WINDOW = Math.max(...LIMITS.map((limit) => limit.windowMs));
+const saves = new Map(); // visitor → times of the requests of the last hour
+
 function json(res, status, body) {
   res.statusCode = status;
   res.setHeader("Content-Type", "application/json; charset=utf-8");
   res.setHeader("Cache-Control", "no-store");
   res.end(JSON.stringify(body));
+}
+
+/** The visitor's address as the host reports it. Kept in memory for an hour, never stored. */
+function visitorOf(req) {
+  const headers = req.headers || {};
+  const address = String(headers["x-real-ip"] || headers["x-forwarded-for"] || "").split(",")[0].trim();
+  return address || (req.socket && req.socket.remoteAddress) || "unknown";
+}
+
+/** Seconds to wait when the visitor is over a limit. Otherwise 0, and the request is counted. */
+function secondsToWait(visitor, now = Date.now()) {
+  const recent = (saves.get(visitor) || []).filter((time) => now - time < LONGEST_WINDOW);
+  for (const { windowMs, max } of LIMITS) {
+    const inWindow = recent.filter((time) => now - time < windowMs);
+    if (inWindow.length >= max) {
+      saves.set(visitor, recent);
+      return Math.max(1, Math.ceil((inWindow[0] + windowMs - now) / 1000));
+    }
+  }
+  recent.push(now);
+  saves.set(visitor, recent);
+  if (saves.size > 2000) {
+    for (const [key, times] of saves) if (!times.some((time) => now - time < LONGEST_WINDOW)) saves.delete(key);
+  }
+  return 0;
 }
 
 function text(value, max = 500) {
@@ -111,11 +150,18 @@ async function handler(req, res) {
   const pageId = (process.env.NOTION_PAGE_ID || DEFAULT_PAGE_ID).trim();
   if (!token) return json(res, 503, { ok: false, error: "Notion is not configured" });
 
+  if (Number((req.headers || {})["content-length"] || 0) > MAX_BODY_BYTES) return json(res, 413, { ok: false, error: "Request too large" });
   let body = req.body;
   if (typeof body === "string") {
+    if (Buffer.byteLength(body) > MAX_BODY_BYTES) return json(res, 413, { ok: false, error: "Request too large" });
     try { body = JSON.parse(body); } catch { return json(res, 400, { ok: false, error: "Invalid JSON" }); }
   }
   if (!body || typeof body !== "object" || Array.isArray(body)) return json(res, 400, { ok: false, error: "Invalid body" });
+  if (Buffer.byteLength(JSON.stringify(body)) > MAX_BODY_BYTES) return json(res, 413, { ok: false, error: "Request too large" });
+
+  // The form carries a field that nobody sees or fills. A filled one comes from a bot:
+  // nothing is saved. A person caught by mistake still gets the page's contact buttons.
+  if (text(String(body.website == null ? "" : body.website), 200)) return json(res, 400, { ok: false, error: "Rejected" });
 
   const pack = text(body.pack, 20).toLowerCase();
   const contactName = text(body.contact_name || body.name, 120);
@@ -125,6 +171,13 @@ async function handler(req, res) {
   const phoneDigits = phone.replace(/\D/g, "");
   if (!phone.startsWith("+") || phoneDigits.length < 8 || phoneDigits.length > 15) {
     return json(res, 400, { ok: false, field: "phone", error: "Invalid phone" });
+  }
+
+  // Only a request that is about to be saved is counted: a typing mistake costs nothing.
+  const wait = secondsToWait(visitorOf(req));
+  if (wait) {
+    res.setHeader("Retry-After", String(wait));
+    return json(res, 429, { ok: false, error: "Too many requests" });
   }
 
   const reference = newReference();
@@ -160,9 +213,14 @@ async function handler(req, res) {
       }),
     });
 
-    if (!created.ok) return json(res, 502, { ok: false, error: "Notion save failed", detail: created.data });
+    if (!created.ok) {
+      // Notion's answer names the table's columns: it goes to the host's log, not to the browser.
+      console.error("order-notion: save refused", created.status, created.data && created.data.code, created.data && created.data.message);
+      return json(res, 502, { ok: false, error: "Notion save failed" });
+    }
     return json(res, 201, { ok: true, reference });
   } catch (err) {
+    console.error("order-notion: request failed", err && err.message);
     return json(res, 500, { ok: false, error: "Notion request failed" });
   }
 }
