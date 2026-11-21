@@ -5,5 +5,14 @@
   "whatsapp": "21655518492",
   "email": "mohamedncib900@gmail.com",
   "city": "Sousse",
-  "country": "TN"
+  "country": "TN",
+  "analytics": {
+    "provider": "",
+    "site": "",
+    "script": ""
+  },
+  "verification": {
+    "google": "",
+    "bing": ""
+  }
 }

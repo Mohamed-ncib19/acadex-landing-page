@@ -1,10 +1,12 @@
 // A local stand-in for the host: serves this folder and applies the redirects
 // and headers of vercel.json, so a change can be checked before it is published.
-// The order endpoint is not emulated: the form shows its contact fallback.
+// The order endpoint is not run: the form shows its contact fallback, unless
+// ORDERS=fake is set, which answers "saved" without storing anything anywhere.
 //
-//   node scripts/preview.mjs            http://localhost:4173
-//   node scripts/preview.mjs 8080       another port
-//   GEO=FR node scripts/preview.mjs     the country /api/geo answers (default TN)
+//   node scripts/preview.mjs               http://localhost:4173
+//   node scripts/preview.mjs 8080          another port
+//   GEO=FR node scripts/preview.mjs        the country /api/geo answers (default TN)
+//   ORDERS=fake node scripts/preview.mjs   the order form succeeds (nothing is saved)
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
@@ -52,13 +54,20 @@ http.createServer((req, res) => {
 
   for (const rule of cfg.redirects || []) {
     if (toRegex(rule.source).test(pathname) && hasMatches(rule, req, url)) {
-      res.writeHead(rule.permanent ? 308 : 307, { Location: rule.destination });
+      // Like the host, a redirect keeps the query string (campaign links: /?utm_source=…).
+      const query = rule.destination.includes("?") ? "" : url.search;
+      res.writeHead(rule.permanent ? 308 : 307, { Location: rule.destination + query });
       return res.end();
     }
   }
   if (pathname === "/api/geo") {
     res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "no-store" });
     return res.end(JSON.stringify({ country: process.env.GEO || "TN" }));
+  }
+  if (pathname === "/api/order-notion" && process.env.ORDERS === "fake") {
+    req.resume();
+    res.writeHead(201, { "Content-Type": "application/json", "Cache-Control": "no-store" });
+    return res.end(JSON.stringify({ ok: true, reference: "ACX-O-PREVIEW" }));
   }
 
   let file = path.join(root, pathname);

@@ -213,16 +213,50 @@ function renderHead(lang) {
     `<link rel="alternate" hreflang="x-default" href="${pageUrl(config.defaultLang, true)}">`,
     `<link rel="icon" type="image/png" href="${asset("assets/logo-128.png")}">`,
     '<meta name="theme-color" content="#07090E">',
+    ...renderVerificationTags(),
     ...renderSocialTags(lang),
     `<link rel="preload" as="font" type="font/woff2" href="/${MAIN_FONT[lang]}" crossorigin>`,
     // The demo poster is the largest thing in the first screen (on a phone too,
     // where its top shows under the Arabic headline): fetch it first.
     `<link rel="preload" as="image" href="${asset("assets/demo-poster.webp")}" fetchpriority="high">`,
     `<link rel="stylesheet" href="${asset("assets/site.css")}">`,
+    renderAnalyticsTag(),
     ...["assets/countries.js", "assets/rates.js", "assets/localization.js", "assets/order.js", "assets/site.js"]
       .map((file) => `<script src="${asset(file)}" defer></script>`),
   ];
   return lines.join("\n");
+}
+
+/** The tags Google Search Console and Bing Webmaster Tools look for to confirm who owns the site. */
+function renderVerificationTags() {
+  const codes = config.verification || {};
+  return [
+    codes.google ? `<meta name="google-site-verification" content="${escapeAttr(codes.google)}">` : null,
+    codes.bing ? `<meta name="msvalidate.01" content="${escapeAttr(codes.bing)}">` : null,
+  ].filter(Boolean);
+}
+
+/** The origins each analytics provider needs in the Content-Security-Policy of vercel.json. */
+export const ANALYTICS_ORIGINS = {
+  plausible: { script: ["https://plausible.io"], connect: ["https://plausible.io"] },
+  umami: { script: ["https://cloud.umami.is"], connect: ["https://cloud.umami.is", "https://api-gateway.umami.dev"] },
+  ga4: { script: ["https://www.googletagmanager.com"], connect: ["https://*.google-analytics.com", "https://*.analytics.google.com", "https://www.googletagmanager.com"] },
+};
+
+/**
+ * The measurement script. It always loads (its events can be read from the
+ * console); it only sends them somewhere once a provider is set in
+ * site.config.json → analytics.
+ */
+function renderAnalyticsTag() {
+  const analytics = config.analytics || {};
+  const provider = analytics.provider || "";
+  if (provider && !ANALYTICS_ORIGINS[provider]) throw new Error(`unknown analytics provider "${provider}" (plausible, umami or ga4)`);
+  if (provider && !analytics.site && !(provider === "plausible" && analytics.script)) throw new Error(`analytics.site is required for ${provider}`);
+  const data = provider
+    ? [` data-provider="${escapeAttr(provider)}"`, analytics.site ? ` data-site="${escapeAttr(analytics.site)}"` : "", analytics.script ? ` data-script="${escapeAttr(analytics.script)}"` : ""].join("")
+    : "";
+  return `<script src="${asset("assets/analytics.js")}" defer${data}></script>`;
 }
 
 /** What a link to the page looks like when it is shared (Facebook, WhatsApp, X…). */

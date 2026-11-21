@@ -89,8 +89,8 @@ test("language links are plain links, the page's own marked as current", () => {
 
 test("the pages load one stylesheet and the scripts in order, nothing inline", () => {
   for (const lang of LANGS) {
-    const sources = [...page[lang].matchAll(/<script src="\/(assets\/[a-z.]+)\?v=[0-9a-f]+" defer><\/script>/g)].map((m) => m[1]);
-    assert.deepEqual(sources, ["assets/countries.js", "assets/rates.js", "assets/localization.js", "assets/order.js", "assets/site.js"]);
+    const sources = [...page[lang].matchAll(/<script src="\/(assets\/[a-z.]+)\?v=[0-9a-f]+" defer[^>]*><\/script>/g)].map((m) => m[1]);
+    assert.deepEqual(sources, ["assets/analytics.js", "assets/countries.js", "assets/rates.js", "assets/localization.js", "assets/order.js", "assets/site.js"]);
     assert.ok(/<link rel="stylesheet" href="\/assets\/site\.css\?v=[0-9a-f]+">/.test(page[lang]));
     // Anything that is not data must come from a file: the content security policy refuses inline code.
     const inline = [...page[lang].matchAll(/<script\b([^>]*)>/g)].map((m) => m[1]).filter((attrs) => !/\ssrc=/.test(attrs));
@@ -361,4 +361,51 @@ test("an unknown address gets a page in the three languages, kept out of search 
   // It is served from any depth: every address in it starts at the site root.
   for (const [, address] of notFound.matchAll(/(?:href|src)="([^"]+)"/g)) assert.ok(address.startsWith("/"), `relative address on the 404 page: ${address}`);
   assert.equal(/<script\b/.test(notFound), false);
+});
+
+// ── Measurement ─────────────────────────────────────────────────
+
+test("the measurement script loads on every page, before the page script, and sends nothing unless a provider is set", () => {
+  const analytics = read("assets/analytics.js");
+  for (const lang of LANGS) {
+    const tags = [...page[lang].matchAll(/<script src="\/assets\/([a-z]+)\.js\?v=[0-9a-f]{10}" defer([^>]*)><\/script>/g)].map((m) => [m[1], m[2]]);
+    const names = tags.map(([name]) => name);
+    assert.ok(names.includes("analytics"), `${lang}: analytics.js is missing`);
+    assert.ok(names.indexOf("analytics") < names.indexOf("site"), `${lang}: analytics.js must load before site.js`);
+    const data = tags.find(([name]) => name === "analytics")[1];
+    const provider = (config.analytics || {}).provider || "";
+    assert.equal(/data-provider=/.test(data), Boolean(provider));
+  }
+  // Every event the brief asks for has its name in the script.
+  for (const name of ["download_click", "plan_request_open", "order_submit_success", "order_submit_failure", "whatsapp_click", "phone_click", "language_switch", "demo_video_play"]) {
+    assert.ok(analytics.includes(`"${name}"`), `analytics.js does not send ${name}`);
+  }
+  // The order form is observed, never patched: the page script does not know the tracker.
+  assert.equal(/acadexTrack|acadexSource/.test(script), false);
+});
+
+test("a configured analytics provider is allowed by the security policy", () => {
+  const provider = (config.analytics || {}).provider || "";
+  if (!provider) return;
+  const origins = { plausible: ["https://plausible.io"], umami: ["https://cloud.umami.is", "https://api-gateway.umami.dev"], ga4: ["https://www.googletagmanager.com", "https://*.google-analytics.com"] }[provider];
+  assert.ok(origins, `unknown provider ${provider}`);
+  const csp = vercel.headers.find((rule) => rule.source === "/(.*)").headers.find((h) => h.key === "Content-Security-Policy").value;
+  for (const origin of origins) assert.ok(csp.includes(origin), `add ${origin} to script-src / connect-src in vercel.json (see README, « Analytics »)`);
+});
+
+test("search engine verification tags appear only once the owner has set their codes", () => {
+  const codes = config.verification || {};
+  for (const lang of LANGS) {
+    assert.equal(page[lang].includes('name="google-site-verification"'), Boolean(codes.google));
+    assert.equal(page[lang].includes('name="msvalidate.01"'), Boolean(codes.bing));
+  }
+});
+
+test("the default country is written in the page, so nothing is redrawn for it at load", () => {
+  for (const lang of LANGS) {
+    assert.ok(page[lang].includes(`data-country="${config.pricingCountry}"`), `${lang}: <html> must name the country of its prices`);
+    assert.ok(/<button type="button" class="country-chip" id="country-chip"[^>]* aria-label="[^"]+"/.test(page[lang]), `${lang}: the country button needs its label`);
+    assert.ok(/id="pricing-loc-text">[^<]+</.test(page[lang]), `${lang}: the « prices shown for » line must be written`);
+  }
+  assert.ok(script.includes('getAttribute("data-country")'));
 });
