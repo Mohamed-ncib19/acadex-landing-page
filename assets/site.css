@@ -2780,6 +2780,45 @@ summary:focus-visible,
   outline-offset: 2px;
 }
 
+/* ── The page for an address that does not exist ───────────── */
+.nf {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 48px 20px;
+  text-align: center;
+}
+.nf-code {
+  font-size: clamp(72px, 16vw, 132px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -3px;
+  color: var(--primary-light);
+}
+.nf-blocks {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+}
+.nf-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.02);
+}
+.nf-block[lang="ar"] { font-family: "Cairo", system-ui, sans-serif; }
+.nf-block h2 { font-size: 18px; font-weight: 800; color: #fff; }
+.nf-block p { font-size: 14px; color: var(--text-muted); flex: 1; }
+
 /* A phone cannot install a Windows app: on a narrow screen the top bar keeps
    the menu, the languages and the country, and no longer overflows. */
 @media (max-width: 560px) {

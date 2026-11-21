@@ -220,5 +220,8 @@
   "og_chip3": "Licence à vie, sans abonnement",
   "og_image_alt": "Acadex : le tableau de bord du logiciel de gestion scolaire sur Windows",
   "ld_category": "Logiciel de gestion scolaire",
-  "ld_offer": "Licence à vie, paiement unique, sans abonnement"
+  "ld_offer": "Licence à vie, paiement unique, sans abonnement",
+  "nf_title": "Page introuvable",
+  "nf_text": "Cette page n'existe pas ou a été déplacée.",
+  "nf_home": "Retour à l'accueil"
 }

@@ -391,6 +391,48 @@ function renderRootStub() {
   ].join("\n");
 }
 
+/**
+ * The page served for an address that does not exist. One file for the whole
+ * site, so it speaks the three languages, the default one first.
+ */
+function renderNotFound() {
+  const order = [config.defaultLang, ...LANGS.filter((lang) => lang !== config.defaultLang)];
+  const blocks = order.map((lang) => {
+    const t = (key) => escapeHtml(stripTags(text(lang, key)));
+    return [
+      `    <section class="nf-block" lang="${lang}" dir="${DIR[lang]}">`,
+      `      <h2>${t("nf_title")}</h2>`,
+      `      <p>${t("nf_text")}</p>`,
+      `      <a class="btn-primary" href="${pageUrl(lang)}">${t("nf_home")}</a>`,
+      "    </section>",
+    ].join("\n");
+  });
+  return [
+    "<!DOCTYPE html>",
+    `<html lang="${config.defaultLang}" dir="${DIR[config.defaultLang]}" class="dark">`,
+    "<head>",
+    '<meta charset="UTF-8">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+    `<title>${escapeHtml(stripTags(text(config.defaultLang, "nf_title")))} — Acadex</title>`,
+    '<meta name="robots" content="noindex">',
+    `<link rel="icon" type="image/png" href="${asset("assets/logo-128.png")}">`,
+    '<meta name="theme-color" content="#07090E">',
+    `<link rel="stylesheet" href="${asset("assets/site.css")}">`,
+    "</head>",
+    "<body>",
+    '<main class="nf">',
+    `  <a class="brand" href="${pageUrl(config.defaultLang)}"><img src="${asset("assets/logo-128.png")}" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>`,
+    '  <h1 class="nf-code">404</h1>',
+    '  <div class="nf-blocks">',
+    ...blocks,
+    "  </div>",
+    "</main>",
+    "</body>",
+    "</html>",
+    "",
+  ].join("\n");
+}
+
 /** Every language page, each one naming its siblings (the same hreflang set as in the pages). */
 function renderSitemap() {
   const entries = LANGS.map((lang) => [
@@ -425,6 +467,7 @@ export function outputs() {
   const files = {};
   for (const lang of LANGS) files[`${lang}/index.html`] = renderPage(lang);
   files["index.html"] = renderRootStub();
+  files["404.html"] = renderNotFound();
   files["sitemap.xml"] = renderSitemap();
   files["robots.txt"] = renderRobots();
   return files;

@@ -220,5 +220,8 @@
   "og_chip3": "Lifetime licence, no subscription",
   "og_image_alt": "Acadex: the dashboard of the school management software on Windows",
   "ld_category": "School management software",
-  "ld_offer": "Lifetime licence, one-time payment, no subscription"
+  "ld_offer": "Lifetime licence, one-time payment, no subscription",
+  "nf_title": "Page not found",
+  "nf_text": "This page does not exist or has moved.",
+  "nf_home": "Back to the home page"
 }

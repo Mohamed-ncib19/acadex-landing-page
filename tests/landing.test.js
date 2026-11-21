@@ -349,3 +349,16 @@ test("structured data says what the page says, and nothing invented", () => {
     assert.equal(/TODO_OWNER/.test(blocks[0][1]), false);
   }
 });
+
+test("an unknown address gets a page in the three languages, kept out of search results", () => {
+  const notFound = read("404.html");
+  assert.ok(notFound.includes('<meta name="robots" content="noindex">'));
+  for (const lang of LANGS) {
+    assert.ok(notFound.includes(dict[lang].nf_title), `the 404 page misses its ${lang} text`);
+    assert.ok(new RegExp(`<section class="nf-block" lang="${lang}" dir="${lang === "ar" ? "rtl" : "ltr"}">`).test(notFound));
+    assert.ok(notFound.includes(`href="/${lang}/"`), `the 404 page must link to /${lang}/`);
+  }
+  // It is served from any depth: every address in it starts at the site root.
+  for (const [, address] of notFound.matchAll(/(?:href|src)="([^"]+)"/g)) assert.ok(address.startsWith("/"), `relative address on the 404 page: ${address}`);
+  assert.equal(/<script\b/.test(notFound), false);
+});
