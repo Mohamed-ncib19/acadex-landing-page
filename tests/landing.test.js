@@ -57,11 +57,11 @@ test("the order form uses the auto-detected country and the order helper", () =>
   assert.ok(html.includes('id="pricing-loc-hint"'));
 });
 
-test("Notion is no longer called from the page", () => {
+test("order saves through server Notion endpoint without exposing secrets", () => {
   assert.equal(html.includes("NOTION_API_KEY"), false);
   assert.equal(html.includes("api.notion.com"), false);
   assert.equal(html.includes("saveOrderToNotion"), false);
-  assert.equal(html.toLowerCase().includes("notion"), false);
+  assert.ok(html.includes("/api/order-notion"));
 });
 
 function dictKeys(lang) {

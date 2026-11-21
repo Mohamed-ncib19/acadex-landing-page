@@ -3419,17 +3419,14 @@
       </div>
     </div>
 
-    <!-- 3 · the online registration failed: the order is not lost -->
+    <!-- 3 · the online registration failed -->
     <div class="od-step od-done" data-step="fallback">
       <div class="od-done-icon warn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-      <h3 data-i18n="od_fb_title">تعذّر تسجيل الطلب عبر الإنترنت</h3>
-      <p data-i18n="od_fb_sub">طلبك جاهز أدناه: أرسله لنا مباشرة بإحدى هذه الطرق.</p>
-      <pre class="od-summary" id="od-summary"></pre>
+      <h3 data-i18n="od_fb_title">تعذّر تسجيل الطلب</h3>
+      <p data-i18n="od_fb_sub">حدث خطأ أثناء حفظ طلبك. يرجى إعادة المحاولة.</p>
       <div class="od-actions">
-        <a class="btn-primary" id="od-fb-mail" href="mailto:mohamedncib900@gmail.com" data-i18n="od_fb_mail">إرسال بالبريد</a>
-        <a class="btn-secondary" id="od-fb-call" href="tel:+21655518492" data-i18n="od_fb_call">اتصال</a>
-        <a class="btn-secondary" id="od-fb-wa" href="https://wa.me/21655518492" target="_blank" rel="noopener">WhatsApp</a>
-        <button type="button" class="btn-secondary" id="od-fb-retry" data-i18n="od_fb_retry">إعادة المحاولة</button>
+        <button type="button" class="btn-primary" id="od-fb-retry" data-i18n="od_fb_retry">إعادة المحاولة</button>
+        <button type="button" class="btn-secondary" data-od-close data-i18n="od_close">إغلاق</button>
       </div>
     </div>
   </div>
@@ -3574,13 +3571,9 @@
       od_next3: "تستلم كود التفعيل وتدخله في التطبيق: تُفتح باقة {pack} فوراً.",
       od_dl: "تحميل التطبيق",
       od_close: "إغلاق",
-      od_fb_title: "تعذّر تسجيل الطلب عبر الإنترنت",
-      od_fb_sub: "طلبك جاهز أدناه: أرسله لنا مباشرة بإحدى هذه الطرق.",
-      od_fb_mail: "إرسال بالبريد",
-      od_fb_call: "اتصال",
+      od_fb_title: "تعذّر تسجيل الطلب",
+      od_fb_sub: "حدث خطأ أثناء حفظ طلبك. يرجى إعادة المحاولة.",
       od_fb_retry: "إعادة المحاولة",
-      order_subject: "طلب باقة Acadex — {pack}",
-      order_msg: "طلب باقة Acadex\nالباقة: {pack} ({price}) — دفعة واحدة، ترخيص دائم\nالاسم: {name}\nالهاتف: {phone}",
       country_title: "الدولة والعملة",
       country_search_ph: "ابحث عن دولة",
       country_empty: "لا توجد دولة",
@@ -3717,13 +3710,9 @@
       od_next3: "Vous recevez le code d'activation ; saisissez-le dans l'application : le pack {pack} se débloque aussitôt.",
       od_dl: "Télécharger l'application",
       od_close: "Fermer",
-      od_fb_title: "La commande n'a pas pu être enregistrée en ligne",
-      od_fb_sub: "Votre commande est prête ci-dessous : envoyez-la nous directement par l'un de ces moyens.",
-      od_fb_mail: "Envoyer par e-mail",
-      od_fb_call: "Appeler",
+      od_fb_title: "La commande n'a pas pu être enregistrée",
+      od_fb_sub: "Une erreur s'est produite lors de l'enregistrement. Veuillez réessayer.",
       od_fb_retry: "Réessayer",
-      order_subject: "Commande Acadex — pack {pack}",
-      order_msg: "Commande Acadex\nPack : {pack} ({price}) — paiement unique, licence à vie\nNom : {name}\nTéléphone : {phone}",
       country_title: "Pays et devise",
       country_search_ph: "Rechercher un pays",
       country_empty: "Aucun pays trouvé",
@@ -3860,13 +3849,9 @@
       od_next3: "You receive the activation code; enter it in the app and the {pack} pack unlocks at once.",
       od_dl: "Download the app",
       od_close: "Close",
-      od_fb_title: "We couldn't register the order online",
-      od_fb_sub: "Your order is ready below: send it to us directly with one of these.",
-      od_fb_mail: "Send by e-mail",
-      od_fb_call: "Call",
+      od_fb_title: "We couldn't register the order",
+      od_fb_sub: "Something went wrong while saving your order. Please try again.",
       od_fb_retry: "Try again",
-      order_subject: "Acadex order — {pack} pack",
-      order_msg: "Acadex order\nPack: {pack} ({price}) — one-time payment, lifetime licence\nName: {name}\nPhone: {phone}",
       country_title: "Country and currency",
       country_search_ph: "Search for a country",
       country_empty: "No country found",
@@ -3887,8 +3872,6 @@
     en: "Acadex — Offline School Management System"
   };
 
-  const ORDER_ENDPOINT = "https://acadex-backup.zglm.workers.dev/v1/orders";
-  const CONTACT = { email: "mohamedncib900@gmail.com", phone: "+21655518492", whatsapp: "21655518492" };
   const PACKS = {
     essentiel: { label: "Essentiel" },
     plus: { label: "Plus" },
@@ -4722,33 +4705,15 @@
     return null;
   }
 
-  function orderSummary(order) {
-    const quote = order.quote || priceFor(order.pack);
-    return tr("order_msg", {
-      pack: PACKS[order.pack].label,
-      price: quote.formatted,
-      name: order.contact_name,
-      phone: order.phone,
-    });
-  }
 
   function renderOrderOutcome() {
     if (!orderShown) return;
     const { order, reference } = orderShown;
     const pack = PACKS[order.pack] || PACKS.complet;
-    if (reference) {
-      document.getElementById("od-ref").textContent = reference;
-      document.getElementById("od-next2").textContent = tr("od_next2", { phone: order.phone });
-      document.getElementById("od-next3").textContent = tr("od_next3", { pack: pack.label });
-      return;
-    }
-    const summary = orderSummary(order);
-    document.getElementById("od-summary").textContent = summary;
-    const subject = tr("order_subject", { pack: pack.label });
-    document.getElementById("od-fb-mail").href =
-      `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary)}`;
-    document.getElementById("od-fb-call").href = `tel:${CONTACT.phone}`;
-    document.getElementById("od-fb-wa").href = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(summary)}`;
+    if (!reference) return;
+    document.getElementById("od-ref").textContent = reference;
+    document.getElementById("od-next2").textContent = tr("od_next2", { phone: order.phone });
+    document.getElementById("od-next3").textContent = tr("od_next3", { pack: pack.label });
   }
   document.addEventListener("acadex:lang", renderOrderOutcome);
 
@@ -4783,19 +4748,19 @@
     const abort = new AbortController();
     const timer = setTimeout(() => abort.abort(), 12000);
 
-    let cfSuccess = false;
+    let saved = false;
     let finalRef = null;
 
     try {
-      const res = await fetch(ORDER_ENDPOINT, {
+      const res = await fetch("/api/order-notion", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ ...payload, amount_text: priceFor(order.pack).formatted }),
         signal: abort.signal,
       });
       const answer = await res.json().catch(() => ({}));
       if (res.status === 201 && answer.reference) {
-        cfSuccess = true;
+        saved = true;
         finalRef = answer.reference;
       } else if (res.status === 400 && FIELD_ERRORS[answer.field]) {
         clearTimeout(timer);
@@ -4807,14 +4772,14 @@
         return showOrderError(tr("od_err_rate"));
       }
     } catch {
-      // Cloudflare worker offline or not responding
+      // Notion endpoint offline or not responding
     } finally {
       clearTimeout(timer);
     }
 
     setOrderBusy(false);
 
-    if (cfSuccess) {
+    if (saved) {
       orderShown = { order, reference: finalRef };
       renderOrderOutcome();
       showOrderStep("done");
