@@ -1,96 +1,157 @@
-# Academy — Landing Page
+# Acadex — landing site
 
-Static landing page for **Acadex**, the offline-first school management
-desktop app for Windows. Files: `index.html` (the page shell, inline CSS/JS,
-no build step) plus `assets/countries.js`, `assets/rates.js`,
-`assets/localization.js`, `assets/order.js`, `api/geo.js`, `scripts/`
-(`generate-countries.mjs`, `generate-rates.mjs`) and `tests/`.
+The public site of **Acadex**, the offline school management app for Windows:
+https://acadex-rust.vercel.app/
 
-## Structure
+A static site with a small build of its own. The published files are committed;
+the host serves the folder as it is.
 
-- Files: `index.html` (inline CSS/JS, no build step) plus `assets/countries.js`,
-  `assets/rates.js`, `assets/localization.js`, `assets/order.js`, `api/geo.js`,
-  `scripts/` and `tests/`.
-- The **packs block** (`#plans`) mirrors the app's three tiers — same names
-  (Essentiel / Plus / Complet), same one-time purchase. Prices come from
-  `assets/localization.js`; TND/EUR/SAR/USD anchors are exact, other countries
-  convert through USD from `assets/rates.js`, and every price element is
-  driven by a `data-price` hook. **`Complet` is the recommended pack**: it carries the
-  `is-featured` class (the one bold element of the page: gold border, lifted,
-  wider column, ribbon, its own value line and a gold button) and comes first
-  on a phone. **`Plus` is the most popular pack** (`is-popular`): a blue card
-  with its own ribbon (`ribbon_popular`), one step quieter than Complet — it is
-  not raised — and second on a phone. `Essentiel` stays plain on purpose.
-- The **comparison table** under the packs repeats the same content with the
-  `Complet` column tinted gold (`cmp-pop-col`), plus a CTA row so nobody has
-  to scroll back up to act. On mobile/tablet, it provides an enhanced responsive view:
-  a pinned sticky feature column (`th:first-child`) with smooth horizontal swipe in
-  full comparison mode, plus interactive segmented tabs (`[الكل ⇋]` / `[Essentiel]` / `[Plus]` / `[Complet]`)
-  allowing instant switching between the complete matrix and an ultra-readable 2-column single-plan view.
-- **Ordering never leaves the page.** Every plan button (`data-order-pack`)
-  opens the order form (`<dialog id="order-dialog">`). The form asks **a name
-  and a phone, nothing else**: the pack is the one whose button was clicked
-  (the heading names it with its price) and the order is always for the
-  one-time licence. See
-  « Orders » below. WhatsApp is only a contact chip in the footer and one of
-  the fallbacks if the form cannot be sent.
-- A link can open the form directly: `…/#order` (Complet) or
-  `…/#order-essentiel`, `…/#order-plus`, `…/#order-complet` — for a message,
-  an ad or a QR code.
-- Media: `assets/demo.mp4` (hero desktop app demo video, faststart, with `assets/demo-poster.webp` 0ms poster),
-  and `assets/logo-128.png` (favicon + header).
-- Language: saved `acadex_lang` → browser language → country fallback →
-  English; Arabic is RTL, French and English are LTR. The country is
-  separate and is saved as `acadex_country`.
-- No binaries: the download button points at the **stable update feed**
-  (`https://acadex-backup.zglm.workers.dev/updates/latest`), which 302s to
-  the current installer published to Cloudflare R2 by CI on every push to
-  the app's `production` branch. The button can therefore never point at a
-  stale exe file.
-- The **version shown on the page is read live** from the same feed
-  (`/updates/latest.yml` → `version:`). The feed answers CORS for these
-  public routes, so the browser may read it; if the feed is unreachable the
-  page keeps its static label.
-- `downloads/` (untracked) may hold a local bootstrap installer for idle
-  installs; it stays out of git (GitHub refuses files >100 MB).
+## How it is made
 
-## Orders (serverless)
+```
+src/page.html            the home page, with data-i18n hooks
+src/i18n/{ar,fr,en}.json every text of the home page and the shared texts
+src/pages/<id>.<lang>.md the content pages (segments, features, pricing, blog)
+site.config.json         address of the site, contacts, analytics, verification codes
+        │
+        ▼  node scripts/build.mjs
+ar/ fr/ en/              one pre-rendered page per language, plus the content pages
+index.html 404.html sitemap.xml robots.txt
+```
 
-The page stays static. The form posts JSON to the Cloudflare Worker that
-already serves the update feed (`ORDER_ENDPOINT` in `index.html` →
-`https://acadex-backup.zglm.workers.dev/v1/orders`); the Worker stores the
-order in its D1 database and answers with a reference (`ACX-O-XXXXXX`) that
-the visitor sees and can copy.
+- `assets/site.css`, `assets/site.js` and the other assets are addressed with a
+  fingerprint (`?v=…`), so they are cached for a year and never served stale.
+- No inline script: the security policy (`vercel.json`) refuses it.
+- The home page of each language is complete in its raw HTML (texts, prices of
+  the default country, structured data). The script only adds behaviour: the
+  order form, the country picker, the demo video.
 
-- The payload includes `country` (ISO code), `currency` (ISO code) and
-  `amount_minor`, plus an E.164 `phone`.
-- `amount_minor` uses the currency's minor units: TND 299000, EUR 12900,
-  JPY 5900.
-- The worker defaults missing fields to `TN`/`TND`/`0` for older pages;
-  eight bare digits count as Tunisian only when the country is `TN` or
-  missing.
-- **Before the Worker route is deployed** (or whenever it is unreachable)
-  nothing is lost: the form shows the visitor a ready-made summary with
-  e-mail / phone / WhatsApp buttons instead of an error.
-- **Reading the orders** (owner only, token set once with
-  `wrangler secret put ORDERS_TOKEN`):
-  `curl -H "x-orders-token: <token>" https://acadex-backup.zglm.workers.dev/v1/orders`
-- **Being notified** is optional: with the two Telegram secrets set on the
-  Worker, each order is pushed to the owner's chat.
-- Limits on the public route: 8 KB per request, 5 orders per hour per
-  visitor, a hidden field that only bots fill. The visitor's IP address is
-  never stored — only a fingerprint that changes every day.
-- Worker migration: `apps/backup-worker/migrations/0003-order-localization.sql`
-  in the app repo; run it before deploying the worker that expects the
-  columns.
-- Notion is no longer used. The previously embedded token was public and
-  must be rotated in Notion.
+## Commands
 
-## Data refresh
+| Command | What it does |
+| --- | --- |
+| `node scripts/build.mjs` | Writes the published files |
+| `node scripts/build.mjs --check` | Fails when a published file is out of date |
+| `node --test` | Runs the tests (they also run the check above) |
+| `node scripts/preview.mjs` | Serves the site on http://localhost:4173 with the redirects and headers of `vercel.json` |
+| `DRAFTS=1 node scripts/preview.mjs` | Same, and shows the draft articles (nothing is written) |
+| `ORDERS=fake node scripts/preview.mjs` | Same, and the order form succeeds without saving anything |
+| `GEO=FR node scripts/preview.mjs` | Same, as a visitor from France |
+| `node scripts/og.mjs` | Redraws the share images `assets/og-{ar,fr,en}.jpg` (needs Chrome) |
+| `node scripts/generate-rates.mjs` | Refreshes the exchange-rate snapshot (monthly is enough) |
+| `node scripts/generate-countries.mjs` | Refreshes the country list (rarely) |
 
-- `node scripts/generate-countries.mjs` — only when the country dataset needs updating.
-- `node scripts/generate-rates.mjs` — monthly is enough. Review the diff, run the tests, and commit the new dated snapshot.
-- The page never calls a live FX API, so two visits on the same deploy always show the same price.
+After any change to a source: build, test, commit the sources **and** the
+published files together.
+
+## Pages
+
+| Address | Source |
+| --- | --- |
+| `/` | Redirects to `/ar/`, `/en/` or `/fr/` from the browser's language (`vercel.json`); the campaign parameters are kept |
+| `/ar/` `/fr/` `/en/` | `src/page.html` + `src/i18n/<lang>.json` |
+| `/fr/ecoles-privees/` · `/ar/مدارس-خاصة/` | `src/pages/schools.<lang>.md` |
+| `/fr/centres-formation-soutien/` · `/ar/مراكز-الدروس-والتكوين/` | `src/pages/centers.<lang>.md` |
+| `/fr/fonctionnalites/…/` · `/ar/الميزات/…/` | `attendance`, `timetable`, `receipts`, `payroll` |
+| `/fr/tarifs/` · `/ar/الأسعار/` | `src/pages/pricing.<lang>.md` + the `#plans` section of the home page |
+| `/fr/blog/…/` · `/ar/المدونة/…/` | the articles (`type: article`) |
+| `/download` | Redirects to the installer feed |
+
+### Writing or changing a content page
+
+A page is a Markdown file with a few settings on top; the format is described at
+the top of `scripts/content.mjs`. Two files with the same `<id>` are the same
+page in two languages and name each other (`hreflang`). The home pages link to a
+page only in the languages where it exists — there are no English content pages
+yet, so the English home page links to none.
+
+Rules the tests enforce: a French and an Arabic version of every page, a title
+of 30–65 characters, a description of 110–165, one `h1`, every segment and
+feature page links to the pricing page and to the order form, every article
+links to one page of the site, every internal link leads somewhere.
+
+### Publishing an article
+
+The five launch articles are **drafts** (`status: draft`): not built, not in the
+sitemap, not linked. To publish one, after reading it:
+
+1. `DRAFTS=1 node scripts/preview.mjs`, open `/fr/blog/`.
+2. Remove the `status: draft` line in its `.fr.md` **and** its `.ar.md`.
+3. `node scripts/build.mjs`, `node --test`, commit.
+
+The blog index and the « Blog » links appear with the first published article.
+
+## Prices
+
+Prices come from `assets/localization.js`: the TND, EUR, SAR and USD amounts are
+set by hand, other currencies convert through USD from the dated snapshot in
+`assets/rates.js`. The page never calls a live exchange-rate service. The pages
+are written with the prices of `pricingCountry` (Tunisia); a visitor elsewhere
+gets their own once `/api/geo` has answered.
+
+## Orders
+
+Every plan button opens the order form (`<dialog id="order-dialog">`); a link
+can open it too (`/fr/#order-plus`). The form asks for a name and a phone and
+posts to `api/order-notion.js`, a Vercel function that writes the request into a
+Notion database and answers with a reference. If the request cannot be saved,
+the visitor gets a ready-made summary with e-mail, phone and WhatsApp buttons.
+
+Environment variables on Vercel: `NOTION_API_KEY`, `NOTION_DATABASE_ID`,
+`NOTION_PAGE_ID`.
+
+Known gaps of the endpoint, left as they are until the owner decides (the order
+flow is not changed without asking): no rate limit, the hidden anti-bot field is
+not checked on the server, Notion's error text is returned to the browser, and
+default database and page identifiers are written in the file.
+
+## Measurement
+
+`assets/analytics.js` records these events, with one naming scheme:
+`download_click`, `plan_request_open`, `order_submit_success`,
+`order_submit_failure`, `whatsapp_click`, `phone_click`, `email_click`,
+`language_switch`, `demo_video_play`, `file_download`. Each carries the language
+and, when the visit came from a campaign link, `utm_source`, `utm_medium`,
+`utm_campaign`. The order form is observed from the outside; its code is not
+touched.
+
+**With no provider set, nothing leaves the browser.** In the console,
+`acadexEvents` lists what was measured and `acadexSource()` shows the campaign.
+
+### Analytics: turning a provider on
+
+1. In `site.config.json`:
+   `"analytics": { "provider": "plausible", "site": "acadex-rust.vercel.app", "script": "" }`
+   (`plausible`, `umami` or `ga4`; `site` is the domain for Plausible, the
+   website id for Umami, the measurement id for GA4; `script` only for a
+   self-hosted or per-site script address).
+2. In `vercel.json`, add the provider's origins to the `Content-Security-Policy`:
+
+   | Provider | `script-src` | `connect-src` |
+   | --- | --- | --- |
+   | Plausible | `https://plausible.io` | `https://plausible.io` |
+   | Umami | `https://cloud.umami.is` | `https://cloud.umami.is https://api-gateway.umami.dev` |
+   | GA4 | `https://www.googletagmanager.com` | `https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com` |
+
+3. `node scripts/build.mjs`, `node --test` (a test fails if the policy does not
+   allow the provider), commit, publish.
+4. In the provider's dashboard, declare the events above as goals / custom events.
+
+Plausible and Umami use no cookie. GA4 does: the site has no consent banner, so
+GA4 should not be turned on without adding one.
+
+### Search engines
+
+`"verification": { "google": "<code>", "bing": "<code>" }` in `site.config.json`
+adds the two ownership tags to every page. Then submit
+`https://acadex-rust.vercel.app/sitemap.xml` in Google Search Console and Bing
+Webmaster Tools.
+
+### Campaign links
+
+`docs/marketing/campaign-links.md`. The campaign is attached to the measured
+events; it is **not** stored with the order itself (that changes the order
+request and the leads table, and waits for the owner's decision).
 
 ## Tests
 
@@ -98,69 +159,51 @@ the visitor sees and can copy.
 node --test
 ```
 
-Covers country data, rate coverage, anchors/conversion/rounding/formatting, language and country resolution, phone normalization, the order payload, the geo endpoint and the static page hooks.
+Country data, rates, prices and formatting, language and country resolution,
+phone numbers, the order payload, the geo endpoint, and the published pages:
+texts in the raw HTML, one language per page, headings, structured data, share
+cards, security headers, caching, the 404 page, measurement, and the content
+pages.
 
-## Preview locally
+## Publishing
 
-Open `index.html` in any browser, or serve the folder:
+- GitHub: `Mohamed-ncib19/acadex-landing-page`. Vercel (framework « None », no
+  build command) serves the `main` branch at https://acadex-rust.vercel.app/.
+- A push to `main` publishes when the repository is connected in Vercel
+  (*Settings → Git*). Otherwise: `vercel --prod` from this folder.
+- `.vercelignore` keeps `src/`, `scripts/`, `tests/` and `docs/` off the host.
+- A custom domain: change `origin` in `site.config.json`, rebuild, publish, then
+  redirect the old address to the new one.
+- `api/geo.js` reads Vercel's country header. On another host, or from disk, the
+  page falls back to the browser's region and the manual picker.
+
+After a deploy, check:
 
 ```
-npx serve D:\Acadex
+curl -sI https://acadex-rust.vercel.app/ | grep -i -E "^HTTP|^location"          # 307 to a language
+curl -sI "https://acadex-rust.vercel.app/?utm_source=test" | grep -i "^location" # the query is kept
+curl -sI https://acadex-rust.vercel.app/fr/ | grep -i -E "content-security|strict-transport"
+curl -s  https://acadex-rust.vercel.app/sitemap.xml | grep -c "<url>"
+curl -sI "https://acadex-rust.vercel.app/ar/%D8%A7%D9%84%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1/" | head -1   # an Arabic address answers 200
 ```
 
-## Deploy
+## The app's download and version
 
-- Git host: the owner pushes this folder to its own GitHub repo
-  (`github.com/Mohamed-ncib19/acadex-landing-page`).
-- Host: **Vercel** (framework "None", no build command) — the domain is
-  **https://acadex.pro/** (`acadex-landing-page.vercel.app` redirects there).
-- The download button is a cross-absolute URL to the Cloudflare worker —
-  it works from localhost, Vercel, or any static host without
-  configuration.
-- `api/geo.js` is a Vercel Node function; it reads `x-vercel-ip-country`
-  and returns `{ country }`. On any other host, or when opened from disk,
-  the page falls back to the browser region and the manual picker.
-- The site still has no build step; Vercel's framework preset stays
-  "None".
-- Deploy order: D1 migration → worker → landing page. If the landing page
-  ships first, orders still succeed but the quote fields are ignored; if
-  the worker ships before the migration, inserts fail with 503 and the
-  page shows the contact fallback.
+The download button goes to `/download`, which redirects to the update feed
+(`https://acadex-backup.zglm.workers.dev/updates/latest`); the feed redirects to
+the current installer, published by the app's CI on every push to its
+`production` branch. The version shown on the page is read from the same feed;
+if it cannot be reached, the page keeps its written label.
 
-### Publishing a change (one of the two)
+`downloads/` (ignored by git and by the host) may hold a local installer. Files
+offered by the site itself live in `assets/files/`.
 
-1. **Git integration (recommended, then every push deploys itself)** — in the
-   Vercel dashboard: *Settings → Git*, connect
-   `Mohamed-ncib19/acadex-landing-page`, branch `main`, and make sure
-   *Deployments → Automatic* is on. **As of the `packs` commit the repo has NO
-   Vercel webhook, so a push alone does not deploy** — connect it once and it
-   never has to be done again.
-2. **Manual** — either
-   - `vercel login` on the machine (the stored session is empty, so the CLI
-     cannot deploy until it is re-authenticated) and then `vercel --prod` from
-     this folder, or
-   - the Vercel dashboard → *Deployments → New Deployment* with this folder
-     dragged in.
+## Off-page material
 
-Check what is live with `curl -sL https://acadex.pro/ | grep order-dialog` —
-the order form is the marker of the current build.
-
-> **To settle:** the app repo's `docs/PROJECT-STATUS.md` names
-> `acadex-rust.vercel.app` as the live address and says `acadex.pro` belongs
-> to a different product. One of the two documents is out of date — confirm
-> the real domain before the next deploy.
-
-## How updates flow (see the main repo design doc)
-
-1. Owner pushes app changes to `production` (backend repo) → GitHub Actions
-   builds the NSIS installer, stamps `2.0.0-alpha.<run_number>`, uploads
-   `latest.yml` + exe + blockmap to R2. Only that branch publishes; every
-   other branch builds and checks without touching the feed.
-2. Installed instances run `electron-updater` against the same `/updates/`
-   URL, poll passively, download with percentage progress, and silently
-   install once the super_admin has approved.
-3. This page is only the front door: humans can always
-   download the current installer from the same feed.
+`docs/marketing/`: video texts, directory listing, review request, campaign
+links, screenshots. `scripts/list_to_csv.py` converts a published list of
+schools (PDF, Excel) to CSV. `scripts/make_pay_template.py` rebuilds the pay
+spreadsheets of `assets/files/`.
 
 ## À propos
 
