@@ -1324,6 +1324,8 @@
     flex-shrink: 0;
   }
 
+  .pricing-guarantee.pricing-pay { margin-top: 12px; }
+
   /* ── Comparison Table (Enhanced Minimal Dark) ─────────────── */
   .cmp-container {
     margin-top: 60px;
@@ -2793,7 +2795,7 @@
       </div>
       <div>
         <div class="trust-metric-num">0 DT</div>
-        <div class="trust-metric-label" data-i18n="trust_monthly">بدون أي اشتراك شهري إجباري</div>
+        <div class="trust-metric-label" data-i18n="trust_monthly">بدون أي اشتراك شهري</div>
       </div>
       <div>
         <div class="trust-metric-num">⚡ 1 Clic</div>
@@ -2925,7 +2927,7 @@
       <div class="sec-header reveal">
         <span class="sec-badge" data-i18n="p_badge">الباقات والأسعار</span>
         <h2 class="sec-title" data-i18n="p_title">اختر باقتك — ترخيص دائم مدى الحياة</h2>
-        <p class="sec-desc" data-i18n="p_desc">ادفع مرة واحدة واستعمل التطبيق دائماً، مع إمكانية الدفع الدوري (فصلي أو سنوي).</p>
+        <p class="sec-desc" data-i18n="p_desc">ادفع مرة واحدة واستعمل التطبيق دائماً، دون اشتراك ولا مصاريف دورية.</p>
       </div>
       <div class="pricing-loc-hint" id="pricing-loc-hint" hidden>
         <span class="pricing-loc-dot" aria-hidden="true"></span>
@@ -3029,7 +3031,13 @@
       <!-- Compact Guarantee Notice -->
       <div class="pricing-guarantee reveal">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <span data-i18n="p_guarantee"><b>ترخيص دائم لحاسوب واحد:</b> دفع مرة واحدة أو بالتقسيط حسب الاتفاق. يمكن ترقية الباقة لاحقاً مع الحفاظ على كامل بياناتك.</span>
+        <span data-i18n="p_guarantee"><b>Licence à vie pour un PC :</b> paiement unique. Vous pouvez passer à un pack supérieur plus tard sans perdre vos données.</span>
+      </div>
+
+      <!-- Accepted payment methods (owner decision 2026-11-21: cash and D17, no installments) -->
+      <div class="pricing-guarantee pricing-pay reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        <span data-i18n="p_pay"><b>Paiement en Tunisie :</b> en espèces ou par D17. En une seule fois, sans échelonnement.</span>
       </div>
 
       <!-- ── Comparison Matrix ───────────────────────────────── -->
@@ -3177,7 +3185,7 @@
             <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
           </button>
           <div class="faq-content">
-            <p data-i18n="faq_a3" data-price-template="all">ترخيص دائم دفعة واحدة (150 / 249 / 299 د.ت)، مع خيار الدفع الفصلي أو السنوي لمن يرغب.</p>
+            <p data-i18n="faq_a3" data-price-template="all">ترخيص دائم بدفعة واحدة (150 / 249 / 299 د.ت)، دون أي اشتراك.</p>
           </div>
         </div>
 
@@ -3198,6 +3206,16 @@
           </button>
           <div class="faq-content">
             <p data-i18n="faq_a5">اضغط «اطلب» في الباقة التي تناسبك واملأ النموذج القصير في هذه الصفحة. نتصل بك لتأكيد الطلب وطريقة الدفع، ثم نرسل لك كود التفعيل لتدخله في التطبيق.</p>
+          </div>
+        </div>
+
+        <div class="faq-card reveal">
+          <button class="faq-btn">
+            <span data-i18n="faq_q6">Comment payer ?</span>
+            <span class="faq-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </button>
+          <div class="faq-content">
+            <p data-i18n="faq_a6">En Tunisie : en espèces ou par D17.</p>
           </div>
         </div>
       </div>
@@ -3458,7 +3476,7 @@
       hero_meta_pay: "◆ شراء دائم دفعة واحدة",
       demo_live: "عرض حي",
       trust_offline: "يعمل دون اتصال بالإنترنت",
-      trust_monthly: "بدون أي اشتراك شهري إجباري",
+      trust_monthly: "بدون أي اشتراك شهري",
       trust_print: "طباعة فورية للوصولات والكشوفات",
       trust_privacy: "خصوصية تامة لبيانات مدرستك",
       f_badge: "الميزات الأساسية",
@@ -3478,7 +3496,7 @@
       f6_desc: "تحليل المداخيل حسب المستويات والأقسام، وسجل تدقيق تفصيلي لكل حركة مع تصدير Excel.",
       p_badge: "الباقات والأسعار",
       p_title: "اختر باقتك — ترخيص دائم مدى الحياة",
-      p_desc: "ادفع مرة واحدة واستعمل التطبيق دائماً، مع إمكانية الدفع الدوري (فصلي أو سنوي).",
+      p_desc: "ادفع مرة واحدة واستعمل التطبيق دائماً، دون اشتراك ولا مصاريف دورية.",
       tier_basic: "الأساسية",
       tier_pro: "الاحترافية",
       tier_complet: "الشاملة",
@@ -3506,7 +3524,7 @@
       p3_f4: "سجل تدقيق أمني مفصل (من فعل ماذا ومتى)",
       p3_f5: "سبورة بيضاء ذكية للملاحظات والدروس",
       btn_order_comp: "اطلب باقة Complet",
-      p_guarantee: "<b>ترخيص دائم لحاسوب واحد:</b> دفع مرة واحدة أو بالتقسيط حسب الاتفاق. يمكن ترقية الباقة لاحقاً مع الحفاظ على كامل بياناتك.",
+      p_guarantee: "<b>ترخيص دائم لحاسوب واحد:</b> دفعة واحدة. يمكن ترقية الباقة لاحقاً مع الحفاظ على كامل بياناتك.",
       tbl_col_feat: "الميزة",
       tbl_tab_all: "مقارنة شاملة ⇋",
       cmp_scroll_hint: "اسحب الجدول أفقياً لمقارنة كل الباقات",
@@ -3525,7 +3543,7 @@
       faq_q2: "أين تُحفظ بيانات مدرستنا؟",
       faq_a2: "على القرص الصلب لحاسوبك بأمان وسرية تامة دون أي مشاركة مع أطراف خارجية.",
       faq_q3: "هل الترخيص دائم أم اشتراك شهري؟",
-      faq_a3: "ترخيص دائم دفعة واحدة ({p1} / {p2} / {p3})، مع خيار الدفع الفصلي أو السنوي لمن يرغب.",
+      faq_a3: "ترخيص دائم بدفعة واحدة ({p1} / {p2} / {p3})، دون أي اشتراك.",
       faq_q4: "هل يمكن ترقية الباقة لاحقاً؟",
       faq_a4: "نعم، بنقرة زر واحدة عبر إدخال كود جديد، وتفتح الميزات فوراً مع بقاء كامل بياناتك دون تغيير.",
       cta_title: "جاهز لتنظيم مدرستك؟",
@@ -3581,6 +3599,9 @@
       pricing_loc_hint: "الأسعار معروضة لـ {country} ({currency})",
       pricing_loc_change: "تغيير",
       demo_window_title: "Acadex 2.0 — إدارة المدرسة على ويندوز",
+      p_pay: "<b>طرق الدفع في تونس:</b> نقداً أو عبر D17. الدفع مرة واحدة، دون تقسيط.",
+      faq_q6: "كيف يتم الدفع؟",
+      faq_a6: "في تونس: نقداً أو عبر D17 (تطبيق الدفع للبريد التونسي). الدفع مرة واحدة، ولا نقترح الدفع بالتقسيط. لا يُطلب منك أي مبلغ عند الطلب: نتصل بك أولاً لتأكيده.",
     },
     fr: {
       nav_features: "Fonctionnalités",
@@ -3598,7 +3619,7 @@
       hero_meta_pay: "◆ Achat unique à vie",
       demo_live: "Démo en direct",
       trust_offline: "Fonctionne sans Internet",
-      trust_monthly: "Zéro abonnement obligatoire",
+      trust_monthly: "Aucun abonnement mensuel",
       trust_print: "Impression directe en 1 clic",
       trust_privacy: "Confidentialité totale des données",
       f_badge: "Essentiel & Efficace",
@@ -3618,7 +3639,7 @@
       f6_desc: "Analyses de revenus par filière/niveau et journal d'audit complet (qui a fait quoi et quand).",
       p_badge: "Tarification Claire",
       p_title: "Choisissez votre pack — Licence à vie",
-      p_desc: "Payez une seule fois sans frais récurrents. Options trimestrielles ou annuelles disponibles.",
+      p_desc: "Payez une seule fois, sans abonnement ni frais récurrents.",
       tier_basic: "Essentiel",
       tier_pro: "Professionnel",
       tier_complet: "Complet",
@@ -3646,7 +3667,7 @@
       p3_f4: "Journal d'audit sécurisé (qui a fait quoi et quand)",
       p3_f5: "Tableau blanc pour remarques et cours de soutien",
       btn_order_comp: "Commander le pack Complet",
-      p_guarantee: "<b>Licence à vie par PC :</b> Paiement unique ou échelonné. Mise à niveau du pack à tout moment sans perte de données.",
+      p_guarantee: "<b>Licence à vie pour un PC :</b> paiement unique. Vous pouvez passer à un pack supérieur plus tard sans perdre vos données.",
       tbl_col_feat: "Fonctionnalité",
       tbl_tab_all: "Tout comparer ⇋",
       cmp_scroll_hint: "Faites glisser horizontalement pour tout comparer",
@@ -3665,7 +3686,7 @@
       faq_q2: "Où sont stockées nos données ?",
       faq_a2: "Directement sur le disque dur de votre ordinateur, en sécurité totale et sans partage externe.",
       faq_q3: "Est-ce un abonnement mensuel ?",
-      faq_a3: "Non, c'est un achat unique définitif ({p1} / {p2} / {p3}). Paiement trimestriel ou annuel sur demande.",
+      faq_a3: "Non, c'est un achat unique et définitif ({p1} / {p2} / {p3}), sans abonnement.",
       faq_q4: "Puis-je changer d'offre plus tard ?",
       faq_a4: "Oui. En saisissant un nouveau code d'activation, les nouvelles options s'activent instantanément en gardant toutes vos données.",
       cta_title: "Prêt à moderniser votre école ?",
@@ -3721,6 +3742,9 @@
       pricing_loc_hint: "Prix affichés pour {country} ({currency})",
       pricing_loc_change: "Modifier",
       demo_window_title: "Acadex 2.0 — Gestion scolaire pour Windows",
+      p_pay: "<b>Paiement en Tunisie :</b> en espèces ou par D17. En une seule fois, sans échelonnement.",
+      faq_q6: "Comment payer ?",
+      faq_a6: "En Tunisie : en espèces ou par D17 (l'application de paiement de La Poste Tunisienne). Le paiement se fait en une seule fois ; le paiement en plusieurs fois n'est pas proposé. Rien n'est demandé au moment de la commande : nous vous appelons d'abord pour la confirmer.",
     },
     en: {
       nav_features: "Features",
@@ -3738,7 +3762,7 @@
       hero_meta_pay: "◆ One-time lifetime purchase",
       demo_live: "Live Demo",
       trust_offline: "Works without Internet",
-      trust_monthly: "Zero mandatory monthly fees",
+      trust_monthly: "No monthly subscription",
       trust_print: "Direct 1-click printing",
       trust_privacy: "100% private on-premise data",
       f_badge: "Core Highlights",
@@ -3758,7 +3782,7 @@
       f6_desc: "Detailed income analysis by grade/teacher and complete audit trail with Excel export.",
       p_badge: "Pricing Plans",
       p_title: "Select Your Plan — Lifetime License",
-      p_desc: "Pay once, use forever. Flexible term or annual options available upon request.",
+      p_desc: "Pay once and use it for good: no subscription, no recurring fees.",
       tier_basic: "Basic",
       tier_pro: "Professional",
       tier_complet: "Complete",
@@ -3786,7 +3810,7 @@
       p3_f4: "Complete security audit log (who did what, when)",
       p3_f5: "Whiteboard for reminders & tutoring sessions",
       btn_order_comp: "Order Complet Pack",
-      p_guarantee: "<b>Lifetime License per PC:</b> One-time payment. Upgrade your pack anytime without losing your data.",
+      p_guarantee: "<b>Lifetime licence for one PC:</b> one-time payment. You can move to a higher pack later without losing your data.",
       tbl_col_feat: "Feature",
       tbl_tab_all: "Compare all ⇋",
       cmp_scroll_hint: "Swipe horizontally to compare all plans",
@@ -3805,7 +3829,7 @@
       faq_q2: "Where is our school data stored?",
       faq_a2: "Directly on your local computer hard drive in complete privacy, never exposed to shared third-party servers.",
       faq_q3: "Is this a monthly subscription?",
-      faq_a3: "No. It is a permanent one-time purchase ({p1} / {p2} / {p3}). Term or annual installments available.",
+      faq_a3: "No. It is a one-time purchase ({p1} / {p2} / {p3}) with no subscription.",
       faq_q4: "Can I upgrade my plan later?",
       faq_a4: "Yes. Simply enter a new activation code: features unlock immediately with all your data untouched.",
       cta_title: "Ready to Upgrade Your School?",
@@ -3861,6 +3885,9 @@
       pricing_loc_hint: "Prices shown for {country} ({currency})",
       pricing_loc_change: "Change",
       demo_window_title: "Acadex 2.0 — School management for Windows",
+      p_pay: "<b>Payment in Tunisia:</b> cash or D17. A single payment, no installments.",
+      faq_q6: "How do I pay?",
+      faq_a6: "In Tunisia: cash or D17 (the Tunisian Post payment app). Payment is made once; installments are not offered. Nothing is charged when you order: we call you first to confirm.",
     }
   };
 
