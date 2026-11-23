@@ -324,7 +324,7 @@ html[dir="ltr"] .lang-btn[lang="ar"] {
 .hero {
   position: relative;
   padding: 85px 24px 100px;
-  overflow: hidden;
+  overflow: clip;
   text-align: center;
 }
 
@@ -334,7 +334,7 @@ html[dir="ltr"] .lang-btn[lang="ar"] {
   top: -120px;
   left: 50%;
   transform: translateX(-50%);
-  width: 800px;
+  width: min(800px, calc(100vw + 200px));
   height: 450px;
   background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.22) 0%, rgba(245, 158, 11, 0.08) 45%, transparent 70%);
   filter: blur(60px);
@@ -1776,7 +1776,10 @@ html[dir="ltr"] .fab-wa {
 }
 
 @media (max-width: 600px) {
-  .topbar-in { padding: 10px 16px; }
+  .topbar-in { padding: 10px 12px; gap: 8px; }
+  .nav-right { gap: 6px; min-width: 0; }
+  .lang-btn { padding: 4px 8px; font-size: 12px; }
+  .country-chip { padding: 4px 6px; gap: 4px; font-size: 11px; }
   .btn-nav-dl span { display: none; }
   .btn-nav-dl { padding: 7px 10px; }
   .brand span { font-size: 17px; }
@@ -2496,6 +2499,7 @@ dialog.country-dialog[open] {
     gap: 5px;
     padding: 4px;
     margin-bottom: 12px;
+    max-width: 100%;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border);
     border-radius: var(--radius-full);
