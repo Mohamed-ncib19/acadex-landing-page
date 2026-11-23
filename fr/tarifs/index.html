@@ -36,12 +36,38 @@
   <div class="cp-top-in">
     <a class="brand" href="/fr/"><img src="/assets/logo-128.png?v=91e742d622" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>
     <nav class="cp-nav" aria-label="Navigation principale">
-      <a href="/fr/#features">Fonctionnalités</a>
-      <a href="/fr/tarifs/">Tarifs</a>
-      <a href="/fr/ecoles-privees/">Écoles privées</a>
-      <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
-      <a href="/fr/#contact">Contact</a>
+      <a href="/fr/#features" data-nav-top>Fonctionnalités</a>
+      <a href="/fr/tarifs/" class="is-current" data-nav-top aria-current="page">Tarifs</a>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn"><span>Solutions</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="nav-drop-menu">
+          <a href="/fr/ecoles-privees/">Écoles privées</a>
+          <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+        </div>
+      </details>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn"><span>Ressources</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="nav-drop-menu">
+          <a href="/fr/#compare">Comparatif</a>
+          <a href="/fr/#faq">FAQ</a>
+        </div>
+      </details>
+      <a href="/fr/#contact" data-nav-top>Contact</a>
     </nav>
+    <details class="cp-mobile-menu">
+      <summary class="cp-menu-btn"><span>Menu</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="cp-mobile-panel">
+      <a href="/fr/#features">Fonctionnalités</a>
+      <a href="/fr/tarifs/" class="is-current" aria-current="page">Tarifs</a>
+      <p class="cp-mobile-group">Solutions</p>
+      <a href="/fr/ecoles-privees/" class="cp-mobile-sub">Écoles privées</a>
+      <a href="/fr/centres-formation-soutien/" class="cp-mobile-sub">Centres de soutien</a>
+      <p class="cp-mobile-group">Ressources</p>
+      <a href="/fr/#compare" class="cp-mobile-sub">Comparatif</a>
+      <a href="/fr/#faq" class="cp-mobile-sub">FAQ</a>
+      <a href="/fr/#contact">Contact</a>
+      </div>
+    </details>
     <div class="cp-top-actions">
       <nav class="lang-switcher" aria-label="Langue">
         <a class="lang-btn" data-lang="ar" href="/ar/%D8%A7%D9%84%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1/" hreflang="ar" lang="ar">عربي</a>

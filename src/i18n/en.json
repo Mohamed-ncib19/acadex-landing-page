@@ -250,5 +250,16 @@
   "more_timetable": "Timetable: the details",
   "more_receipts": "Payment receipts",
   "more_payroll": "Teacher pay",
-  "more_pricing": "Detailed pricing"
+  "more_pricing": "Detailed pricing",
+  "nav_solutions": "Solutions",
+  "nav_resources": "Resources",
+  "cp_toc": "On this page",
+  "cp_offline": "100% offline",
+  "cp_lifetime": "Lifetime licence",
+  "cp_pack_chip": "{pack} pack",
+  "cp_rail_pack": "Your pack",
+  "cp_menu": "Menu",
+  "cp_free_demo": "Free demo",
+  "cp_no_payment": "No payment at order",
+  "cp_trust_lifetime": "Lifetime licence for one PC"
 }

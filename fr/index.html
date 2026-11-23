@@ -52,14 +52,29 @@
     </a>
 
     <nav class="nav-links" id="nav-links" aria-label="Navigation principale">
-      <a href="#features">Fonctionnalités</a>
-      <a href="#plans">Tarifs</a>
-    <a href="/fr/tarifs/">Tarifs détaillés</a>
-    <a href="/fr/ecoles-privees/">Écoles privées</a>
-    <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
-      <a href="#compare">Comparatif</a>
-      <a href="#faq">FAQ</a>
-      <a href="#contact">Contact</a>
+      <a href="#features" data-nav-top>Fonctionnalités</a>
+      <a href="/fr/tarifs/" data-nav-top>Tarifs</a>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn">
+          <span>Solutions</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="nav-drop-menu">
+          <a href="/fr/ecoles-privees/">Écoles privées</a>
+          <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+        </div>
+      </details>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn">
+          <span>Ressources</span>
+          <svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </summary>
+        <div class="nav-drop-menu">
+          <a href="#compare">Comparatif</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </details>
+      <a href="#contact" data-nav-top>Contact</a>
     </nav>
 
     <div class="nav-right">

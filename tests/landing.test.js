@@ -558,3 +558,28 @@ test("the home pages link to the content pages of their language, and only to th
   }
   assert.equal(page.en.includes('class="more-link"'), false, "no English content page exists yet: the English home page must not link to one");
 });
+
+test("the top navigation is short, translated and free of empty groups", async () => {
+  const build = await loadBuild();
+  const content = build.contentPages({ drafts: true });
+  const files = build.outputs({ drafts: true });
+
+  const fr = files[content.fileOf(content.find("timetable", "fr"))];
+  const frNav = /<nav class="cp-nav"[\s\S]*?<\/nav>/.exec(fr)[0];
+  assert.equal((frNav.match(/data-nav-top/g) || []).length, 5, "FR content nav: five top-level items");
+  assert.ok(frNav.includes(dict.fr.nav_solutions) && frNav.includes(dict.fr.nav_resources), "FR nav: the two groups");
+  assert.equal(frNav.includes("Tarifs détaillés"), false, "the duplicate pricing link is gone");
+  assert.ok(frNav.includes(content.pageHref("schools", "fr")), "FR nav: schools");
+  assert.ok(frNav.includes(content.pageHref("centers", "fr")), "FR nav: centres");
+
+  const ar = files[content.fileOf(content.find("timetable", "ar"))];
+  const arNav = /<nav class="cp-nav"[\s\S]*?<\/nav>/.exec(ar)[0];
+  assert.equal((arNav.match(/data-nav-top/g) || []).length, 5, "AR content nav: five top-level items");
+
+  const enNav = /<nav class="nav-links"[\s\S]*?<\/nav>/.exec(files["en/index.html"])[0];
+  assert.equal((enNav.match(/data-nav-top/g) || []).length, 4, "EN home: empty groups are hidden");
+  assert.equal(enNav.includes("Solutions"), false, "EN has no empty Solutions group");
+  assert.ok(enNav.includes(dict.en.nav_resources), "EN keeps resources");
+  assert.equal(/href="\/en\/(ecoles|centres|tarifs|fonctionnalites)/.test(enNav), false, "EN nav has no dead content links");
+  assert.ok(enNav.includes('href="#plans"'), "EN keeps the on-page plans link");
+});

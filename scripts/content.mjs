@@ -267,14 +267,86 @@ export function createContent(ctx) {
     ].filter(([href]) => href);
   }
 
-  function topBar(lang, alts, pack) {
+  const chevron = '<svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+
+  /**
+   * The top navigation, as data: links and groups. A group with no available
+   * link is left out, so English (no content pages) does not show an empty
+   * Solutions menu.
+   */
+  function navGroups(lang, currentId, pageType) {
+    const groups = [];
+    groups.push({ kind: "link", label: t(lang, "nav_features"), href: `${home(lang)}#features`, current: pageType === "feature" });
+    groups.push({ kind: "link", label: t(lang, "nav_plans"), href: pageHref("pricing", lang) || `${home(lang)}#plans`, current: currentId === "pricing" });
+    const solutions = [
+      ["schools", t(lang, "cp_nav_schools")],
+      ["centers", t(lang, "cp_nav_centers")],
+    ].map(([id, label]) => ({ label, href: pageHref(id, lang), current: currentId === id })).filter((item) => item.href);
+    if (solutions.length) groups.push({ kind: "group", label: t(lang, "nav_solutions"), current: solutions.some((item) => item.current), items: solutions });
+    const resources = [
+      { label: t(lang, "nav_compare"), href: `${home(lang)}#compare`, current: false },
+      { label: t(lang, "nav_faq"), href: `${home(lang)}#faq`, current: false },
+      { label: t(lang, "cp_nav_blog"), href: pageHref("blog", lang), current: currentId === "blog" || pageType === "article" },
+    ].filter((item) => item.href);
+    if (resources.length) groups.push({ kind: "group", label: t(lang, "nav_resources"), current: resources.some((item) => item.current), items: resources });
+    groups.push({ kind: "link", label: t(lang, "nav_contact"), href: `${home(lang)}#contact`, current: false });
+    return groups;
+  }
+
+  function navLink(item, attrs = "", extraClass = "") {
+    const classes = [extraClass, item.current ? "is-current" : ""].filter(Boolean);
+    const classAttr = classes.length ? ` class="${classes.join(" ")}"` : "";
+    const current = item.current ? ' aria-current="page"' : "";
+    return `<a href="${item.href}"${classAttr}${attrs ? ` ${attrs}` : ""}${current}>${escapeHtml(item.label)}</a>`;
+  }
+
+  function renderTopNav(groups, lang) {
+    const items = groups.map((item) => {
+      if (item.kind === "link") return `      ${navLink(item, "data-nav-top")}`;
+      return [
+        `      <details class="nav-drop" data-nav-top${item.current ? ' data-current="true"' : ""}>`,
+        `        <summary class="nav-drop-btn"><span>${escapeHtml(item.label)}</span>${chevron}</summary>`,
+        '        <div class="nav-drop-menu">',
+        ...item.items.map((link) => `          ${navLink(link)}`),
+        "        </div>",
+        "      </details>",
+      ].join("\n");
+    });
+    return [
+      `    <nav class="cp-nav" aria-label="${escapeAttr(t(lang, "aria_main_nav"))}">`,
+      ...items,
+      "    </nav>",
+    ].join("\n");
+  }
+
+  function renderMobileNav(groups, lang) {
+    const items = [];
+    for (const item of groups) {
+      if (item.kind === "link") {
+        items.push(`      ${navLink(item)}`);
+      } else {
+        items.push(`      <p class="cp-mobile-group">${escapeHtml(item.label)}</p>`);
+        for (const link of item.items) items.push(`      ${navLink(link, "", "cp-mobile-sub")}`);
+      }
+    }
+    return [
+      '    <details class="cp-mobile-menu">',
+      `      <summary class="cp-menu-btn"><span>${escapeHtml(t(lang, "cp_menu"))}</span>${chevron}</summary>`,
+      '      <div class="cp-mobile-panel">',
+      ...items,
+      "      </div>",
+      "    </details>",
+    ].join("\n");
+  }
+
+  function topBar(lang, alts, pack, currentId, pageType) {
+    const groups = navGroups(lang, currentId, pageType);
     return [
       '<header class="cp-top" id="top">',
       '  <div class="cp-top-in">',
       `    <a class="brand" href="${home(lang)}"><img src="${asset("assets/logo-128.png")}" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>`,
-      `    <nav class="cp-nav" aria-label="${escapeAttr(t(lang, "aria_main_nav"))}">`,
-      ...siteLinks(lang).map(([href, label]) => `      <a href="${href}">${escapeHtml(label)}</a>`),
-      "    </nav>",
+      renderTopNav(groups, lang),
+      renderMobileNav(groups, lang),
       '    <div class="cp-top-actions">',
       `      ${langSwitcher(lang, alts)}`,
       `      <a class="btn-primary cp-top-order" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order"))}</a>`,
@@ -431,7 +503,7 @@ export function createContent(ctx) {
     const draftBanner = page.draft ? `<p class="cp-draft">${escapeHtml(t(lang, "cp_draft"))}</p>` : "";
 
     const main = [
-      topBar(lang, alts, pack),
+      topBar(lang, alts, pack, page.id, page.meta.type),
       `<main class="cp${isPricing ? " cp-wide" : ""}">`,
       crumbs(lang, trail),
       draftBanner,
@@ -500,7 +572,7 @@ export function createContent(ctx) {
     const trail = [[t(lang, "cp_home"), home(lang)], [t(lang, "cp_nav_blog"), blogUrl(lang)]];
     const format = new Intl.DateTimeFormat(lang === "ar" ? "ar-TN" : lang, { dateStyle: "long", timeZone: "UTC" });
     const main = [
-      topBar(lang, alts, "complet"),
+      topBar(lang, alts, "complet", "blog", "blog"),
       '<main class="cp">',
       crumbs(lang, trail),
       '<header class="cp-hero">',
