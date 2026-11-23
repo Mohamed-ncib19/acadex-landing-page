@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Essentiel, Plus ou Complet : comparez les packs d'Acadex, logiciel de gestion scolaire hors ligne. Paiement unique, licence à vie pour un PC.">
 <meta name="twitter:image" content="https://acadex-rust.vercel.app/assets/og-fr.jpg?v=009759b0e8">
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/plus-jakarta-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css?v=87668db8df">
+<link rel="stylesheet" href="/assets/site.css?v=7e9ff93e25">
 <script src="/assets/analytics.js?v=40af259e42" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://acadex-rust.vercel.app/#organization","name":"Acadex","url":"https://acadex-rust.vercel.app/","logo":"https://acadex-rust.vercel.app/assets/logo-512.png"},{"@type":"WebPage","@id":"https://acadex-rust.vercel.app/fr/tarifs/#webpage","url":"https://acadex-rust.vercel.app/fr/tarifs/","name":"Tarifs Acadex : 3 packs, achat unique, sans abonnement","description":"Essentiel, Plus ou Complet : comparez les packs d'Acadex, logiciel de gestion scolaire hors ligne. Paiement unique, licence à vie pour un PC.","inLanguage":"fr","image":"https://acadex-rust.vercel.app/assets/og-fr.jpg","isPartOf":{"@type":"WebSite","@id":"https://acadex-rust.vercel.app/#website","url":"https://acadex-rust.vercel.app/","name":"Acadex"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://acadex-rust.vercel.app/fr/"},{"@type":"ListItem","position":2,"name":"Tarifs","item":"https://acadex-rust.vercel.app/fr/tarifs/"}]},{"@type":"SoftwareApplication","@id":"https://acadex-rust.vercel.app/#software","name":"Acadex","applicationCategory":"BusinessApplication","operatingSystem":"Windows 10, Windows 11","url":"https://acadex-rust.vercel.app/fr/","offers":[{"@type":"Offer","name":"Acadex Essentiel","price":"150","priceCurrency":"TND","availability":"https://schema.org/InStock","url":"https://acadex-rust.vercel.app/fr/#order-essentiel"},{"@type":"Offer","name":"Acadex Plus","price":"249","priceCurrency":"TND","availability":"https://schema.org/InStock","url":"https://acadex-rust.vercel.app/fr/#order-plus"},{"@type":"Offer","name":"Acadex Complet","price":"299","priceCurrency":"TND","availability":"https://schema.org/InStock","url":"https://acadex-rust.vercel.app/fr/#order-complet"}]},{"@type":"FAQPage","@id":"https://acadex-rust.vercel.app/fr/tarifs/#faq","inLanguage":"fr","mainEntity":[{"@type":"Question","name":"Est-ce un abonnement ?","acceptedAnswer":{"@type":"Answer","text":"Non. Chaque pack est un achat unique, sans frais mensuels ni annuels."}},{"@type":"Question","name":"Comment payer ?","acceptedAnswer":{"@type":"Answer","text":"En Tunisie : en espèces ou par D17. Le paiement se fait en une seule fois. Rien n'est demandé au moment de la commande : nous vous appelons d'abord pour confirmer."}},{"@type":"Question","name":"Peut-on essayer avant d'acheter ?","acceptedAnswer":{"@type":"Answer","text":"Il n'y a pas de période d'essai : sans code d'activation, l'application reste sur l'écran d'activation. La démo est gratuite, en vidéo ou en direct sur demande."}},{"@type":"Question","name":"Est-ce remboursable ?","acceptedAnswer":{"@type":"Answer","text":"Non. Une fois le code d'activation remis, la licence n'est pas remboursée. Prenez le temps de voir la démo avant de décider."}},{"@type":"Question","name":"Peut-on passer à un pack supérieur plus tard ?","acceptedAnswer":{"@type":"Answer","text":"Oui. Un nouveau code d'activation débloque les fonctions du pack supérieur, sans perdre vos données."}},{"@type":"Question","name":"La licence vaut-elle pour plusieurs ordinateurs ?","acceptedAnswer":{"@type":"Answer","text":"Non, elle est liée à un PC. Si vous changez d'ordinateur, contactez-nous."}}]}]}</script>
 </head>
@@ -36,12 +36,38 @@
   <div class="cp-top-in">
     <a class="brand" href="/fr/"><img src="/assets/logo-128.png?v=91e742d622" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>
     <nav class="cp-nav" aria-label="Navigation principale">
-      <a href="/fr/#features">Fonctionnalités</a>
-      <a href="/fr/tarifs/">Tarifs</a>
-      <a href="/fr/ecoles-privees/">Écoles privées</a>
-      <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
-      <a href="/fr/#contact">Contact</a>
+      <a href="/fr/#features" data-nav-top>Fonctionnalités</a>
+      <a href="/fr/tarifs/" class="is-current" data-nav-top aria-current="page">Tarifs</a>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn"><span>Solutions</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="nav-drop-menu">
+          <a href="/fr/ecoles-privees/">Écoles privées</a>
+          <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+        </div>
+      </details>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn"><span>Ressources</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="nav-drop-menu">
+          <a href="/fr/#compare">Comparatif</a>
+          <a href="/fr/#faq">FAQ</a>
+        </div>
+      </details>
+      <a href="/fr/#contact" data-nav-top>Contact</a>
     </nav>
+    <details class="cp-mobile-menu">
+      <summary class="cp-menu-btn"><span>Menu</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="cp-mobile-panel">
+      <a href="/fr/#features">Fonctionnalités</a>
+      <a href="/fr/tarifs/" class="is-current" aria-current="page">Tarifs</a>
+      <p class="cp-mobile-group">Solutions</p>
+      <a href="/fr/ecoles-privees/" class="cp-mobile-sub">Écoles privées</a>
+      <a href="/fr/centres-formation-soutien/" class="cp-mobile-sub">Centres de soutien</a>
+      <p class="cp-mobile-group">Ressources</p>
+      <a href="/fr/#compare" class="cp-mobile-sub">Comparatif</a>
+      <a href="/fr/#faq" class="cp-mobile-sub">FAQ</a>
+      <a href="/fr/#contact">Contact</a>
+      </div>
+    </details>
     <div class="cp-top-actions">
       <nav class="lang-switcher" aria-label="Langue">
         <a class="lang-btn" data-lang="ar" href="/ar/%D8%A7%D9%84%D8%A3%D8%B3%D8%B9%D8%A7%D8%B1/" hreflang="ar" lang="ar">عربي</a>
@@ -52,16 +78,18 @@
     </div>
   </div>
 </header>
-<main class="cp cp-wide">
+<main class="cp cp-wide cp-pricing-page">
 <nav class="cp-crumbs" aria-label="Fil d'Ariane"><ol><li><a href="/fr/">Accueil</a></li><li aria-current="page">Tarifs</li></ol></nav>
 <article>
 <header class="cp-hero">
-  <p class="cp-kicker">Tarifs</p>
-  <h1>Tarifs d'Acadex : trois packs, un seul paiement</h1>
-  <p class="cp-lead">Pas d'abonnement : vous payez une fois, et la licence est à vie pour un PC. Comparez les packs, puis envoyez votre demande sans rien payer à la commande.</p>
-  <div class="cp-hero-btns">
-    <a class="btn-primary" href="/fr/#order-complet">Commander le pack Complet</a>
-    <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+  <div class="cp-hero-copy">
+    <p class="cp-kicker">Tarifs</p>
+    <h1>Tarifs d'Acadex : trois packs, un seul paiement</h1>
+    <p class="cp-lead">Pas d'abonnement : vous payez une fois, et la licence est à vie pour un PC. Comparez les packs, puis envoyez votre demande sans rien payer à la commande.</p>
+    <div class="cp-hero-btns">
+      <a class="btn-primary" href="/fr/#order-complet">Commander le pack Complet</a>
+      <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+    </div>
   </div>
 </header>
 <p class="cp-pricing-note">Prix affichés pour la Tunisie, en dinars tunisiens. <a href="/fr/#plans">Voir les prix dans une autre monnaie</a></p>
@@ -289,8 +317,8 @@
       </div>
     </div>
   </section>
-<div class="cp-body">
-<h2>Quel pack choisir ?</h2>
+<div class="cp-main cp-main-wide"><div class="cp-body">
+<h2 id="section-1">Quel pack choisir ?</h2>
 <ul>
   <li><strong>Essentiel (150 DT) :</strong> le quotidien d'un établissement. Élèves, groupes, emploi du temps, feuilles de présence, paiements, reçus et paie des professeurs, avec la sauvegarde locale.</li>
   <li><strong>Plus (249 DT) :</strong> tout Essentiel, plus l'import des élèves depuis Excel et la sauvegarde cloud.</li>
@@ -307,10 +335,14 @@
   <details><summary>Peut-on passer à un pack supérieur plus tard ?</summary><p>Oui. Un nouveau code d'activation débloque les fonctions du pack supérieur, sans perdre vos données.</p></details>
   <details><summary>La licence vaut-elle pour plusieurs ordinateurs ?</summary><p>Non, elle est liée à un PC. Si vous changez d'ordinateur, contactez-nous.</p></details>
 </section>
-</article>
 <aside class="cp-cta">
   <h2>Voyez Acadex avant de décider</h2>
   <p>Demandez une démo gratuite par WhatsApp, ou envoyez votre demande de pack : aucun paiement à la commande, nous vous appelons pour confirmer.</p>
+  <div class="cp-cta-chips">
+    <span>Démo gratuite</span>
+    <span>Aucun paiement à la commande</span>
+    <span>Licence à vie pour un PC</span>
+  </div>
   <div class="cp-cta-btns">
     <a class="btn-primary" href="/fr/#order-complet">Commander le pack Complet</a>
     <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
@@ -319,10 +351,11 @@
 <nav class="cp-related" aria-label="À lire aussi">
   <h2>À lire aussi</h2>
   <ul>
-    <li><a href="/fr/ecoles-privees/">Logiciel de gestion scolaire pour les écoles privées en Tunisie</a></li>
-    <li><a href="/fr/centres-formation-soutien/">Logiciel de gestion pour centres de soutien scolaire et de formation</a></li>
+    <li><a href="/fr/ecoles-privees/"><span>Logiciel de gestion scolaire pour les écoles privées en Tunisie</span><svg class="cp-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+    <li><a href="/fr/centres-formation-soutien/"><span>Logiciel de gestion pour centres de soutien scolaire et de formation</span><svg class="cp-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
   </ul>
-</nav>
+</nav></div>
+</article>
 </main>
 <footer>
   <nav class="footer-nav" aria-label="Liens de bas de page">

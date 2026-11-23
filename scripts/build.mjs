@@ -229,8 +229,18 @@ function renderFragment(html, lang) {
   // the page's language, and left out where that language does not have the page.
   html = html.replace(/[ \t]*<a\b[^<>]*\sdata-page="([a-z-]+)"[^<>]*>[\s\S]*?<\/a>\n?/g, (link, id) => {
     const href = content().pageHref(id, lang);
-    return href ? link.replace(/\sdata-page="[a-z-]+"/, "").replace(/\shref="[^"]*"/, ` href="${href}"`) : "";
+    if (href) {
+      return link.replace(/\sdata-page="[a-z-]+"/, "").replace(/\sdata-page-fallback\b/, "").replace(/\shref="[^"]*"/, ` href="${href}"`);
+    }
+    // A navigation entry may keep its on-page anchor where the language has no
+    // page of its own (English "Tarifs" points at the home #plans section).
+    return /\sdata-page-fallback\b/.test(link)
+      ? link.replace(/\sdata-page="[a-z-]+"/, "").replace(/\sdata-page-fallback\b/, "")
+      : "";
   });
+  // A dropdown whose links were all removed for this language is not published.
+  html = html.replace(/[ \t]*<details class="nav-drop"[\s\S]*?<\/details>\n?/g, (block) =>
+    /<div class="nav-drop-menu">[\s\S]*?<a\b/.test(block) ? block : "");
   // Images and the video are addressed with their fingerprint, like the stylesheet.
   html = html.replace(/\b(src|poster)="\/(assets\/[^"?#]+)"/g, (_, attr, file) => `${attr}="${asset(file)}"`);
 

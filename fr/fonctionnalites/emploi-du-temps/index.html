@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Séances hebdomadaires, salles, heures d'ouverture : Acadex refuse une salle déjà occupée et signale un professeur déjà pris. Impression en A4.">
 <meta name="twitter:image" content="https://acadex-rust.vercel.app/assets/og-fr.jpg?v=009759b0e8">
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/plus-jakarta-sans-latin.woff2" crossorigin>
-<link rel="stylesheet" href="/assets/site.css?v=87668db8df">
+<link rel="stylesheet" href="/assets/site.css?v=7e9ff93e25">
 <script src="/assets/analytics.js?v=40af259e42" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://acadex-rust.vercel.app/#organization","name":"Acadex","url":"https://acadex-rust.vercel.app/","logo":"https://acadex-rust.vercel.app/assets/logo-512.png"},{"@type":"WebPage","@id":"https://acadex-rust.vercel.app/fr/fonctionnalites/emploi-du-temps/#webpage","url":"https://acadex-rust.vercel.app/fr/fonctionnalites/emploi-du-temps/","name":"Emploi du temps scolaire sans conflit, hors ligne | Acadex","description":"Séances hebdomadaires, salles, heures d'ouverture : Acadex refuse une salle déjà occupée et signale un professeur déjà pris. Impression en A4.","inLanguage":"fr","image":"https://acadex-rust.vercel.app/assets/shots/timetable.webp","isPartOf":{"@type":"WebSite","@id":"https://acadex-rust.vercel.app/#website","url":"https://acadex-rust.vercel.app/","name":"Acadex"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Accueil","item":"https://acadex-rust.vercel.app/fr/"},{"@type":"ListItem","position":2,"name":"Fonctionnalités","item":"https://acadex-rust.vercel.app/fr/#features"},{"@type":"ListItem","position":3,"name":"Emploi du temps","item":"https://acadex-rust.vercel.app/fr/fonctionnalites/emploi-du-temps/"}]},{"@type":"FAQPage","@id":"https://acadex-rust.vercel.app/fr/fonctionnalites/emploi-du-temps/#faq","inLanguage":"fr","mainEntity":[{"@type":"Question","name":"Que se passe-t-il si deux séances tombent dans la même salle ?","acceptedAnswer":{"@type":"Answer","text":"L'application refuse d'enregistrer la deuxième et indique que la salle est déjà occupée sur ce créneau."}},{"@type":"Question","name":"Peut-on remplacer un professeur pour une seule séance ?","acceptedAnswer":{"@type":"Answer","text":"Oui. La séance du jour reçoit un remplaçant ; les semaines suivantes ne changent pas."}},{"@type":"Question","name":"L'emploi du temps fonctionne-t-il sans Internet ?","acceptedAnswer":{"@type":"Answer","text":"Oui, comme toute l'application."}}]}]}</script>
 </head>
@@ -36,12 +36,38 @@
   <div class="cp-top-in">
     <a class="brand" href="/fr/"><img src="/assets/logo-128.png?v=91e742d622" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>
     <nav class="cp-nav" aria-label="Navigation principale">
-      <a href="/fr/#features">Fonctionnalités</a>
-      <a href="/fr/tarifs/">Tarifs</a>
-      <a href="/fr/ecoles-privees/">Écoles privées</a>
-      <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
-      <a href="/fr/#contact">Contact</a>
+      <a href="/fr/#features" class="is-current" data-nav-top aria-current="page">Fonctionnalités</a>
+      <a href="/fr/tarifs/" data-nav-top>Tarifs</a>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn"><span>Solutions</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="nav-drop-menu">
+          <a href="/fr/ecoles-privees/">Écoles privées</a>
+          <a href="/fr/centres-formation-soutien/">Centres de soutien</a>
+        </div>
+      </details>
+      <details class="nav-drop" data-nav-top>
+        <summary class="nav-drop-btn"><span>Ressources</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+        <div class="nav-drop-menu">
+          <a href="/fr/#compare">Comparatif</a>
+          <a href="/fr/#faq">FAQ</a>
+        </div>
+      </details>
+      <a href="/fr/#contact" data-nav-top>Contact</a>
     </nav>
+    <details class="cp-mobile-menu">
+      <summary class="cp-menu-btn"><span>Menu</span><svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+      <div class="cp-mobile-panel">
+      <a href="/fr/#features" class="is-current" aria-current="page">Fonctionnalités</a>
+      <a href="/fr/tarifs/">Tarifs</a>
+      <p class="cp-mobile-group">Solutions</p>
+      <a href="/fr/ecoles-privees/" class="cp-mobile-sub">Écoles privées</a>
+      <a href="/fr/centres-formation-soutien/" class="cp-mobile-sub">Centres de soutien</a>
+      <p class="cp-mobile-group">Ressources</p>
+      <a href="/fr/#compare" class="cp-mobile-sub">Comparatif</a>
+      <a href="/fr/#faq" class="cp-mobile-sub">FAQ</a>
+      <a href="/fr/#contact">Contact</a>
+      </div>
+    </details>
     <div class="cp-top-actions">
       <nav class="lang-switcher" aria-label="Langue">
         <a class="lang-btn" data-lang="ar" href="/ar/%D8%A7%D9%84%D9%85%D9%8A%D8%B2%D8%A7%D8%AA/%D8%AC%D8%AF%D9%88%D9%84-%D8%A7%D9%84%D8%AD%D8%B5%D8%B5/" hreflang="ar" lang="ar">عربي</a>
@@ -55,36 +81,48 @@
 <main class="cp">
 <nav class="cp-crumbs" aria-label="Fil d'Ariane"><ol><li><a href="/fr/">Accueil</a></li><li><a href="/fr/#features">Fonctionnalités</a></li><li aria-current="page">Emploi du temps</li></ol></nav>
 <article>
-<header class="cp-hero">
-  <p class="cp-kicker">Fonctionnalité · Emploi du temps</p>
-  <h1>Emploi du temps : séances, salles et professeurs sans conflit</h1>
-  <p class="cp-lead">Planifiez les séances de la semaine une seule fois : Acadex vérifie la salle, le professeur et les heures d'ouverture avant d'enregistrer.</p>
-  <div class="cp-hero-btns">
-    <a class="btn-primary" href="/fr/#order-essentiel">Commander le pack Essentiel</a>
-    <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+<header class="cp-hero cp-hero-with-media">
+  <div class="cp-hero-copy">
+    <p class="cp-kicker">Fonctionnalité · Emploi du temps</p>
+    <h1>Emploi du temps : séances, salles et professeurs sans conflit</h1>
+    <p class="cp-lead">Planifiez les séances de la semaine une seule fois : Acadex vérifie la salle, le professeur et les heures d'ouverture avant d'enregistrer.</p>
+    <p class="cp-hero-meta"><span class="cp-chip">Pack Essentiel</span><span class="cp-chip">100 % hors ligne</span><span class="cp-chip">Licence à vie</span></p>
+    <div class="cp-hero-btns">
+      <a class="btn-primary" href="/fr/#order-essentiel">Commander le pack Essentiel</a>
+      <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
+    </div>
   </div>
-</header>
-<figure class="cp-shot">
+  <div class="cp-hero-media"><figure class="cp-shot">
   <img src="/assets/shots/timetable.webp?v=4004ce562d" alt="Calendrier hebdomadaire d'Acadex, avec les séances de chaque groupe affichées en couleur" width="1280" height="710" fetchpriority="high" decoding="async">
   <figcaption>Capture d'écran de l'application Acadex (données de démonstration).</figcaption>
-</figure>
+</figure></div>
+</header>
+<div class="cp-layout">
+  <aside class="cp-rail"><nav class="cp-toc" aria-label="Sur cette page"><p class="cp-toc-title">Sur cette page</p><ol><li><a href="#section-1"><span class="cp-toc-num">01</span><span>Ce que l'application vérifie pour vous</span></a></li><li><a href="#section-2"><span class="cp-toc-num">02</span><span>Des séances qui se répètent</span></a></li><li><a href="#section-3"><span class="cp-toc-num">03</span><span>Trois vues, trois filtres</span></a></li><li><a href="#section-4"><span class="cp-toc-num">04</span><span>Salles et heures d'ouverture</span></a></li><li><a href="#section-5"><span class="cp-toc-num">05</span><span>Impression</span></a></li><li><a href="#section-6"><span class="cp-toc-num">06</span><span>Dans quel pack ?</span></a></li></ol></nav><div class="cp-rail-card">
+  <p class="cp-rail-eyebrow">Votre pack</p>
+  <p class="cp-rail-pack">Essentiel</p>
+  <p class="cp-rail-price">150 DT</p>
+  <p class="cp-rail-note">Licence à vie</p>
+  <a class="cp-rail-order" href="/fr/#order-essentiel">Commander</a>
+</div></aside>
+  <div class="cp-main"><details class="cp-toc-mobile"><summary>Sur cette page</summary><nav class="cp-toc" aria-label="Sur cette page"><p class="cp-toc-title">Sur cette page</p><ol><li><a href="#section-1"><span class="cp-toc-num">01</span><span>Ce que l'application vérifie pour vous</span></a></li><li><a href="#section-2"><span class="cp-toc-num">02</span><span>Des séances qui se répètent</span></a></li><li><a href="#section-3"><span class="cp-toc-num">03</span><span>Trois vues, trois filtres</span></a></li><li><a href="#section-4"><span class="cp-toc-num">04</span><span>Salles et heures d'ouverture</span></a></li><li><a href="#section-5"><span class="cp-toc-num">05</span><span>Impression</span></a></li><li><a href="#section-6"><span class="cp-toc-num">06</span><span>Dans quel pack ?</span></a></li></ol></nav></details>
 <div class="cp-body">
-<h2>Ce que l'application vérifie pour vous</h2>
+<h2 id="section-1">Ce que l'application vérifie pour vous</h2>
 <ul>
   <li><strong>Salle déjà occupée :</strong> le créneau est refusé.</li>
   <li><strong>Professeur déjà pris :</strong> un avertissement s'affiche, et vous décidez d'enregistrer ou non.</li>
   <li><strong>Deux séances du même groupe qui se chevauchent :</strong> refusé.</li>
   <li><strong>En dehors des heures d'ouverture :</strong> refusé.</li>
 </ul>
-<h2>Des séances qui se répètent</h2>
+<h2 id="section-2">Des séances qui se répètent</h2>
 <p>Une séance se crée une fois et revient chaque semaine, avec une date de début et, si besoin, une date de fin. Pour un jour particulier, vous pouvez annuler la séance, la déplacer, changer de salle ou désigner un professeur remplaçant, sans toucher au reste de la série.</p>
-<h2>Trois vues, trois filtres</h2>
+<h2 id="section-3">Trois vues, trois filtres</h2>
 <p>Le calendrier s'affiche au jour, à la semaine ou au mois. Il se filtre par groupe, par professeur ou par salle.</p>
-<h2>Salles et heures d'ouverture</h2>
+<h2 id="section-4">Salles et heures d'ouverture</h2>
 <p>Chaque salle a son nom et sa capacité. Les heures d'ouverture se règlent jour par jour, avec plusieurs plages possibles dans la même journée.</p>
-<h2>Impression</h2>
+<h2 id="section-5">Impression</h2>
 <p>L'emploi du temps de la semaine s'imprime pour un élève ou pour un professeur, en A4 paysage.</p>
-<h2>Dans quel pack ?</h2>
+<h2 id="section-6">Dans quel pack ?</h2>
 <p>L'emploi du temps et son impression sont dans tous les packs, dès Essentiel (150 DT). <a href="/fr/tarifs/">Comparer les trois packs</a> ou <a href="/fr/#order-essentiel">envoyer une demande de pack</a>.</p>
 </div>
 <section class="cp-faq">
@@ -93,10 +131,14 @@
   <details><summary>Peut-on remplacer un professeur pour une seule séance ?</summary><p>Oui. La séance du jour reçoit un remplaçant ; les semaines suivantes ne changent pas.</p></details>
   <details><summary>L'emploi du temps fonctionne-t-il sans Internet ?</summary><p>Oui, comme toute l'application.</p></details>
 </section>
-</article>
 <aside class="cp-cta">
   <h2>Voyez Acadex avant de décider</h2>
   <p>Demandez une démo gratuite par WhatsApp, ou envoyez votre demande de pack : aucun paiement à la commande, nous vous appelons pour confirmer.</p>
+  <div class="cp-cta-chips">
+    <span>Démo gratuite</span>
+    <span>Aucun paiement à la commande</span>
+    <span>Licence à vie pour un PC</span>
+  </div>
   <div class="cp-cta-btns">
     <a class="btn-primary" href="/fr/#order-essentiel">Commander le pack Essentiel</a>
     <a class="btn-secondary" href="https://wa.me/21655518492?text=Bonjour%2C%20je%20veux%20une%20d%C3%A9mo%20d'Acadex%20pour%20mon%20%C3%A9cole%2Fcentre." target="_blank" rel="noopener">Démo sur WhatsApp</a>
@@ -106,11 +148,13 @@
 <nav class="cp-related" aria-label="À lire aussi">
   <h2>À lire aussi</h2>
   <ul>
-    <li><a href="/fr/fonctionnalites/presences/">Feuilles de présence mensuelles, prêtes à imprimer</a></li>
-    <li><a href="/fr/ecoles-privees/">Logiciel de gestion scolaire pour les écoles privées en Tunisie</a></li>
-    <li><a href="/fr/centres-formation-soutien/">Logiciel de gestion pour centres de soutien scolaire et de formation</a></li>
+    <li><a href="/fr/fonctionnalites/presences/"><span>Feuilles de présence mensuelles, prêtes à imprimer</span><svg class="cp-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+    <li><a href="/fr/ecoles-privees/"><span>Logiciel de gestion scolaire pour les écoles privées en Tunisie</span><svg class="cp-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+    <li><a href="/fr/centres-formation-soutien/"><span>Logiciel de gestion pour centres de soutien scolaire et de formation</span><svg class="cp-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
   </ul>
-</nav>
+</nav></div>
+</div>
+</article>
 </main>
 <footer>
   <nav class="footer-nav" aria-label="Liens de bas de page">

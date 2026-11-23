@@ -250,5 +250,16 @@
   "more_timetable": "Emploi du temps : le détail",
   "more_receipts": "Reçus de paiement",
   "more_payroll": "Paie des professeurs",
-  "more_pricing": "Tarifs détaillés"
+  "more_pricing": "Tarifs détaillés",
+  "nav_solutions": "Solutions",
+  "nav_resources": "Ressources",
+  "cp_toc": "Sur cette page",
+  "cp_offline": "100 % hors ligne",
+  "cp_lifetime": "Licence à vie",
+  "cp_pack_chip": "Pack {pack}",
+  "cp_rail_pack": "Votre pack",
+  "cp_menu": "Menu",
+  "cp_free_demo": "Démo gratuite",
+  "cp_no_payment": "Aucun paiement à la commande",
+  "cp_trust_lifetime": "Licence à vie pour un PC"
 }

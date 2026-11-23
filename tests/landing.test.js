@@ -484,7 +484,9 @@ test("a content page is complete: language, address, sibling, one heading, descr
     const data = JSON.parse(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/.exec(html)[1]);
     const types = data["@graph"].map((node) => node["@type"]);
     assert.ok(types.includes("BreadcrumbList") && types.includes(p.meta.type === "article" ? "Article" : "WebPage"), `${file}: ${types}`);
-    const shown = [...html.matchAll(/<summary>([^<]*)<\/summary>/g)].map((m) => m[1].replace(/&amp;/g, "&"));
+    // The FAQ section, not the reading-aid <details> of the table of contents.
+    const faqSection = /<section class="cp-faq">([\s\S]*?)<\/section>/.exec(html);
+    const shown = faqSection ? [...faqSection[1].matchAll(/<summary>([^<]*)<\/summary>/g)].map((m) => m[1].replace(/&amp;/g, "&")) : [];
     const faq = data["@graph"].find((node) => node["@type"] === "FAQPage");
     assert.deepEqual(faq ? faq.mainEntity.map((q) => q.name) : [], shown, `${file}: FAQ data and FAQ shown differ`);
     assert.equal(/aggregateRating|"review"/i.test(JSON.stringify(data)), false, `${file}: no rating may be invented`);
@@ -557,4 +559,67 @@ test("the home pages link to the content pages of their language, and only to th
     assert.equal(page[lang].includes("data-page="), false);
   }
   assert.equal(page.en.includes('class="more-link"'), false, "no English content page exists yet: the English home page must not link to one");
+});
+
+test("the top navigation is short, translated and free of empty groups", async () => {
+  const build = await loadBuild();
+  const content = build.contentPages({ drafts: true });
+  const files = build.outputs({ drafts: true });
+
+  const fr = files[content.fileOf(content.find("timetable", "fr"))];
+  const frNav = /<nav class="cp-nav"[\s\S]*?<\/nav>/.exec(fr)[0];
+  assert.equal((frNav.match(/data-nav-top/g) || []).length, 5, "FR content nav: five top-level items");
+  assert.ok(frNav.includes(dict.fr.nav_solutions) && frNav.includes(dict.fr.nav_resources), "FR nav: the two groups");
+  assert.equal(frNav.includes("Tarifs détaillés"), false, "the duplicate pricing link is gone");
+  assert.ok(frNav.includes(content.pageHref("schools", "fr")), "FR nav: schools");
+  assert.ok(frNav.includes(content.pageHref("centers", "fr")), "FR nav: centres");
+
+  const ar = files[content.fileOf(content.find("timetable", "ar"))];
+  const arNav = /<nav class="cp-nav"[\s\S]*?<\/nav>/.exec(ar)[0];
+  assert.equal((arNav.match(/data-nav-top/g) || []).length, 5, "AR content nav: five top-level items");
+
+  const enNav = /<nav class="nav-links"[\s\S]*?<\/nav>/.exec(files["en/index.html"])[0];
+  assert.equal((enNav.match(/data-nav-top/g) || []).length, 4, "EN home: empty groups are hidden");
+  assert.equal(enNav.includes("Solutions"), false, "EN has no empty Solutions group");
+  assert.ok(enNav.includes(dict.en.nav_resources), "EN keeps resources");
+  assert.equal(/href="\/en\/(ecoles|centres|tarifs|fonctionnalites)/.test(enNav), false, "EN nav has no dead content links");
+  assert.ok(enNav.includes('href="#plans"'), "EN keeps the on-page plans link");
+});
+
+test("a content page has anchored sections, a table of contents and a media hero", async () => {
+  const build = await loadBuild();
+  const content = build.contentPages();
+  const files = build.outputs();
+  for (const id of ["schools", "centers", "attendance", "timetable", "receipts", "payroll"]) {
+    const page = content.find(id, "fr");
+    const html = files[content.fileOf(page)];
+    assert.ok(html.includes('class="cp-hero cp-hero-with-media"'), `${id}: media hero`);
+    assert.ok(html.includes('<aside class="cp-rail">'), `${id}: rail`);
+    assert.ok(html.includes('<nav class="cp-toc"'), `${id}: table of contents`);
+    assert.ok(html.includes('class="cp-chip"'), `${id}: meta chip`);
+    const ids = [...html.matchAll(/<h2 id="(section-\d+)"/g)].map((m) => m[1]);
+    assert.ok(ids.length >= 2, `${id}: at least two sections`);
+    assert.equal(new Set(ids).size, ids.length, `${id}: unique section ids`);
+    for (const section of ids) assert.ok(html.includes(`href="#${section}"`), `${id}: TOC target ${section}`);
+    assert.equal(/<button\b|data-i18n/.test(html), false, `${id}: no page controls`);
+  }
+});
+
+test("pricing keeps the wide plan grid and has no TOC rail", async () => {
+  const build = await loadBuild();
+  const content = build.contentPages();
+  const html = build.outputs()[content.fileOf(content.find("pricing", "fr"))];
+  assert.ok(html.includes("cp-pricing-page"), "pricing marker");
+  assert.ok(html.includes('id="plans"'), "plans section");
+  assert.ok(html.includes("cp-pricing"), "plan grid");
+  assert.equal(html.includes('<nav class="cp-toc"'), false, "no TOC on pricing");
+});
+
+test("a paragraph that is only a link becomes an action row", async () => {
+  const build = await loadBuild();
+  const content = build.contentPages();
+  const html = build.outputs()[content.fileOf(content.find("schools", "fr"))];
+  assert.ok(html.includes('class="cp-link-row"'), "standalone link row");
+  assert.ok(html.includes('class="cp-action-link"'), "action link");
+  assert.ok(html.includes(content.pageHref("receipts", "fr")), "action link target");
 });

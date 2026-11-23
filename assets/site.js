@@ -309,13 +309,29 @@ document.querySelectorAll(".faq-card").forEach(card => {
 // Mobile menu
 const navToggle = document.getElementById("nav-toggle");
 const navLinks = document.getElementById("nav-links");
-const setMenu = (open) => {
-  navLinks.classList.toggle("open", open);
-  navToggle.setAttribute("aria-expanded", String(open));
-};
-navToggle.addEventListener("click", () => setMenu(!navLinks.classList.contains("open")));
-navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") setMenu(false); });
+if (navToggle && navLinks) {
+  const navDrops = [...navLinks.querySelectorAll(".nav-drop")];
+  const closeDrops = (except) => navDrops.forEach((drop) => { if (drop !== except) drop.open = false; });
+  const setMenu = (open) => {
+    navLinks.classList.toggle("open", open);
+    navToggle.setAttribute("aria-expanded", String(open));
+    if (!open) closeDrops();
+  };
+  navToggle.addEventListener("click", () => setMenu(!navLinks.classList.contains("open")));
+  navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  navDrops.forEach((drop) => {
+    drop.addEventListener("toggle", () => { if (drop.open) closeDrops(drop); });
+  });
+  document.addEventListener("click", (event) => {
+    if (!navLinks.contains(event.target) && !navToggle.contains(event.target)) {
+      closeDrops();
+      if (navLinks.classList.contains("open")) setMenu(false);
+    }
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { closeDrops(); setMenu(false); }
+  });
+}
 
 // Comparison Table Mobile Tabs
 const cmpBox = document.getElementById("cmp-box");

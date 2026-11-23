@@ -132,11 +132,21 @@ export function createContent(ctx) {
     return out;
   }
 
-  /** Renders a body. Returns the HTML and the questions of its FAQ block, if any. */
+  const arrowIcon = '<svg class="cp-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+  /** A link that stands alone reads as an action, with an arrow that mirrors in RTL. */
+  function actionLink(label, target, page) {
+    const link = linkTarget(target, page);
+    const attrs = link.external ? ' target="_blank" rel="noopener"' : "";
+    return `<a class="cp-action-link" href="${escapeAttr(link.href)}"${attrs}><span>${escapeHtml(label)}</span>${arrowIcon}</a>`;
+  }
+
+  /** Renders a body. Returns the HTML, the FAQ questions and the h2 sections. */
   function markdown(source, page) {
     const lines = source.replace(/\r\n/g, "\n").split("\n");
     const html = [];
     const faq = [];
+    const sections = [];
     let i = 0;
     const isBlank = (line) => !line.trim();
     const startsBlock = (line) => /^(#{2,3} |- |\d+\. |> |\||:::)/.test(line);
@@ -163,7 +173,15 @@ export function createContent(ctx) {
         i += 1;
         continue;
       }
-      if (line.startsWith("## ")) { html.push(`<h2>${inline(line.slice(3).trim(), page)}</h2>`); i += 1; continue; }
+      if (line.startsWith("## ")) {
+        const source = line.slice(3).trim();
+        const id = `section-${sections.length + 1}`;
+        const rendered = inline(source, page);
+        sections.push({ id, label: stripTags(rendered).trim() });
+        html.push(`<h2 id="${id}">${rendered}</h2>`);
+        i += 1;
+        continue;
+      }
       if (line.startsWith("### ")) { html.push(`<h3>${inline(line.slice(4).trim(), page)}</h3>`); i += 1; continue; }
       if (line.startsWith("- ")) {
         const items = [];
@@ -198,9 +216,13 @@ export function createContent(ctx) {
       }
       const paragraph = [];
       while (i < lines.length && !isBlank(lines[i]) && !startsBlock(lines[i])) { paragraph.push(lines[i].trim()); i += 1; }
-      html.push(`<p>${inline(paragraph.join(" "), page)}</p>`);
+      const text = paragraph.join(" ").trim();
+      const onlyLink = /^\[([^\]]+)\]\(([^)\s]+)\)\.?$/.exec(text);
+      html.push(onlyLink
+        ? `<p class="cp-link-row">${actionLink(onlyLink[1], onlyLink[2], page)}</p>`
+        : `<p>${inline(text, page)}</p>`);
     }
-    return { html: html.join("\n"), faq };
+    return { html: html.join("\n"), faq, sections };
   }
 
   // ── The parts every content page shares ──────────────────────
@@ -267,14 +289,86 @@ export function createContent(ctx) {
     ].filter(([href]) => href);
   }
 
-  function topBar(lang, alts, pack) {
+  const chevron = '<svg class="nav-chevron" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+
+  /**
+   * The top navigation, as data: links and groups. A group with no available
+   * link is left out, so English (no content pages) does not show an empty
+   * Solutions menu.
+   */
+  function navGroups(lang, currentId, pageType) {
+    const groups = [];
+    groups.push({ kind: "link", label: t(lang, "nav_features"), href: `${home(lang)}#features`, current: pageType === "feature" });
+    groups.push({ kind: "link", label: t(lang, "nav_plans"), href: pageHref("pricing", lang) || `${home(lang)}#plans`, current: currentId === "pricing" });
+    const solutions = [
+      ["schools", t(lang, "cp_nav_schools")],
+      ["centers", t(lang, "cp_nav_centers")],
+    ].map(([id, label]) => ({ label, href: pageHref(id, lang), current: currentId === id })).filter((item) => item.href);
+    if (solutions.length) groups.push({ kind: "group", label: t(lang, "nav_solutions"), current: solutions.some((item) => item.current), items: solutions });
+    const resources = [
+      { label: t(lang, "nav_compare"), href: `${home(lang)}#compare`, current: false },
+      { label: t(lang, "nav_faq"), href: `${home(lang)}#faq`, current: false },
+      { label: t(lang, "cp_nav_blog"), href: pageHref("blog", lang), current: currentId === "blog" || pageType === "article" },
+    ].filter((item) => item.href);
+    if (resources.length) groups.push({ kind: "group", label: t(lang, "nav_resources"), current: resources.some((item) => item.current), items: resources });
+    groups.push({ kind: "link", label: t(lang, "nav_contact"), href: `${home(lang)}#contact`, current: false });
+    return groups;
+  }
+
+  function navLink(item, attrs = "", extraClass = "") {
+    const classes = [extraClass, item.current ? "is-current" : ""].filter(Boolean);
+    const classAttr = classes.length ? ` class="${classes.join(" ")}"` : "";
+    const current = item.current ? ' aria-current="page"' : "";
+    return `<a href="${item.href}"${classAttr}${attrs ? ` ${attrs}` : ""}${current}>${escapeHtml(item.label)}</a>`;
+  }
+
+  function renderTopNav(groups, lang) {
+    const items = groups.map((item) => {
+      if (item.kind === "link") return `      ${navLink(item, "data-nav-top")}`;
+      return [
+        `      <details class="nav-drop" data-nav-top${item.current ? ' data-current="true"' : ""}>`,
+        `        <summary class="nav-drop-btn"><span>${escapeHtml(item.label)}</span>${chevron}</summary>`,
+        '        <div class="nav-drop-menu">',
+        ...item.items.map((link) => `          ${navLink(link)}`),
+        "        </div>",
+        "      </details>",
+      ].join("\n");
+    });
+    return [
+      `    <nav class="cp-nav" aria-label="${escapeAttr(t(lang, "aria_main_nav"))}">`,
+      ...items,
+      "    </nav>",
+    ].join("\n");
+  }
+
+  function renderMobileNav(groups, lang) {
+    const items = [];
+    for (const item of groups) {
+      if (item.kind === "link") {
+        items.push(`      ${navLink(item)}`);
+      } else {
+        items.push(`      <p class="cp-mobile-group">${escapeHtml(item.label)}</p>`);
+        for (const link of item.items) items.push(`      ${navLink(link, "", "cp-mobile-sub")}`);
+      }
+    }
+    return [
+      '    <details class="cp-mobile-menu">',
+      `      <summary class="cp-menu-btn"><span>${escapeHtml(t(lang, "cp_menu"))}</span>${chevron}</summary>`,
+      '      <div class="cp-mobile-panel">',
+      ...items,
+      "      </div>",
+      "    </details>",
+    ].join("\n");
+  }
+
+  function topBar(lang, alts, pack, currentId, pageType) {
+    const groups = navGroups(lang, currentId, pageType);
     return [
       '<header class="cp-top" id="top">',
       '  <div class="cp-top-in">',
       `    <a class="brand" href="${home(lang)}"><img src="${asset("assets/logo-128.png")}" alt="" class="brand-logo" width="34" height="34"><span class="brand-name">Acadex</span></a>`,
-      `    <nav class="cp-nav" aria-label="${escapeAttr(t(lang, "aria_main_nav"))}">`,
-      ...siteLinks(lang).map(([href, label]) => `      <a href="${href}">${escapeHtml(label)}</a>`),
-      "    </nav>",
+      renderTopNav(groups, lang),
+      renderMobileNav(groups, lang),
       '    <div class="cp-top-actions">',
       `      ${langSwitcher(lang, alts)}`,
       `      <a class="btn-primary cp-top-order" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order"))}</a>`,
@@ -313,6 +407,11 @@ export function createContent(ctx) {
       '<aside class="cp-cta">',
       `  <h2>${escapeHtml(t(lang, "cp_cta_title"))}</h2>`,
       `  <p>${escapeHtml(t(lang, "cp_cta_text"))}</p>`,
+      '  <div class="cp-cta-chips">',
+      `    <span>${escapeHtml(t(lang, "cp_free_demo"))}</span>`,
+      `    <span>${escapeHtml(t(lang, "cp_no_payment"))}</span>`,
+      `    <span>${escapeHtml(t(lang, "cp_trust_lifetime"))}</span>`,
+      "  </div>",
       '  <div class="cp-cta-btns">',
       `    <a class="btn-primary" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order_pack", { pack: packLabel(pack) }))}</a>`,
       `    <a class="btn-secondary" href="${escapeAttr(waLink(lang))}" target="_blank" rel="noopener">${escapeHtml(t(lang, "m_wa"))}</a>`,
@@ -344,7 +443,7 @@ export function createContent(ctx) {
       `<nav class="cp-related" aria-label="${escapeAttr(t(page.lang, "cp_related"))}">`,
       `  <h2>${escapeHtml(t(page.lang, "cp_related"))}</h2>`,
       "  <ul>",
-      ...links.map(([href, label]) => `    <li><a href="${href}">${escapeHtml(label)}</a></li>`),
+      ...links.map(([href, label]) => `    <li><a href="${href}"><span>${escapeHtml(label)}</span>${arrowIcon}</a></li>`),
       "  </ul>",
       "</nav>",
     ].join("\n");
@@ -410,7 +509,7 @@ export function createContent(ctx) {
     const url = urlOf(page, true);
     const alts = alternates(page);
     const pack = ["essentiel", "plus", "complet"].includes(page.meta.pack) ? page.meta.pack : "complet";
-    const { html: bodyHtml, faq } = markdown(page.body, page);
+    const { html: bodyHtml, faq, sections } = markdown(page.body, page);
     const trail = fixTrail(lang, page);
     const isArticle = page.meta.type === "article";
     const isPricing = page.meta.type === "pricing";
@@ -430,32 +529,74 @@ export function createContent(ctx) {
       : "";
     const draftBanner = page.draft ? `<p class="cp-draft">${escapeHtml(t(lang, "cp_draft"))}</p>` : "";
 
+    const chips = !isArticle && !isPricing ? [
+      `<span class="cp-chip">${escapeHtml(t(lang, "cp_pack_chip", { pack: packLabel(pack) }))}</span>`,
+      `<span class="cp-chip">${escapeHtml(t(lang, "cp_offline"))}</span>`,
+      `<span class="cp-chip">${escapeHtml(t(lang, "cp_lifetime"))}</span>`,
+    ].join("") : "";
+
+    const tocItems = sections.map((section, index) =>
+      `<li><a href="#${section.id}"><span class="cp-toc-num">${String(index + 1).padStart(2, "0")}</span><span>${escapeHtml(section.label)}</span></a></li>`).join("");
+    const toc = !isPricing && sections.length >= 2
+      ? `<nav class="cp-toc" aria-label="${escapeAttr(t(lang, "cp_toc"))}"><p class="cp-toc-title">${escapeHtml(t(lang, "cp_toc"))}</p><ol>${tocItems}</ol></nav>`
+      : "";
+    const mobileToc = toc ? `<details class="cp-toc-mobile"><summary>${escapeHtml(t(lang, "cp_toc"))}</summary>${toc}</details>` : "";
+
+    const packCard = !isArticle && !isPricing
+      ? [
+        '<div class="cp-rail-card">',
+        `  <p class="cp-rail-eyebrow">${escapeHtml(t(lang, "cp_rail_pack"))}</p>`,
+        `  <p class="cp-rail-pack">${escapeHtml(packLabel(pack))}</p>`,
+        `  <p class="cp-rail-price">${escapeHtml(priceTable(lang)[pack].formatted)}</p>`,
+        `  <p class="cp-rail-note">${escapeHtml(t(lang, "cp_lifetime"))}</p>`,
+        `  <a class="cp-rail-order" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order"))}</a>`,
+        "</div>",
+      ].join("\n")
+      : "";
+
+    const contentColumn = [
+      mobileToc,
+      `<div class="cp-body">\n${bodyHtml}\n</div>`,
+      faqBlock(lang, faq),
+      callToAction(lang, pack, { pricing: !isPricing }),
+      related(page),
+    ].filter(Boolean).join("\n");
+
+    const layout = toc
+      ? [
+        '<div class="cp-layout">',
+        `  <aside class="cp-rail">${toc}${packCard}</aside>`,
+        `  <div class="cp-main">${contentColumn}</div>`,
+        "</div>",
+      ].join("\n")
+      : `<div class="cp-main cp-main-wide">${contentColumn}</div>`;
+
     const main = [
-      topBar(lang, alts, pack),
-      `<main class="cp${isPricing ? " cp-wide" : ""}">`,
+      topBar(lang, alts, pack, page.id, page.meta.type),
+      `<main class="cp${isPricing ? " cp-wide cp-pricing-page" : ""}">`,
       crumbs(lang, trail),
       draftBanner,
       "<article>",
-      '<header class="cp-hero">',
-      page.meta.kicker ? `  <p class="cp-kicker">${escapeHtml(page.meta.kicker)}</p>` : "",
-      `  <h1>${escapeHtml(page.meta.h1)}</h1>`,
-      page.meta.lead ? `  <p class="cp-lead">${inline(page.meta.lead, page)}</p>` : "",
+      `<header class="cp-hero${image ? " cp-hero-with-media" : ""}">`,
+      '  <div class="cp-hero-copy">',
+      page.meta.kicker ? `    <p class="cp-kicker">${escapeHtml(page.meta.kicker)}</p>` : "",
+      `    <h1>${escapeHtml(page.meta.h1)}</h1>`,
+      page.meta.lead ? `    <p class="cp-lead">${inline(page.meta.lead, page)}</p>` : "",
+      chips ? `    <p class="cp-hero-meta">${chips}</p>` : "",
       dateLine,
       isArticle ? "" : [
-        '  <div class="cp-hero-btns">',
-        `    <a class="btn-primary" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order_pack", { pack: packLabel(pack) }))}</a>`,
-        `    <a class="btn-secondary" href="${escapeAttr(waLink(lang))}" target="_blank" rel="noopener">${escapeHtml(t(lang, "m_wa"))}</a>`,
-        "  </div>",
+        '    <div class="cp-hero-btns">',
+        `      <a class="btn-primary" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order_pack", { pack: packLabel(pack) }))}</a>`,
+        `      <a class="btn-secondary" href="${escapeAttr(waLink(lang))}" target="_blank" rel="noopener">${escapeHtml(t(lang, "m_wa"))}</a>`,
+        "    </div>",
       ].join("\n"),
+      "  </div>",
+      image ? `  <div class="cp-hero-media">${image}</div>` : "",
       "</header>",
-      image,
       isPricing ? `<p class="cp-pricing-note">${escapeHtml(t(lang, "cp_pricing_note"))} <a href="${home(lang)}#plans">${escapeHtml(t(lang, "cp_pricing_note_link"))}</a></p>` : "",
       isPricing ? pricingSection(lang) : "",
-      `<div class="cp-body">\n${bodyHtml}\n</div>`,
-      faqBlock(lang, faq),
+      layout,
       "</article>",
-      callToAction(lang, pack, { pricing: !isPricing }),
-      related(page),
       "</main>",
       footer(lang),
     ].filter(Boolean).join("\n");
@@ -500,7 +641,7 @@ export function createContent(ctx) {
     const trail = [[t(lang, "cp_home"), home(lang)], [t(lang, "cp_nav_blog"), blogUrl(lang)]];
     const format = new Intl.DateTimeFormat(lang === "ar" ? "ar-TN" : lang, { dateStyle: "long", timeZone: "UTC" });
     const main = [
-      topBar(lang, alts, "complet"),
+      topBar(lang, alts, "complet", "blog", "blog"),
       '<main class="cp">',
       crumbs(lang, trail),
       '<header class="cp-hero">',

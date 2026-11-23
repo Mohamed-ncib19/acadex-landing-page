@@ -250,5 +250,16 @@
   "more_timetable": "جداول الحصص: التفاصيل",
   "more_receipts": "وصولات الخلاص",
   "more_payroll": "أجور الأساتذة",
-  "more_pricing": "الأسعار بالتفصيل"
+  "more_pricing": "الأسعار بالتفصيل",
+  "nav_solutions": "الحلول",
+  "nav_resources": "الموارد",
+  "cp_toc": "في هذه الصفحة",
+  "cp_offline": "يعمل دون إنترنت",
+  "cp_lifetime": "ترخيص مدى الحياة",
+  "cp_pack_chip": "باقة {pack}",
+  "cp_rail_pack": "باقتك",
+  "cp_menu": "القائمة",
+  "cp_free_demo": "عرض تجريبي مجاني",
+  "cp_no_payment": "لا دفع عند الطلب",
+  "cp_trust_lifetime": "ترخيص مدى الحياة لجهاز واحد"
 }
