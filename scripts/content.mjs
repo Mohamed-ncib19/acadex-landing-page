@@ -132,11 +132,21 @@ export function createContent(ctx) {
     return out;
   }
 
-  /** Renders a body. Returns the HTML and the questions of its FAQ block, if any. */
+  const arrowIcon = '<svg class="cp-arrow" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+  /** A link that stands alone reads as an action, with an arrow that mirrors in RTL. */
+  function actionLink(label, target, page) {
+    const link = linkTarget(target, page);
+    const attrs = link.external ? ' target="_blank" rel="noopener"' : "";
+    return `<a class="cp-action-link" href="${escapeAttr(link.href)}"${attrs}><span>${escapeHtml(label)}</span>${arrowIcon}</a>`;
+  }
+
+  /** Renders a body. Returns the HTML, the FAQ questions and the h2 sections. */
   function markdown(source, page) {
     const lines = source.replace(/\r\n/g, "\n").split("\n");
     const html = [];
     const faq = [];
+    const sections = [];
     let i = 0;
     const isBlank = (line) => !line.trim();
     const startsBlock = (line) => /^(#{2,3} |- |\d+\. |> |\||:::)/.test(line);
@@ -163,7 +173,15 @@ export function createContent(ctx) {
         i += 1;
         continue;
       }
-      if (line.startsWith("## ")) { html.push(`<h2>${inline(line.slice(3).trim(), page)}</h2>`); i += 1; continue; }
+      if (line.startsWith("## ")) {
+        const source = line.slice(3).trim();
+        const id = `section-${sections.length + 1}`;
+        const rendered = inline(source, page);
+        sections.push({ id, label: stripTags(rendered).trim() });
+        html.push(`<h2 id="${id}">${rendered}</h2>`);
+        i += 1;
+        continue;
+      }
       if (line.startsWith("### ")) { html.push(`<h3>${inline(line.slice(4).trim(), page)}</h3>`); i += 1; continue; }
       if (line.startsWith("- ")) {
         const items = [];
@@ -198,9 +216,13 @@ export function createContent(ctx) {
       }
       const paragraph = [];
       while (i < lines.length && !isBlank(lines[i]) && !startsBlock(lines[i])) { paragraph.push(lines[i].trim()); i += 1; }
-      html.push(`<p>${inline(paragraph.join(" "), page)}</p>`);
+      const text = paragraph.join(" ").trim();
+      const onlyLink = /^\[([^\]]+)\]\(([^)\s]+)\)\.?$/.exec(text);
+      html.push(onlyLink
+        ? `<p class="cp-link-row">${actionLink(onlyLink[1], onlyLink[2], page)}</p>`
+        : `<p>${inline(text, page)}</p>`);
     }
-    return { html: html.join("\n"), faq };
+    return { html: html.join("\n"), faq, sections };
   }
 
   // ── The parts every content page shares ──────────────────────
@@ -385,6 +407,11 @@ export function createContent(ctx) {
       '<aside class="cp-cta">',
       `  <h2>${escapeHtml(t(lang, "cp_cta_title"))}</h2>`,
       `  <p>${escapeHtml(t(lang, "cp_cta_text"))}</p>`,
+      '  <div class="cp-cta-chips">',
+      `    <span>${escapeHtml(t(lang, "cp_free_demo"))}</span>`,
+      `    <span>${escapeHtml(t(lang, "cp_no_payment"))}</span>`,
+      `    <span>${escapeHtml(t(lang, "cp_trust_lifetime"))}</span>`,
+      "  </div>",
       '  <div class="cp-cta-btns">',
       `    <a class="btn-primary" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order_pack", { pack: packLabel(pack) }))}</a>`,
       `    <a class="btn-secondary" href="${escapeAttr(waLink(lang))}" target="_blank" rel="noopener">${escapeHtml(t(lang, "m_wa"))}</a>`,
@@ -416,7 +443,7 @@ export function createContent(ctx) {
       `<nav class="cp-related" aria-label="${escapeAttr(t(page.lang, "cp_related"))}">`,
       `  <h2>${escapeHtml(t(page.lang, "cp_related"))}</h2>`,
       "  <ul>",
-      ...links.map(([href, label]) => `    <li><a href="${href}">${escapeHtml(label)}</a></li>`),
+      ...links.map(([href, label]) => `    <li><a href="${href}"><span>${escapeHtml(label)}</span>${arrowIcon}</a></li>`),
       "  </ul>",
       "</nav>",
     ].join("\n");
@@ -482,7 +509,7 @@ export function createContent(ctx) {
     const url = urlOf(page, true);
     const alts = alternates(page);
     const pack = ["essentiel", "plus", "complet"].includes(page.meta.pack) ? page.meta.pack : "complet";
-    const { html: bodyHtml, faq } = markdown(page.body, page);
+    const { html: bodyHtml, faq, sections } = markdown(page.body, page);
     const trail = fixTrail(lang, page);
     const isArticle = page.meta.type === "article";
     const isPricing = page.meta.type === "pricing";
@@ -502,32 +529,74 @@ export function createContent(ctx) {
       : "";
     const draftBanner = page.draft ? `<p class="cp-draft">${escapeHtml(t(lang, "cp_draft"))}</p>` : "";
 
+    const chips = !isArticle && !isPricing ? [
+      `<span class="cp-chip">${escapeHtml(t(lang, "cp_pack_chip", { pack: packLabel(pack) }))}</span>`,
+      `<span class="cp-chip">${escapeHtml(t(lang, "cp_offline"))}</span>`,
+      `<span class="cp-chip">${escapeHtml(t(lang, "cp_lifetime"))}</span>`,
+    ].join("") : "";
+
+    const tocItems = sections.map((section, index) =>
+      `<li><a href="#${section.id}"><span class="cp-toc-num">${String(index + 1).padStart(2, "0")}</span><span>${escapeHtml(section.label)}</span></a></li>`).join("");
+    const toc = !isPricing && sections.length >= 2
+      ? `<nav class="cp-toc" aria-label="${escapeAttr(t(lang, "cp_toc"))}"><p class="cp-toc-title">${escapeHtml(t(lang, "cp_toc"))}</p><ol>${tocItems}</ol></nav>`
+      : "";
+    const mobileToc = toc ? `<details class="cp-toc-mobile"><summary>${escapeHtml(t(lang, "cp_toc"))}</summary>${toc}</details>` : "";
+
+    const packCard = !isArticle && !isPricing
+      ? [
+        '<div class="cp-rail-card">',
+        `  <p class="cp-rail-eyebrow">${escapeHtml(t(lang, "cp_rail_pack"))}</p>`,
+        `  <p class="cp-rail-pack">${escapeHtml(packLabel(pack))}</p>`,
+        `  <p class="cp-rail-price">${escapeHtml(priceTable(lang)[pack].formatted)}</p>`,
+        `  <p class="cp-rail-note">${escapeHtml(t(lang, "cp_lifetime"))}</p>`,
+        `  <a class="cp-rail-order" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order"))}</a>`,
+        "</div>",
+      ].join("\n")
+      : "";
+
+    const contentColumn = [
+      mobileToc,
+      `<div class="cp-body">\n${bodyHtml}\n</div>`,
+      faqBlock(lang, faq),
+      callToAction(lang, pack, { pricing: !isPricing }),
+      related(page),
+    ].filter(Boolean).join("\n");
+
+    const layout = toc
+      ? [
+        '<div class="cp-layout">',
+        `  <aside class="cp-rail">${toc}${packCard}</aside>`,
+        `  <div class="cp-main">${contentColumn}</div>`,
+        "</div>",
+      ].join("\n")
+      : `<div class="cp-main cp-main-wide">${contentColumn}</div>`;
+
     const main = [
       topBar(lang, alts, pack, page.id, page.meta.type),
-      `<main class="cp${isPricing ? " cp-wide" : ""}">`,
+      `<main class="cp${isPricing ? " cp-wide cp-pricing-page" : ""}">`,
       crumbs(lang, trail),
       draftBanner,
       "<article>",
-      '<header class="cp-hero">',
-      page.meta.kicker ? `  <p class="cp-kicker">${escapeHtml(page.meta.kicker)}</p>` : "",
-      `  <h1>${escapeHtml(page.meta.h1)}</h1>`,
-      page.meta.lead ? `  <p class="cp-lead">${inline(page.meta.lead, page)}</p>` : "",
+      `<header class="cp-hero${image ? " cp-hero-with-media" : ""}">`,
+      '  <div class="cp-hero-copy">',
+      page.meta.kicker ? `    <p class="cp-kicker">${escapeHtml(page.meta.kicker)}</p>` : "",
+      `    <h1>${escapeHtml(page.meta.h1)}</h1>`,
+      page.meta.lead ? `    <p class="cp-lead">${inline(page.meta.lead, page)}</p>` : "",
+      chips ? `    <p class="cp-hero-meta">${chips}</p>` : "",
       dateLine,
       isArticle ? "" : [
-        '  <div class="cp-hero-btns">',
-        `    <a class="btn-primary" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order_pack", { pack: packLabel(pack) }))}</a>`,
-        `    <a class="btn-secondary" href="${escapeAttr(waLink(lang))}" target="_blank" rel="noopener">${escapeHtml(t(lang, "m_wa"))}</a>`,
-        "  </div>",
+        '    <div class="cp-hero-btns">',
+        `      <a class="btn-primary" href="${home(lang)}#order-${pack}">${escapeHtml(t(lang, "cp_order_pack", { pack: packLabel(pack) }))}</a>`,
+        `      <a class="btn-secondary" href="${escapeAttr(waLink(lang))}" target="_blank" rel="noopener">${escapeHtml(t(lang, "m_wa"))}</a>`,
+        "    </div>",
       ].join("\n"),
+      "  </div>",
+      image ? `  <div class="cp-hero-media">${image}</div>` : "",
       "</header>",
-      image,
       isPricing ? `<p class="cp-pricing-note">${escapeHtml(t(lang, "cp_pricing_note"))} <a href="${home(lang)}#plans">${escapeHtml(t(lang, "cp_pricing_note_link"))}</a></p>` : "",
       isPricing ? pricingSection(lang) : "",
-      `<div class="cp-body">\n${bodyHtml}\n</div>`,
-      faqBlock(lang, faq),
+      layout,
       "</article>",
-      callToAction(lang, pack, { pricing: !isPricing }),
-      related(page),
       "</main>",
       footer(lang),
     ].filter(Boolean).join("\n");
